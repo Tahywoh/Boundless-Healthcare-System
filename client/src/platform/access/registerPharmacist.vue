@@ -154,7 +154,9 @@ export default {
 </script>
 
 <style>
-
+#field1 > div > div {
+    margin: 0.47rem 0 !important;
+}
 i.icon.ion-eye-disabled {
     position: absolute;
     right: 6rem;

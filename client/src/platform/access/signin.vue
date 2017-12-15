@@ -1,5 +1,5 @@
 <template>
-  <div class="registration center-align">
+  <div class="login center-align">
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Login</h3>
@@ -93,7 +93,7 @@ button#loginBtn {
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 9px 3px -3px rgba(0,0,0,0.42), 0 1px 5px 0 rgba(0,0,0,0.2);
 }
 
- div.main.flow-text > div.content.center-align.white-text > div > div > form > div > div {
+div.login form > div > div.input-field.col.s12 {
     margin: -0.3rem 0rem 0px 0px !important;
 }
 
@@ -154,9 +154,5 @@ input {
   border-top-right-radius: 13px;
   border-top-left-radius: 13px;
   padding: 0.8rem 0;
-}
-
-div.main.flow-text > div.content.center-align.white-text > div > div > form > div > div {
-    margin: 0.7rem 0rem 0px 0px !important;
 }
 </style>

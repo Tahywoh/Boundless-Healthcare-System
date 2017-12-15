@@ -161,7 +161,9 @@ i.icon.ion-ios-paper{
   position: absolute;
   right: 14rem;
 }
-
+#field1 > div > div {
+    margin: 0.47rem 0 !important;
+}
 div.main img{
   width: 100%;
   filter: brightness(.79) !important;

@@ -24,3 +24,6 @@ font-size: 1.5rem;
   margin-left: 6rem !important;
   right: 4rem;
 }
+#field2 > div > div {
+  margin: 2rem 0 !important;
+}
