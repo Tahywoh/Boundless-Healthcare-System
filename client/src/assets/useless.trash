@@ -1,0 +1,103 @@
+div class="row">
+          <div class="col s12 center-align patientAndDoctor">
+            <ul class="tabs">
+              <li class="tab col s6"><a href="#patientForm" class="btn waves-effect waves- flow-text active">Users</a></li>
+              <li class="tab col s6"><a  href="#doctorForm" class="waves-effect waves-light flow-text">Doctor</a></li>
+            </ul>
+          </div>
+          <div id="patientForm" class="col s12">
+            <div class="reg">
+                <form class="col s12">
+                  <div id="patientForm" class="active">
+                    <h4 class="flow-text">Registration</h4>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <i class="icon ion-android-contact"></i>
+                        <input  type="text" class="validate">
+                        <label >Full Name</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <i class="icon ion-android-mail"></i>
+                        <input type="email" class="validate">
+                        <label for="email">Email</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <i class="icon ion-ios-contact"></i>
+                        <input id="telephone" type="tel" class="validate">
+                        <label for="telephone">Telephone</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <i class="icon fa-birthday-cake"></i>
+                        <input id="age" type="tel" class="validate">
+                        <label for="city">Age</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <i class="icon ion-location"></i>
+                        <input id="city" type="tel" class="validate">
+                        <label for="city">City</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <i class="icon ion-location"></i>
+                        <input type="state" class="validate">
+                        <label for="state">State</label>
+                      </div>
+                    </div>
+                  <div id="doctorForm" class="col s12">
+                    <h4 class="flow-text">Proceed</h4>
+                    <div class="row">
+                      <div class="input-field col s6">
+                        <select style="display: inline; color: red; background-color: blue !important width: 60% !important" class="blue white-text left hide">
+                          <option value="" disabled selected>Select gender</option>
+                          <option value="1">Option 1</option>
+                          <option value="2">Option 2</option>
+                          <option value="3">Option 3</option>
+                        </select>              
+                      </div>
+                      <div class="input-field col s6">
+                        <i class="icon ion-ios-photos"></i>
+                        <input type="state" class="validate">
+                        <label for="state">Photo</label>
+                     </div>
+                    </div>
+
+                </div>
+
+  
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+
+           <div class="input-field col s6">
+                <i class="icon ion-android-mail"></i>
+                <input type="email" class="validate">
+                <label for="email">Email</label>
+              </div>
+              <div class="input-field col s6">
+                <i class="icon ion-ios-eye"></i>
+                <input  type="password" class="validate">
+                <label >Password</label>
+              </div>
+
+              	// {
+	// 	// path: nav.links.interface.url,
+	// 	// name: 'BHCS | ' + navs.links.interface.url,
+	// 	// component:  index
+	// 	// meta: {
+	// 	// requiresAuth: true,
+	// 	// userAuth: true,
+	// 	// adminAuth: true
+	// 	// }
+	// }
+
+  // meta: {
+// requiresAuth: true,
+// userAuth: true,
+// adminAuth: true
+// }
