@@ -4,7 +4,10 @@
   "description": "server side of bhcs app",
   "main": "tracker.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/tracker.js",
+    "startw": "nodemon src/tracker.js --exec 'npm run lint && node'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint **/*.js"
   },
   "author": "TAIWO ADESHINA",
   "license": "ISC",
