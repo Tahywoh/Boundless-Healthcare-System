@@ -1,0 +1,166 @@
+<template>
+  <div class="main-interface">
+    <navbar>
+      <div slot="navbar">
+        <slot name="fixed-nav-bar">
+          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+          <li><a  id="profile" @click="" class="btn transparent white-text waves-effect waves-light">
+          Profile
+          </a></li>
+          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Appointment
+          </a>
+          </li>
+          <li><a href="/" class="btn transparent white-text waves-effect waves-light">
+          Logout
+          </a>
+          </li>
+        </slot>
+       
+      </div>
+    </navbar>
+    <div class="content">
+      <div class="w3-sidebar w3-light-grey w3-bar-block fixed-side-nav" style="width:25%">
+        <div class="basic-details">
+          <slot name="basic-details">
+            
+          </slot>
+        </div>
+        <div class="side-nav-content">
+          <slot name="side-nav-content">
+
+          </slot>
+        </div>
+      </div>
+        
+    </div>
+
+        <!-- Page Content -->
+      <div style="margin-left:25%">
+
+        <div class="w3-container w3-teal">
+          <div class="user-type-img">
+            <slot name="user-type-img">
+            
+            </slot>
+          </div>
+        </div>
+
+        <div class="w3-container">
+          <div class="row">
+            <div class="col s12">
+              <slot name="ul-tabs">
+              
+              </slot>
+            </div>
+          <div class="platform-content">
+            <slot name="platform-content">    
+
+            </slot>
+          </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</template>
+
+<script scoped>
+import navbar from '@/components/layouts/navbar'
+export default{
+  name: 'main-interface',
+  components: {
+    navbar
+  }
+}
+</script>
+
+<style>
+html,
+body {
+  background-color: #f1f1f1 !important;
+}
+ div > div.header-view > nav {
+  position: fixed !important;
+  z-index: 300;
+}
+
+a.w3-bar-item.w3-button {
+  margin: 0.5rem 0;
+}
+.basic-details {
+  /* padding: -0.5rem 0 !important; */
+    margin-top: 1.5rem;
+}
+div > div.content {
+  padding-top: 4rem;
+}
+div ul {
+  padding: 0 0rem !important;
+}
+div.main.flow-text
+  > div.content.center-align.white-text
+  > div
+  > div
+  > form
+  > div
+  > div {
+  margin: 0.5rem 0rem 0px 0px !important;
+}
+nav ul a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-bottom: 2px solid #fff;
+  /* margin: 0 0.25rem; */
+}
+#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.col.s12 > ul{
+  margin: auto -0.8rem;
+  width: initial;
+}
+nav ul a:focus,
+nav ul a:active {
+  border-bottom: 2px solid #fff;
+}
+nav ul a {
+  font-size: 0.7rem !important;
+  padding: 0 1rem !important;
+}
+div.fixed-side-nav {
+  padding: 0.2rem 0.5rem;
+  overflow: hidden;
+}
+div.side-nav-content {
+  padding-top: 1.8rem;
+}
+div.side-nav-content a {
+  line-height: 35px;
+  padding: 4.8rem 0;
+}
+div.w3-container {
+  background-color: rgba(210, 206, 196, 0.6) !important;
+}
+.tabs .tab a:hover,
+.tabs .tab a.active {
+  background-color: #37474f !important;
+  color: #fff !important;
+}
+
+.tabs .tab a,
+.tabs .tab a {
+  background-color: #2196f3 !important;
+  color: #fff !important;
+}
+#app
+  > div
+  > div.content
+  > div:nth-child
+  > div
+  > div
+  > div.col.s12
+  > ul
+  > li
+  > a {
+  border-radius: 0px;
+}
+.notification-circle{
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+}
+</style>

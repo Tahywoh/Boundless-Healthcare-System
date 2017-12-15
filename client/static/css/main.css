@@ -1,0 +1,26 @@
+.x06{
+  font-size: 0.6rem;
+}
+.x1{
+  font-size: 1rem;
+}
+.x15{
+font-size: 1.5rem;
+}
+.x2{
+  font-size: 2rem;
+}
+.x25{
+  font-size: 2.5rem;
+}
+.x3{
+  font-size: 3rem;
+}
+.x35{
+  font-size: 3.5rem;
+}
+/* access auth global styling */
+#field2 div  i.icon.ion-eye-disabled {
+  margin-left: 6rem !important;
+  right: 4rem;
+}
