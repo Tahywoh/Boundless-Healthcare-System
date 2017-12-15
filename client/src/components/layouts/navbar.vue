@@ -2,7 +2,7 @@
   <div class="header-view">
       <nav class="blue white-text">
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo animated rollIn">BHCS</a>
+      <a href="/" class="brand-logo animated rollIn">BHS</a>
       
       <ul id="nav-mobile" class="right hide-on-med-and-down">
          <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
