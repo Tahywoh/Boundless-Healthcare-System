@@ -4,16 +4,16 @@
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
         <form class="col s6" @submit.prevent="validateForm">
-          <div id="field1" :class="show">
+          <div id="field1">
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-contact"></i>
-                <input  type="text"  name="fullName" v-model="fullName">
+                <input  type="text"  name="fullName" v-model="formData.fullName">
                 <label >Full Name</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-android-mail"></i>
-                <input type="email"  name="email" v-model="email">
+                <input type="email"  name="email" v-model="formData.email">
                 <label for="email">Email</label>
               </div>
             </div>
@@ -21,11 +21,11 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="tel" class="validate" name="telephone" v-model="telephone">
+                <input id="telephone" type="number" class="validate" name="telephone" v-model="formData.telephone">
                 <label for="telephone">Telephone</label>
               </div>
               <div class="input-field col s6">
-                <input id="age" type="number" class="validate" name="age" v-model="age">
+                <input id="age" type="number" class="validate" name="age" v-model="formData.age">
                 <label for="age">Age</label>
               </div>
             </div>
@@ -33,12 +33,12 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input id="city" type="text" class="validate" name="city" v-model="city">
+                <input id="city" type="text" class="validate" name="city" v-model="formData.city">
                 <label for="city">City</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input type="text" class="validate" name="state" v-model="state">
+                <input type="text" class="validate" name="state" v-model="formData.state">
                 <label for="state">State</label>
               </div>
             </div>            
@@ -48,7 +48,7 @@
           <div id="field2" style="display: none">
             <div class="row">
               <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" name="gender">
+                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" name="gender" v-model="formData.gender">
                   <option value="" disabled selected>Select gender</option>
                   <option v-for="option in options" v-bind:value="option.value">
                     {{ option.text }}
@@ -71,26 +71,26 @@
             </div>
             <div class="row">
               <div class="input-field col s12">
-                 <input id="Address"  type="text" class="validate" name="address" v-model="address">
+                 <input id="Address"  type="text" class="validate" name="address" v-model="formData.address">
                  <label for="Address">Residential Address</label>
                </div>
             </div>
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate" name="password" v-model="password">
+                <input  type="password" class="validate" name="password" v-model="formData.password">
                 <label >Password</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input type="password" class="validate" id="confirmPassword" name="confirmPassword">
+                <input type="password" class="validate" id="confirmPassword" name="confirmPassword" v-model="formData.confirmPassword">
                 <label for="confirmPassword">Confirm Password</label>
               </div>
             </div>
           </div>
            <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
            <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide"  id="submitBtn" @click="register">Submit</button>
+           <button  class="btn text-center blue submit-btn hide"  id="submitBtn" @click="registerPatient">Submit</button>
           
       </form>
       </div>
@@ -108,21 +108,23 @@ export default {
   components: { Index },
   data () {
     return {
-      fullName: '',
-      email: '',
-      telephone: '',
-      age: '',
-      city: '',
-      state: '',
-      gender: '',
+      formData: {
+        fullName: '',
+        email: '',
+        telephone: '',
+        age: '',
+        city: '',
+        state: '',
+        gender: '',
+        address: '',
+        password: '',
+        confirmPassword: ''
+      },
       options: [
         {text: 'Male', value: 'Male'},
         {text: 'Female', value: 'Femaale'}
       ],
-      show: 'show',
-      address: '',
-      password: '',
-      confirmPassword: ''
+      show: 'show'
     }
   },
   methods: {
@@ -134,7 +136,6 @@ export default {
       let submitButton = document.getElementById('submitBtn')
       field1.style.display = 'none'
       field2.style.display = 'block'
-      // proceedBtn.classList.toggle('ion-android-arrow-back ')
       proceedBtn.classList.remove('show')
       proceedBtn.style.display = 'none'
       backwordBtn.classList.add('show')
@@ -157,18 +158,18 @@ export default {
       // console.log('am working....')
     },
     validateForm (e) {},
-    async register () {
-      const response = await AuthService.register({
-        fullName: this.fullName,
-        email: this.email,
-        telephone: this.telephone,
-        age: this.age,
-        city: this.city,
-        state: this.state,
-        gender: this.gender,
-        address: this.address,
-        password: this.password,
-        confirmPassword: this.confirmPassword
+    async registerPatient () {
+      const response = await AuthService.registerPatient({
+        fullName: this.formData.fullName,
+        email: this.formData.email,
+        telephone: this.formData.telephone,
+        age: this.formData.age,
+        city: this.formData.city,
+        state: this.formData.state,
+        gender: this.formData.gender,
+        address: this.formData.address,
+        password: this.formData.password,
+        confirmPassword: this.formData.confirmPassword
       })
       console.log(response.data)
     }
@@ -177,7 +178,9 @@ export default {
 </script>
 
 <style>
-
+.hideMe{
+  display: none !important;
+}
 div.main img{
   width: 100%;
   filter: brightness(.79) !important;
@@ -189,6 +192,9 @@ option, option:disabled{
 .file-field.input-field {
     position: relative;
     margin-top: -0.6rem;
+}
+#field1 > div > div {
+    margin: 0.95rem 0 !important;
 }
 label {
     font-weight: 100;
@@ -239,6 +245,9 @@ input{
 }
 #field1 > div > div > i, #field2 > div > div > i {
     color: #2196f3;
+}
+#field2 > div > div {
+    margin: 1rem 0 !important;
 }
 .mainContent h3 {
     top: 0;

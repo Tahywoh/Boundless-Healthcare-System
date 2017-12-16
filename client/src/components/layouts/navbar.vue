@@ -6,13 +6,13 @@
       
       <ul id="nav-mobile" class="right hide-on-med-and-down">
          <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
-          <router-link to="/register/patient" title="patient">User</router-link>
+          <router-link to="/register-patient" title="patient">User</router-link>
           <div class="divider"></div>
-          <router-link to="/register/doctor" title="medical doctor">Doctor</router-link>
+          <router-link to="/register-doctor" title="medical doctor">Doctor</router-link>
           <div class="divider"></div>
-          <router-link to="/register/pharmacist" title="pharmacist">Pharmacist</router-link>
+          <router-link to="/register-pharmacist" title="pharmacist">Pharmacist</router-link>
           <div class="divider"></div>
-          <router-link to="/register/medlabscientist" title="medical laboratory scientist">Medlab Scientist</router-link>
+          <router-link to="/register-medlabscientist" title="medical laboratory scientist">Medlab Scientist</router-link>
         </div>
         
         <slot name="navbar" class="nav right links">

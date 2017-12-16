@@ -21,7 +21,7 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="tel" class="validate">
+                <input id="telephone" type="number" class="validate">
                 <label for="telephone">Telephone</label>
               </div>
               <div class="input-field col s6">
@@ -60,7 +60,7 @@
                   <input required type="file"  name="profilePhoto">
                 </div>
                 <div class="file-path-wrapper">
-                  <input required class="file-path validate" required type="text">
+                  <input required class="file-path validate"  type="text">
                 </div>
                 </div>
               </div>
@@ -73,7 +73,13 @@
             <div class="row">
               <div class="input-field col s6">
                 <input id="Address" required type="text" class="validate" name="address">
-                <label for="Address">Address of work place</label>
+                <label for="Address">Hospital name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s6">
+                <input id="Address" required type="text" class="validate" name="address">
+                <label for="Address">Address of hostpital</label>
               </div>
               <div class="input-field col s6">
                 <input id="specialty" required type="text" class="validate" name="specialty">
@@ -153,7 +159,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#field2 > div > div {
+    margin: 1.4rem 0 !important;
+}
+#field1 > div > div {
+    margin: 0.897rem 0 !important;
+}
 i.icon.ion-eye-disabled {
     position: absolute;
     right: 6rem;
@@ -161,9 +173,6 @@ i.icon.ion-eye-disabled {
 i.icon.ion-ios-paper{
   position: absolute;
   right: 14rem;
-}
-#field1 > div > div {
-    margin: 0.47rem 0 !important;
 }
 div.main img{
   width: 100%;

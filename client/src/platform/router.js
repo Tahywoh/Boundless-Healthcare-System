@@ -15,22 +15,22 @@ let routes = [
     component: Index
   },
   {
-    path: '/register/patient',
+    path: '/register-patient',
     name: 'BHCS || Register Patient',
     component: RegisterPatient
   },
   {
-    path: '/register/doctor',
+    path: '/register-doctor',
     name: 'BHCS || Register Doctor',
     component: RegisterDoctor
   },
   {
-    path: '/register/pharmacist',
+    path: '/register-pharmacist',
     name: 'BHCS || Register Pharmacist',
     component: RegisterPharmacist
   },
   {
-    path: '/register/medlabscientist',
+    path: '/register-medlabscientist',
     name: 'BHCS || Register Medlab scientist',
     component: RegisterMedlabScientist
   },

@@ -156,7 +156,10 @@ export default {
 
 <style>
 #field1 > div > div {
-    margin: 0.47rem 0 !important;
+    margin: 0.897rem 0 !important;
+}
+#field2 > div > div {
+    margin: 2.5rem 0 !important;
 }
 i.icon.ion-eye-disabled {
     position: absolute;
