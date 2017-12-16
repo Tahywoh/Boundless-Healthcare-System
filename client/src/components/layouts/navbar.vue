@@ -2,37 +2,29 @@
   <div class="header-view">
       <nav class="blue white-text">
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo animated rollIn">BHS</a>
+      <router-link to="/" class="brand-logo animated rollIn">BHS</router-link>
       
       <ul id="nav-mobile" class="right hide-on-med-and-down">
          <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
-          <a href="/register-patient" title="patient">User</a>
+          <router-link to="/register/patient" title="patient">User</router-link>
           <div class="divider"></div>
-          <a href="/register-doctor" title="medical doctor">Doctor</a>
+          <router-link to="/register/doctor" title="medical doctor">Doctor</router-link>
           <div class="divider"></div>
-          <a href="/register-pharmacist" title="pharmacist">Pharmacist</a>
+          <router-link to="/register/pharmacist" title="pharmacist">Pharmacist</router-link>
           <div class="divider"></div>
-          <a href="/register-medlabscientist" title="medical laboratory scientist">Medlab Scientist</a>
+          <router-link to="/register/medlabscientist" title="medical laboratory scientist">Medlab Scientist</router-link>
         </div>
-        <!-- <div  class="w3-dropdown-content w3-card blue white-text left " id="usersLogin">
-          <a href="/" title="patient">User</a>
-          <div class="divider"></div>
-          <a href="/" title="medical doctor">Doctor</a>
-          <div class="divider"></div>
-          <a href="/" title="pharmacist">Pharmacist</a>
-          <div class="divider"></div>
-          <a href="/" title="medical lab scientist">Medlab Scientist</a>
-        </div> -->
+        
         <slot name="navbar" class="nav right links">
-          <li><a href="">Home</a></li>
-          <li><a  id="registerAs" @click="toggoeDropdown">
+          <li><router-link to="/">Home</router-link></li>
+          <li><a  id="registerAs" @click="toggleDropdown">
           Register
           <i class="icon ion-arrow-down-b w3-xlarge right"></i>
           </a></li>
-          <li><a href="/login">
+          <li><router-link to="/login">
           Login
-          </a></li>
-        <li><a href="/">About</a></li>
+          </router-link></li>
+        <li><router-link to="/about-BHS">About</router-link></li>
         </slot>
         
       </ul>
@@ -46,7 +38,7 @@
   export default{
     name: 'navbar',
     methods: {
-      toggoeDropdown () {
+      toggleDropdown () {
         let showRegDropdown = document.getElementById('usersRegistration')
         showRegDropdown.classList.toggle('w3-show')
       }

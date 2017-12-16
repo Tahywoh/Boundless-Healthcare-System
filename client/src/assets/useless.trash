@@ -101,3 +101,48 @@ div class="row">
 // userAuth: true,
 // adminAuth: true
 // }
+
+// // define the required dependencies
+
+// const express = require('express')
+//   // mongoose = require('mongoose'),
+//   // bodyParser = require('body-parser'),
+//   // session = require('express-session'),
+//   // cors = require('cors'),
+//   // morgan = require('morgan'),
+//   // flash = require('connect-flash');
+// const app = express()
+
+// // //load routes
+// // const config = require('../src/helpers/config')
+// // const routes = require('./routes/index')
+
+// // //middlewares
+// // app.use(morgan('combine'))
+// // //body parser middleware
+// // app.use(bodyParser.urlencoded({
+// //   extended: false
+// // }));
+// // app.use(bodyParser.json());
+// // app.use(cors())
+// // //method override-middleware
+// // app.use(methodOverride('_method'))
+
+// // const port = process.env.PORT || 4000
+// // //setting some functions
+// // app.set('port', port)
+// // app.set('session_secret', config.authentication.session_secret)
+// // app.set('production_database', config.authentication.database_url)
+// // app.set('token_secret', config.authentication.token_secret)
+
+// // //Express session middleware
+// // app.use(session({
+// //     secret: session_secret,
+// //     resave: true,
+// //     saveUninitialized: true
+// // }));
+
+// // app.use('/routes', routes)
+
+
+// app.listen(port)

@@ -3,17 +3,17 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
-        <form class="col s6">
+        <form class="col s6" @submit.prevent="validateForm">
           <div id="field1" :class="show">
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-contact"></i>
-                <input  type="text" class="validate">
+                <input  type="text"  name="fullName" v-model="fullName">
                 <label >Full Name</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-android-mail"></i>
-                <input type="email" class="validate">
+                <input type="email"  name="email" v-model="email">
                 <label for="email">Email</label>
               </div>
             </div>
@@ -21,12 +21,11 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="tel" class="validate">
+                <input id="telephone" type="tel" class="validate" name="telephone" v-model="telephone">
                 <label for="telephone">Telephone</label>
               </div>
               <div class="input-field col s6">
-                <!-- <i class="icon fa-birthday-cake"></i> -->
-                <input id="age" type="number" class="validate">
+                <input id="age" type="number" class="validate" name="age" v-model="age">
                 <label for="age">Age</label>
               </div>
             </div>
@@ -34,12 +33,12 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input id="city" type="text" class="validate">
+                <input id="city" type="text" class="validate" name="city" v-model="city">
                 <label for="city">City</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input type="text" class="validate">
+                <input type="text" class="validate" name="state" v-model="state">
                 <label for="state">State</label>
               </div>
             </div>            
@@ -49,10 +48,11 @@
           <div id="field2" style="display: none">
             <div class="row">
               <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser">
+                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" name="gender">
                   <option value="" disabled selected>Select gender</option>
-                  <option value="2">Male</option>
-                  <option value="3">Female</option>
+                  <option v-for="option in options" v-bind:value="option.value">
+                    {{ option.text }}
+                  </option>
                 </select>
                 <label>Gender</label>         
               </div>
@@ -60,51 +60,71 @@
                 <i class="icon ion-ios-contact"></i>
                 <div class="file-field input-field">
                   <div class="btn bg-for-tab blue">
-                  <span>Photo</span>
-                  <input required type="file"  name="profilePhoto">
+                  <span >Photo</span>
+                  <input type="file"  name="profilePhoto" >
                 </div>
                 <div class="file-path-wrapper">
-                  <input required class="file-path validate" required type="text">
+                  <input  class="file-path validate" type="text">
                 </div>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                 <input id="Address" required type="text" class="validate" name="address">
+                 <input id="Address"  type="text" class="validate" name="address" v-model="address">
                  <label for="Address">Residential Address</label>
                </div>
             </div>
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate">
+                <input  type="password" class="validate" name="password" v-model="password">
                 <label >Password</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input type="password" class="validate">
-                <label for="password">Confirm Password</label>
+                <input type="password" class="validate" id="confirmPassword" name="confirmPassword">
+                <label for="confirmPassword">Confirm Password</label>
               </div>
             </div>
           </div>
            <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
            <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide" type="submit" id="submitBtn"
-           >Submit</button>
+           <button  class="btn text-center blue submit-btn hide"  id="submitBtn" @click="register">Submit</button>
           
       </form>
       </div>
     </index>
+    <router-view></router-view>
   </div>
 </template>
 
 
 <script>
 import Index from '@/platform/index'
+import AuthService from '@/services/authService'
 export default {
   name: 'register',
   components: { Index },
+  data () {
+    return {
+      fullName: '',
+      email: '',
+      telephone: '',
+      age: '',
+      city: '',
+      state: '',
+      gender: '',
+      options: [
+        {text: 'Male', value: 'Male'},
+        {text: 'Female', value: 'Femaale'}
+      ],
+      show: 'show',
+      address: '',
+      password: '',
+      confirmPassword: ''
+    }
+  },
   methods: {
     triggerField2 () {
       let field1 = document.getElementById('field1')
@@ -135,6 +155,22 @@ export default {
       proceedBtn.style.display = 'block'
       submitButton.classList.add('hide')
       // console.log('am working....')
+    },
+    validateForm (e) {},
+    async register () {
+      const response = await AuthService.register({
+        fullName: this.fullName,
+        email: this.email,
+        telephone: this.telephone,
+        age: this.age,
+        city: this.city,
+        state: this.state,
+        gender: this.gender,
+        address: this.address,
+        password: this.password,
+        confirmPassword: this.confirmPassword
+      })
+      console.log(response.data)
     }
   }
 }

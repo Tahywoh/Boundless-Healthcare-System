@@ -15,22 +15,22 @@ let routes = [
     component: Index
   },
   {
-    path: '/register-patient',
+    path: '/register/patient',
     name: 'BHCS || Register Patient',
     component: RegisterPatient
   },
   {
-    path: '/register-doctor',
+    path: '/register/doctor',
     name: 'BHCS || Register Doctor',
     component: RegisterDoctor
   },
   {
-    path: '/register-pharmacist',
+    path: '/register/pharmacist',
     name: 'BHCS || Register Pharmacist',
     component: RegisterPharmacist
   },
   {
-    path: '/register-medlabscientist',
+    path: '/register/medlabscientist',
     name: 'BHCS || Register Medlab scientist',
     component: RegisterMedlabScientist
   },
@@ -52,7 +52,7 @@ activeModules.forEach(modul => {
     let moduleRoutes = require('@/platform/' + modul + '/router').default
     // add the routes gotten to the route array
     routes = routes.concat(moduleRoutes)
-    console.log(routes)
+    // console.log(routes)
   } catch (e) {
     console.log(e)
   }

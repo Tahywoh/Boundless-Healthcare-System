@@ -4,17 +4,18 @@
   "description": "server side of bhcs app",
   "main": "tracker.js",
   "scripts": {
-    "start": "node src/tracker.js",
-    "startw": "nodemon src/tracker.js --exec 'npm run lint && node'",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "./node_modules/.bin/eslint **/*.js"
+    "start": "nodemon src/tracker.js",
+    "startw": "nodemon src/tracker.js --exec \"npm run lint && node\"",
+    "lint": "./node_modules/.bin/eslint **/*.js --fix"
   },
   "author": "TAIWO ADESHINA",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
     "cors": "^2.8.4",
+    "eslint": "^4.13.1",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "joi": "^13.0.2",
@@ -23,7 +24,15 @@
     "morgan": "^1.9.0",
     "nodemailer": "^4.4.1",
     "nodemailer-smtp-transport": "^2.7.4",
+    "nodemon": "^1.13.2",
     "shortid": "^2.2.8",
     "validator": "^9.2.0"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }
