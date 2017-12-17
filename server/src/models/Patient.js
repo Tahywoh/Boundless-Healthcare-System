@@ -22,9 +22,10 @@ const PatientSchema = new Schema({
         type: String,
         required: true,
         trim: true,
-        unique: true
+        unique: true,
+        lowercase: true
     },
-    phoneNo: {
+    telephone: {
       type: Number,
       required: true
     },
@@ -34,11 +35,12 @@ const PatientSchema = new Schema({
     },
     profilePhoto: {
         type: String,
-        required: true
+        required: false
     },
     gender: {
       type: String,
-      required: true
+      required: true,
+      lowercase: true
     },
     city: {
       type: String,

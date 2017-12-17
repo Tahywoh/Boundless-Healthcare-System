@@ -7,14 +7,14 @@
           <div class="row">
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
-                <input type="email" class="validate grey-text text-darken-3">
+                <input type="email" class="validate grey-text text-darken-3" v-model="loginData.user">
                 <label for="email">Email</label>
               </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <i class="icon ion-ios-locked blue-text"></i>
-              <input  type="password" class="validate grey-text text-darken-3">
+              <input  type="password" class="validate grey-text text-darken-3" v-model="loginData.password">
               <label >Password</label>
             </div>
           </div>
@@ -58,8 +58,17 @@
 <script>
 import Index from '@/platform/index'
 export default {
-  name: 'register',
-  components: { Index }
+  name: 'signin',
+  components: { Index },
+  data () {
+    return {
+      loginData: {
+        user: '',
+        password: '',
+        userType: ''
+      }
+    }
+  }
 }
 </script>
 
