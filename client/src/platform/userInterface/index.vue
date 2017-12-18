@@ -24,7 +24,7 @@
     <a href="#" class="w3-bar-item w3-button">
       <i :class="cart_icon"></i>
       Cart 
-      <span>4</span>
+      <span class="circle blue notification-circle">4</span>
     </a>
     <div class="divider"></div>
    

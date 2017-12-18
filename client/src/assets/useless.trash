@@ -146,3 +146,205 @@ div class="row">
 
 
 // app.listen(port)
+
+
+
+useless backend . trash
+
+const express = require('express'),
+    mongoose = require('mongoose'),
+    router = express(),
+    bcrypt = require('bcrypt');
+    validator = require('validator')
+
+    require('../models/Patient');
+    const authPolicy = require('../helpers/authPolicy')
+  const Patient = mongoose.model('patient');
+//load patient model
+  router.post('/patient', (req, res) => {
+    console.log(JSON.stringify(req.body, null, 2))
+    let { fullName, email, password, city, gender, age, state, address, telephone, profilePhoto } = req.body
+    let patientData = {}
+    if (req.body.password < 5) {
+      req.body.password = ''
+      req.body.confirmPassword = ''
+      res.status(403).send('Password must be atleast 4 characters!')
+    }
+    else  if (req.body.password !== req.body.confirmPassword) {
+      req.body.password = ''
+      req.body.confirmPassword = ''
+      res.status(403).send( 'Passwords do not match!')
+    } 
+    else {
+        if (validator.isEmail(req.body.email)) {
+          Patient.findOne({email: req.body.email})
+            .then(patient=>{
+              if (!patient) {
+                if (fullName === '') {
+                  res.status(403).send('Full name is required')
+                } 
+                else if (fullName.length < 6) {
+                  res.status(403).send('Length of full name is too small')
+                } else if (fullName.length >= 6) {
+                  patientData.fullName = fullName
+                }
+                if (city === '') {
+                  res.status(403).send('You must provide your city')
+                } else if(city.length < 3){
+                  res.status(403).send('Invalid city name')
+                } else if (city.length > 3) {
+                  patientData.city = city
+                }
+                if (state === '') {
+                  res.status(403).send('Your state is required to serve you better')
+                } else if (state.length < 3) {
+                  res.status(403).send('Invalid state name')
+                } else if (state.length >= 3) {
+                  patientData.state = state
+                }
+                if (address === '') {
+                  res.status(403).send('You must supply your address')
+                } else if (state.length < 3) {
+                  res.status(403).send('Invalid state name')
+                } else if (address && address.length > 13){
+                  patientData.address = address
+                }
+                if (gender === 'Male' || gender === 'Female') {
+                  patientData.gender = gender
+                }
+                if (age >= 16){
+                  patientData.age = age
+                }
+                if (email && validator.isEmail(email)) {
+                  patientData.email = email
+                }
+                else {
+                  return res.status(422).send('Email is required')
+                }
+                if(!telephone){
+                  res.status(403).send('Your phone number is required')
+                } else if (telephone.length >=8){
+                  patientData.telephone = telephone
+                }
+                if (password && password.length >=5) {
+                  patientData.password = bcrypt.hashSync(password, 5)
+                }
+
+                let newPatient = new Patient(patientData)
+                  // fullName: patientData.fullName,
+                  // address: patientData.address,
+                  // age: patientData.age,
+                  // email: patientData.email,
+                  // telephone: req.body.telephone,
+                  // password: patientData.password,
+                  // gender: patientData.gender,
+                  // city: patientData.city,
+                  // state: patientData.state
+                // )
+                newPatient.save(err =>{
+                  if (!err) {
+                    console.log('Patient successfully registered')
+                    return res.status(201).json('Registration successful!')
+                  }
+                  // else {
+                  //   console.log(JSON.stringify(err, null, 3))
+                  //   return res.status(500).send('Unable to register you, kindly try again.')
+                  // }
+                })
+              }
+              else  {
+                res.status(409).send('Email already exists!')
+                patient = ''
+              }
+            })
+        }
+    }
+  })
+
+
+
+module.exports = router
+
+
+ let {user, password} = req.body
+    Patient.findOne({user: user}, 'password', (err, userData) => {
+      if (!err && userData !== null) {
+        let isValidPassword = bcrypt.compareSync(password, userData.password)
+        console.log(password + '\n' + userData.password)
+        // if (isValidPassword) {
+        //   const validateUser = {
+        //     email: userData.email,
+        //     id: userData._id
+        //   }
+
+        //   let token = jwt.sign(validateUser, config.token_secret)
+        //   res.status(200).send({token, email: userData.email})
+        // } else {
+        //   res.status(401).send('Invalid password')
+        // }
+
+      //   if(isValidPassword) {
+      //     console.log('correct user details!')
+      //   } else {
+      //     console.log('incorrect password!')
+      //   }
+      // } else {
+      //   res.status(401).send('User not found!')
+      //   console.log('user not found!')
+      }
+    })
+
+    
+// else {
+//   if (err) errors.push(err)
+//   console.log(JSON.stringify(errors, null, 2))
+//   res.status(403).send('invalid login details.')
+
+ // router.use((req, res, next) => {
+  //   if (req.session.user) {
+  //     next()
+  //   } else {
+  //     res.status(401).send('Authorization failed! Please login')
+  //   }
+  // })
+
+  // router.use((req, res, next) => {
+  //   let token = req.headers['x-access-token'] || req.body.token
+
+  //   if (token) {
+  //     jwt.verify(token, config.token_secret, function (err, decoded) {
+  //       if (!err) {
+  //         req.decoded = decoded
+  //         next()
+  //       } else {
+  //         res.status(403).send('Invalid token supplied')
+  //       }
+  //     })
+  //   } else {
+  //     res.status(403).send('Authorization failed! \'n Please provide a valid token')
+  //   }
+  // })
+
+
+ // Doctor.findOne({email: doctorData.email})
+    //   .then(doctor => {
+    //     if(!doctor) {
+          // let newDoctor = new Doctor(doctorData)
+          // newDoctor.save(err => {
+          //   if (!err) {
+          //     console.log('Registration successful')
+          //     return res.status(201).json('Doctor has successfully been registered!')
+          //   } else {
+          //     if (err.code === 11000) {
+          //       console.log('user already exist')
+          //       return res.status(409).send('user already exist!')
+          //     } else {
+          //       console.log(JSON.stringify(err, null, 2))
+          //       return res.status(500).send('There were errors registering you.<br/>We\' working towards fixing this!')
+          //     }
+          //   } 
+          // })
+    //     } else {
+    //       return res.status(409).send('User already exist!')
+    //     }
+    //   }) 

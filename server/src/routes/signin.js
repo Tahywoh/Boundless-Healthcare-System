@@ -3,21 +3,25 @@ const express = require('express'),
     router = express(),
     bcrypt = require('bcrypt');
     validator = require('validator'),
-    jwt = require('jsonwebtoken'),
     config = require('../helpers/config')
     authPolicy = require('../helpers/authPolicy')
+    // session = require('express-session')
+
+var jwt = require('jsonwebtoken')
 
     require('../models/Patient');
     // require('../models/Doctor')
     // require('../models/Pharmacist')
     // require('../models/Medlab Scientist')
-    // const authPolicy = require('../helpers/authPolicy')
   const Patient = mongoose.model('patient');
-//load patient model
+    // load patient model
   router.post('/', (req, res) => {
-    let {user, password} = req.body, userType = req.body.userType
-    console.log(JSON.stringify(req.body, null, 2))
+    // console.log(JSON.stringify(req.body, null, 3))
+   
+    
   })
+
+ 
 
 
 

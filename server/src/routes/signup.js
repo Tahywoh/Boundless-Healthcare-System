@@ -4,110 +4,134 @@ const express = require('express'),
     bcrypt = require('bcrypt');
     validator = require('validator')
 
-    require('../models/Patient');
-    const authPolicy = require('../helpers/authPolicy')
-  const Patient = mongoose.model('patient');
-//load patient model
+  require('../models/Patient')
+  require('../models/Doctor')
+
+  const authPolicy = require('../helpers/authPolicy')
+  const Patient = mongoose.model('patient')
+  const Doctor = mongoose.model('doctor')
+
   router.post('/patient', (req, res) => {
     console.log(JSON.stringify(req.body, null, 2))
-    let { fullName, email, password, city, gender, age, state, address, telephone, profilePhoto } = req.body
+    let { fullName, email, telephone, age, city, state, gender, address, password } = req.body
+  
     let patientData = {}
-    if (req.body.password < 5) {
-      req.body.password = ''
-      req.body.confirmPassword = ''
-      res.status(403).send('Password must be atleast 4 characters!')
+    patientData.age = age
+    if (fullName && fullName.length > 6) {
+      patientData.fullName = fullName
     }
-    else  if (req.body.password !== req.body.confirmPassword) {
-      req.body.password = ''
-      req.body.confirmPassword = ''
-      res.status(403).send( 'Passwords do not match!')
-    } 
-    else {
-        if (validator.isEmail(req.body.email)) {
-          Patient.findOne({email: req.body.email})
-            .then(patient=>{
-              if (patient) {
-                res.status(409).send('Email already exists!')
-                email = ''
+    if (email && validator.isEmail(email)) {
+      patientData.email = email
+    }
+    if (telephone && telephone.length >=9 ) {
+      patientData.telephone = telephone
+    }
+    if (city && city.length >= 3) {
+      patientData.city = city
+    }
+    if (state && state.length >= 3) {
+      patientData.state = state
+    }
+    if ((gender === 'Male' || gender === 'Female')) {
+      patientData.gender = gender
+    } else {
+      res.status(403).send('You must choose your gender')
+    }
+    if (address && address.length > 11) {
+      patientData.address = address
+    }
+    if (password && password.length >= 5) {
+      patientData.password = bcrypt.hashSync(password, 10)
+    } else {
+      return res.status(422).send('invalid or no password supplied!')
+    }
+    Patient.findOne({email: patientData.email})
+      .then(patient => {
+        if (!patient) {
+          let newPatient = new Patient(patientData)
+          newPatient.save(err => {
+            if (!err) {
+              console.log('Registration successful!')
+              return res.status(201).json('Patient has successfully been registered!')
+            } else {
+              if (err.code === 11000) {
+                console.log('user already exist')
+                return res.status(409).send('user already exist!')
+              } else {
+                console.log(JSON.stringify(err, null, 2))
+                return res.status(500).send('There were errors registering you. <br/> We\' working towards fixing this!')
               }
-              else {
-                if (fullName === '') {
-                  res.status(403).send('Full name is required')
-                } 
-                else if (fullName.length < 6) {
-                  res.status(403).send('Length of full name is too small')
-                } else if (fullName.length >= 6) {
-                  patientData.fullName = fullName
-                }
-                if (city === '') {
-                  res.status(403).send('You must provide your city')
-                } else if(city.length < 3){
-                  res.status(403).send('Invalid city name')
-                } else if (city.length > 3) {
-                  patientData.city = city
-                }
-                if (state === '') {
-                  res.status(403).send('Your state is required to serve you better')
-                } else if (state.length < 3) {
-                  res.status(403).send('Invalid state name')
-                } else if (state.length >= 3) {
-                  patientData.state = state
-                }
-                if (address === '') {
-                  res.status(403).send('You must supply your address')
-                } else if (state.length < 3) {
-                  res.status(403).send('Invalid state name')
-                } else if (address && address.length > 13){
-                  patientData.address = address
-                }
-                if (gender === 'Male' || gender === 'Female') {
-                  patientData.gender = gender
-                }
-                if (age >= 16){
-                  patientData.age = age
-                }
-                if (email && validator.isEmail(email)) {
-                  patientData.email = email
-                }
-                else {
-                  return res.status(422).send('Email is required')
-                }
-                if(!telephone){
-                  res.status(403).send('Your phone number is required')
-                } else if (telephone.length >=8){
-                  patientData.telephone = telephone
-                }
-                if (password && password.length >=5) {
-                  patientData.password = bcrypt.hashSync(password, 5)
-                }
-
-                let newPatient = new Patient(patientData)
-                  // fullName: patientData.fullName,
-                  // address: patientData.address,
-                  // age: patientData.age,
-                  // email: patientData.email,
-                  // telephone: req.body.telephone,
-                  // password: patientData.password,
-                  // gender: patientData.gender,
-                  // city: patientData.city,
-                  // state: patientData.state
-                // )
-                newPatient.save(err =>{
-                  if (!err) {
-                    console.log('Patient successfully registered')
-                    return res.status(201).json('Registration successful!')
-                  }
-                  else {
-                    console.log(JSON.stringify(err, null, 3))
-                    return res.status(500).send('Unable to register you, kindly try again.')
-                  }
-                })
-              }
-            })
+            }
+          })
+        }  else {
+          return res.status(409).send('User already exist!')
         }
-    }
+      })
   })
 
+  // Now we signup the doctor on the platform.
 
+  router.post('/doctor', (req, res) => {
+    console.log(JSON.stringify(req.body, null, 2))
+    let {fullName, email, telephone, age, city, state, gender, hospitalName, hospitalAddress, specialty, eduRequirement, licenseRequirement, password} = req.body
 
-module.exports = router
+    let doctorData = {}
+    doctorData.age = age
+    if (fullName && fullName.length > 6) {
+      doctorData.fullName = fullName
+    }
+    if (email && validator.isEmail(email)) {
+      doctorData.email = email
+    }
+    if (telephone && telephone.length >= 9) {
+      doctorData.telephone = telephone
+    }
+    if (city && city.length >= 3) {
+      doctorData.city = city
+    }
+    if (state && state.length >= 3) {
+      doctorData.state = state
+    }
+    if (gender === 'Male' || gender === 'Female') {
+      doctorData.gender = gender
+    } else {
+      res.status(403).send('You must choose your gender')
+    }
+    if (hospitalName && hospitalName.length >= 7) {
+      doctorData.hospitalName = hospitalName
+    }
+    if (hospitalAddress && hospitalAddress.length >= 10) {
+      doctorData.hospitalAddress = hospitalAddress
+    }
+    if (specialty && specialty.length >= 8) {
+      doctorData.specialty = specialty
+    }
+    if (eduRequirement && eduRequirement.length >= 10) {
+      doctorData.eduRequirement = eduRequirement
+    }
+    if (licenseRequirement && licenseRequirement.length >= 7) {
+      doctorData.licenseRequirement = licenseRequirement
+    }
+    if (password && password.length >= 5) {
+      doctorData.password = bcrypt.hashSync(password, 10)
+    } else {
+      return res.status(422).send('invalid or no password supplied!')
+    }
+    let newDoctor = new Doctor(doctorData)
+    newDoctor.save(err => {
+      if (!err) {
+        console.log('Registration successful')
+        return res.status(201).json('Doctor has successfully been registered!')
+      } else {
+        if (err.code === 11000) {
+          console.log('user already exist')
+          return res.status(409).send('user already exist!')
+        } else {
+          console.log(JSON.stringify(err, null, 2))
+          return res.status(500).send('There were errors registering you.<br/>We\' working towards fixing this!')
+        }
+      } 
+    })
+  })
+
+  module.exports = router

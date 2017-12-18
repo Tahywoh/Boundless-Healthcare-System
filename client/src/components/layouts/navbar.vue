@@ -6,7 +6,7 @@
       
       <ul id="nav-mobile" class="right hide-on-small-only">
          <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
-          <router-link to="/register/patient" title="patient">User</router-link>
+          <router-link to="/register-patient" title="patient">User</router-link>
           <div class="divider"></div>
           <router-link to="/register-doctor" title="medical doctor">Doctor</router-link>
           <div class="divider"></div>

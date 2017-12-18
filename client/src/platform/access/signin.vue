@@ -3,18 +3,18 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Login</h3>
-        <form class="col s6 center-align center">
+        <form class="col s6 center-align center" @input="errorMsg" @submit.prevent="signInUsers" autocomplete="">
           <div class="row">
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
-                <input type="email" class="validate grey-text text-darken-3" v-model="loginData.user">
+                <input type="email" name="user" class="validate grey-text text-darken-3" v-model="loginData.user">
                 <label for="email">Email</label>
               </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
               <i class="icon ion-ios-locked blue-text"></i>
-              <input  type="password" class="validate grey-text text-darken-3" v-model="loginData.password">
+              <input  type="password" class="validate grey-text text-darken-3" name="password" v-model="loginData.password">
               <label >Password</label>
             </div>
           </div>
@@ -44,8 +44,8 @@
              
             </div>
           </div>
-             
-           <button  class="btn text-center blue submit-btn waves-effect waves-grey" type="submit" id="loginBtn"
+             <small class="red-text errorMsg center-align" v-html="errorMsg"></small>
+           <button  class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers"
            >Login</button>
           
       </form>
@@ -57,15 +57,37 @@
 
 <script>
 import Index from '@/platform/index'
+import AuthService from '@/services/authService'
 export default {
   name: 'signin',
   components: { Index },
   data () {
     return {
+      errorMsg: '',
       loginData: {
         user: '',
-        password: '',
-        userType: ''
+        password: ''
+      }
+    }
+  },
+  methods: {
+    async signInUsers () {
+      // let validateLogin = {
+      //   user: this.loginData.user,
+      //   password: this.loginData.password
+      // }
+      try {
+        const response = await AuthService.signInUsers({
+          user: this.loginData.user,
+          password: this.loginData.password
+        })
+        console.log(response.data)
+        // setTimeout(() => {
+        //   this.$router.push('/user-interface')
+        // }, 2500)
+      } catch (error) {
+        this.errorMsg = error.response.data
+        console.log(JSON.stringify(this.errorMsg, null, 3))
       }
     }
   }
@@ -73,7 +95,11 @@ export default {
 </script>
 
 <style>
-
+#index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
+   font-size: 0.89rem !important;
+  margin: 0 !important;
+  font-weight: 100 !important;
+}
 div.userTypes{
   margin-top: 1.26rem;
 }
@@ -104,7 +130,7 @@ button#loginBtn {
 }
 
 div.login form > div > div.input-field.col.s12 {
-    margin: -0.3rem 0rem 0px 0px !important;
+    margin: 0.7rem 0rem 0px 0px !important;
 }
 
 div.main.flow-text > div.content.center-align.white-text > div > div > form > div:nth-child(1){

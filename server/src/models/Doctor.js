@@ -9,10 +9,6 @@ const DoctorSchema = new Schema({
     required: true,
     trim: true
   },
-  address: {
-      type: String,
-      required: true
-  },
   age: {
       type: Number,
       required: true
@@ -21,9 +17,10 @@ const DoctorSchema = new Schema({
       type: String,
       required: true,
       trim: true,
-      unique: true
+      unique: true,
+      lowercase: true
   },
-  phoneNo: {
+  telephone: {
     type: Number,
     required: true
   },
@@ -33,11 +30,12 @@ const DoctorSchema = new Schema({
   },
   profilePhoto: {
       type: String,
-      required: true
+      required: false
   },
   gender: {
     type: String,
-    required: true
+    required: true,
+    lowercase: true
   },
   city: {
     type: String,
@@ -48,6 +46,14 @@ const DoctorSchema = new Schema({
     required: true
   },
   specialty: {
+    type: String,
+    required: true
+  },
+  eduRequirement: {
+    type: String,
+    required: true
+  },
+  licenseRequirement: {
     type: String,
     required: true
   },

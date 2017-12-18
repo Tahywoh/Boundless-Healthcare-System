@@ -15,7 +15,7 @@ let routes = [
     component: Index
   },
   {
-    path: '/register/patient',
+    path: '/register-patient',
     name: 'BHCS || Register Patient',
     component: RegisterPatient
   },

@@ -47,6 +47,7 @@
 
           <div id="field2" style="display: none">
             <div class="row">
+              <small class="successMsg blue-text center-align" v-html="successMsg"></small>
               <div class="input-field col s5">
                 <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" name="gender" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
@@ -87,7 +88,7 @@
                 <label for="confirmPassword">Confirm Password</label>
               </div>
             </div>
-            <p class="text-center red center-align errorMsg" v-html="errorMsg"></p>
+            <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
           
            <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
@@ -106,11 +107,12 @@
 import Index from '@/platform/index'
 import AuthService from '@/services/authService'
 export default {
-  name: 'register',
+  name: 'registerPatient',
   components: { Index },
   data () {
     return {
       errorMsg: '',
+      successMsg: '',
       formData: {
         fullName: '',
         email: '',
@@ -160,68 +162,81 @@ export default {
       submitButton.classList.add('hide')
       // console.log('am working....')
     },
-    // isValidEmail (email) {
-    //   if (!email || email === '') {
-    //     return false
-    //   }
-    //   let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
-    //   return regex.test(email)
-    // },
-    // isDigitsOnly (string) {
-    //   return (!isNaN(parseInt(string)) && isFinite(string))
-    // },
+    isValidEmail (email) {
+      if (!email || email === '') {
+        return false
+      }
+      email = email.trim()
+      if (email === '' || !email) {
+        return false
+      }
+      let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+      return regex.test(email)
+    },
     validateForm (e) {},
     async registerPatient () {
+      let validateReg = {}
       console.log(this.formData)
+      // validateReg.gender = this.formData.gender
+      validateReg.age = this.formData.age
+      validateReg.telephone = this.formData.telephone
       // validating the form data
-      // if (this.formData.fullName && this.formData.fullName.length > 6) {
-      //   validateReg.fullName = this.formData.fullName
-      // }
-      // if (this.formData.city && this.formData.city.length > 3) {
-      //   validateReg.city = this.formData.city
-      // }
-      // if (this.formData.state && this.formData.state.length > 4) {
-      //   validateReg.state = this.formData.state
-      // }
-      // if (this.formData.address && this.formData.address.length > 13) {
-      //   validateReg.address = this.formData.address
-      // }
-      // if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
-      //   validateReg.gender = this.formData.gender
-      // }
-      // if (this.isDigitsOnly(this.formData.age) && this.formData.age > 16) {
-      //   validateReg.age = this.formData.address
-      // }
-      // if (this.isValidEmail(this.formData.email)) {
-      //   validateReg.email = this.formData.email
-      // }
-      // if (this.isDigitsOnly(this.formData.telephone)) {
-      //   validateReg.telephone = this.formData.telephone
-      // }
-      // if (this.formData.password === this.formData.confirmPassword && this.formData.password.length >= 5) {
-      //   validateReg.password = this.formData.password
-      //   validateReg.confirmPassword = this.formData.confirmPassword
-      // }
-      //  else if (this.formData.password !== this.formData.confirmPassword) {
-      //   this.errorMsg = 'Passwords do not match!'
-      // }
+      if (this.formData.fullName && this.formData.fullName.length >= 7) {
+        validateReg.fullName = this.formData.fullName
+      } else {
+        this.errorMsg = 'Enter a valid name!'
+        return false
+      }
+      if (this.formData.city && this.formData.city.length >= 3) {
+        validateReg.city = this.formData.city
+      } else {
+        this.errorMsg = 'Enter a valid city name!'
+        return false
+      }
+      if (this.formData.state && this.formData.state.length >= 3) {
+        validateReg.state = this.formData.state
+      } else {
+        this.errorMsg = 'You must provide your state'
+        return false
+      }
+      if (this.formData.gender === '') {
+        this.errorMsg = 'You must choose your gender'
+      } else if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
+        validateReg.gender = this.formData.gender
+      }
+      if (this.formData.address && this.formData.address.length > 11) {
+        validateReg.address = this.formData.address
+      } else {
+        this.errorMsg = 'A valid address is required to serve you better'
+        return false
+      }
+      if (this.isValidEmail(this.formData.email) && this.formData.email !== '') {
+        validateReg.email = this.formData.email
+      } else {
+        this.errorMsg = 'Invalid email address'
+        return false
+      }
+      if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
+        validateReg.password = this.formData.password
+        validateReg.confirmPassword = this.formData.confirmPassword
+      } else if (validateReg.password !== validateReg.confirmPassword) {
+        this.errorMsg = 'Passwords do not match!'
+        return false
+      } else if (validateReg.password === '' || validateReg.password === null) {
+        this.errorMsg = 'Password is required!'
+        return false
+      } else {
+        this.errorMsg = 'Your password must be atleast 4 characters!'
+        return false
+      }
       try {
-        const response = await AuthService.registerPatient({
-          fullName: this.formData.fullName,
-          address: this.formData.address,
-          age: this.formData.age,
-          email: this.formData.email,
-          telephone: this.formData.telephone,
-          password: this.formData.password,
-          confirmPassword: this.formData.confirmPassword,
-          gender: this.formData.gender,
-          city: this.formData.city,
-          state: this.formData.state
-        })
+        const response = await AuthService.registerPatient(validateReg)
         console.log(response.data)
+        this.successMsg = 'You have been successfully registered\n You now will be redirected to login page'
+        this.errorMsg = ''
         setTimeout(() => {
           this.$router.push('/login')
-        }, 2500)
+        }, 3900)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))
@@ -233,10 +248,10 @@ export default {
 </script>
 
 <style>
-#field2 > p.errorMsg{
-  font-size: 0.89rem;
-  margin: 0 !important;
-  font-weight: 100;
+#field2 > small.errorMsg, #field2 > small.successMsg{
+  font-size: 0.89rem !important;
+  margin: 0 !important; 
+  font-weight: 100 !important;
 }
 .hideMe{
   display: none !important;
