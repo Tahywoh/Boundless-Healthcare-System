@@ -1,10 +1,20 @@
 <template>
   <div class="main-interface">
     <navbar>
+      <template slot="search-doctor">
+        <div class="row consult-doctor left">
+          <form  class="search-doctor">
+            <div class="input-field col s12">
+              <i class="icon ion-search x15"></i>
+              <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!"/>
+            </div>
+          </form>
+        </div>
+      </template>
       <div slot="navbar">
         <slot name="fixed-nav-bar">
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" @click="" class="btn transparent white-text waves-effect waves-light">
+          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
           Profile
           </a></li>
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Appointment
@@ -81,6 +91,30 @@ body {
  div > div.header-view > nav {
   position: fixed !important;
   z-index: 300;
+}
+form.search-doctor ::placeholder {
+  color: #fff !important;
+  font-size: 1.2rem;
+}
+input:focus::-webkit-input-placeholder {
+  color: #2196f3 !important;
+  font-size: 0.8rem;
+}
+/* styling the consult doctor search bar */
+
+form.search-doctor #autocomplete-input {
+    border: 2px groove #fff !important;
+    width: 100%;
+}
+form.search-doctor i.icon.ion-search.x15 {
+    left: 17rem;
+    font-weight: 100 !important;
+    font-size: 1.89rem;
+    top: -1.1rem;
+}
+form.search-doctor .input-field.col.s12 {
+    margin-top: 1.2rem;
+    margin-left: 1.3rem;
 }
 
 a.w3-bar-item.w3-button {

@@ -3,7 +3,7 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Login</h3>
-        <form class="col s6 center-align center" @input="errorMsg" @submit.prevent="signInUsers" autocomplete="">
+        <form class="col s6 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete="">
           <div class="row">
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
@@ -20,24 +20,25 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <label>User type</label>
-              <i class="icon ion-android-person blue-text"></i>
+              <label>User type: </label>
+              <i class="icon ion-android-person blue-text"></i><br/>
+              <span class="userPicked blue-text x1 left">{{loginData.userType}}</span>
               <br/>
               <div class="userTypes">
                  <p><label for="Patient">Patient</label>
-                <input name="userType" type="radio" id="patient" />
+                <input name="userType" type="radio" id="patient" value="Patient" v-model="loginData.userType"/>
                 
                 </p>
                 <p><label for="doctor">Doctor</label>
-                  <input name="userType" type="radio" id="doctor" />
+                  <input name="userType" type="radio" id="doctor" value="Doctor" v-model="loginData.userType" />
                   
                 </p>
                 <p><label for="pharmacist">Pharmacist</label>
-                <input  name="userType" type="radio" id="pharmacist"  />
+                <input  name="userType" type="radio" id="pharmacist" value="Pharmacist" v-model="loginData.userType" />
                 <br/>
                 </p>
                 <p><label for="labscientist">Medical lab scientist</label>
-                <input  name="userType" type="radio" id="labscientist"  />
+                <input  name="userType" type="radio" id="labscientist" value="Medical lab Scientist" v-model="loginData.userType" />
                 
                 </p>
               </div>
@@ -66,25 +67,53 @@ export default {
       errorMsg: '',
       loginData: {
         user: '',
-        password: ''
+        password: '',
+        userType: ''
       }
     }
   },
   methods: {
+    validateForm (e) {},
+    isValidEmail (email) {
+      if (!email || email === '') {
+        return false
+      }
+      email = email.trim()
+      if (email === '' || !email) {
+        return false
+      }
+      let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+      return regex.test(email)
+    },
     async signInUsers () {
-      // let validateLogin = {
-      //   user: this.loginData.user,
-      //   password: this.loginData.password
-      // }
+      let validateLogin = {}
+      if (this.isValidEmail(this.loginData.user) && this.loginData.user !== '') {
+        validateLogin.user = this.loginData.user
+      } else if (this.loginData.user === '' || this.loginData.user === null) {
+        this.errorMsg = 'You must provide your email address'
+        return false
+      } else {
+        this.errorMsg = 'invalid email address'
+        return false
+      }
+      if (this.loginData.password.length >= 5) {
+        validateLogin.password = this.loginData.password
+      } else {
+        this.errorMsg = 'Please provide a valid password of your account!'
+        return false
+      }
+      if (this.loginData.userType !== '') {
+        validateLogin.userType = this.loginData.userType
+      } else {
+        this.errorMsg = 'Please choose a user type!'
+        return false
+      }
       try {
-        const response = await AuthService.signInUsers({
-          user: this.loginData.user,
-          password: this.loginData.password
-        })
-        console.log(response.data)
-        // setTimeout(() => {
-        //   this.$router.push('/user-interface')
-        // }, 2500)
+        const response = await AuthService.signInUsers(validateLogin)
+        console.log(JSON.stringify(response.data) + '\nThis is a success')
+        setTimeout(() => {
+          this.$router.push(`/${this.userType}-interface`)
+        }, 2500)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 3))
@@ -96,7 +125,7 @@ export default {
 
 <style>
 #index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
-   font-size: 0.89rem !important;
+   font-size: 0.69rem !important;
   margin: 0 !important;
   font-weight: 100 !important;
 }
@@ -130,7 +159,7 @@ button#loginBtn {
 }
 
 div.login form > div > div.input-field.col.s12 {
-    margin: 0.7rem 0rem 0px 0px !important;
+    margin: -0.3rem 0rem 0px 0px !important;
 }
 
 div.main.flow-text > div.content.center-align.white-text > div > div > form > div:nth-child(1){
@@ -165,7 +194,7 @@ div.main.flow-text
 
 .mainContent {
   width: 40%;
-  height: 85vh;
+  height: 92vh;
   margin: 2rem auto;
   border-radius: 13px;
   border-width: 1px;

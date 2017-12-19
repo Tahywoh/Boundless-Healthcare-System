@@ -90,7 +90,7 @@
 
 <script scoped>
 import Interface from '@/components/layouts/interface'
-import navs from '@/platform/userInterface/navs'
+import navs from '@/platform/patientInterface/navs'
 export default {
   components: {Interface},
   name: 'index',

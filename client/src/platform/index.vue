@@ -4,7 +4,7 @@
 
 <div class="header-view">
      <navbar/>
-  </div>
+</div>
   <div class="main  flow-text">
     <heading/>
     <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.jpg" alt="Error displaying image"/>

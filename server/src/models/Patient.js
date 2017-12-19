@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-
 //create patients schema
 const PatientSchema = new Schema({
 
@@ -44,11 +43,13 @@ const PatientSchema = new Schema({
     },
     city: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     state: {
       type: String,
-      required: true
+      required: true,
+      trim: true
     },
     date: {
         type: Date,

@@ -3,7 +3,7 @@ export default {
   default: 'interface',
   links: {
     interface: {
-      url: '/doctor-interface', text: 'Interface'
+      url: '/doctor-interface', text: 'doctor Interface'
     },
     appointment: {
       url: '/doctor-interface/appointment', text: 'Appointment', icon: 'icon ion android-contacts'

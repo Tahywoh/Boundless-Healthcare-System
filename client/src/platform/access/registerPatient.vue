@@ -176,7 +176,7 @@ export default {
     validateForm (e) {},
     async registerPatient () {
       let validateReg = {}
-      console.log(this.formData)
+      // console.log(this.formData)
       // validateReg.gender = this.formData.gender
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
@@ -184,7 +184,7 @@ export default {
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
         validateReg.fullName = this.formData.fullName
       } else {
-        this.errorMsg = 'Enter a valid name!'
+        this.errorMsg = 'Enter a valid full name!'
         return false
       }
       if (this.formData.city && this.formData.city.length >= 3) {

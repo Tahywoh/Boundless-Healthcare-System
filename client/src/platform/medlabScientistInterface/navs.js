@@ -3,16 +3,16 @@ export default {
   default: 'interface',
   links: {
     interface: {
-      url: '/medlabscientist-interface', text: 'Interface'
+      url: '/medical lab scientist-interface', text: 'medical lab scientist Interface'
     },
     appointment: {
-      url: '/medlabscientist-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
+      url: '/medical lab scientist-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
     },
     updateProfile: {
-      url: '/medlabscientist-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
+      url: '/medical lab scientist-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: 'medlabscientist-interface/profile', text: 'Profile'
+      url: 'medical lab scientist-interface/profile', text: 'Profile'
     }
   }
 }

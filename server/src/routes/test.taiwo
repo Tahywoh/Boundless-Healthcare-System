@@ -1,0 +1,24 @@
+if(validator.isEmail(user)) {
+        Doctor.findOne({email: user}, 'user password userType', (err, doctorData) => {
+          if (!err && doctorData!== null) {
+            // let {user, password, userType} = doctorData
+            let isValidPassword = bcrypt.compareSync(password, doctorData.password)
+            if (isValidPassword) {
+              const payload = {
+                email: doctorData.user,
+                Doctor_id: doctorData._id
+              }
+    
+              let token = jwt.sign(payload, config.token_secret)
+              res.status(200).send(JSON.stringify({token, user: req.body.user, userType: req.body.userType}))
+            } else {
+              res.status(401).send('Incorrect password!')
+            }
+          } else {
+            if (err) {
+              console.log(JSON.stringify(err, null, 2))
+            }
+            res.status(401).send('Invalid login parameters!')
+          }
+        })
+      }

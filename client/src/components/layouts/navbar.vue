@@ -3,7 +3,16 @@
       <nav class="blue white-text">
     <div class="nav-wrapper">
       <router-link to="/" class="brand-logo animated rollIn flow-text left">BHS</router-link>
-      
+      <slot name="search-doctor">
+         <!-- <div class="row consult-doctor left">
+          <form  class="search-doctor">
+            <div class="input-field col s12">
+              <i class="icon ion-search x15"></i>
+              <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult doctor"/>
+            </div>
+          </form>
+        </div> -->
+      </slot>
       <ul id="nav-mobile" class="right hide-on-small-only">
          <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
           <router-link to="/register-patient" title="patient">User</router-link>

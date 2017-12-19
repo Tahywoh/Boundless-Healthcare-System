@@ -1,5 +1,5 @@
 export default [
-  'userInterface',
+  'patientInterface',
   'doctorInterface',
   'pharmacistInterface',
   'medlabScientistInterface'

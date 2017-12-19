@@ -3,7 +3,7 @@ export default {
   default: 'interface',
   links: {
     interface: {
-      url: '/pharmacist-interface', text: 'Interface'
+      url: '/pharmacist-interface', text: 'pharmacist Interface'
     },
     orders: {
       url: '/pharmacist-interface/orders', text: 'Orders', icon: 'icon ion-ios-download'

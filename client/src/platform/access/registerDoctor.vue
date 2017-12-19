@@ -205,7 +205,7 @@ export default {
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
         validateReg.fullName = this.formData.fullName
       } else {
-        this.errorMsg = 'Enter a valid name!'
+        this.errorMsg = 'Enter a valid full name!'
         return false
       }
       if (this.isValidEmail(this.formData.email) && this.formData.email !== '') {
