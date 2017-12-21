@@ -10,9 +10,9 @@
           <li><router-link to="/patient-interface/appointment" class="btn transparent white-text waves-effect waves-light">Appointment
           </router-link>
           </li>
-          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light" @click="logout()">
+          <li><a href="/" class="btn transparent white-text waves-effect waves-light" @click="logout()">
           Logout
-          </router-link>
+          </a>
           </li>
       </template>
   <template slot="basic-details">
