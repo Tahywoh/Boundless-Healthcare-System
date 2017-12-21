@@ -8,12 +8,12 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-contact"></i>
-                <input  type="text"  name="fullName" v-model="formData.fullName" required>
+                <input  type="text" v-model="formData.fullName" required>
                 <label >Full Name</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-android-mail"></i>
-                <input type="email"  name="email" v-model="formData.email" required>
+                <input type="email"  v-model="formData.email" required>
                 <label for="email">Email</label>
               </div>
             </div>
@@ -21,11 +21,11 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="number" class="validate" name="telephone" v-model="formData.telephone" required>
+                <input id="telephone" type="number" class="validate"  v-model="formData.telephone" required>
                 <label for="telephone">Telephone</label>
               </div>
               <div class="input-field col s6">
-                <input id="age" type="number" class="validate" name="age" v-model="formData.age" required>
+                <input id="age" type="number" class="validate" v-model="formData.age" required>
                 <label for="age">Age</label>
               </div>
             </div>
@@ -33,12 +33,12 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input id="city" type="text" class="validate" name="city" v-model="formData.city" required>
+                <input id="city" type="text" class="validate"  v-model="formData.city" required>
                 <label for="city">City</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input type="text" class="validate" name="state" v-model="formData.state" required>
+                <input type="text" class="validate" v-model="formData.state" required>
                 <label for="state">State</label>
               </div>
             </div>            
@@ -49,7 +49,7 @@
             <div class="row">
               <small class="successMsg blue-text center-align" v-html="successMsg"></small>
               <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" name="gender" v-model="formData.gender" required>
+                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
                   <option v-for="option in options" v-bind:value="option.value">
                     {{ option.text }}
@@ -62,7 +62,7 @@
                 <div class="file-field input-field">
                   <div class="btn bg-for-tab blue">
                   <span >Photo</span>
-                  <input type="file"  name="profilePhoto">
+                  <input type="file"  >
                 </div>
                 <div class="file-path-wrapper">
                   <input  class="file-path validate" type="text">
@@ -72,19 +72,19 @@
             </div>
             <div class="row">
               <div class="input-field col s12">
-                 <input id="Address"  type="text" class="validate" name="address" v-model="formData.address" required>
+                 <input id="Address"  type="text" class="validate"  v-model="formData.address" required>
                  <label for="Address">Residential Address</label>
                </div>
             </div>
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate" name="password" v-model="formData.password" required>
+                <input  type="password" class="validate" v-model="formData.password" required>
                 <label >Password</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input type="password" class="validate" id="confirmPassword" name="confirmPassword" v-model="formData.confirmPassword" required>
+                <input type="password" class="validate" id="confirmPassword"  v-model="formData.confirmPassword" required>
                 <label for="confirmPassword">Confirm Password</label>
               </div>
             </div>
@@ -219,11 +219,11 @@ export default {
       if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
         validateReg.password = this.formData.password
         validateReg.confirmPassword = this.formData.confirmPassword
-      } else if (validateReg.password !== validateReg.confirmPassword) {
-        this.errorMsg = 'Passwords do not match!'
-        return false
       } else if (validateReg.password === '' || validateReg.password === null) {
         this.errorMsg = 'Password is required!'
+        return false
+      } else if (validateReg.password !== validateReg.confirmPassword) {
+        this.errorMsg = 'Passwords do not match!'
         return false
       } else {
         this.errorMsg = 'Your password must be atleast 4 characters!'
@@ -234,9 +234,9 @@ export default {
         console.log(response.data)
         this.successMsg = 'You have been successfully registered\n You now will be redirected to login page'
         this.errorMsg = ''
-        setTimeout(() => {
-          this.$router.push('/login')
-        }, 3900)
+        // setTimeout(() => {
+        //   this.$router.push('/login')
+        // }, 3900)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))

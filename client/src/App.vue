@@ -7,6 +7,15 @@
 <script>
 export default{
   name: 'app',
+  methods: {
+    logout () {
+      this.$store.dispatch('setToken', null)
+      this.$store.commit('setUser', {user: null, userType: null})
+      this.$router.push({
+        name: 'BHCS || Home'
+      })
+    }
+  },
   data () {
     return {}
   }
@@ -14,6 +23,9 @@ export default{
 </script>
 
 <style>
+a.btn {
+  background-color: #2196f3 !important;
+}
 ::placeholder {
   color: #2196f3 !important;
 }

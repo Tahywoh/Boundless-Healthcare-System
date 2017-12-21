@@ -2,7 +2,10 @@
   <div class="header-view">
       <nav class="blue white-text">
     <div class="nav-wrapper">
-      <router-link to="/" class="brand-logo animated rollIn flow-text left">BHS</router-link>
+      <slot name="brand-logo">
+         <router-link to="/" class="brand-logo animated rollIn flow-text left">BHS</router-link>
+      </slot>
+     
       <slot name="search-doctor">
          <!-- <div class="row consult-doctor left">
           <form  class="search-doctor">
@@ -15,25 +18,28 @@
       </slot>
       <ul id="nav-mobile" class="right hide-on-small-only">
          <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
-          <router-link to="/register-patient" title="patient">User</router-link>
+          <router-link to="/register/patient" title="patient">User</router-link>
           <div class="divider"></div>
-          <router-link to="/register-doctor" title="medical doctor">Doctor</router-link>
+          <router-link to="/register/doctor" title="medical doctor">Doctor</router-link>
           <div class="divider"></div>
-          <router-link to="/register-pharmacist" title="pharmacist">Pharmacist</router-link>
+          <router-link to="/register/pharmacist" title="pharmacist">Pharmacist</router-link>
           <div class="divider"></div>
-          <router-link to="/register-medlabscientist" title="medical laboratory scientist">Medlab Scientist</router-link>
+          <router-link to="/register/medlabscientist" title="medical laboratory scientist">Medlab Scientist</router-link>
         </div>
         
         <slot name="navbar" class="nav right links">
           <li><router-link to="/">Home</router-link></li>
-          <li><a  id="registerAs" @click="toggleDropdown">
+          <li v-if="!$store.state.isUserLoggedIn"><a  id="registerAs" @click="toggleDropdown">
           Register
           <i class="icon ion-arrow-down-b w3-xlarge right"></i>
           </a></li>
-          <li><router-link to="/login">
+          <li v-if="!$store.state.isUserLoggedIn"><router-link to="/login">
           Login
           </router-link></li>
-        <li><router-link to="/about-BHS">About</router-link></li>
+          <li v-if="$store.state.isUserLoggedIn"><router-link to="/${store.state.userType}-interface">
+          Dashboard
+          </router-link></li>
+        <li><a href="/patient-interface">About</a></li>
         </slot>
         
       </ul>

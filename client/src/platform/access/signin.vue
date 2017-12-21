@@ -65,6 +65,7 @@ export default {
   data () {
     return {
       errorMsg: '',
+      authToken: '',
       loginData: {
         user: '',
         password: '',
@@ -111,9 +112,15 @@ export default {
       try {
         const response = await AuthService.signInUsers(validateLogin)
         console.log(JSON.stringify(response.data) + '\nThis is a success')
-        setTimeout(() => {
-          this.$router.push(`/${this.userType}-interface`)
-        }, 2500)
+        let responseData = response.data
+        let {fullName, telephone, city, token, user, userType} = responseData
+        console.log(fullName, telephone, city, user, userType)
+        this.authToken = token
+        this.loginData.userType = userType
+        this.$store.commit('setUser', {token, user, userType, fullName, telephone, city})
+        // setTimeout(() => {
+        //   this.$router.push(`/${this.loginData.userType}-interface`)
+        // }, 2500)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 3))

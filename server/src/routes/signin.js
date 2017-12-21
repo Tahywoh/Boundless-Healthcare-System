@@ -1,6 +1,6 @@
-const express = require('express'),
+const router = require('express').Router(),
     mongoose = require('mongoose'),
-    router = express(),
+    // router = express(),
     bcrypt = require('bcrypt');
     validator = require('validator'),
     config = require('../helpers/config')
@@ -22,18 +22,18 @@ var jwt = require('jsonwebtoken')
 
     if (userType === 'Patient') {
       if(validator.isEmail(user)) {
-        Patient.findOne({email: user}, 'user password userType', (err, patientData) => {
+        Patient.findOne({email: user}, 'user password fullName email telephone city', (err, patientData) => {
           if (!err && patientData!== null) {
-            // let {user, password, userType} = patientData
+            let {email, fullName, telephone, city} = patientData
             let isValidPassword = bcrypt.compareSync(password, patientData.password)
             if (isValidPassword) {
               const payload = {
-                email: patientData.user,
+                user: patientData.email,
                 patient_id: patientData._id
               }
     
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user: req.body.user, userType: req.body.userType}))
+              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType}))
             } else {
               res.status(401).send('Incorrect password!')
             }

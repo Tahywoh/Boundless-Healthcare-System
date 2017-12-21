@@ -1,5 +1,5 @@
 <template>
- <div id="index">
+ <div id="index" >
    <!-- TODO: nav section of the index -->
 
 <div class="header-view">

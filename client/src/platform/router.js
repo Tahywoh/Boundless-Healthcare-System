@@ -1,5 +1,7 @@
 import Index from '@/platform/index'
 import ErrPage from '@/components/layouts/errPage'
+import Modal from '@/components/snippets/modal'
+import Messages from '@/components/features/messages'
 import RegisterPatient from '@/platform/access/registerPatient'
 import RegisterDoctor from '@/platform/access/registerDoctor'
 import RegisterPharmacist from '@/platform/access/registerPharmacist'
@@ -15,22 +17,22 @@ let routes = [
     component: Index
   },
   {
-    path: '/register-patient',
+    path: '/register/patient',
     name: 'BHCS || Register Patient',
     component: RegisterPatient
   },
   {
-    path: '/register-doctor',
+    path: '/register/doctor',
     name: 'BHCS || Register Doctor',
     component: RegisterDoctor
   },
   {
-    path: '/register-pharmacist',
+    path: '/register/pharmacist',
     name: 'BHCS || Register Pharmacist',
     component: RegisterPharmacist
   },
   {
-    path: '/register-medlabscientist',
+    path: '/register/medlabscientist',
     name: 'BHCS || Register Medlab scientist',
     component: RegisterMedlabScientist
   },
@@ -38,6 +40,21 @@ let routes = [
     path: '/login',
     name: 'BHCS || login',
     component: Signin
+  },
+  {
+    path: '/about-BHS',
+    name: 'BHS || About',
+    redirect: '/'
+  },
+  {
+    path: '/messages',
+    name: 'messages',
+    component: Messages
+  },
+  {
+    path: '/modal',
+    name: 'messages',
+    component: Modal
   },
   {
     path: '*',

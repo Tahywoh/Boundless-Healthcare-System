@@ -1,24 +1,27 @@
 const express = require('express')
-const app = express()
+
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const port = process.env.PORT || 4000
 const cors = require('cors')
 const morgan = require('morgan')
-const config = require('./helpers/config')
 const session = require('express-session')
+const config = require('./helpers/config')
 
 // load routes
 // TODO: token based auth(using jwt)
 // TODO: joi for login verification
 // TODO: using session, login users and logout users
 // setting some params
+const app = express()
 app.set('sessionSecret', config.session_secret)
 app.set('tokenSecret', config.token_secret)
 
 
 const signup = require('./routes/signup');
 const signin = require('./routes/signin');
+// const routes = require('./routes/index')
+
 
 //map global promise and get rid of warning
 mongoose.Promise = global.Promise;
@@ -37,7 +40,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(cors())
 app.use(morgan('combined'))
-
+app.disable('x-powered-by')
 app.use((req, res, next)=> {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -46,7 +49,7 @@ app.use((req, res, next)=> {
 app.use('/signup', signup)
 app.use('/signin', signin)
 
-
+// app.use('./routes', routes)
 app.listen(port, () => {
   console.log(`Server listening on port: ${port}`)
 })

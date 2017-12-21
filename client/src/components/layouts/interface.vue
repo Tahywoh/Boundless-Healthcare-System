@@ -2,7 +2,7 @@
   <div class="main-interface">
     <navbar>
       <template slot="search-doctor">
-        <div class="row consult-doctor left">
+        <div class="row consult-doctor left hide-on-med-and-down">
           <form  class="search-doctor">
             <div class="input-field col s12">
               <i class="icon ion-search x15"></i>
@@ -20,9 +20,9 @@
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Appointment
           </a>
           </li>
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">
+          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light" @click="logout()">
           Logout
-          </a>
+          </router-link>
           </li>
         </slot>
        
@@ -43,6 +43,7 @@
       </div>
         
     </div>
+    
 
         <!-- Page Content -->
       <div style="margin-left:25%">
@@ -79,6 +80,15 @@ export default{
   name: 'main-interface',
   components: {
     navbar
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('setToken', null)
+      this.$store.commit('setUser', {user: null, userType: null})
+      this.$router.push({
+        name: 'BHCS || Home'
+      })
+    }
   }
 }
 </script>

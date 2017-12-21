@@ -3,25 +3,25 @@ export default {
   default: 'interface',
   links: {
     interface: {
-      url: '/patient-interface', text: 'patient Interface'
+      url: '/Patient-interface', text: 'Patient Interface'
     },
     appointment: {
-      url: '/patient-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
+      url: '/Patient-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
     },
     medicalRecord: {
-      url: '/patient-interface/medical-record', text: 'Medical Record', icon: 'icon ion-ios-paper'
+      url: '/Patient-interface/medical-record', text: 'Medical Record', icon: 'icon ion-ios-paper'
     },
-    message: {
-      url: '/patient-interface/:id', text: 'Message', icon: 'icon ion-chatbox-working'
+    messages: {
+      url: '/Patient-interface/:id', text: 'Message', icon: 'icon ion-chatbox-working'
     },
     cart: {
-      url: '/patient-interface/cart', text: 'Cart', icon: 'icon ion-ios-cart'
+      url: '/Patient-interface/cart', text: 'Cart', icon: 'icon ion-ios-cart'
     },
     updateProfile: {
-      url: '/patient-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
+      url: '/Patient-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: '/patient-interface/profile', text: 'Profile'
+      url: '/Patient-interface/profile', text: 'Profile'
     }
   }
 }

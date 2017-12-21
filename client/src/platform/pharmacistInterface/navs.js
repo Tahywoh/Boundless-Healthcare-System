@@ -1,5 +1,5 @@
 export default {
-  header: 'Pharmacist Dashboard',
+  header: 'pharmacist Dashboard',
   default: 'interface',
   links: {
     interface: {

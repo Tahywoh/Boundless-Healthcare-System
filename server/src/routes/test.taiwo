@@ -22,3 +22,38 @@ if(validator.isEmail(user)) {
           }
         })
       }
+
+
+
+
+
+      const router = require('express').Router()
+
+const signin = require('./signin'),
+  signup = require('./signup')
+
+const jwt = require('jsonwebtoken')
+
+//Users routes
+
+router.use(signin)
+router.use(signup)
+router.use((req, res, next) => {
+  console.log(JSON.stringify(req.body, undefined, 3))
+  var token = req.headers['x-access-token'] || req.body.token
+  if (token) {
+    jwt.verify(token, req.app.get('tokenSecret'), (err, decoded) => {
+      if (err) {
+        console.log(JSON.stringify(err, undefined, 3))
+      }
+      req.decoded = decoded
+      next()
+    })
+  } else {
+    res.status(403).json({'Result of data sent' : 'No token provided'})
+  }
+})
+
+router.use('/signin',signin)
+router.use('/signup',signup)
+module.exports = router

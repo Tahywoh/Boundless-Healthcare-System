@@ -3,22 +3,22 @@ export default {
   default: 'interface',
   links: {
     interface: {
-      url: '/doctor-interface', text: 'doctor Interface'
+      url: '/Doctor-interface', text: 'Doctor Interface'
     },
     appointment: {
-      url: '/doctor-interface/appointment', text: 'Appointment', icon: 'icon ion android-contacts'
+      url: '/Doctor-interface/appointment', text: 'Appointment', icon: 'icon ion android-contacts'
     },
     patient: {
-      url: '/doctor-interface/patients', text: 'Patients', icon: 'icon ion-person'
+      url: '/Doctor-interface/patients', text: 'Patients', icon: 'icon ion-person'
     },
     message: {
-      url: '/doctor-interface/:id', text: 'Message', icon: 'icon ion-chatbox-working'
+      url: '/Doctor-interface/:id', text: 'Message', icon: 'icon ion-chatbox-working'
     },
     updateProfile: {
-      url: '/doctor-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
+      url: '/Doctor-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: '/doctor-interface/profile', text: 'Profile'
+      url: '/Doctor-interface/profile', text: 'Profile'
     }
   }
 }

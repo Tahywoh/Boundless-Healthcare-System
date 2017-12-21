@@ -3,4 +3,5 @@ server/node_modules/
 /server/node_modules/
 **/*.trash
 /client/src/assets/useless.trash
+/server/src/routes/test.taiwo
 **/node_modules

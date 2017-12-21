@@ -1,7 +1,20 @@
 <template>
 
  <div class="patient-dashboard">
-<interface>
+<interface>  
+  <template slot="fixed-nav-bar">
+         <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
+          Profile
+          </a></li>
+          <li><router-link to="/patient-interface/appointment" class="btn transparent white-text waves-effect waves-light">Appointment
+          </router-link>
+          </li>
+          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light" @click="logout()">
+          Logout
+          </router-link>
+          </li>
+      </template>
   <template slot="basic-details">
      <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="name"> Adeshina Taiwo A.</h6></a>
       <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6>  <br>
@@ -37,10 +50,9 @@
   <template slot="user-type-img">
      <img src="../../assets/platform/aditya-romansa-117344new.jpg" alt="patient-img" width="105%" height="295px" class="responsive-img">
   </template>
-
-  <template slot="ul-tabs">
+   <template slot="ul-tabs">
     <ul class="tabs"> 
-      <li class="tab col s4"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
+      <li class="tab col s4"><a href="#pharmacy" class="btn waves-effect waves-light active"  exact>Pharmacy</a></li>
       <li class="tab col s4"><a  href="#messages" class="btn waves-effect waves-light">Messages</a></li>
       <li class="tab col s4"><a  href="#medicalLab" class="btn waves-effect waves-light">Medical lab</a></li>  
     </ul>
@@ -72,6 +84,7 @@
     <div id="messages" class="col s12 w3-card">
       <div class="messages transparent show-content">
         <h5>No conversations yet</h5>
+        <messages/>
       </div>
     </div>
     <div id="medicalLab" class="col s12 w3-card">
@@ -91,13 +104,15 @@
 <script scoped>
 import Interface from '@/components/layouts/interface'
 import navs from '@/platform/patientInterface/navs'
+import messages from '@/components/features/messages'
+import navbar from '@/components/layouts/navbar'
 export default {
-  components: {Interface},
+  components: {Interface, navbar, messages},
   name: 'index',
   data () {
     return {
       medicalrecord_icon: navs.links.medicalRecord.icon + ' x2 left',
-      message_icon: navs.links.message.icon + ' x2 left',
+      message_icon: navs.links.messages.icon + ' x2 left',
       cart_icon: navs.links.cart.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left'
     }
@@ -105,6 +120,32 @@ export default {
 }
 </script>
 <style>
+/* styling search doctor bar */
+
+form.search-doctor ::placeholder {
+  color: #fff !important;
+  font-size: 1.2rem;
+}
+input:focus::-webkit-input-placeholder {
+  color: #2196f3 !important;
+  font-size: 0.8rem;
+}
+/* styling the consult doctor search bar */
+
+form.search-doctor #autocomplete-input {
+    border: 2px groove #fff !important;
+    width: 100%;
+}
+form.search-doctor i.icon.ion-search.x15 {
+    left: 17rem;
+    font-weight: 100 !important;
+    font-size: 1.89rem;
+    top: -1.1rem;
+}
+form.search-doctor .input-field.col.s12 {
+    margin-top: 1.2rem;
+    margin-left: 1.3rem;
+}
 
 #pharmacy,
 #messages,
