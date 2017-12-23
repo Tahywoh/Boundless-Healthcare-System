@@ -19,65 +19,59 @@ var jwt = require('jsonwebtoken')
     let {user, password, userType} = req.body
     console.log(req.body)
 
-
-    if (userType === 'Patient') {
       if(validator.isEmail(user)) {
-        Patient.findOne({email: user}, 'user password fullName telephone city', (err, patientData) => {
-          if (!err && patientData!== null) {
-            let {fullName, telephone, city} = patientData
-            let isValidPassword = bcrypt.compareSync(password, patientData.password)
-            if (isValidPassword) {
-              const payload = {
-                user: patientData.user,
-                patient_id: patientData._id
+        if (userType === 'Patient') {
+          Patient.findOne({email: user}, 'user password fullName telephone city', (err, patientData) => {
+            if (!err && patientData!== null) {
+              let {fullName, telephone, city} = patientData
+              let isValidPassword = bcrypt.compareSync(password, patientData.password)
+              if (isValidPassword) {
+                const payload = {
+                  user: patientData.user,
+                  patient_id: patientData._id
+                }
+      
+                let token = jwt.sign(payload, config.token_secret)
+                res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType}))
+              } else {
+                res.status(401).send('Incorrect password!')
               }
-    
-              let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType}))
             } else {
-              res.status(401).send('Incorrect password!')
+              if (err) {
+                console.log(JSON.stringify(err, null, 2))
+              }
+              return res.status(401).send('Patient does not exist!')
+            }
+          })
+        } else if (userType === 'Doctor') {
+            if(validator.isEmail(user)) {
+              Doctor.findOne({email: user}, 'user password fullName telephone state specialty city', (err, doctorData) => {
+                if (!err && doctorData!== null) {
+                  let {fullName, state, telephone, specialty, city} = doctorData
+                  let isValidPassword = bcrypt.compareSync(password, doctorData.password)
+                  if (isValidPassword) {
+                    const payload = {
+                      user: doctorData.user,
+                      Doctor_id: doctorData._id 
+                    }
+                    let token = jwt.sign(payload, config.token_secret)
+                    res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType}))
+                  } else {
+                    res.status(401).send('Incorrect password!')
+                  }
+                } else {
+                  if (err) {
+                    console.log(JSON.stringify(err, null, 2))
+                  }
+                  res.status(401).send('Doctor does not exist!')
+                }
+              })
             }
           } else {
-            if (err) {
-              console.log(JSON.stringify(err, null, 2))
-            }
-            res.status(401).send('Patient does not exist!')
+            return res.status(403).send('User not found!')
           }
-        })
       }
-    }
-    if (userType === 'Doctor') {
-      if(validator.isEmail(user)) {
-        Doctor.findOne({email: user}, 'user password fullName telephone state specialty', (err, doctorData) => {
-          if (!err && doctorData!== null) {
-            let {fullName, state, telephone, specialty} = doctorData
-            let isValidPassword = bcrypt.compareSync(password, doctorData.password)
-            if (isValidPassword) {
-              const payload = {
-                user: doctorData.user,
-                Doctor_id: doctorData._id 
-              }
-    
-              let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, state, specialty, userType}))
-            } else {
-              res.status(401).send('Incorrect password!')
-            }
-          } else {
-            if (err) {
-              console.log(JSON.stringify(err, null, 2))
-            }
-            res.status(401).send('Doctor does not exist!')
-          }
-        })
-      }
-    } else {
-      res.status(401).send('User does not exist!')
-    }
-    
-   
   })
-
   router.use((req, res, next) => {
     if (req.session.user) {
       next()

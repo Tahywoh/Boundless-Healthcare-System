@@ -3,9 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import mixins from '@/plugins/mixins'
-import { sync } from 'vuex-router-sync'
+import {sync} from 'vuex-router-sync'
+import mixin from '@/plugins/mixins'
 import store from '@/store/store'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+Vue.prototype.$eventBus = new Vue()
+// Vue.mixin(mixin)
 
 Vue.config.productionTip = false
 sync(store, router)
@@ -13,8 +18,8 @@ sync(store, router)
 new Vue({
   el: '#app',
   router,
-  mixins: [mixins],
   store,
+  mixins: [mixin],
   template: '<App/>',
   components: { App }
 })

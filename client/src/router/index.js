@@ -7,17 +7,17 @@ Vue.use(Router)
 const router = new Router({routes: Routes, mode: 'history'})
 let updateStore = (key, value) => {
   let storeData = {}
-  if (window.localStorage.getItem('default-BHS')) {
-    storeData = JSON.parse(JSON.parse(window.localStorage.getItem('default-BHS')).value)
+  if (window.localStorage.getItem('BHS-default')) {
+    storeData = JSON.parse(JSON.parse(window.localStorage.getItem('BHS-default')).value)
   }
   storeData[key] = value
-  localStorage.setItem('default-BHS', JSON.stringify({value: JSON.stringify(storeData)}))
+  localStorage.setItem('BHS-default', JSON.stringify({value: JSON.stringify(storeData)}))
 }
 
 // we now fetch data from store based on the key supplied
 let fetchStoreData = key => {
-  if (window.localStorage.getItem('default-BHS') && window.localStorage.getItem('default-BHS') !== null) {
-    return JSON.parse(JSON.parse(window.localStorage.getItem('default-BHS')).value)[key]
+  if (window.localStorage.getItem('BHS-default') && window.localStorage.getItem('BHS-default') !== null) {
+    return JSON.parse(JSON.parse(window.localStorage.getItem('BHS-default')).value)[key]
   } else {
     return null
   }
@@ -28,16 +28,18 @@ router.beforeEach((to, from, next) => {
   window.document.title = to.name
   let userType = fetchStoreData('userType')
   let token = fetchStoreData('token')
-
+  // console.log(token)
   if (to.meta.requiresAuth) {
     if (!token) {
       updateStore('lastPageVisited', to.path)
       next('/login')
+      console.log('No token')
     } else {
       if (to.meta.patientAuth) {
         if (userType === 'Patient') {
           next()
         } else {
+          console.log('patient auth required')
           updateStore('lastPageVisited', to.path)
           next('/login')
         }
