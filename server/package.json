@@ -5,7 +5,7 @@
   "main": "tracker.js",
   "scripts": {
     "start": "nodemon src/tracker.js",
-    "startw": "nodemon src/tracker.js --exec \"npm run lint && node\"",
+    "startw": "nodemon src/tracker.js --exec `npm run lint && node`",
     "lint": "./node_modules/.bin/eslint **/*.js --fix"
   },
   "author": "TAIWO ADESHINA",

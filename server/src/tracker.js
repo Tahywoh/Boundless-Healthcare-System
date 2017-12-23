@@ -11,6 +11,7 @@ const mongoose = require('mongoose')
 
 const signin =require('./routes/signin')
 const signup =require('./routes/signup')
+const search =require('./routes/search')
 
 
 const config = require('./helpers/config')
@@ -31,7 +32,7 @@ mongoose.connect(config.local_db, {
 
 require('./models/Doctor')
 require('./models/Patient')
-
+const Patient = mongoose.model('patient')
 // load routes
 
 // middlewares
@@ -48,29 +49,17 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
-  // console.log(JSON.stringify(req.body, null, 2))
-  // var token = req.headers['x-access-token'] || req.body.token
-  // if (token) {
-  //   jwt.verify(token, req.app.get('tokenSecret'), function (err, decoded) {
-  //     if (err) throw err
-  //     req.decoded = decoded
-  //     next()
-  //   })
-  // } else {
-  //   res.status(403).json({'result': 'No token provided'})
-  // }
 })
+const doctors = require('./routes/doctors')
 
-// app.get('/doctors', (req, res) => {
-//   // res.send('okay nah')
-//   Patient.find().then(patient_data => {
-//     res.status(200).send(JSON.stringify(patient_data))
-//   })
-// })
+app.get('/doctors', doctors.getDoctors)
+app.get('/doctors/:id', doctors.getDoctor)
+
 
 
 app.use('/signin', signin)
 app.use('/signup', signup)
+app.use('/search', search)
 
 // app.use('./routes', routes)
 app.listen(port, () => {
