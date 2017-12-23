@@ -4,8 +4,7 @@
   "description": "server side of BHS app",
   "main": "tracker.js",
   "scripts": {
-    "start": "nodemon src/tracker.js",
-    "startw": "nodemon src/tracker.js --exec `npm run lint && node`",
+    "start": "nodemon src/tracker.js --exec \"npm run lint && node\"",
     "lint": "./node_modules/.bin/eslint **/*.js --fix"
   },
   "author": "TAIWO ADESHINA",
@@ -27,7 +26,7 @@
     "multer": "^1.3.0",
     "nodemailer": "^4.4.1",
     "nodemailer-smtp-transport": "^2.7.4",
-    "nodemon": "^1.13.2",
+    "nodemon": "^1.14.3",
     "shortid": "^2.2.8",
     "validator": "^9.2.0"
   },

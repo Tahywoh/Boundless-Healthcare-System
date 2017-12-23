@@ -5,12 +5,12 @@ const Doctor = mongoose.model('doctor')
 module.exports = {
   async getDoctors (req, res) {
     try {
-      Doctor.find().then(doctor_data => {
-        // doctor_data = null
-        res.status(200).send(JSON.stringify(doctor_data))
-        console.log(JSON.stringify(doctor_data))
+      Doctor.find().then(doctorData => {
+        // doctorData = null
+        res.status(200).send(JSON.stringify(doctorData))
+        console.log(JSON.stringify(doctorData))
       })
-    } catch(error) {
+    } catch (error) {
       res.status(404).send(error)
     }
   },

@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
-//create pharmacists scientistsschema
+// create pharmacists scientistsschema
 const DoctorSchema = new Schema({
   fullName: {
     type: String,
@@ -10,26 +10,26 @@ const DoctorSchema = new Schema({
     trim: true
   },
   age: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   email: {
-      type: String,
-      required: true,
-      trim: true,
-      unique: true,
-      lowercase: true
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+    lowercase: true
   },
   telephone: {
     type: String,
     required: true
   },
   password: {
-      type: String,
-      required: true
+    type: String,
+    required: true
   },
   profilePhoto: {
-      type: String
+    type: String
   },
   gender: {
     type: String,
@@ -69,7 +69,7 @@ const DoctorSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-    }
-});
+  }
+})
 
-mongoose.model('doctor', DoctorSchema);
+mongoose.model('doctor', DoctorSchema)
