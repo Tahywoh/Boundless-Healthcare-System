@@ -21,7 +21,7 @@ const DoctorSchema = new Schema({
       lowercase: true
   },
   telephone: {
-    type: Number,
+    type: String,
     required: true
   },
   password: {
@@ -29,8 +29,7 @@ const DoctorSchema = new Schema({
       required: true
   },
   profilePhoto: {
-      type: String,
-      required: false
+      type: String
   },
   gender: {
     type: String,

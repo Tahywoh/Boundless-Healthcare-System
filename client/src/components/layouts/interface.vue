@@ -20,7 +20,7 @@
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Appointment
           </a>
           </li>
-          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light" @click="logout()">
+          <li><router-link  class="btn transparent white-text waves-effect waves-light" >
           Logout
           </router-link>
           </li>
@@ -82,13 +82,6 @@ export default{
     navbar
   },
   methods: {
-    logout () {
-      this.$store.dispatch('setToken', null)
-      this.$store.commit('setUser', {user: null, userType: null})
-      this.$router.push({
-        name: 'BHCS || Home'
-      })
-    }
   }
 }
 </script>

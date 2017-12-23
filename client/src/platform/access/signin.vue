@@ -117,13 +117,27 @@ export default {
         console.log(fullName, telephone, city, user, userType)
         this.authToken = token
         this.loginData.userType = userType
-        this.$store.commit('setUser', {token, user, userType, fullName, telephone, city})
-        // setTimeout(() => {
-        //   this.$router.push(`/${this.loginData.userType}-interface`)
-        // }, 2500)
+        this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city})
+        this.loginData.userType = ''
+        this.loginData.user = ''
+        this.loginData.password = ''
+        this.errorMsg = ''
+        if (this.$store.state.lastPageVisited > 0) {
+          console.log('lastPageVisited', this.$store.state.lastPageVisited)
+          this.$router.push(this.$store.state.lastPageVisited)
+        } else if (this.$store.state.lastPage.trim().length > 0) {
+          console.log('lastpage')
+          this.$router.push(`${this.$store.state.lastPage}`)
+        } else {
+          this.$router.push(`/${this.$store.state.userType}-interface`)
+        }
       } catch (error) {
-        this.errorMsg = error.response.data
-        console.log(JSON.stringify(this.errorMsg, null, 3))
+        if (error) {
+          this.errorMsg = error.response.data
+          console.log(JSON.stringify(this.errorMsg, null, 3))
+        } else {
+          this.errorMsg = 'Kindly check your internet connection!'
+        }
       }
     }
   }

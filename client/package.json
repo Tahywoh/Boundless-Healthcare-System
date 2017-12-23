@@ -16,8 +16,11 @@
   "dependencies": {
     "axios": "^0.17.1",
     "vue": "^2.5.2",
+    "vue-picture-input": "^2.0.1",
     "vue-router": "^3.0.1",
+    "vue-socket.io": "^2.1.1-a",
     "vuex": "^3.0.1",
+    "vuex-localstorage": "^1.0.0",
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {

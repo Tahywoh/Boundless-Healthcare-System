@@ -88,6 +88,9 @@ export default{
 }
 </script>
 <style scoped>
+#app > div > div > div.header-view > nav > div > div, #app > div > div > div.header-view > nav > div > div > form > div{
+  display: none !important;
+}
 i.icon.ion-search.x15 {
   position: absolute;
   top: 0.2rem;

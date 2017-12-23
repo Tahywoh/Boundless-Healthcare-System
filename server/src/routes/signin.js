@@ -22,13 +22,13 @@ var jwt = require('jsonwebtoken')
 
     if (userType === 'Patient') {
       if(validator.isEmail(user)) {
-        Patient.findOne({email: user}, 'user password fullName email telephone city', (err, patientData) => {
+        Patient.findOne({email: user}, 'user password fullName telephone city', (err, patientData) => {
           if (!err && patientData!== null) {
-            let {email, fullName, telephone, city} = patientData
+            let {fullName, telephone, city} = patientData
             let isValidPassword = bcrypt.compareSync(password, patientData.password)
             if (isValidPassword) {
               const payload = {
-                user: patientData.email,
+                user: patientData.user,
                 patient_id: patientData._id
               }
     
@@ -45,20 +45,21 @@ var jwt = require('jsonwebtoken')
           }
         })
       }
-    } else if (userType === 'Doctor') {
+    }
+    if (userType === 'Doctor') {
       if(validator.isEmail(user)) {
-        Doctor.findOne({email: user}, 'user password userType', (err, doctorData) => {
+        Doctor.findOne({email: user}, 'user password fullName telephone state specialty', (err, doctorData) => {
           if (!err && doctorData!== null) {
-            // let {user, password, userType} = doctorData
+            let {fullName, state, telephone, specialty} = doctorData
             let isValidPassword = bcrypt.compareSync(password, doctorData.password)
             if (isValidPassword) {
               const payload = {
-                email: doctorData.user,
-                Doctor_id: doctorData._id
+                user: doctorData.user,
+                Doctor_id: doctorData._id 
               }
     
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user: req.body.user, userType: req.body.userType}))
+              res.status(200).send(JSON.stringify({token, user, fullName, telephone, state, specialty, userType}))
             } else {
               res.status(401).send('Incorrect password!')
             }

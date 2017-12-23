@@ -1,7 +1,9 @@
 import Api from '@/services/api'
 
 export default {
-  getDoctor () {
+  getDoctors () {
     return Api().get('doctors')
   }
+  // show ()
+  // /getDoctors/doctors/:id
 }

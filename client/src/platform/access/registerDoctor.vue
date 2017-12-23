@@ -276,11 +276,25 @@ export default {
       try {
         const response = await AuthService.registerDoctor(validateReg)
         console.log(response.data)
-        this.successMsg = 'You have been successfully registered\n You now will be redirected to login page'
+        this.successMsg = 'You have been successfully registered\n You will now will be redirected to login page'
         this.errorMsg = ''
-        setTimeout(() => {
-          this.$router.push('/login')
-        }, 3900)
+        this.formData.fullName = ''
+        this.formData.email = ''
+        this.formData.telephone = ''
+        this.formData.age = ''
+        this.formData.city = ''
+        this.formData.state = ''
+        this.formData.gender = ''
+        this.formData.hospitalName = ''
+        this.formData.hospitalAddress = ''
+        this.formData.specialty = ''
+        this.formData.eduRequirement = ''
+        this.formData.licenseRequirement = ''
+        this.formData.password = ''
+        this.formData.confirmPassword = ''
+        // setTimeout(() => {
+        //   this.$router.push('/login')
+        // }, 3900)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))

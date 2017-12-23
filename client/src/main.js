@@ -3,16 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import mixins from '@/plugins/mixins'
 import { sync } from 'vuex-router-sync'
 import store from '@/store/store'
 
 Vue.config.productionTip = false
-
 sync(store, router)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  mixins: [mixins],
   store,
   template: '<App/>',
   components: { App }

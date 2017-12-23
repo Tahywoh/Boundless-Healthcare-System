@@ -6,7 +6,7 @@
           <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
           Profile
           </a></li>
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">
+          <li><a class="btn transparent white-text waves-effect waves-light">
           Logout
           </a>
           </li>

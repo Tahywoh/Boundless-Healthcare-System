@@ -1,19 +1,27 @@
 const express = require('express')
-
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 9000
 const cors = require('cors')
 const morgan = require('morgan')
 const session = require('express-session')
 const config = require('./helpers/config')
+const helmet = require('helmet')
 
+
+
+require('./models/Doctor')
+require('./models/Patient')
+
+const Patient = mongoose.model('patient')
+  const Doctor = mongoose.model('doctor')
 // load routes
-// TODO: token based auth(using jwt)
-// TODO: joi for login verification
+
+
 // TODO: using session, login users and logout users
 // setting some params
 const app = express()
+app.use(helmet())
 app.set('sessionSecret', config.session_secret)
 app.set('tokenSecret', config.token_secret)
 
@@ -40,12 +48,21 @@ app.use(bodyParser.urlencoded({
 
 app.use(cors())
 app.use(morgan('combined'))
-app.disable('x-powered-by')
+// app.disable('x-powered-by')
 app.use((req, res, next)=> {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.get('/doctors', (req, res) => {
+  // res.send('okay nah')
+  Patient.find().then(patient_data => {
+    res.status(200).send(JSON.stringify(patient_data))
+  })
+})
+
+
 app.use('/signup', signup)
 app.use('/signin', signin)
 

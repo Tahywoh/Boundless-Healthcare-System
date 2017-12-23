@@ -5,20 +5,19 @@
 </template>
 
 <script>
-export default{
-  name: 'app',
-  methods: {
-    logout () {
-      this.$store.dispatch('setToken', null)
-      this.$store.commit('setUser', {user: null, userType: null})
-      this.$router.push({
-        name: 'BHCS || Home'
-      })
+  // import mixins from '@/plugins/mixins'
+  export default{
+    name: 'app',
+    // mixins: [mixins],
+    mounted () {
+      console.log(JSON.stringify(this.$store.state))
     }
-  },
-  data () {
-    return {}
-  }
+  // methods: {
+  //   logOut () {
+  //     this.$store.commit('CLEAR_USER')
+  //     this.$router.push(this.onLoggedOut)
+  //   }
+  // }
 }
 </script>
 

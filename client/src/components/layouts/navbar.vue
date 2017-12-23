@@ -7,14 +7,7 @@
       </slot>
      
       <slot name="search-doctor">
-         <!-- <div class="row consult-doctor left">
-          <form  class="search-doctor">
-            <div class="input-field col s12">
-              <i class="icon ion-search x15"></i>
-              <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult doctor"/>
-            </div>
-          </form>
-        </div> -->
+         
       </slot>
       <ul id="nav-mobile" class="right hide-on-small-only">
          <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
@@ -29,19 +22,15 @@
         
         <slot name="navbar" class="nav right links">
           <li><router-link to="/">Home</router-link></li>
-          <li v-if="!$store.state.isUserLoggedIn"><a  id="registerAs" @click="toggleDropdown">
+          <li ><a  id="registerAs" @click="toggleDropdown">
           Register
           <i class="icon ion-arrow-down-b w3-xlarge right"></i>
           </a></li>
-          <li v-if="!$store.state.isUserLoggedIn"><router-link to="/login">
+          <li ><router-link to="/login">
           Login
           </router-link></li>
-          <li v-if="$store.state.isUserLoggedIn"><router-link to="/${store.state.userType}-interface">
-          Dashboard
-          </router-link></li>
-        <li><a href="/patient-interface">About</a></li>
+        <li ><router-link to="/about-BHS">About</router-link></li>
         </slot>
-        
       </ul>
     </div>
   </nav>
@@ -56,6 +45,11 @@
       toggleDropdown () {
         let showRegDropdown = document.getElementById('usersRegistration')
         showRegDropdown.classList.toggle('w3-show')
+      },
+      data () {
+        return {
+          dashboard: this.$store.state.userType + `-interface`
+        }
       }
     }
 }

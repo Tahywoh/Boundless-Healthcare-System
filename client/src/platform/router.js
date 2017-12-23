@@ -1,60 +1,55 @@
 import Index from '@/platform/index'
 import ErrPage from '@/components/layouts/errPage'
-import Modal from '@/components/snippets/modal'
-import Messages from '@/components/features/messages'
+import Doctors from '@/components/utils/doctors'
 import RegisterPatient from '@/platform/access/registerPatient'
 import RegisterDoctor from '@/platform/access/registerDoctor'
 import RegisterPharmacist from '@/platform/access/registerPharmacist'
 import RegisterMedlabScientist from '@/platform/access/registerMedlabScientist'
 import Signin from '@/platform/access/signin'
+import Photo from '@/components/utils/photo'
 
 import activeModules from '@/platform/activeModules'
 
 let routes = [
   {
     path: '/',
-    name: 'BHCS || Home',
+    name: 'BHS || Home',
     component: Index
   },
   {
     path: '/register/patient',
-    name: 'BHCS || Register Patient',
+    name: 'BHS || Register Patient',
     component: RegisterPatient
   },
   {
     path: '/register/doctor',
-    name: 'BHCS || Register Doctor',
+    name: 'BHS || Register Doctor',
     component: RegisterDoctor
   },
   {
     path: '/register/pharmacist',
-    name: 'BHCS || Register Pharmacist',
+    name: 'BHS || Register Pharmacist',
     component: RegisterPharmacist
   },
   {
     path: '/register/medlabscientist',
-    name: 'BHCS || Register Medlab scientist',
+    name: 'BHS || Register Medlab scientist',
     component: RegisterMedlabScientist
   },
   {
     path: '/login',
-    name: 'BHCS || login',
+    name: 'BHS || login',
     component: Signin
   },
   {
-    path: '/about-BHS',
-    name: 'BHS || About',
-    redirect: '/'
+    path: '/photo',
+    name: 'photo',
+    component: Photo
   },
   {
-    path: '/messages',
-    name: 'messages',
-    component: Messages
-  },
-  {
-    path: '/modal',
-    name: 'messages',
-    component: Modal
+    path: '/doctors',
+    name: 'doctors',
+    component: Doctors
   },
   {
     path: '*',
