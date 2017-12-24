@@ -276,7 +276,7 @@ export default {
       try {
         const response = await AuthService.registerDoctor(validateReg)
         console.log(response.data)
-        this.successMsg = 'You have been successfully registered\n You will now will be redirected to login page'
+        this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = ''
         this.formData.fullName = ''
         this.formData.email = ''
@@ -292,9 +292,9 @@ export default {
         this.formData.licenseRequirement = ''
         this.formData.password = ''
         this.formData.confirmPassword = ''
-        // setTimeout(() => {
-        //   this.$router.push('/login')
-        // }, 3900)
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 2300)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))
@@ -315,10 +315,10 @@ form input {
   font-weight: 100 !important;
 }
 #field2 > div > div {
-    margin: 1.4rem 0 !important;
+    margin: 1rem 0 !important;
 }
-#field1 > div > div {
-    margin: 0.897rem 0 !important;
+#field1 > div > div[data-v-22c5f2f7] {
+    margin: 0.397rem 0 !important;
 }
 i.icon.ion-eye-disabled {
     position: absolute;

@@ -1,11 +1,9 @@
-const router = require('express').Router()
-mongoose = require('mongoose'),
-// router = express(),
-bcrypt = require('bcrypt')
-validator = require('validator'),
-config = require('../helpers/config')
-authPolicy = require('../helpers/authPolicy')
-// session = require('express-session')
+const exp = require('express')
+const router = exp.Router()
+const bcrypt = require('bcrypt')
+const validator = require('validator')
+const config = require('../helpers/config')
+const mongoose = require('mongoose')
 
 var jwt = require('jsonwebtoken')
 
@@ -72,6 +70,7 @@ router.post('/', (req, res) => {
     }
   }
 })
+
 router.use((req, res, next) => {
   if (req.session.user) {
     next()

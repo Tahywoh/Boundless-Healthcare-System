@@ -232,7 +232,7 @@ export default {
       try {
         const response = await AuthService.registerPatient(validateReg)
         console.log(response.data)
-        this.successMsg = 'You have been successfully registered\n You now will be redirected to login page'
+        this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = ''
         this.formData.fullName = ''
         this.formData.email = ''
@@ -244,9 +244,9 @@ export default {
         this.formData.address = ''
         this.formData.password = ''
         this.formData.confirmPassword = ''
-        // setTimeout(() => {
-        //   this.$router.push('/login')
-        // }, 3900)
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 2300)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))

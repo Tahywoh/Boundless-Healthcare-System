@@ -7,9 +7,9 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
-const signin = require('./routes/signin')
-const signup = require('./routes/signup')
-const search = require('./routes/search')
+let search = require('./routes/search')
+let signin = require('./routes/signin')
+let signup = require('./routes/signup')
 
 const config = require('./helpers/config')
 const app = express()
@@ -22,7 +22,7 @@ app.set('tokenSecret', config.token_secret)
 // map global promise and get rid of warning
 mongoose.Promise = global.Promise
 
-// connect to mongoose(install save mongoose to node js module and signp for mlab acct.)
+// connect to mongoose(install save mongoose to node js module and sign up for mlab acct.)
 mongoose.connect(config.local_db, {
   useMongoClient: true
 }).then(() => console.log('connected to Mongo DataBase')).catch(err => console.log(err))
@@ -50,11 +50,11 @@ app.use((req, res, next) => {
 const doctors = require('./routes/doctors')
 
 app.get('/doctors', doctors.getDoctors)
-app.get('/doctors/:id', doctors.getDoctor)
+// app.get('/doctors/:id', doctors.getDoctor)
 
+app.use('/search', search)
 app.use('/signin', signin)
 app.use('/signup', signup)
-app.use('/search', search)
 
 // app.use('./routes', routes)
 app.listen(port, () => {

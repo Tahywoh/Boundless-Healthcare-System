@@ -79,7 +79,7 @@
 
 <script>
 import Interface from '@/components/layouts/interface'
-import navs from '@/platform/medlabScientistInterface/navs'
+import navs from '@/platform/medicalLabScientistInterface/navs'
 
 export default {
   name: 'index',

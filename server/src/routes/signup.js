@@ -1,13 +1,13 @@
-const express = require('express'),
-  mongoose = require('mongoose'),
-  router = express(),
-  bcrypt = require('bcrypt')
-validator = require('validator')
+const express = require('express')
+const mongoose = require('mongoose')
+const router = express()
+const bcrypt = require('bcrypt')
+const validator = require('validator')
 
 require('../models/Patient')
 require('../models/Doctor')
 
-const authPolicy = require('../helpers/authPolicy')
+// const authPolicy = require('../helpers/authPolicy')
 const Patient = mongoose.model('patient')
 const Doctor = mongoose.model('doctor')
 
