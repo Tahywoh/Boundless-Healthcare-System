@@ -11,6 +11,7 @@ export default {
     })
     this.$eventBus.$on('do-nothing', () => {})
     this.$eventBus.$on('do-logout', () => this.logout())
+    // console.log('am wokkkkk')
   },
   methods: {
     back () {
@@ -38,7 +39,7 @@ export default {
       })
     },
     doNothing () {
-      console.log('as yuo can see I am doing nothing...')
+      console.log('as you can see I am doing nothing...')
     },
     stringify (data) {
       return JSON.stringify(data, null, 2)

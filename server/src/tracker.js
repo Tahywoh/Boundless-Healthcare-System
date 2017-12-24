@@ -7,9 +7,10 @@ const session = require('express-session')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 
-let search = require('./routes/search')
-let signin = require('./routes/signin')
-let signup = require('./routes/signup')
+const search = require('./routes/search')
+const signin = require('./routes/signin')
+const signup = require('./routes/signup')
+const handlePhotos = require('./utils/handlePhotos')
 
 const config = require('./helpers/config')
 const app = express()
@@ -55,6 +56,7 @@ app.get('/doctors', doctors.getDoctors)
 app.use('/search', search)
 app.use('/signin', signin)
 app.use('/signup', signup)
+app.use('/handlePhotos', handlePhotos)
 
 // app.use('./routes', routes)
 app.listen(port, () => {

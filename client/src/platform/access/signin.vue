@@ -129,7 +129,8 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')})-interface`)
+          location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface`
+          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }
       } catch (error) {
         if (error) {
