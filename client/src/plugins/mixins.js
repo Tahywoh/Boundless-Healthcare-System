@@ -7,11 +7,11 @@ export default {
   },
   mounted () {
     this.$eventBus.$on('go-to-profile', () => {
-      this.$router.replace(`/${this.$store.state.userType}-interface/profile`)
+      this.$router.replace(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface/profile`)
     })
     this.$eventBus.$on('do-nothing', () => {})
-    this.$eventBus.$on('do-logout', () => this.logout())
-    // console.log('am wokkkkk')
+    this.$eventBus.$on('do-logout', () => this.logOut())
+    this.$eventBus.$on('go-to-dashboard', () => this.goToDashboard())
   },
   methods: {
     back () {
@@ -44,14 +44,19 @@ export default {
     stringify (data) {
       return JSON.stringify(data, null, 2)
     },
-    logout () {
+    logOut () {
       this.$store.commit('CLEAR_USER')
-      this.$router.push(this.onLoggedOut)
+      // this.$router.push(this.onLoggedOut)
+      location.href = this.onLoggedOut
+    },
+    goToDashboard () {
+      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface`
     }
   },
   beforeDestroy () {
     this.$eventBus.$off('go-to-profile')
     this.$eventBus.$off('do-nothing')
     this.$eventBus.$off('do-logout')
+    this.$eventBus.$off('go-to-dashboard')
   }
 }

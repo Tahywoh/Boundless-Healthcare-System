@@ -234,16 +234,16 @@ export default {
         console.log(response.data)
         this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = ''
-        this.formData.fullName = ''
-        this.formData.email = ''
-        this.formData.telephone = ''
-        this.formData.age = ''
-        this.formData.city = ''
-        this.formData.state = ''
-        this.formData.gender = ''
-        this.formData.address = ''
-        this.formData.password = ''
-        this.formData.confirmPassword = ''
+        // this.formData.fullName = ''
+        // this.formData.email = ''
+        // this.formData.telephone = ''
+        // this.formData.age = ''
+        // this.formData.city = ''
+        // this.formData.state = ''
+        // this.formData.gender = ''
+        // this.formData.address = ''
+        // this.formData.password = ''
+        // this.formData.confirmPassword = ''
         setTimeout(() => {
           this.$router.push('/login')
         }, 2300)

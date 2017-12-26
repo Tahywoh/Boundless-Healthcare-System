@@ -6,64 +6,14 @@
       <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6>  <br>
       <h6 class="email">a.taiwoquadri@gmail.com</h6> </a>
   </template>
-
-  <template slot="user-type-img">
-     <img src="../../assets/platform/aditya-romansa-117344new.jpg" alt="patient-img" width="105%" height="295px" class="responsive-img">
-  </template>
-
-  <template slot="platform-content">
-     <div class="w3-card-8">
-
-<header class="w3-container w3-blue center-align">
-  <h4>Appointments</h4>
-</header>
-
-<div class="w3-container container">
-  <!-- <p>Lorem ipsum...</p>
-  <button class="w3-btn">Button</button> -->
-  <div class="eachAppointment blue-grey white-text">
-    <p>I am sick</p>
-    <a href="" class="btn waves-effect-waves-light">status: <span>Approved</span></a>
-    <a href="" class="btn waves-effect-waves-light">
-      Time: <span>10:00 - 12: 00</span>
-    </a>
-  </div>
-  <div class="eachAppointment blue-grey white-text">
-    <p>I am sick</p>
-    <a href="" class="btn waves-effect-waves-light">status: <span>Approved</span></a>
-    <a href="" class="btn waves-effect-waves-light">
-      Time: <span>10:00 - 12: 00</span>
-    </a>
-  </div>
-  <div class="eachAppointment blue-grey white-text">
-    <p>I am sick</p>
-    <a href="" class="btn waves-effect-waves-light">status: <span>Canceled</span></a>
-    <a href="" class="btn waves-effect-waves-light">
-      Time: <span>10:00 - 12: 00</span>
-    </a>
-  </div>
-  <div class="eachAppointment blue-grey white-text">
-    <p>I am sick</p>
-    <a href="" class="btn waves-effect-waves-light">status: <span>Approved</span></a>
-    <a href="" class="btn waves-effect-waves-light">
-      Time: <span>10:00 - 12: 00</span>
-    </a>
-  </div>
-  <div class="eachAppointment blue-grey white-text">
-    <p>I am sick</p>
-    <a href="" class="btn waves-effect-waves-light">status: <span>Pending</span></a>
-    <a href="" class="btn waves-effect-waves-light">
-      Time: <span>10:00 - 12: 00</span>
-    </a>
-  </div>
-<!-- <bookAppointment> -->
-  <!-- <template slot="appointmentTrigger">
-    <span><a class="btn bookAppointment">Book one!</a></span>
-  </template> -->
-
-<!-- </bookAppointment> -->
+  <template slot="side-nav-content">
+    <div class="divider"></div>
+    
 <modal>
-  <div slot="triggerModal">Book Appointment</div>
+  <div slot="triggerModal">
+   <a href="#" class="transparent black-text"> <i :class="add_icon"></i>
+  Book Appontment</a>
+  </div>
   <template slot="modal-title">Book Appointment</template>
   <template slot="modal-content">
       <div class="row">
@@ -94,19 +44,36 @@
           <div class="input-field col s6">
               <input type="text" class="datepicker" id="date">
             <label for="date">Date</label>
-          </div>
-         
-  <h5 class="white-text"><a href="" class="submit btn waves-effect waves-light white-text blue">Submit</a></h5>
-
+          </div>  
+          <h5 class="white-text"><a href="" class="submit btn waves-effect waves-light white-text blue">Submit</a></h5>
         </div>
-       
-       
-        
       </form>
     </div>
     </template>
 </modal>
-  
+    <div class="divider"></div>
+  </template>
+  <template slot="user-type-img">
+     <img src="../../assets/platform/aditya-romansa-117344new.jpg" alt="patient-img" width="105%" height="295px" class="responsive-img">
+  </template>
+
+  <template slot="platform-content">
+     <div class="w3-card-8">
+
+<header class="w3-container w3-blue center-align">
+  <h4>Appointments</h4>
+</header>
+
+<div class="w3-container container">
+  <!-- <p>Lorem ipsum...</p>
+  <button class="w3-btn">Button</button> -->
+  <div class="eachAppointment blue-grey white-text" v-for="(appointment, index) in appointments" :key="index">
+    <p v-html="appointment.body">I am sick</p>
+    <a href="" class="btn waves-effect-waves-light">status: <span v-text="appointment.status">Approved</span></a>
+    <a href="" class="btn waves-effect-waves-light">
+      Time: <span v-text="appointment.time">10:00 - 12: 00</span>
+    </a>
+  </div>
 </div>
 
 
@@ -119,14 +86,60 @@
 </template>
 <script>
 import Interface from '@/components/layouts/interface'
-// import BookAppointment from '@/components/features/bookappointment'
+import navs from '@/platform/patientInterface/navs'
 import Modal from '@/components/snippets/modal'
 export default {
-  components: {Interface, Modal}
+  components: {Interface, Modal},
+  data () {
+    return {
+      add_icon: navs.links.bookAppointment.icon + ' x2 left',
+      appointments: [
+        {
+          body: 'I am sick',
+          status: 'approved',
+          time: '10:00am - 12:00pm'
+        },
+        {
+          body: 'I am feeling pain',
+          status: 'approved',
+          time: '10:00am - 12:00pm'
+        },
+        {
+          body: 'I am sick',
+          status: 'canceled',
+          time: '10:00am - 12:00pm'
+        },
+        {
+          body: 'I have a continous headache',
+          status: 'approved',
+          time: '10:00am - 12:00pm'
+        },
+        {
+          body: 'I have a continous headache',
+          status: 'held',
+          time: '10:00am - 12:00pm'
+        }
+      ]
+    }
+  }
 }
 </script>
 
-<style>
+<style scoped>
+div#newmodal :focus {
+    background-color: transparent !important;
+}
+#id01 > div > div > p > div > form > div:nth-child(4) > h5 > a {
+    line-height: 21px;
+    padding: 0.5rem 1rem;
+}
+#id01 > div > div{
+  height: 61.7vh !important;
+}
+#id01 > div {
+    width: 45% !important;
+    height: 73vh !important;
+}
 div.appointments input {
     margin: 0 0 -20px 0 !important;
 }

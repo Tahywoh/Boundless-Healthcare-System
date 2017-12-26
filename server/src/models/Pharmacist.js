@@ -9,10 +9,6 @@ const PharmacistSchema = new Schema({
     required: true,
     trim: true
   },
-  address: {
-    type: String,
-    required: true
-  },
   age: {
     type: Number,
     required: true
@@ -23,8 +19,8 @@ const PharmacistSchema = new Schema({
     trim: true,
     unique: true
   },
-  phoneNo: {
-    type: Number,
+  telephone: {
+    type: String,
     required: true
   },
   password: {
@@ -32,8 +28,7 @@ const PharmacistSchema = new Schema({
     required: true
   },
   profilePhoto: {
-    type: String,
-    required: true
+    type: String
   },
   gender: {
     type: String,
@@ -41,9 +36,19 @@ const PharmacistSchema = new Schema({
   },
   city: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   state: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  eduRequirement: {
+    type: String,
+    required: true
+  },
+  licenseRequirement: {
     type: String,
     required: true
   },

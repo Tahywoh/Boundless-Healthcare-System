@@ -40,6 +40,7 @@ router.beforeEach((to, from, next) => {
           next()
         } else {
           console.log('patient auth required')
+          // alert('You are not authorized!')
           updateStore('lastPageVisited', to.path)
           next('/login')
         }

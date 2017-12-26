@@ -6,7 +6,7 @@
           <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
           Profile
           </a></li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" @click="logOut">
+          <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
           </li>
@@ -48,23 +48,7 @@
         <h5 class="text-center">Have you been prescribed drugst?<br/>
           Kindly search below and place your order.
         </h5>
-        <div class="searchForm">
-          <div class="row">
-            <div class="col s12">
-              <div class="row ">
-                <form action="" class="search-appointment">
-                  <div class="input-field col s12">
-                    <i class="icon ion-search x15"></i>
-                    <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Search through available drugs"/>
-                  </div>
-                </form>
-                <div class="pharmacy-search-result">
-                  <div class="show-content transparent"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+       <pharmacy/>
         </div>
         <div id="appointment" class="col s12 w3-card">
           <div class="appointment transparent show-content">
@@ -79,11 +63,12 @@
 
 <script>
 import Interface from '@/components/layouts/interface'
+import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/medicalLabScientistInterface/navs'
 
 export default {
   name: 'index',
-  components: {Interface},
+  components: {Interface, Pharmacy},
   data () {
     return {
       appointment_icon: navs.links.appointment.icon + ' x2 left',

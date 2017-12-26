@@ -26,6 +26,7 @@ export default new Vuex.Store({
         state.isUserLoggedIn = true
       } else {
         state.isUserLoggedIn = false
+        // this.$router.push('/login')
       }
       state.userType = user.userType
       state.profile.user = user.user
@@ -42,7 +43,7 @@ export default new Vuex.Store({
   },
   plugins: [createPersist({
     namespace: 'BHS',
-    expires: 30 * 1e3
+    expires: 4 * 60 * 60 * 1e3
   })]
 
 })

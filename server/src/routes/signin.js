@@ -9,9 +9,11 @@ var jwt = require('jsonwebtoken')
 
 require('../models/Patient')
 require('../models/Doctor')
+require('../models/Pharmacist')
 
 const Patient = mongoose.model('patient')
 const Doctor = mongoose.model('doctor')
+const Pharmacist = mongoose.model('pharmacist')
 // load patient model
 router.post('/', (req, res) => {
   let {user, password, userType} = req.body
@@ -62,6 +64,30 @@ router.post('/', (req, res) => {
               console.log(JSON.stringify(err, null, 2))
             }
             res.status(401).send('Doctor does not exist!')
+          }
+        })
+      }
+    } else if (userType === 'Pharmacist') {
+      if (validator.isEmail(user)) {
+        Pharmacist.findOne({email: user}, 'user password fullName telephone state city', (err, pharmacistData) => {
+          if (!err && pharmacistData !== null) {
+            let {fullName, state, telephone, city} = pharmacistData
+            let isValidPassword = bcrypt.compareSync(password, pharmacistData.password)
+            if (isValidPassword) {
+              const payload = {
+                user: pharmacistData.user,
+                Pharmacist_id: pharmacistData._id
+              }
+              let token = jwt.sign(payload, config.token_secret)
+              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType}))
+            } else {
+              res.status(401).send('Incorrect password')
+            }
+          } else {
+            if (err) {
+              console.log(JSON.stringify(err, undefined, 2))
+            }
+            res.status(401).send('Pharamacist does not exist')
           }
         })
       }

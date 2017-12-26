@@ -118,10 +118,10 @@ export default {
         this.authToken = token
         this.loginData.userType = userType
         this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city})
-        this.loginData.userType = ''
-        this.loginData.user = ''
-        this.loginData.password = ''
-        this.errorMsg = ''
+        // this.loginData.userType = ''
+        // this.loginData.user = ''
+        // this.loginData.password = ''
+        // this.errorMsg = ''
         if (this.$store.state.lastPageVisited > 0) {
           console.log('lastPageVisited', this.$store.state.lastPageVisited)
           this.$router.push(this.$store.state.lastPageVisited)

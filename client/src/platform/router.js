@@ -7,6 +7,7 @@ import RegisterPharmacist from '@/platform/access/registerPharmacist'
 import RegisterMedlabScientist from '@/platform/access/registerMedlabScientist'
 import Signin from '@/platform/access/signin'
 import Photo from '@/components/utils/photo'
+import Messages from '@/components/features/messages'
 
 import activeModules from '@/platform/activeModules'
 
@@ -50,6 +51,11 @@ let routes = [
     path: '/doctors',
     name: 'doctors',
     component: Doctors
+  },
+  {
+    path: '/messages',
+    name: 'Messages',
+    component: Messages
   },
   {
     path: '*',

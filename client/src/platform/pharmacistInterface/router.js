@@ -7,6 +7,10 @@ export default [
   {
     path: navs.links.interface.url,
     name: 'BHS | ' + navs.links.interface.text,
-    component: Index
+    component: Index,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true
+    }
   }
 ]

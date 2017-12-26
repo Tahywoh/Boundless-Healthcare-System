@@ -8,6 +8,7 @@ export default {
     appointment: {
       url: '/Patient-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
     },
+    bookAppointment: {icon: 'icon ion-ios-plus'},
     medicalRecord: {
       url: '/Patient-interface/medical-record', text: 'Medical Record', icon: 'icon ion-ios-paper'
     },

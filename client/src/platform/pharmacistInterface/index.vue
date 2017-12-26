@@ -6,7 +6,7 @@
           <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
           Profile
           </a></li>
-          <li><a class="btn transparent white-text waves-effect waves-light">
+          <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
           </li>
@@ -20,10 +20,46 @@
 
       <template slot="side-nav-content">
         <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <modal>
+          <div slot="triggerModal">
+            <a href="#" class="transparent black-text"><i :class="add_icon"></i>Add drug</a>  
+          </div>
+          <template slot="modal-title">Add Drug</template>
+          <template slot="modal-content">
+              <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="drug_name" type="text" class="validate">
+          <label for="drug_name">Drug Name</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="manufacturer" type="text" class="validate">
+          <label for="manufacturer">Manufacturer</label>
+        </div>
+      </div>
+      <div class="row">
+         <div class="input-field col s6">
+          <input id="price" type="number" class="validate" value="#">
+          <label for="price">Price</label>
+        </div>
+      </div>
+      <div class="row">
+          <div class="input-field col s12">
+          <textarea id="description" class="materialize-textarea" placeholder=""></textarea>
+          <label for="reason">Brief Description</label>
+          </div>
+      </div>
+        <h5 class="white-text"><a href="" class="submit btn waves-effect waves-light white-text blue">Submit</a></h5>
+    </form>
+  </div>
+          </template>
+        </modal>
+
+        <!-- <a href="#" class="w3-bar-item w3-button">
           <i :class="add_icon"></i>
           Add drug 
-        </a>
+        </a> -->
         <div class="divider"></div>
         <a href="#" class="w3-bar-item w3-button">
           <i :class="orders_icon"></i>
@@ -48,26 +84,10 @@
 
       <template slot="platform-content">
         <div id="pharmacy" class="col s12 w3-card">
-        <h5 class="text-center">Have you been prescribed drugs?<br/>
-          Kindly search below and place your order.
+        <h5 class="text-center">
+          Kindly search through available drugs here.
         </h5>
-        <div class="searchForm">
-          <div class="row">
-            <div class="col s12">
-              <div class="row ">
-                <form action="" class="search-drug">
-                  <div class="input-field col s12">
-                    <i class="icon ion-search x15"></i>
-                    <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Search through available drugs"/>
-                  </div>
-                </form>
-                <div class="pharmacy-search-result">
-                  <div class="show-content transparent"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <pharmacy/>
         </div>
         <div id="drugs" class="col s12 w3-card">
           <div class="drugs transparent show-content">
@@ -83,8 +103,10 @@
 <script>
 import Interface from '@/components/layouts/interface'
 import navs from '@/platform/pharmacistInterface/navs'
+import Pharmacy from '@/components/features/pharmacy'
+import Modal from '@/components/snippets/modal'
 export default {
-  components: {Interface},
+  components: {Interface, Pharmacy, Modal},
   name: 'index',
   data () {
     return {
@@ -97,6 +119,31 @@ export default {
 </script>
 
 <style>
+#id01 > div > div > p > div > form > div:nth-child(2){
+  margin-top: -1.5rem;
+}
+#id01 > div > div > p > div > form > h5 > a {
+    padding: 0.2rem 1.2rem;
+    line-height: 32px;
+    margin-top: -3rem;
+}
+#id01 > div > div > p > div > form > div:nth-child(1) {
+    margin-top: -0.9rem !important;
+}
+div#newmodal :focus {
+    background-color: transparent !important;
+}
+#id01 > div > div > p > div > form > div:nth-child(4) > h5 > a {
+    line-height: 21px;
+    padding: 0.5rem 1rem;
+}
+#id01 > div > div{
+  height: 61.7vh !important;
+}
+#id01 > div {
+    width: 45% !important;
+    height: 73vh !important;
+}
 i.icon.ion-search.x15 {
   position: absolute;
   top: 0.2rem;

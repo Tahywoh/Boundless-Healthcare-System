@@ -3,17 +3,17 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
-        <form class="col s6">
+        <form class="col s6" @submit.prevent="validateForm" autocomplete @input="errorMsg">
           <div id="field1" :class="show">
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-contact"></i>
-                <input  type="text" class="validate">
+                <input  type="text" class="validate" v-model="formData.fullName" required>
                 <label >Full Name</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-android-mail"></i>
-                <input type="email" class="validate">
+                <input type="email" class="validate" v-model="formData.email" required>
                 <label for="email">Email</label>
               </div>
             </div>
@@ -21,12 +21,12 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="tel" class="validate">
+                <input id="telephone" type="number" class="validate" v-model="formData.telephone" required>
                 <label for="telephone">Telephone</label>
               </div>
               <div class="input-field col s6">
                 <!-- <i class="icon fa-birthday-cake"></i> -->
-                <input id="age" type="number" class="validate">
+                <input id="age" type="number" class="validate" v-model="formData.age" required>
                 <label for="age">Age</label>
               </div>
             </div>
@@ -34,21 +34,20 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input id="city" type="text" class="validate">
+                <input id="city" type="text" class="validate" v-model="formData.city" required>
                 <label for="city">City</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-location"></i>
-                <input type="text" class="validate">
+                <input type="text" class="validate" v-model="formData.state" required>
                 <label for="state">State</label>
               </div>
             </div>            
              <div class="row">
               <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser">
+                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
-                  <option value="2">Male</option>
-                  <option value="3">Female</option>
+                  <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
                 <label>Gender</label>         
               </div>
@@ -57,53 +56,52 @@
                 <div class="file-field input-field">
                   <div class="btn bg-for-tab blue">
                   <span>Photo</span>
-                  <input required type="file"  name="profilePhoto">
+                  <input type="file"  name="profilePhoto">
                 </div>
                 <div class="file-path-wrapper">
-                  <input required class="file-path validate" required type="text">
+                  <input  class="file-path validate"  type="text">
                 </div>
                 </div>
               </div>
             </div>
           </div>
- 
-
           <div id="field2" style="display: none">
-           
+            <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
                <div class="input-field col s6">
-                <input id="pharmacy-name" required type="text" class="validate" name="pharmacy-name">
+                <input id="pharmacy-name" required type="text" class="validate" v-model="formData.pharmacyName">
                 <label for="pharmacy-address">Pharmacy name</label>
               </div>
               <div class="input-field col s6">
-                <input id="pharmacy-addressAddress" required type="text" class="validate" name="pharmacy-address">
+                <input id="pharmacy-address" required type="text" class="validate" v-model="formData.pharmacyAddress">
                 <label for="pharmacy-address">Pharmacy Address</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
                 <i class="icon ion-ios-paper"></i>
-                <input id="edu" required type="text" class="validate" name="education">
-                <input id="license" required type="text" class="validate" name="license">
-                <label for="full_name">Education and Licensing Requirments</label>
+                <input id="edu" required type="text" class="validate" v-model="formData.eduRequirement" placeholder="Education details">
+                <input id="license" required type="text" class="validate" v-model="formData.licenseRequirement" placeholder="License requirements">
+                <label for="edu">Education and Licensing Requirments</label>
               </div>
             </div>
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate">
+                <input  type="password" class="validate" v-model="formData.password" required>
                 <label >Password</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input type="password" class="validate">
+                <input type="password" class="validate" v-model="formData.confirmPassword" required>
                 <label for="password">Confirm Password</label>
               </div>
             </div>
+            <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
           <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
            <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide" type="submit" id="submitBtn"
+           <button  class="btn text-center blue submit-btn hide waves-effect waves-light" type="submit" id="submitBtn" @click="registerPharmacist"
            >Submit</button>
           
       </form>
@@ -116,9 +114,36 @@
 
 <script>
 import Index from '@/platform/index'
+import AuthService from '@/services/authService'
 export default {
-  name: 'register',
+  name: 'registerPharmacist',
   components: { Index },
+  data () {
+    return {
+      errorMsg: '',
+      successMsg: '',
+      formData: {
+        fullName: '',
+        email: '',
+        telephone: '',
+        age: '',
+        city: '',
+        state: '',
+        gender: '',
+        pharmacyName: '',
+        pharmacyAddress: '',
+        eduRequirement: '',
+        licenseRequirement: '',
+        passsword: '',
+        confirmPassword: ''
+      },
+      options: [
+        {text: 'Male', value: 'Male'},
+        {text: 'Female', value: 'Femaale'}
+      ],
+      show: true
+    }
+  },
   methods: {
     triggerField2 () {
       let field1 = document.getElementById('field1')
@@ -149,6 +174,118 @@ export default {
       proceedBtn.style.display = 'block'
       submitButton.classList.add('hide')
       // console.log('am working....')
+    },
+    isValidEmail (email) {
+      if (!email || email === '') {
+        return false
+      }
+      email = email.trim()
+      if (email === '' || !email) {
+        return false
+      }
+      let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+      return regex.test(email)
+    },
+    validateForm (e) {},
+    async registerPharmacist () {
+      let validateReg = {}
+      console.log(this.formData)
+      validateReg.age = this.formData.age
+      validateReg.telephone = this.formData.telephone
+
+      // validating form data
+      if (this.formData.fullName && this.formData.fullName.length >= 7) {
+        validateReg.fullName = this.formData.fullName
+      } else {
+        this.errorMsg = 'Enter a valid full name!'
+        return false
+      }
+      if (this.isValidEmail(this.formData.email) && this.formData.email !== '') {
+        validateReg.email = this.formData.email
+      } else {
+        this.errorMsg = 'Invalid email address'
+        return false
+      }
+      if (this.formData.city && this.formData.city.length >= 3) {
+        validateReg.city = this.formData.city
+      } else {
+        this.errorMsg = 'Enter a valid city name!'
+        return false
+      }
+      if (this.formData.state && this.formData.state.length >= 3) {
+        validateReg.state = this.formData.state
+      } else {
+        this.errorMsg = 'You must provide your state'
+        return false
+      }
+      if (this.formData.gender === '') {
+        this.errorMsg = 'You must choose your gender'
+      } else if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
+        validateReg.gender = this.formData.gender
+      }
+      if (this.formData.pharmacyName && this.formData.pharmacyName.length >= 7) {
+        validateReg.pharmacyName = this.formData.pharmacyName
+      } else {
+        this.errorMsg = 'invalid pharmacy name<br/>Please enter a valid name of hospital'
+        return false
+      }
+      if (this.formData.pharmacyAddress && this.formData.pharmacyAddress.length >= 10) {
+        validateReg.pharmacyAddress = this.formData.pharmacyAddress
+      } else {
+        this.errorMsg = 'A valid address of Pharmacy is required to serve you better'
+        return false
+      }
+      if (this.formData.eduRequirement && this.formData.eduRequirement.length >= 10) {
+        validateReg.eduRequirement = this.formData.eduRequirement
+      } else {
+        this.errorMsg = 'Please enter a valid education certificate details!'
+        return false
+      }
+      if (this.formData.licenseRequirement && this.formData.licenseRequirement.length >= 7) {
+        validateReg.licenseRequirement = this.formData.licenseRequirement
+      } else {
+        this.errorMsg = 'Please enter a valid license details<br/>This is required to serve you better.'
+      }
+      if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
+        validateReg.password = this.formData.password
+        validateReg.confirmPassword = this.formData.confirmPassword
+      } else if (validateReg.password !== validateReg.confirmPassword) {
+        this.errorMsg = 'Passwords do not match!'
+        return false
+      } else if (validateReg.password === '' || validateReg.password === null) {
+        this.errorMsg = 'Password is required!'
+        return false
+      } else {
+        this.errorMsg = 'Your password must be atleast 4 characters!'
+        return false
+      }
+      try {
+        const response = await AuthService.registerPharmacist(validateReg)
+        console.log(response.data)
+        this.successMsg = 'Successful Registration. You can now login'
+        this.errorMsg = ''
+        // this.formData.fullName = ''
+        // this.formData.email = ''
+        // this.formData.telephone = ''
+        // this.formData.age = ''
+        // this.formData.city = ''
+        // this.formData.state = ''
+        // this.formData.gender = ''
+        // this.formData.hospitalName = ''
+        // this.formData.pharmacy = ''
+        // this.formData.specialty = ''
+        // this.formData.eduRequirement = ''
+        // this.formData.licenseRequirement = ''
+        // this.formData.password = ''
+        // this.formData.confirmPassword = ''
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 2300)
+      } catch (error) {
+        this.errorMsg = error.response.data
+        console.log(JSON.stringify(this.errorMsg, null, 2))
+        console.log(error.response.status, error.response.statusText)
+      }
     }
   }
 }

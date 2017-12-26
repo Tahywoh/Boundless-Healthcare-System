@@ -1,16 +1,12 @@
 <template>
   <div class="main-interface">
     <navbar>
-      <template slot="search-doctor">
-        <div class="row consult-doctor left hide-on-med-and-down">
-          <form  class="search-doctor">
-            <div class="input-field col s12">
-              <i class="icon ion-search x15"></i>
-              <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!"/>
-            </div>
-          </form>
-        </div>
+        <template slot="search-doctor">
+          <slot name="consult-doctor">  
+          </slot>
+        
       </template>
+      
       <div slot="navbar">
         <slot name="fixed-nav-bar">
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
@@ -20,9 +16,9 @@
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Appointment
           </a>
           </li>
-          <li><router-link  class="btn transparent white-text waves-effect waves-light" >
+          <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
-          </router-link>
+          </a>
           </li>
         </slot>
        

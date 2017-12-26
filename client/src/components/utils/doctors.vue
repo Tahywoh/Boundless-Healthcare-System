@@ -2,7 +2,7 @@
   <div class="doctors">
    <interface>
      <template slot="basic-details">
-     <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="name"> Adeshina Taiwo A.</h6></a>
+     <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6> Adeshina Taiwo A.</h6></a>
       <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6>  <br>
       <h6 class="email">a.taiwoquadri@gmail.com</h6> </a>
   </template>
@@ -20,7 +20,7 @@
     <div v-for="doctor in doctors" :key="doctor._id" class="blue-grey white-text eachDoctor">
       <!-- <p>{{doctor.fullName}}</p> -->
 
-       <router-link to="" class="btn waves-effect-waves-light"><span>Dr. {{doctor.fullName}}</span></router-link>
+       <router-link to="" class="btn waves-effect-waves-light"><span>Dr. {{doctor.fullName}}</span></router-link><br/>
        <a href="" class="btn waves-effect-waves-light">City: <span>{{doctor.city}}</span></a>
       <a href="" class="btn waves-effect-waves-light">
       State: <span>{{doctor.state}}</span>

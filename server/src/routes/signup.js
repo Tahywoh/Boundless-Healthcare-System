@@ -6,10 +6,12 @@ const validator = require('validator')
 
 require('../models/Patient')
 require('../models/Doctor')
+require('../models/Pharmacist')
 
 // const authPolicy = require('../helpers/authPolicy')
 const Patient = mongoose.model('patient')
 const Doctor = mongoose.model('doctor')
+const Pharmacist = mongoose.model('pharmacist')
 
 router.post('/patient', (req, res) => {
   console.log(JSON.stringify(req.body, null, 2))
@@ -79,18 +81,28 @@ router.post('/doctor', (req, res) => {
   doctorData.age = age
   if (fullName && fullName.length > 6) {
     doctorData.fullName = fullName
+  } else {
+    res.status(403).send('Enter a valid full name')
   }
   if (email && validator.isEmail(email)) {
     doctorData.email = email
+  } else {
+    res.status(403).send('Enter a valid email address')
   }
   if (telephone && telephone.length >= 9) {
     doctorData.telephone = telephone
+  } else {
+    res.status(403).send('Enter a valid phone number')
   }
   if (city && city.length >= 3) {
     doctorData.city = city
+  } else {
+    res.status(403).send('Enter a valid city name')
   }
   if (state && state.length >= 3) {
     doctorData.state = state
+  } else {
+    res.status(403).send('Enter a valid state name')
   }
   if (gender === 'Male' || gender === 'Female') {
     doctorData.gender = gender
@@ -99,18 +111,28 @@ router.post('/doctor', (req, res) => {
   }
   if (hospitalName && hospitalName.length >= 7) {
     doctorData.hospitalName = hospitalName
+  } else {
+    res.status(403).send('Enter a valid hospital name')
   }
   if (hospitalAddress && hospitalAddress.length >= 10) {
     doctorData.hospitalAddress = hospitalAddress
+  } else {
+    res.status(403).send('Enter a valid hospital Address')
   }
   if (specialty && specialty.length >= 8) {
     doctorData.specialty = specialty
+  } else {
+    res.status(403).send('Enter a valid specialty')
   }
   if (eduRequirement && eduRequirement.length >= 10) {
     doctorData.eduRequirement = eduRequirement
+  } else {
+    res.status(403).send('Enter a valid education requirements')
   }
   if (licenseRequirement && licenseRequirement.length >= 7) {
     doctorData.licenseRequirement = licenseRequirement
+  } else {
+    res.status(403).send('Enter a valid license requirements')
   }
   if (password && password.length >= 5) {
     doctorData.password = bcrypt.hashSync(password, 10)
@@ -128,7 +150,67 @@ router.post('/doctor', (req, res) => {
         return res.status(409).send('user already exist!')
       } else {
         console.log(JSON.stringify(err, null, 2))
-        return res.status(500).send('There were errors registering you.<br/>We\' working towards fixing this!')
+        return res.status(500).send('There were errors registering you.<br/>We\'re working towards fixing this!')
+      }
+    }
+  })
+})
+
+router.post('/pharmacist', (req, res) => {
+  console.log(JSON.stringify(req.body, null, 2))
+  let {fullName, email, telephone, age, city, state, gender, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, password} = req.body
+
+  let pharmacistData = {}
+  pharmacistData.age = age
+  if (fullName && fullName.length > 6) {
+    pharmacistData.fullName = fullName
+  }
+  if (email !== '' && validator.isEmail(email)) {
+    pharmacistData.email = email
+  }
+  if (telephone && telephone.length >= 9) {
+    pharmacistData.telephone = telephone
+  }
+  if (city && city.length >= 3) {
+    pharmacistData.city = city
+  }
+  if (state && state.length >= 3) {
+    pharmacistData.state = state
+  }
+  if (gender === 'Male' || gender === 'Female') {
+    pharmacistData.gender = gender
+  } else {
+    res.status(403).send('You must choose your gender')
+  }
+  if (pharmacyName && pharmacyName.length >= 7) {
+    pharmacistData.pharmacyName = pharmacyName
+  }
+  if (pharmacyAddress && pharmacyAddress.length >= 10) {
+    pharmacistData.pharmacyAddress = pharmacyAddress
+  }
+  if (eduRequirement && eduRequirement.length >= 10) {
+    pharmacistData.eduRequirement = eduRequirement
+  }
+  if (licenseRequirement && licenseRequirement.length >= 7) {
+    pharmacistData.licenseRequirement = licenseRequirement
+  }
+  if (password && password.length >= 5) {
+    pharmacistData.password = bcrypt.hashSync(password, 10)
+  } else {
+    return res.status(422).send('invalid or no password supplied!')
+  }
+  let newPharmacist = new Pharmacist(pharmacistData)
+  newPharmacist.save(err => {
+    if (!err) {
+      console.log('Registration successful')
+      return res.status(201).json('Pharmacist has successfully been registered!')
+    } else {
+      if (err.code === 11000) {
+        console.log('user already exist')
+        return res.status(409).send('user already exist!')
+      } else {
+        console.log(JSON.stringify(err, null, 2))
+        return res.status(500).send('There were errors registering you.<br/>We\'re working towards fixing this!')
       }
     }
   })

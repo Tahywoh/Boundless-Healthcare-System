@@ -15,9 +15,11 @@ module.exports = {
     }
   },
   getDoctor (req, res) {
-    Doctor.findOne({_id: req.params.id}, (err, doctor) => {
+    Doctor.findOne({_id: req.params.id}, 'fullName city state', (err, doctor) => {
       if (!err) {
-        res.status(200).send(doctor)
+        let {fullName, city, state} = doctor
+        res.status(200).send({fullName, city, state})
+        console.log({fullName, city, state})
       } else {
         console.log(JSON.stringify(err))
       }

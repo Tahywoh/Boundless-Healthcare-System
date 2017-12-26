@@ -22,14 +22,24 @@
         
         <slot name="navbar" class="nav right links">
           <li><router-link to="/">Home</router-link></li>
-          <li ><a  id="registerAs" @click="toggleDropdown">
-          Register
-          <i class="icon ion-arrow-down-b w3-xlarge right"></i>
-          </a></li>
-          <li ><router-link to="/login">
-          Login
-          </router-link></li>
-        <li ><router-link to="/about-BHS">About</router-link></li>
+          <span class="ifLoggedIn" v-if="this.$store.state.isUserLoggedIn">
+             <li ><a id="dashboard" @click="$eventBus.$emit('go-to-dashboard')">
+              Dashboard
+            </a></li>
+            <li ><a @click="$eventBus.$emit('do-logout')">
+            Logout
+            </a></li>
+          </span>
+          <span class="ifLoggedOut"  v-else>
+            <li ><a  id="registerAs" @click="toggleDropdown">
+            Register
+            <i class="icon ion-arrow-down-b w3-xlarge right"></i>
+            </a></li>
+            <li><router-link to="/login">
+            Login
+            </router-link></li>
+          </span>
+        <li><router-link to="/about-BHS">About</router-link></li>
         </slot>
       </ul>
     </div>
@@ -45,11 +55,11 @@
       toggleDropdown () {
         let showRegDropdown = document.getElementById('usersRegistration')
         showRegDropdown.classList.toggle('w3-show')
-      },
-      data () {
-        return {
-          dashboard: this.$store.state.userType + `-interface`
-        }
+      }
+    },
+    data () {
+      return {
+        dashboard: 'go-to-dashboard'
       }
     }
 }

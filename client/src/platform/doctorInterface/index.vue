@@ -43,27 +43,12 @@
       <h5 class="text-center">Have you been prescribed drugs?<br/>
         Kindly search below and place your order.
       </h5>
-      <div class="searchForm">
-        <div class="row">
-          <div class="col s12">
-            <div class="row ">
-              <form action="" class="search-drug">
-                <div class="input-field col s12">
-                  <i class="icon ion-search x15"></i>
-                  <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Search through available drugs"/>
-                </div>
-              </form>
-              <div class="pharmacy-search-result">
-                <div class="show-content transparent"></div>
-              </div>
-            </div>
-          </div>
-       </div>
-      </div>
+      <pharmacy/>
     </div>
     <div id="messages" class="col s12 w3-card">
       <div class="messages transparent show-content">
         <h5>No conversations yet</h5>
+        <messages/>
       </div>
     </div>
     </template>
@@ -74,9 +59,11 @@
 
 <script>
 import Interface from '@/components/layouts/interface'
+import messages from '@/components/features/messages'
+import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/doctorInterface/navs'
 export default{
-  components: {Interface},
+  components: {Interface, messages, Pharmacy},
   name: 'index',
   data () {
     return {

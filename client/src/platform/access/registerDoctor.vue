@@ -45,7 +45,7 @@
             </div>            
              <div class="row">
               <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" name="gender" required>
+                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
                   <option v-for="option in options" :value="option.value">{{option.text}}</option>
                 </select>
@@ -65,31 +65,29 @@
               </div>
             </div>
           </div>
- 
-
           <div id="field2" style="display: none">
            <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
               <div class="input-field col s6">
-                <input id="hospitalName" type="text" class="validate" name="hospitalName" v-model="formData.hospitalName" required>
+                <input id="hospitalName" type="text" class="validate"  v-model="formData.hospitalName" required>
                 <label for="hospitalName">Hospital name</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s6">
-                <input id="Address"  type="text" class="validate" name="address" v-model="formData.hospitalAddress" required>
+                <input id="Address"  type="text" class="validate" v-model="formData.hospitalAddress" required>
                 <label for="Address">Address of hostpital</label>
               </div>
               <div class="input-field col s6">
-                <input id="specialty" type="text" class="validate" name="specialty" v-model="formData.specialty" required>
+                <input id="specialty" type="text" class="validate" v-model="formData.specialty" required>
                 <label for="specialty">Specialty</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
                 <i class="icon ion-ios-paper"></i>
-                <input id="edu" required type="text" class="validate" name="education" v-model="formData.eduRequirement" placeholder="Education details" required>
-                <input id="license" required type="text" class="validate" name="license" v-model="formData.licenseRequirement" placeholder="License requirements" required>
+                <input id="edu" required type="text" class="validate"  v-model="formData.eduRequirement" placeholder="Education details">
+                <input id="license" required type="text" class="validate"  v-model="formData.licenseRequirement" placeholder="License requirements">
                 <label for="edu">Education and Licensing Requirments</label>
               </div>
             </div>
@@ -123,7 +121,7 @@
 import Index from '@/platform/index'
 import AuthService from '@/services/authService'
 export default {
-  name: 'register',
+  name: 'registerDoctor',
   components: { Index },
   data () {
     return {
@@ -278,20 +276,20 @@ export default {
         console.log(response.data)
         this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = ''
-        this.formData.fullName = ''
-        this.formData.email = ''
-        this.formData.telephone = ''
-        this.formData.age = ''
-        this.formData.city = ''
-        this.formData.state = ''
-        this.formData.gender = ''
-        this.formData.hospitalName = ''
-        this.formData.hospitalAddress = ''
-        this.formData.specialty = ''
-        this.formData.eduRequirement = ''
-        this.formData.licenseRequirement = ''
-        this.formData.password = ''
-        this.formData.confirmPassword = ''
+        // this.formData.fullName = ''
+        // this.formData.email = ''
+        // this.formData.telephone = ''
+        // this.formData.age = ''
+        // this.formData.city = ''
+        // this.formData.state = ''
+        // this.formData.gender = ''
+        // this.formData.hospitalName = ''
+        // this.formData.hospitalAddress = ''
+        // this.formData.specialty = ''
+        // this.formData.eduRequirement = ''
+        // this.formData.licenseRequirement = ''
+        // this.formData.password = ''
+        // this.formData.confirmPassword = ''
         setTimeout(() => {
           this.$router.push('/login')
         }, 2300)
