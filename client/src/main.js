@@ -7,9 +7,16 @@ import {sync} from 'vuex-router-sync'
 import mixin from '@/plugins/mixins'
 import store from '@/store/store'
 import Vuex from 'vuex'
+import socketio from 'socket.io-client'
+import VueSocketIO from 'vue-socket.io'
+import VuexStore from '@/store/VuexStore'
 
+export const SocketInstance = socketio('http://localhost:8000')
+
+Vue.use(VueSocketIO, SocketInstance, VuexStore)
 Vue.use(Vuex)
 Vue.prototype.$eventBus = new Vue()
+Vue.prototype.$socket = new Vue()
 // Vue.mixin(mixin)
 
 Vue.config.productionTip = false

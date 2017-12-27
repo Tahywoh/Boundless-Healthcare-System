@@ -12,12 +12,6 @@
     mounted () {
       console.log(JSON.stringify(this.$store.state))
     }
-  // methods: {
-  //   logOut () {
-  //     this.$store.commit('CLEAR_USER')
-  //     this.$router.push(this.onLoggedOut)
-  //   }
-  // }
 }
 </script>
 

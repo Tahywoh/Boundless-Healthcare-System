@@ -7,7 +7,11 @@
  
   <div class="chat__main">
     <ol id="messages" class="chat__messages"></ol>
-
+  <div>
+    <p v-if="isConnected">We're connected to the server!</p>
+    <p>Message from server: "{{socketMessage}}"</p>
+    <button @click="pingServer()">Ping Server</button>
+  </div>
     <div class="chat__footer">
       <form id="message-form">
         <input name="message" type="text" placeholder="Message" autofocus autocomplete="off" />
@@ -26,17 +30,16 @@ export default {
       socketMessage: ''
     }
   },
-
   sockets: {
     connect () {
       // Fired when the socket connects.
       this.isConnected = true
+      console.log('user connected')
     },
-
     disconnect () {
       this.isConnected = false
+      console.log('user disconnected')
     },
-
     // Fired when the server sends something on the "messageChannel" channel.
     messageChannel (data) {
       this.socketMessage = data
