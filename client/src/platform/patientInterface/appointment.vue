@@ -1,11 +1,9 @@
 <template>
   <div class="appointments">
    <interface>
-     <template slot="basic-details">
-     <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="name"> Adeshina Taiwo A.</h6></a>
-      <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6>  <br>
-      <h6 class="email">a.taiwoquadri@gmail.com</h6> </a>
-  </template>
+    <template slot="basic-details">
+     <basicDetails/>
+    </template>
   <template slot="side-nav-content">
     <div class="divider"></div>
     
@@ -79,7 +77,7 @@
 
 </div>
   </template>
-   </interface>
+  </interface>
    
 <router-view></router-view>
   </div>
@@ -88,8 +86,9 @@
 import Interface from '@/components/layouts/interface'
 import navs from '@/platform/patientInterface/navs'
 import Modal from '@/components/snippets/modal'
+import BasicDetails from '@/components/widgets/basicDetails'
 export default {
-  components: {Interface, Modal},
+  components: {Interface, Modal, BasicDetails},
   data () {
     return {
       add_icon: navs.links.bookAppointment.icon + ' x2 left',

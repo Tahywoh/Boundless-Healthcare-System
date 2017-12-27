@@ -10,10 +10,10 @@
       <div slot="navbar">
         <slot name="fixed-nav-bar">
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
+          <li><a id="profile" class="btn transparent white-text waves-effect waves-light"  @click="$eventBus.$emit('go-to-profile')">
           Profile
           </a></li>
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Appointment
+          <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
           </a>
           </li>
           <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
@@ -72,12 +72,11 @@
 
 <script scoped>
 import navbar from '@/components/layouts/navbar'
+import Fixednav from '@/components/layouts/fixednav'
 export default{
   name: 'main-interface',
   components: {
-    navbar
-  },
-  methods: {
+    navbar, Fixednav
   }
 }
 </script>

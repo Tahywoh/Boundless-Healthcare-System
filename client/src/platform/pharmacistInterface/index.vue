@@ -3,19 +3,17 @@
     <interface>
       <template slot="fixed-nav-bar">
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
+          <li><router-link  id="profile" class="btn transparent white-text waves-effect waves-light">
           Profile
-          </a></li>
-          <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+          </router-link></li>
+          <li><router-link class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
-          </a>
+          </router-link>
           </li>
       </template>
 
       <template slot="basic-details">
-         <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="name"> Adeshina Taiwo A.</h6></a>
-        <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6>  <br>
-        <h6 class="email">a.taiwoquadri@gmail.com</h6> </a>
+         <basicDetails/>
       </template>
 
       <template slot="side-nav-content">
@@ -105,8 +103,9 @@ import Interface from '@/components/layouts/interface'
 import navs from '@/platform/pharmacistInterface/navs'
 import Pharmacy from '@/components/features/pharmacy'
 import Modal from '@/components/snippets/modal'
+import BasicDetails from '@/components/widgets/basicDetails'
 export default {
-  components: {Interface, Pharmacy, Modal},
+  components: {Interface, Pharmacy, Modal, BasicDetails},
   name: 'index',
   data () {
     return {

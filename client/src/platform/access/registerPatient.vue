@@ -43,7 +43,6 @@
               </div>
             </div>            
           </div>
- 
 
           <div id="field2" style="display: none">
             <div class="row">

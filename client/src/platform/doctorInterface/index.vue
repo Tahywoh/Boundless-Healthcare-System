@@ -2,9 +2,7 @@
 <div class="doctor-dashboard">
   <interface>
     <template slot="basic-details">
-      <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="name"> Adeshina Taiwo A.</h6></a>
-      <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6>  <br>
-      <h6 class="email">a.taiwoquadri@gmail.com</h6> </a>
+      <basicDetails/>
     </template>
 
     <template slot="side-nav-content">
@@ -62,8 +60,9 @@ import Interface from '@/components/layouts/interface'
 import messages from '@/components/features/messages'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/doctorInterface/navs'
+import BasicDetails from '@/components/widgets/basicDetails'
 export default{
-  components: {Interface, messages, Pharmacy},
+  components: {Interface, messages, Pharmacy, BasicDetails},
   name: 'index',
   data () {
     return {

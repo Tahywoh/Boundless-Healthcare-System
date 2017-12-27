@@ -15,47 +15,23 @@
     
   </template>
   <template slot="fixed-nav-bar">
-         <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
-          Profile
-          </a></li>
-          <li><router-link to="/patient-interface/appointment" class="btn transparent white-text waves-effect waves-light">Appointment
-          </router-link>
-          </li>
-          <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit(topLinks.doLogOut)">
-          Logout
-          </a></li>
-      </template>
+     <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+    <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="topLinks.goToProfile">
+    Profile
+    </router-link></li>
+    <li><router-link :to="topLinks.toAppointment" class="btn transparent white-text waves-effect waves-light">Appointment
+    </router-link>
+    </li>
+    <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit(topLinks.doLogOut)">
+    Logout
+    </a></li>
+    </template>
   <template slot="basic-details">
-     <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="name"> Adeshina Taiwo A.</h6></a>
-      <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6><br/>
-      <h6 class="email">a.taiwoquadri@gmail.com</h6> </a>
+    <basicDetails/>
   </template>
 
   <template slot="side-nav-content">
-    <div class="divider"></div>
-    <a href="#" class="w3-bar-item w3-button">
-      <i :class="medicalrecord_icon"></i>
-      Medical record
-    </a>
-    <div class="divider"></div>
-    <a href="#" class="w3-bar-item w3-button">
-      <i :class="message_icon"></i>  
-      Messages 
-      <span class="circle blue notification-circle">2</span>
-    </a>
-    <div class="divider"></div>
-    <a href="#" class="w3-bar-item w3-button">
-      <i :class="cart_icon"></i>
-      Cart 
-      <span class="circle blue notification-circle">4</span>
-    </a>
-    <div class="divider"></div>
-   
-    <a href="#" class="w3-bar-item w3-button">
-       <i :class="updateprofile_icon"></i>
-      Update Profile
-    </a>
+    <sidenav/>
   </template>
 
   <template slot="user-type-img">
@@ -101,9 +77,10 @@ import messages from '@/components/features/messages'
 import SearchService from '@/services/searchService'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/patientInterface/navs'
-
+import BasicDetails from '@/components/widgets/basicDetails'
+import Sidenav from '@/platform/patientInterface/sidenav'
 export default {
-  components: {Interface, messages, Pharmacy},
+  components: {Interface, messages, Pharmacy, BasicDetails, Sidenav},
   name: 'index',
   data () {
     return {
@@ -114,7 +91,8 @@ export default {
       search: '',
       topLinks: {
         doLogOut: 'do-logout',
-        goToProfile: 'go-to-profile'
+        goToProfile: navs.links.profile.url,
+        toAppointment: navs.links.appointment.url
       }
     }
   },
@@ -142,7 +120,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 /* styling search doctor bar */
 form.search-doctor ::placeholder {
   color: #fff !important;

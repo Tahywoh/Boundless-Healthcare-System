@@ -12,6 +12,8 @@ export default {
     this.$eventBus.$on('do-nothing', () => {})
     this.$eventBus.$on('do-logout', () => this.logOut())
     this.$eventBus.$on('go-to-dashboard', () => this.goToDashboard())
+    this.$eventBus.$on('go-to-profile', () => this.goToProfile())
+    this.$eventBus.$on('go-to-appointment', () => this.goToAppointment())
   },
   methods: {
     back () {
@@ -51,6 +53,12 @@ export default {
     },
     goToDashboard () {
       location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface`
+    },
+    goToProfile () {
+      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface/profile`
+    },
+    goToAppointment () {
+      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface/appointment`
     }
   },
   beforeDestroy () {
@@ -58,5 +66,6 @@ export default {
     this.$eventBus.$off('do-nothing')
     this.$eventBus.$off('do-logout')
     this.$eventBus.$off('go-to-dashboard')
+    this.$eventBus.$off('go-to-appointment')
   }
 }
