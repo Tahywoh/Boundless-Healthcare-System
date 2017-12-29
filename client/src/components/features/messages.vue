@@ -1,23 +1,36 @@
 <template>
   <div class="chat">
-     <div class="chat__sidebar">
-    <h3>Attending doctor</h3>
-    <div id="users"></div>
+    <div class="chat__sidebar">
+      <div>
+      <p v-if="isConnected">You're connected to the server!</p>
+      <p v-else>You're disconnected from the server!</p>
+      <!-- <p>Message from server: "{{socketMessage}}"</p>
+      <button @click="pingServer()">Ping Server</button> -->
+      </div>
+      <h3>Attending doctor</h3>
+      <div id="users"></div>
   </div>
  
   <div class="chat__main">
-    <ol id="messages" class="chat__messages"></ol>
-  <div>
-    <p v-if="isConnected">We're connected to the server!</p>
-    <p>Message from server: "{{socketMessage}}"</p>
-    <button @click="pingServer()">Ping Server</button>
-  </div>
+    <ol id="messages" class="chat__messages" >
+      <li class="message" v-for="(socketMessage, index) in socketMessages" :key="index">
+        <!-- {{socketMessages}} -->
+        <div class="message__title">
+        <h4>{{socketMessage.from}}</h4>
+        <span>{{socketMessage.createdAt}}</span>
+        </div>
+        <div class="message__body">
+          <p>{{socketMessage.text}}</p>
+        </div>
+      </li>
+    </ol>
+ 
     <div class="chat__footer">
-      <form id="message-form">
-        <input name="message" type="text" placeholder="Message" autofocus autocomplete="off" />
-        <button>Send</button>
+      <form id="message-form" @submit.prevent="validateForm">
+        <input name="message" type="text" placeholder="Message" autofocus autocomplete="off" v-model="message"/>
+        <button value="Send" @click="sendMessage">Send</button>
       </form>
-      <button id="send-location">Send Location</button>
+      <button id="send-location" @click="sendLocation">Send Location</button>
     </div>
   </div>
   </div>
@@ -27,36 +40,66 @@ export default {
   data () {
     return {
       isConnected: false,
-      socketMessage: ''
+      socketMessages: [],
+      message: null
     }
   },
   sockets: {
     connect () {
       // Fired when the socket connects.
+      console.log('New user connected')
       this.isConnected = true
-      console.log('user connected')
     },
     disconnect () {
       this.isConnected = false
-      console.log('user disconnected')
+      console.log('Disconnected from server')
     },
     // Fired when the server sends something on the "messageChannel" channel.
     messageChannel (data) {
       this.socketMessage = data
+    },
+    newMessage (message) {
+      if (this.message !== '') {
+        this.message = message
+        this.socketMessages.push(message)
+        console.log('newMessage', message)
+        this.message = ''
+      }
+    },
+    newLocationMessage (message) {
     }
   },
-
   methods: {
-    pingServer () {
-      // Send the "pingServer" event to the server.
-      this.$socket.emit('pingServer', 'PING!')
+    validateForm (e) {},
+    sendMessage () {
+      this.$socket.emit('createMessage', {
+        from: 'User',
+        text: this.message
+      }, (data) => {
+        console.log('Got it', data)
+      })
+    },
+    sendLocation () {
+      if (!navigator.geolocation) {
+        return alert('Geolocation not supported by your browser')
+      }
+      navigator.geolocation.getCurrentPosition(position => {
+        this.$socket.emit('createLocationMessage', {
+          latitude: position.latitude,
+          longitude: position.longitude
+        })
+      }, () => {
+        alert('Unable to fetch location')
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-
+ol li{
+  overflow: hidden;
+}
 button,button:hover{border:none;color:#fff;padding:10px}.chat__messages,.chat__sidebar ul{list-style-type:none}*{box-sizing:border-box;margin:0;padding:0;font-family:HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;font-weight:300;font-size:.95rem}li,ul{list-style-position:inside}h3{font-weight:600;text-align:center;font-size:1.5rem}button{background:#265f82;cursor:pointer;transition:background .3s ease}button:hover{background:#1F4C69}button:disabled{cursor:default;background:#698ea5}.centered-form{display:flex;align-items:center;height:100vh;width:100vw;justify-content:center;background:-moz-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:-webkit-gradient(linear,left top,right bottom,color-stop(0,rgba(49,84,129,1)),color-stop(100%,rgba(39,107,130,1)));background:-webkit-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:-o-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:-ms-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:linear-gradient(325deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%)}.centered-form__form{background:rgba(250,250,250,.9);border:1px solid #e1e1e1;border-radius:5px;padding:0 20px;margin:20px;width:230px}.form-field{margin:20px 0}.form-field>*{width:100%}.form-field label{display:block;margin-bottom:7px}.form-field input,.form-field select{border:1px solid #e1e1e1;padding:10px}.chat{display:flex}.chat__sidebar{overflow-y:scroll;width:260px;height:100vh;background:-moz-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:-webkit-gradient(linear,left top,right bottom,color-stop(0,rgba(49,84,129,1)),color-stop(100%,rgba(39,107,130,1)));background:-webkit-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:-o-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:-ms-linear-gradient(125deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%);background:linear-gradient(325deg,rgba(39,107,130,1) 0,rgba(49,84,129,1) 100%)}.chat__footer,.chat__sidebar li{background:#e6eaee;padding:10px}.chat__sidebar h3{color:#e6eaee;margin:10px 20px;text-align:left}.chat__sidebar li{border:1px solid #e1e1e1;border-radius:5px;margin:10px}.chat__main{display:flex;flex-direction:column;height:100vh;width:100%}.chat__messages{flex-grow:1;overflow-y:scroll;-webkit-overflow-scrolling:touch;padding:10px}.chat__footer{display:flex;flex-shrink:0}.chat__footer form{flex-grow:1;display:flex}.chat__footer form *{margin-right:10px}.chat__footer input{border:none;padding:10px;flex-grow:1}.message{padding:10px}.message__title{display:flex;margin-bottom:5px}.message__title h4{font-weight:600;margin-right:10px}.message__title span{color:#999}@media (max-width:600px){*{font-size:1rem}.chat__sidebar{display:none}.chat__footer{flex-direction:column}.chat__footer form{margin-bottom:10px}.chat__footer button{margin-right:0}}
 
 

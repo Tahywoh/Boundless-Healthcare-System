@@ -14,6 +14,7 @@ export default {
     this.$eventBus.$on('go-to-dashboard', () => this.goToDashboard())
     this.$eventBus.$on('go-to-profile', () => this.goToProfile())
     this.$eventBus.$on('go-to-appointment', () => this.goToAppointment())
+    this.$eventBus.$on('send-location', () => this.locateMe())
   },
   methods: {
     back () {
@@ -36,8 +37,16 @@ export default {
     },
     locateMe () {
       console.log('fetching location')
-      window.navigator.geolocation.getCurrentPosition((loc) => {
-        console.log(loc.coords, loc.timestamp)
+      // window.navigator.geolocation.getCurrentPosition((loc) => {
+      //   console.log(loc.coords, loc.timestamp)
+      // })
+      if (!navigator.geolocation) {
+        return alert('Geolocation not supported by your browser')
+      }
+      navigator.geolocation.getCurrentPosition(Position => {
+        console.log(Position.coords.latitude, Position.coords.longitude, Position.timestamp)
+      }, () => {
+        alert('Unable to fetch location')
       })
     },
     doNothing () {

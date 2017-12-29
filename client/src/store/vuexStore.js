@@ -21,17 +21,23 @@ export default new Vuex.Store({
     SOCKET_messageChannel (state, message) {
       state.socketMessage = message
     }
+    // SOCKET_createMessage (state, message) {
+    //   state.socketMessage = message
+    // }
   },
   actions: {
     otherAction: (context, type) => {
       return true
     },
     socket_messageChannel: (context, message) => {
-      context.dispatch('newMessage', message)
+      // context.dispatch('newMessage', message)
       context.commit('NEW_MESSAGE_RECEIVED', message)
       if (message.is_important) {
         context.dispatch('alertImportantMessage', message)
       }
     }
+    // socket_createMessage: (context, message) => {
+    //   context.dispatch('newMessage', message)
+    // }
   }
 })

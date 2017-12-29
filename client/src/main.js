@@ -11,12 +11,11 @@ import socketio from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
 import VuexStore from '@/store/VuexStore'
 
-export const SocketInstance = socketio('http://localhost:8000')
+export const SocketInstance = socketio('http://localhost:2000')
 
 Vue.use(VueSocketIO, SocketInstance, VuexStore)
 Vue.use(Vuex)
 Vue.prototype.$eventBus = new Vue()
-Vue.prototype.$socket = new Vue()
 // Vue.mixin(mixin)
 
 Vue.config.productionTip = false
