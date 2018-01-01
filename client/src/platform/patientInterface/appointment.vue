@@ -6,12 +6,11 @@
     </template>
   <template slot="side-nav-content">
     <div class="divider"></div>
-    
 <modal>
   <div slot="triggerModal">
    <a href="#" class="transparent black-text"> <i :class="add_icon"></i>
   Book Appontment</a>
-  </div>
+  </div>    
   <template slot="modal-title">Book Appointment</template>
   <template slot="modal-content">
       <div class="row">

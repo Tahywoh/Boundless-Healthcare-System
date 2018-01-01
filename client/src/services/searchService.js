@@ -8,7 +8,7 @@ export default {
     return Api().get('doctors/:id')
   },
   findDoctors (query) {
-    return Api().post('/doctors', query)
+    return Api().post('/search/doctors', query)
   },
   findDrugs (query) {
     return Api().post('/search/pharmacy', {token: Store.state.token, query})

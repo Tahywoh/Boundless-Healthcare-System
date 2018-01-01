@@ -45,7 +45,7 @@
     </div>
     <div id="messages" class="col s12 w3-card">
       <div class="messages transparent show-content">
-        <h5>No conversations yet</h5>
+        <!-- <h5>No conversations yet</h5> -->
         <messages/>
       </div>
     </div>

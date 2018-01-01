@@ -340,10 +340,10 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a 
     padding: 0rem 1.5rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  right: 22rem;
+  right: 26rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    left: 22rem;
+    left: 26rem;
 }
 .show{
   display: block !important;
@@ -351,7 +351,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
 
 .mainContent {
     width: 45%;
-    height: 105vh;
+    height: 85vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;

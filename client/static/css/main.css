@@ -1,3 +1,7 @@
+html, body{
+  font-size: 17px;
+}
+
 .x06{
   font-size: 0.6rem;
 }
@@ -26,4 +30,8 @@ font-size: 1.5rem;
 }
 #field2 > div > div {
   margin: 2rem 0 !important;
+}
+#side-nav > a{
+  padding: 19px 16px;
+  font-weight: 500 !important;
 }

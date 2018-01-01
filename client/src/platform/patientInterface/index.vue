@@ -54,7 +54,7 @@
     </div>
     <div id="messages_conv" class="col s12 w3-card">
       <div class="messages transparent show-content">
-        <h5>No conversations yet</h5>
+        <!-- <h5>No conversations yet</h5> -->
         <messages/>
       </div>
     </div>
@@ -136,16 +136,6 @@ form.search-doctor #autocomplete-input {
     border: 2px groove #fff !important;
     width: 100%;
 }
-form.search-doctor i.icon.ion-search.x15 {
-    left: 17rem;
-    font-weight: 100 !important;
-    font-size: 1.89rem;
-    top: -1.1rem;
-}
-form.search-doctor .input-field.col.s12 {
-    margin-top: 1.2rem;
-    margin-left: 1.3rem;
-}
 
 form.search-doctor ::placeholder {
   color: #fff !important;
@@ -160,16 +150,6 @@ input:focus::-webkit-input-placeholder {
 form.search-doctor #autocomplete-input {
     border: 2px groove #fff !important;
     width: 100%;
-}
-form.search-doctor i.icon.ion-search.x15 {
-    left: 17rem;
-    font-weight: 100 !important;
-    font-size: 1.89rem;
-    top: -1.1rem;
-}
-form.search-doctor .input-field.col.s12 {
-    margin-top: 1.2rem;
-    margin-left: 1.3rem;
 }
 
 #pharmacy,
@@ -198,9 +178,12 @@ input#autocomplete-input {
   padding-top: 0rem;
   height: 100vh !important;
 }
-#messages_conv .show-content,
+
 #medicalLab .show-content {
   height: 100vh;
+}
+#messages_conv .show-content{
+  height: 90.7vh;
 }
 h5{
   text-align: center !important;

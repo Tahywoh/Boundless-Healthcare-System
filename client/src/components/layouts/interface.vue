@@ -105,13 +105,13 @@ form.search-doctor #autocomplete-input {
     width: 100%;
 }
 form.search-doctor i.icon.ion-search.x15 {
-    left: 17rem;
+    left: 17.4rem;
     font-weight: 100 !important;
     font-size: 1.89rem;
-    top: -1.1rem;
+    top: -0.8rem;
 }
 form.search-doctor .input-field.col.s12 {
-    margin-top: 1.2rem;
+    margin-top: 0.9rem;
     margin-left: 1.3rem;
 }
 
