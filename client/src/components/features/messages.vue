@@ -49,10 +49,14 @@ export default {
   sockets: {
     connect () {
       // Fired when the socket connects.
-      // if ((this.$store.state.token && this.$store.state.userType === 'Patient') || (this.$store.state.token && this.$store.state.userType === 'Doctor')) {
-      console.log('New user connected... ')
-      this.isConnected = true
-      // }
+      if ((this.$store.state.token && this.$store.state.userType === 'Patient') || (this.$store.state.token && this.$store.state.userType === 'Doctor')) {
+        console.log('New user connected... ')
+        this.isConnected = true
+        // this.$store.commit('SOCKET_CONNECT')
+        // if (this.$store.state.isConnected) {
+        //   this.isConnected = true
+        // }
+      }
     },
     disconnect () {
       this.isConnected = false
@@ -63,52 +67,68 @@ export default {
       this.socketMessage = data
     },
     newMessage (message) {
-      this.scrollToBottom()
-      if (this.message !== '') {
+      if (this.isConnected) {
+        this.scrollToBottom()
         this.message = message
         this.socketMessages.push(message)
         console.log('newMessage', message)
         this.message = ''
+      } else {
+        alert('Unable to connect to server')
+        location.href = '/'
       }
     },
     newLocationMessage (message) {
-      this.scrollToBottom()
-      this.message = message
-      this.socketMessages.push(message)
-      console.log('locationMessage', message)
-      this.message = ''
+      if (this.isConnected) {
+        this.scrollToBottom()
+        this.message = message
+        this.socketMessages.push(message)
+        console.log('locationMessage', message)
+        this.message = ''
+      } else {
+        alert('Unable to connect to server')
+        location.href = '/'
+      }
     }
   },
   methods: {
     validateForm (e) {},
     sendMessage () {
-      this.$socket.emit('createMessage', {
-        from: 'User',
-        text: this.message
-      }, (data) => {
-        console.log('Got it.', data)
-      })
+      if (this.isConnected) {
+        this.$socket.emit('createMessage', {
+          from: 'User',
+          text: this.message
+        })
+      } else {
+        alert('Unable to connect to server')
+        location.href = '/'
+      }
     },
     sendLocation () {
-      if (!navigator.geolocation) {
-        return alert('Geolocation not supported by your browser')
-      }
-      var sendLocationBtn = document.getElementById('send-location')
-      sendLocationBtn.setAttribute('disabled', 'disabled')
-      sendLocationBtn.innerHTML = 'Sending location ...'
-      navigator.geolocation.getCurrentPosition(position => {
-        sendLocationBtn.removeAttribute('disabled')
-        sendLocationBtn.innerHTML = 'Send location'
-        console.log(position)
-        this.$socket.emit('createLocationMessage', {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
+      if (this.isConnected) {
+        if (!navigator.geolocation) {
+          return alert('Geolocation not supported by your browser')
+        }
+        var sendLocationBtn = document.getElementById('send-location')
+        sendLocationBtn.setAttribute('disabled', 'disabled')
+        sendLocationBtn.innerHTML = 'Sending location ...'
+        navigator.geolocation.getCurrentPosition(position => {
+          sendLocationBtn.removeAttribute('disabled')
+          sendLocationBtn.innerHTML = 'Send location'
+          console.log(position)
+          this.$socket.emit('createLocationMessage', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          })
+        }, () => {
+          sendLocationBtn.removeAttribute('disabled')
+          sendLocationBtn.innerHTML = 'Send location'
+          alert('Unable to fetch location')
         })
-      }, () => {
-        sendLocationBtn.removeAttribute('disabled')
-        sendLocationBtn.innerHTML = 'Send location'
-        alert('Unable to fetch location')
-      })
+      } else {
+        alert('Unable to connect to server')
+        location.href = '/'
+      }
     },
     scrollToBottom () {
       // Selectors

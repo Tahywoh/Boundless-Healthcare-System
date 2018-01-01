@@ -9,7 +9,7 @@ import store from '@/store/store'
 import Vuex from 'vuex'
 import socketio from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
-import VuexStore from '@/store/VuexStore'
+import {VuexStore} from '@/store/VuexStore'
 
 export const SocketInstance = socketio('http://localhost:9000')
 

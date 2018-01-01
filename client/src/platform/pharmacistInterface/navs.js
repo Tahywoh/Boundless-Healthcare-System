@@ -15,7 +15,7 @@ export default {
       url: '/doctor-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: '/doctor-interface/profile', text: 'Profile'
+      url: '/doctor-interface/profile', text: 'Pharmacist Profile'
     }
   }
 }

@@ -64,24 +64,14 @@ io.on('connection', (socket) => {
   socket.emit('newMessage', generateMessage('Admin', 'Welcome! Kindly consult your doctor by sending message to them'))
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'))
-  socket.on('createMessage', (message, response) => {
+  socket.on('createMessage', (message) => {
     console.log('createMessage', message)
     io.emit('newMessage', generateMessage(message.from, message.text))
-    response('This is from the server')
-    // socket.broadcast.emit('newMessage', {
-    //   from: message.from,
-    //   text: message.text,
-    //   createdAt: new Date()
-    // })
   })
 
   socket.on('createLocationMessage', coords => {
     io.emit('newLocationMessage', generateLocationMessage('Admin', `${coords.latitude}`, `${coords.longitude}`))
   })
-
-  // socket.on('messageChannel', (data) => {
-  //   console.log('messageChannel', data)
-  // })
 
   socket.on('disconnect', () => {
     console.log('User was disconnected!')

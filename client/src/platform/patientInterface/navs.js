@@ -22,7 +22,7 @@ export default {
       url: '/Patient-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: '/Patient-interface/profile', text: 'Profile'
+      url: '/Patient-interface/profile', text: 'Patient Profile'
     }
   }
 }
