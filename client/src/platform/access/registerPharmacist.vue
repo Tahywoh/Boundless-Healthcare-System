@@ -351,7 +351,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
 
 .mainContent {
     width: 45%;
-    height: 85vh;
+    height: 95vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;
