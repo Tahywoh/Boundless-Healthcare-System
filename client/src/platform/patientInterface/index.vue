@@ -9,6 +9,7 @@
           <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!" v-model="search" />
           <i class="icon ion-search x15" @click="findDoctors"></i>
         </div>
+        <small class="searchErr red-text">{{searchErr}}</small>
       </form>
     </div>
 
@@ -37,15 +38,32 @@
   <template slot="user-type-img">
      <img src="../../assets/platform/aditya-romansa-117344new.jpg" alt="patient-img" width="105%" height="295px" class="responsive-img">
   </template>
-   <template slot="ul-tabs">
+   <template slot="ul-tabs" id="ul-tabs">
     <ul class="tabs"> 
         <li class="tab col s4"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
         <li class="tab col s4"><a  href="#messages_conv" class="btn waves-effect waves-light">Messages</a></li>
         <li class="tab col s4"><a  href="#medicalLab" class="btn waves-effect waves-light">Medical lab</a></li>
       </ul>
   </template>
-
-  <template slot="platform-content">
+  <div slot="platform-content" id="docSearch">
+    <div class="doctorSearchResult">
+      <div class="fetchDoctors w3-container">
+        <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Doctors</h4>
+        <div class="text-center center-align" v-if="!registeredDoctors">
+          <h5>{{docStatus}}</h5> 
+        </div>
+        <div v-else v-for="doctor in doctors" :key="doctor._id" class="blue-grey white-text eachDoctor">
+          <router-link to="/profile/doctor._id" class="btn waves-effect-waves-light"><span>{{doctor.fullName}}</span></router-link><br/>
+          <router-link to="/consult" class="right btn waves-effect waves-light consultBtn">consult</router-link>
+          <a href="" class="btn waves-effect-waves-light">City: <span>{{doctor.city}}</span></a>
+          <a href="" class="btn waves-effect-waves-light">
+          State: <span>{{doctor.state}}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <template slot="platform-content" id="platform-content">
     <div id="pharmacy" class="col s12 w3-card">
       <h5 class="text-center">Have you been prescribed drugs?<br/>
         Kindly search below and place your order.
@@ -79,6 +97,7 @@ import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/patientInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
 import Sidenav from '@/platform/patientInterface/sidenav'
+import $ from 'jquery'
 export default {
   components: {Interface, messages, Pharmacy, BasicDetails, Sidenav},
   name: 'index',
@@ -89,31 +108,53 @@ export default {
       cart_icon: navs.links.cart.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       search: '',
+      searchErr: '',
       topLinks: {
         doLogOut: 'do-logout',
         goToProfile: navs.links.profile.url,
         toAppointment: navs.links.appointment.url
-      }
+      },
+      registeredDoctors: false,
+      doctors: null,
+      docStatus: 'No registered doctor(s) yet!'
     }
+  },
+  mounted () {
+    $('#docSearch').hide()
   },
   methods: {
     validateForm (e) {},
     async findDoctors () {
       let validSearchInput = {}
-      if (this.search !== '') {
+      if (this.search !== '' && this.search !== null && isNaN(this.search)) {
         validSearchInput.search = this.search.toLowerCase()
       } else {
-        console.log('Please enter a valid inout!')
+        this.searchErr = 'Please enter a valid input!'
+        console.log('Please enter a valid input!')
         return false
       }
       console.log(validSearchInput)
       try {
-        const response = await SearchService.findDoctors({query: validSearchInput.search})
-        let responseData = response.data
-        console.log(responseData)
+        const doctors = (await SearchService.findDoctors({query: validSearchInput.search})).data
+        // let responseData = response.data
+        console.log('doctors: ', doctors)
+        $('#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.col.s12').hide()
+        $('#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content#platform-content').hide()
+        $('#pharmacy, #messages_conv, #medicalLab').hide()
+        $('#docSearch').show()
+        if (doctors.length !== 0) {
+          this.registeredDoctors = true
+          this.doctors = doctors
+          this.search = ''
+        } else if (doctors.length === 0) {
+          this.registeredDoctors = false
+          this.docStatus = 'Doctor not found!'
+        } else {
+          this.registeredDoctors = false
+        }
       } catch (error) {
         if (error) {
-          console.log(JSON.stringify(error.response.data))
+          console.log(JSON.stringify(error.doctors))
         }
       }
     }
@@ -121,7 +162,21 @@ export default {
 }
 </script>
 <style>
+#docSearch > div > div > h4 {
+    padding: 0.5rem 0.3rem;
+    border-radius: 15px;
+}
+div a.consultBtn {
+  background-color: sandybrown !important;
+}
 /* styling search doctor bar */
+.eachDoctor {
+  padding: 0.2rem 0.34rem;
+  margin-top: 0.7rem;
+}
+div.doctorSearchResult a{
+   margin: 0.3rem;
+}
 form.search-doctor ::placeholder {
   color: #fff !important;
   font-size: 1.2rem;

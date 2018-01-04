@@ -216,7 +216,7 @@ div.main.flow-text
 
 .mainContent {
   width: 40%;
-  height: 70vh;
+  height: 85vh;
   margin: 2rem auto;
   border-radius: 13px;
   border-width: 1px;
