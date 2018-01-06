@@ -94,5 +94,5 @@ app.use('/signin', signin)
 app.use('/signup', signup)
 
 server.listen(port, () => {
-  console.log(`server is running on port ${port}`)
+  console.log(`server is running on port`, port)
 })

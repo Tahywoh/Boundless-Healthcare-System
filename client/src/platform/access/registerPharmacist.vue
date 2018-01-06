@@ -112,7 +112,7 @@
 </template>
 
 
-<script>
+<script scoped>
 import Index from '@/platform/index'
 import AuthService from '@/services/authService'
 export default {
@@ -173,7 +173,18 @@ export default {
       proceedBtn.classList.add('show')
       proceedBtn.style.display = 'block'
       submitButton.classList.add('hide')
-      // console.log('am working....')
+    },
+    toCapitalize (capitalizeMe) {
+      let obtained = []
+      let capitalizeVal = capitalizeMe.toLowerCase().split(' ')
+      capitalizeVal.forEach(word => {
+        let newWord = word.split('')
+        newWord[0] = newWord[0].toUpperCase()
+        newWord = newWord.join('')
+        obtained.push(newWord)
+      })
+      capitalizeMe = obtained.join(' ')
+      return capitalizeMe
     },
     isValidEmail (email) {
       if (!email || email === '') {
@@ -195,7 +206,7 @@ export default {
 
       // validating form data
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
-        validateReg.fullName = this.formData.fullName
+        validateReg.fullName = this.toCapitalize(this.formData.fullName)
       } else {
         this.errorMsg = 'Enter a valid full name!'
         return false
@@ -264,20 +275,6 @@ export default {
         console.log(response.data)
         this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = ''
-        // this.formData.fullName = ''
-        // this.formData.email = ''
-        // this.formData.telephone = ''
-        // this.formData.age = ''
-        // this.formData.city = ''
-        // this.formData.state = ''
-        // this.formData.gender = ''
-        // this.formData.hospitalName = ''
-        // this.formData.pharmacy = ''
-        // this.formData.specialty = ''
-        // this.formData.eduRequirement = ''
-        // this.formData.licenseRequirement = ''
-        // this.formData.password = ''
-        // this.formData.confirmPassword = ''
         setTimeout(() => {
           this.$router.push('/login')
         }, 2300)
@@ -291,7 +288,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #field1 > div > div {
     margin: 0.897rem 0 !important;
 }
@@ -335,7 +332,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a 
     /* font-size: 3rem; */
     position: absolute;
     /* right: 22rem; */
-    bottom: 3.5rem;
+    bottom: 9.5rem;
     border-radius: 50%;
     padding: 0rem 1.5rem;
 }
@@ -343,7 +340,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
   right: 26rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    left: 26rem;
+    left: 29%;
 }
 .show{
   display: block !important;
@@ -351,7 +348,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
 
 .mainContent {
     width: 45%;
-    height: 95vh;
+    height: 102vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;

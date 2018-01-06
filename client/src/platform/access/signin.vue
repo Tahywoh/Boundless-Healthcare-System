@@ -45,7 +45,7 @@
              
             </div>
           </div>
-             <small class="red-text errorMsg center-align" v-html="errorMsg"></small>
+             <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
            <button  class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers"
            >Login</button>
           
@@ -83,13 +83,13 @@ export default {
       if (email === '' || !email) {
         return false
       }
-      let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+      let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,36})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
       return regex.test(email)
     },
     async signInUsers () {
       let validateLogin = {}
-      if (this.isValidEmail(this.loginData.user) && this.loginData.user !== '') {
-        validateLogin.user = this.loginData.user
+      if (this.loginData.user !== '' && this.isValidEmail(this.loginData.user)) {
+        validateLogin.user = this.loginData.user.toLowerCase()
       } else if (this.loginData.user === '' || this.loginData.user === null) {
         this.errorMsg = 'You must provide your email address'
         return false
@@ -147,7 +147,7 @@ export default {
 
 <style>
 #index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
-   font-size: 0.69rem !important;
+   font-size: 0.89rem !important;
   margin: 0 !important;
   font-weight: 100 !important;
 }

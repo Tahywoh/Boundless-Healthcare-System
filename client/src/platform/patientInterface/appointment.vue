@@ -66,6 +66,10 @@
   <button class="w3-btn">Button</button> -->
   <div class="eachAppointment blue-grey white-text" v-for="(appointment, index) in appointments" :key="index">
     <p v-html="appointment.body">I am sick</p>
+    <a href="" class="right btn waves-effect waves-light">
+      Attending Doctor:
+  	  <span id="attendingDoctor">{{appointment.attendingDoctor}}</span>
+    </a>
     <a href="" class="btn waves-effect-waves-light">status: <span v-text="appointment.status">Approved</span></a>
     <a href="" class="btn waves-effect-waves-light">
       Time: <span v-text="appointment.time">10:00 - 12: 00</span>
@@ -95,27 +99,32 @@ export default {
         {
           body: 'I am sick',
           status: 'approved',
-          time: '10:00am - 12:00pm'
+          time: '10:00am - 12:00pm',
+          attendingDoctor: 'Dr. Sodiq'
         },
         {
           body: 'I am feeling pain',
           status: 'approved',
-          time: '10:00am - 12:00pm'
+          time: '10:00am - 12:00pm',
+          attendingDoctor: 'Dr. Mrs. Hikma'
         },
         {
           body: 'I am sick',
           status: 'canceled',
-          time: '10:00am - 12:00pm'
+          time: '10:00am - 12:00pm',
+          attendingDoctor: 'Dr. Kehinde'
         },
         {
           body: 'I have a continous headache',
           status: 'approved',
-          time: '10:00am - 12:00pm'
+          time: '10:00am - 12:00pm',
+          attendingDoctor: 'Dr. Adewale'
         },
         {
           body: 'I have a continous headache',
           status: 'held',
-          time: '10:00am - 12:00pm'
+          time: '10:00am - 12:00pm',
+          attendingDoctor: 'Dr. Taiwo'
         }
       ]
     }
@@ -124,6 +133,12 @@ export default {
 </script>
 
 <style scoped>
+/* styling the appointment section */
+#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content > div > div > div > a.right.btn.waves-effect.waves-light {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.5rem;
+    margin-top: -2rem;
+}
 div#newmodal :focus {
     background-color: transparent !important;
 }

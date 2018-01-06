@@ -17,6 +17,18 @@ export default {
     this.$eventBus.$on('send-location', () => this.locateMe())
   },
   methods: {
+    toCapitalize (capitalizeMe) {
+      let obtained = []
+      let capitalizeVal = capitalizeMe.toLowerCase().split(' ')
+      capitalizeVal.forEach(word => {
+        let newWord = word.split('')
+        newWord[0] = newWord[0].toUpperCase()
+        newWord = newWord.join('')
+        obtained.push(newWord)
+      })
+      capitalizeMe = obtained.join(' ')
+      return capitalizeMe
+    },
     back () {
       // history.back()
       window.history.length > 2

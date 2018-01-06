@@ -4,8 +4,6 @@
       <div>
       <p v-if="isConnected">You're connected to the server!</p>
       <p v-else>You're disconnected from the server!</p>
-      <!-- <p>Message from server: "{{socketMessage}}"</p>
-      <button @click="pingServer()">Ping Server</button> -->
       </div>
       <h3>Attending doctor</h3>
       <div id="users"></div>
@@ -96,7 +94,7 @@ export default {
     sendMessage () {
       if (this.isConnected) {
         this.$socket.emit('createMessage', {
-          from: 'User',
+          from: this.$store.state.profile.fullName,
           text: this.message
         })
       } else {
@@ -145,6 +143,18 @@ export default {
       if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
         messages.scrollTop(scrollHeight)
       }
+    },
+    toCapitalize (capitalizeMe) {
+      let obtained = []
+      let capitalizeVal = capitalizeMe.toLowerCase().split(' ')
+      capitalizeVal.forEach(word => {
+        let newWord = word.split('')
+        newWord[0] = newWord[0].toUpperCase()
+        newWord = newWord.join('')
+        obtained.push(newWord)
+      })
+      capitalizeMe = obtained.join(' ')
+      return capitalizeMe
     }
   }
 }

@@ -26,9 +26,13 @@
         <br/>
         <br/>
         <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <p class="register-note x15">
           Are you a licensed doctor, pharmacist or medical lab scientist?<br/>
-        Kindly register as one to supply the  sick with appropriate drugs, consult a reliable medical test and give the patient the best as regards their health conditions</p>
+        Kindly register as one to supply the  sick with appropriate drugs, consult a reliable medical test and give the patient the best as regards their health conditions.</p>
       </slot>
         
       </div>
@@ -91,5 +95,18 @@ form input{
 }
 #field2 i.icon.ion-ios-paper{
   top: -1.5rem; 
+}
+#index > div.main.flow-text > div.content.center-align.white-text {
+    background-color: rgba(33, 150, 243, .25);
+    min-width: 100%;
+    min-height: 127%;
+    width: auto;
+    height: auto;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transition: -webkit-transform 0.6s, opacity 0.6s;
+    transition: transform 0.6s, opacity 0.6s;
+    -webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
 }
 </style>

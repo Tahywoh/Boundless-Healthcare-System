@@ -119,7 +119,7 @@ router.post('/doctor', (req, res) => {
   } else {
     res.status(403).send('Enter a valid hospital Address')
   }
-  if (specialty && specialty.length >= 8) {
+  if (specialty && specialty.length >= 7) {
     doctorData.specialty = specialty
   } else {
     res.status(403).send('Enter a valid specialty')

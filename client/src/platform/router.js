@@ -46,7 +46,7 @@ let routes = [
   },
   {
     path: '*',
-    name: 'Error404',
+    name: 'Error 404',
     component: ErrPage
   }
 ]

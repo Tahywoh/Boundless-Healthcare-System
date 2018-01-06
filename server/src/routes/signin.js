@@ -85,13 +85,15 @@ router.post('/', (req, res) => {
             }
           } else {
             if (err) {
-              console.log(JSON.stringify(err, undefined, 2))
+              console.log(JSON.stringify(err, null, 2))
+              return res.status(403).send('Kindly check your internet connection')
             }
             res.status(401).send('Pharamacist does not exist')
           }
         })
       }
     } else {
+      res.status(403).send('User not found!')
       return res.status(403).send('User not found!')
     }
   }
