@@ -30,7 +30,7 @@ app.set('tokenSecret', config.token_secret)
 mongoose.Promise = global.Promise
 
 // connect to mongoose(install save mongoose to node js module and sign up for mlab acct.)
-mongoose.connect(config.local_db, {
+mongoose.connect(config.local_db || config.online_database, {
   useMongoClient: true
 }).then(() => console.log('connected to Mongo DataBase')).catch(err => console.log(err))
 
@@ -50,9 +50,13 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
-  res.header('Access-Control-Allow-Credentials', true)
-  // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
+  // res.header('Access-Control-Allow-Credentials', true)
+  // // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+  // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  // next()
+
+  res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
