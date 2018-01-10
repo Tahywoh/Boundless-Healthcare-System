@@ -73,7 +73,7 @@ export default {
       location.href = this.onLoggedOut
     },
     goToDashboard () {
-      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface`
+      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
     },
     goToProfile () {
       location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface/profile`

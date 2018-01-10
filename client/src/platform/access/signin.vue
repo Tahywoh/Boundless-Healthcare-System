@@ -37,8 +37,8 @@
                 <input  name="userType" type="radio" id="pharmacist" value="Pharmacist" v-model="loginData.userType" />
                 <br/>
                 </p>
-                <p><label for="labscientist">Medical lab scientist</label>
-                <input  name="userType" type="radio" id="labscientist" value="Medical lab Scientist" v-model="loginData.userType" />
+                <p><label for="labscientist">MedicalLab Scientist</label>
+                <input  name="userType" type="radio" id="labscientist" value="MedicalLab Scientist" v-model="loginData.userType" />
                 
                 </p>
               </div>
@@ -113,15 +113,39 @@ export default {
         const response = await AuthService.signInUsers(validateLogin)
         console.log(JSON.stringify(response.data) + '\nThis is a success')
         let responseData = response.data
-        let {fullName, telephone, city, token, user, userType} = responseData
-        console.log(fullName, telephone, city, user, userType)
-        this.authToken = token
-        this.loginData.userType = userType
-        this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city})
-        // this.loginData.userType = ''
-        // this.loginData.user = ''
-        // this.loginData.password = ''
-        // this.errorMsg = ''
+        if (this.loginData.userType === 'Patient') {
+          let {fullName, telephone, city, token, user, userType, state, address} = responseData
+
+          this.authToken = token
+          this.loginData.userType = userType
+          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
+
+          console.log(fullName, telephone, city, state, address)
+        } else if (this.loginData.userType === 'Doctor') {
+          let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = responseData
+
+          this.authToken = token
+          this.loginData.userType = userType
+          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement})
+
+          console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
+        } else if (this.loginData.userType === 'Pharmacist') {
+          let {fullName, telephone, city, token, user, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
+
+          this.authToken = token
+          this.loginData.userType = userType
+          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
+
+          console.log(fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
+        } else if (this.loginData.userType === 'MedicalLab Scientist') {
+          let {fullName, telephone, city, token, user, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
+
+          this.authToken = token
+          this.loginData.userType = userType
+          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
+
+          console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
+        }
         if (this.$store.state.lastPageVisited > 0) {
           console.log('lastPageVisited', this.$store.state.lastPageVisited)
           this.$router.push(this.$store.state.lastPageVisited)
@@ -129,7 +153,7 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface`
+          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }
       } catch (error) {

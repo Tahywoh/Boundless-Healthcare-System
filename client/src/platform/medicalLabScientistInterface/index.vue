@@ -13,9 +13,7 @@
       </template>
 
       <template slot="basic-details">
-        <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="name"> Adeshina Taiwo A.</h6></a>
-        <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6>  <br>
-        <h6 class="email">a.taiwoquadri@gmail.com</h6> </a>
+        <basicDetails/>
       </template>
 
       <template slot="side-nav-content">
@@ -65,10 +63,10 @@
 import Interface from '@/components/layouts/interface'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/medicalLabScientistInterface/navs'
-
+import BasicDetails from '@/components/widgets/basicDetails'
 export default {
   name: 'index',
-  components: {Interface, Pharmacy},
+  components: {Interface, Pharmacy, BasicDetails},
   data () {
     return {
       appointment_icon: navs.links.appointment.icon + ' x2 left',

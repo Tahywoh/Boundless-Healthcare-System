@@ -5,10 +5,10 @@
           <div class="row">
             <div id="basicDetails" class="left col s7">
               <p class="field left">
-                Full Name: <span>Adeshina Taiwo</span>
+                Full Name: <br/><span>{{profile.fullName}}</span>
               </p>
               <p class="field left">
-                Email Address: <span>a.taiwoquadri@gmail.com</span>
+                Email Address: <br/><span>{{profile.email}}</span>
               </p>
             </div>
             <div class="profilePic right col s5">
@@ -18,46 +18,46 @@
           <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="number" class="validate autofocus"  value="08102590790" readonly>
+                 <input id="telephone" type="number" class="validate autofocus"  v-model="profile.telephone" readonly>
                 <label for="telephone">Telephone:</label>
               </div>
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
-              <input id="city" type="text" class="validate"  value="Osogbo" readonly>
+              <input id="city" type="text" class="validate"  v-model="profile.city" readonly>
               <label for="city">City:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
-              <input id="state" type="text" class="validate"  value="Osun" readonly>
+              <input id="state" type="text" class="validate"  v-model="profile.state" readonly>
               <label for="state">State:</label>
             </div>
             <div class=" input-field col s6"><br/>
-              <input id="specialty" type="text" class="validate"  value="Medical Physiology" readonly>
+              <input id="specialty" type="text" class="validate"  v-model="profile.specialty" readonly>
               <label for="specialty">Specialty:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6"><br/>
-              <input id="hospitalName" type="text" class="validate"  value="Crescent Hospital" readonly>
+              <input id="hospitalName" type="text" class="validate"  v-model="profile.hospitalName" readonly>
               <label for="hospitalName">Hospital Name:</label>
             </div>
             <div class=" input-field col s6">
               <i class="icon ion-location"></i>
-              <textarea type="text" class="validate materialize-textarea" readonly>NNPC station, Mark ,tanke Ilorin</textarea>
+              <textarea type="text" class="validate materialize-textarea" readonly v-model="profile.hospitalAddress"></textarea>
               <label for="address_profile">Hospital Address:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6"><br/>
               <i class="icon ion-ios-paper"></i>
-              <input type="text" class="validate"  value="B. sc, Physiology, University of Ilorin Nigeria" readonly>
+              <input type="text" class="validate"  v-model="profile.eduRequirement" readonly>
               <label for="hospitalName">Education Requirements:</label>
             </div>
             <div class="input-field col s6"><br/>
               <i class="icon ion-ios-paper"></i>
-              <input type="text" class="validate"  value="International Medical License" readonly>
+              <input type="text" class="validate"  v-model="profile.licenseRequirement" readonly>
               <label for="hospitalName">License Requirements:</label>
             </div>
           </div>
@@ -68,11 +68,30 @@
 <script>
 import Fixednav from '@/components/layouts/fixednav'
 export default {
-  components: {Fixednav}
+  components: {Fixednav},
+  data () {
+    return {
+      profile: {
+        fullName: `${this.$store.state.profile.fullName}`,
+        email: `${this.$store.state.profile.user}`,
+        telephone: `${this.$store.state.profile.telephone}`,
+        city: `${this.$store.state.profile.city}`,
+        state: `${this.$store.state.profile.state}`,
+        specialty: `${this.$store.state.profile.specialty}`,
+        hospitalName: `${this.$store.state.profile.hospitalName}`,
+        hospitalAddress: `${this.$store.state.profile.hospitalAddress}`,
+        eduRequirement: `${this.$store.state.profile.eduRequirement}`,
+        licenseRequirement: `${this.$store.state.profile.licenseRequirement}`
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
+#basicDetails > p{
+  text-align: left !important;
+}
 i.icon.ion-ios-paper{
   margin-left: 5rem;
 }

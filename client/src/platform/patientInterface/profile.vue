@@ -5,10 +5,10 @@
           <div class="row">
             <div id="basicDetails" class="left col s7">
               <p class="field left">
-                Full Name: <span>Adeshina Taiwo</span>
+                Full Name: <br/><span>{{profile.fullName}}</span>
               </p>
               <p class="field left">
-                Email Address: <span>a.taiwoquadri@gmail.com</span>
+                Email Address: <br/><span>{{profile.email}}</span>
               </p>
             </div>
             <div class="profilePic right col s5">
@@ -18,24 +18,24 @@
           <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="number" class="validate autofocus"  value="08102590790" readonly>
+                <input id="telephone" type="number" class="validate autofocus"  v-model="profile.telephone" readonly>
                 <label for="telephone">Telephone:</label>
               </div>
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
-              <input id="city" type="text" class="validate"  value="Osogbo" readonly>
+              <input id="city" type="text" class="validate"  v-model="profile.city" readonly>
               <label for="city">City:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
-              <input id="state" type="text" class="validate"  value="Osun" readonly>
+              <input id="state" type="text" class="validate"  v-model="profile.state" readonly>
               <label for="state">State:</label>
             </div>
             <div class=" input-field col s6">
               <i class="icon ion-location"></i>
-              <textarea id="address_profile" type="text" class="validate materialize-textarea" readonly>No 2, Balogun oke odo, tanke Ilorin, Ilorin</textarea>
+              <textarea id="address_profile" type="text" class="validate materialize-textarea" readonly v-model="profile.address"></textarea>
               <label for="address_profile">Address:</label>
             </div>
           </div>
@@ -49,11 +49,26 @@
 // import Interface from '@/components/layouts/interface'
 import Fixednav from '@/components/layouts/fixednav'
 export default {
-  components: {Fixednav}
+  components: {Fixednav},
+  data () {
+    return {
+      profile: {
+        fullName: `${this.$store.state.profile.fullName}`,
+        email: `${this.$store.state.profile.user}`,
+        telephone: `${this.$store.state.profile.telephone}`,
+        city: `${this.$store.state.profile.city}`,
+        state: `${this.$store.state.profile.state}`,
+        address: `${this.$store.state.profile.address}`
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
+#basicDetails > p{
+  text-align: left !important;
+}
 #app > div > div.main-interface > div:nth-child(3) {
     margin-left: 25%;
     display: none;

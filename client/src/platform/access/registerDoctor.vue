@@ -301,6 +301,9 @@ export default {
 </script>
 
 <style>
+input {
+  color: #000 !important;
+}
 .show {
   display: block;
 }
@@ -384,9 +387,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
 div.main.flow-text > div.content.center-align.white-text > div > div > form{
   padding: 0 1rem;
 }
-input{
-  color: #fff !important;
-}
+
 #field1 > div > div > i, #field2 > div > div > i {
     color: #2196f3;
 }

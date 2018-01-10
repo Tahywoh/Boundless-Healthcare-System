@@ -10,20 +10,22 @@ var jwt = require('jsonwebtoken')
 require('../models/Patient')
 require('../models/Doctor')
 require('../models/Pharmacist')
+require('../models/MedlabScientist')
 
 const Patient = mongoose.model('patient')
 const Doctor = mongoose.model('doctor')
 const Pharmacist = mongoose.model('pharmacist')
-// load patient model
+const MedlabScientist = mongoose.model('medlabscientist')
+
 router.post('/', (req, res) => {
   let {user, password, userType} = req.body
   console.log(req.body)
 
   if (validator.isEmail(user)) {
     if (userType === 'Patient') {
-      Patient.findOne({email: user}, 'user password fullName telephone city', (err, patientData) => {
+      Patient.findOne({email: user}, 'user password fullName telephone city state address', (err, patientData) => {
         if (!err && patientData !== null) {
-          let {fullName, telephone, city} = patientData
+          let {fullName, telephone, city, state, address} = patientData
           let isValidPassword = bcrypt.compareSync(password, patientData.password)
           if (isValidPassword) {
             const payload = {
@@ -32,7 +34,7 @@ router.post('/', (req, res) => {
             }
 
             let token = jwt.sign(payload, config.token_secret)
-            res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType}))
+            res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType, state, address}))
           } else {
             res.status(401).send('Incorrect password!')
           }
@@ -45,9 +47,9 @@ router.post('/', (req, res) => {
       })
     } else if (userType === 'Doctor') {
       if (validator.isEmail(user)) {
-        Doctor.findOne({email: user}, 'user password fullName telephone state specialty city', (err, doctorData) => {
+        Doctor.findOne({email: user}, 'user password fullName telephone state specialty city hospitalName hospitalAddress eduRequirement licenseRequirement', (err, doctorData) => {
           if (!err && doctorData !== null) {
-            let {fullName, state, telephone, specialty, city} = doctorData
+            let {fullName, state, telephone, specialty, city, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = doctorData
             let isValidPassword = bcrypt.compareSync(password, doctorData.password)
             if (isValidPassword) {
               const payload = {
@@ -55,7 +57,7 @@ router.post('/', (req, res) => {
                 Doctor_id: doctorData._id
               }
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType}))
+              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement}))
             } else {
               res.status(401).send('Incorrect password!')
             }
@@ -69,9 +71,9 @@ router.post('/', (req, res) => {
       }
     } else if (userType === 'Pharmacist') {
       if (validator.isEmail(user)) {
-        Pharmacist.findOne({email: user}, 'user password fullName telephone state city', (err, pharmacistData) => {
+        Pharmacist.findOne({email: user}, 'user password fullName telephone state city pharmacyName pharmacyAddress eduRequirement licenseRequirement', (err, pharmacistData) => {
           if (!err && pharmacistData !== null) {
-            let {fullName, state, telephone, city} = pharmacistData
+            let {fullName, state, telephone, city, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = pharmacistData
             let isValidPassword = bcrypt.compareSync(password, pharmacistData.password)
             if (isValidPassword) {
               const payload = {
@@ -79,7 +81,7 @@ router.post('/', (req, res) => {
                 Pharmacist_id: pharmacistData._id
               }
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType}))
+              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement}))
             } else {
               res.status(401).send('Incorrect password')
             }
@@ -89,6 +91,31 @@ router.post('/', (req, res) => {
               return res.status(403).send('Kindly check your internet connection')
             }
             res.status(401).send('Pharamacist does not exist')
+          }
+        })
+      }
+    } else if (userType === 'MedicalLab Scientist') {
+      if (validator.isEmail(user)) {
+        MedlabScientist.findOne({email: user}, 'user password fullName telephone state city laboratoryName laboratoryAddress eduRequirement licenseRequirement', (err, medlabscientistData) => {
+          if (!err && medlabscientistData !== null) {
+            let {fullName, state, telephone, city, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = medlabscientistData
+            let isValidPassword = bcrypt.compareSync(password, medlabscientistData.password)
+            if (isValidPassword) {
+              const payload = {
+                user: medlabscientistData.user,
+                MedlabScientist_id: medlabscientistData._id
+              }
+              let token = jwt.sign(payload, config.token_secret)
+              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement}))
+            } else {
+              res.status(401).send('Incorrect password')
+            }
+          } else {
+            if (err) {
+              console.log(JSON.stringify(err, null, 2))
+              return res.status(403).send('Kindly check your internet connection')
+            }
+            res.status(401).send('Medical laboratory scientist does not exist')
           }
         })
       }

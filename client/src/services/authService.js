@@ -10,6 +10,9 @@ export default {
   registerPharmacist (credentials) {
     return Api().post('/signup/pharmacist', credentials)
   },
+  registerMedlabScientist (credentials) {
+    return Api().post('/signup/medlabscientist', credentials)
+  },
   signInUsers (credentials) {
     return Api().post('/signin', credentials)
   }

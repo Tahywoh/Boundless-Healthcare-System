@@ -259,6 +259,9 @@ export default {
 </script>
 
 <style>
+input {
+  color: #000 !important;
+}
 #field2 > small.errorMsg, #field2 > small.successMsg{
   font-size: 0.89rem !important;
   margin: 0 !important; 

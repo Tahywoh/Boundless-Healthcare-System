@@ -16,7 +16,18 @@ export default new Vuex.Store({
       user: null,
       fullName: '',
       telephone: '',
-      city: ''
+      city: '',
+      state: '',
+      address: '',
+      specialty: '',
+      hospitalName: '',
+      hospitalAddress: '',
+      pharmacyName: '',
+      pharmacyAddress: '',
+      laboratoryName: '',
+      laboratoryAddress: '',
+      eduRequirement: '',
+      licenseRequirement: ''
     }
   },
   mutations: {
@@ -33,6 +44,17 @@ export default new Vuex.Store({
       state.profile.fullName = user.fullName
       state.profile.telephone = user.telephone
       state.profile.city = user.city
+      state.profile.state = user.state
+      state.profile.address = user.address
+      state.profile.specialty = user.specialty
+      state.profile.hospitalName = user.hospitalName
+      state.profile.hospitalAddress = user.hospitalAddress
+      state.profile.pharmacyName = user.pharmacyName
+      state.profile.pharmacyAddress = user.pharmacyAddress
+      state.profile.laboratoryName = user.laboratoryName
+      state.profile.laboratoryAddress = user.laboratoryAddress
+      state.profile.eduRequirement = user.eduRequirement
+      state.profile.licenseRequirement = user.licenseRequirement
     },
     CLEAR_USER (state) {
       state.token = ''

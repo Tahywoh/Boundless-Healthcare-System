@@ -9,10 +9,6 @@ const MedlabSchema = new Schema({
     required: true,
     trim: true
   },
-  address: {
-    type: String,
-    required: true
-  },
   age: {
     type: Number,
     required: true
@@ -23,8 +19,8 @@ const MedlabSchema = new Schema({
     trim: true,
     unique: true
   },
-  phoneNo: {
-    type: Number,
+  telephone: {
+    type: String,
     required: true
   },
   password: {
@@ -32,8 +28,7 @@ const MedlabSchema = new Schema({
     required: true
   },
   profilePhoto: {
-    type: String,
-    required: true
+    type: String
   },
   gender: {
     type: String,
@@ -41,17 +36,19 @@ const MedlabSchema = new Schema({
   },
   city: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   state: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
-  labName: {
+  laboratoryName: {
     type: String,
     required: true
   },
-  labAddress: {
+  laboratoryAddress: {
     type: String,
     required: true
   },

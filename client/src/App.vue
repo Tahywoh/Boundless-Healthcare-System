@@ -16,6 +16,9 @@
 </script>
 
 <style>
+input {
+  color: #000 !important;
+}
 a.btn {
   background-color: #2196f3 !important;
 }

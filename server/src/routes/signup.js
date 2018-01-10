@@ -7,11 +7,13 @@ const validator = require('validator')
 require('../models/Patient')
 require('../models/Doctor')
 require('../models/Pharmacist')
+require('../models/MedlabScientist')
 
 // const authPolicy = require('../helpers/authPolicy')
 const Patient = mongoose.model('patient')
 const Doctor = mongoose.model('doctor')
 const Pharmacist = mongoose.model('pharmacist')
+const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/patient', (req, res) => {
   console.log(JSON.stringify(req.body, null, 2))
@@ -201,6 +203,66 @@ router.post('/pharmacist', (req, res) => {
   }
   let newPharmacist = new Pharmacist(pharmacistData)
   newPharmacist.save(err => {
+    if (!err) {
+      console.log('Registration successful')
+      return res.status(201).json('Medical lab scientist has successfully been registered!')
+    } else {
+      if (err.code === 11000) {
+        console.log('user already exist')
+        return res.status(409).send('user already exist!')
+      } else {
+        console.log(JSON.stringify(err, null, 2))
+        return res.status(500).send('There were errors registering you.<br/>We\'re working towards fixing this!')
+      }
+    }
+  })
+})
+
+router.post('/medlabscientist', (req, res) => {
+  console.log(JSON.stringify(req.body, null, 2))
+  let {fullName, email, telephone, age, city, state, gender, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, password} = req.body
+
+  let medlabscientistData = {}
+  medlabscientistData.age = age
+  if (fullName && fullName.length > 6) {
+    medlabscientistData.fullName = fullName
+  }
+  if (email !== '' && validator.isEmail(email)) {
+    medlabscientistData.email = email
+  }
+  if (telephone && telephone.length >= 9) {
+    medlabscientistData.telephone = telephone
+  }
+  if (city && city.length >= 3) {
+    medlabscientistData.city = city
+  }
+  if (state && state.length >= 3) {
+    medlabscientistData.state = state
+  }
+  if (gender === 'Male' || gender === 'Female') {
+    medlabscientistData.gender = gender
+  } else {
+    res.status(403).send('You must choose your gender')
+  }
+  if (laboratoryName && laboratoryName.length >= 7) {
+    medlabscientistData.laboratoryName = laboratoryName
+  }
+  if (laboratoryAddress && laboratoryAddress.length >= 10) {
+    medlabscientistData.laboratoryAddress = laboratoryAddress
+  }
+  if (eduRequirement && eduRequirement.length >= 10) {
+    medlabscientistData.eduRequirement = eduRequirement
+  }
+  if (licenseRequirement && licenseRequirement.length >= 7) {
+    medlabscientistData.licenseRequirement = licenseRequirement
+  }
+  if (password && password.length >= 5) {
+    medlabscientistData.password = bcrypt.hashSync(password, 10)
+  } else {
+    return res.status(422).send('invalid or no password supplied!')
+  }
+  let newMedlabScientist = new MedlabScientist(medlabscientistData)
+  newMedlabScientist.save(err => {
     if (!err) {
       console.log('Registration successful')
       return res.status(201).json('Pharmacist has successfully been registered!')
