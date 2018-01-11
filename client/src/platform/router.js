@@ -6,6 +6,7 @@ import RegisterPharmacist from '@/platform/access/registerPharmacist'
 import RegisterMedlabScientist from '@/platform/access/registerMedlabScientist'
 import Signin from '@/platform/access/signin'
 import Photo from '@/components/utils/photo'
+import Newphoto from '@/components/utils/newphoto'
 import activeModules from '@/platform/activeModules'
 
 let routes = [
@@ -43,6 +44,11 @@ let routes = [
     path: '/photo',
     name: 'photo',
     component: Photo
+  },
+  {
+    path: '/newphoto',
+    name: 'test photo upload',
+    component: Newphoto
   },
   {
     path: '*',

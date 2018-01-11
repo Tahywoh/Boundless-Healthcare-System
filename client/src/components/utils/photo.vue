@@ -68,6 +68,7 @@
 </style>
 
 <script>
+// import Axios from 'axios'
 export default {
   props: ['value', 'disabled'],
   methods: {
@@ -83,6 +84,7 @@ export default {
       reader.onload = (event) => {
         this.preview = event.target.result
         this.$emit('input', files[0])
+        console.log(this.$emit('input', files[0]))
       }
       reader.readAsDataURL(files[0])
     }
@@ -99,7 +101,6 @@ export default {
       if (!image) {
         return null
       }
-      console.log(`url('${image}')`)
       return `url('${image}')`
     }
   }

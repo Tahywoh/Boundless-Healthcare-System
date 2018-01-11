@@ -2,6 +2,6 @@ import axios from 'axios'
 
 export default() => {
   return axios.create({
-    baseURL: `http://localhost:9000`
+    baseURL: `https://server-itzvxdegfo.now.sh`
   })
 }

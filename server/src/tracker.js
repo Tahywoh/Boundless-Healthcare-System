@@ -13,11 +13,13 @@ const mongoose = require('mongoose')
 const search = require('./routes/search')
 const signin = require('./routes/signin')
 const signup = require('./routes/signup')
+const handlePhotos = require('./utils/handlePhotos')
 
 var server = http.createServer(app)
 
 var io = socketIO(server)
 const config = require('./helpers/config')
+const database = require('./helpers/database')
 
 const port = process.env.PORT || 9000
 const {generateMessage, generateLocationMessage} = require('./utils/message')
@@ -30,7 +32,7 @@ app.set('tokenSecret', config.token_secret)
 mongoose.Promise = global.Promise
 
 // connect to mongoose(install save mongoose to node js module and sign up for mlab acct.)
-mongoose.connect(config.local_db || config.online_database, {
+mongoose.connect(database.mongoURI, {
   useMongoClient: true
 }).then(() => console.log('connected to Mongo DataBase')).catch(err => console.log(err))
 
@@ -88,14 +90,10 @@ io.on('connection', (socket) => {
 //   next()
 // })
 
-const doctors = require('./routes/doctors')
-
-app.get('/doctors', doctors.getDoctors)
-// app.get('/doctors/:id', doctors.getDoctor)
-
 app.use('/search', search)
 app.use('/signin', signin)
 app.use('/signup', signup)
+app.use('/handlePhotos', handlePhotos)
 
 server.listen(port, () => {
   console.log(`server is running on port`, port)

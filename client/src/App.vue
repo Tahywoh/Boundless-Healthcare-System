@@ -16,6 +16,10 @@
 </script>
 
 <style>
+textarea{
+  width: 100%;
+  height: auto !important;
+}
 input {
   color: #000 !important;
 }
