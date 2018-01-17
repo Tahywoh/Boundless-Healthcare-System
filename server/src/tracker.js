@@ -21,7 +21,7 @@ var io = socketIO(server)
 const config = require('./helpers/config')
 const database = require('./helpers/database')
 
-const port = process.env.PORT || 9000
+const port = process.env.PORT || 7070
 const {generateMessage, generateLocationMessage} = require('./utils/message')
 
 app.set('port', port)
@@ -32,7 +32,7 @@ app.set('tokenSecret', config.token_secret)
 mongoose.Promise = global.Promise
 
 // connect to mongoose(install save mongoose to node js module and sign up for mlab acct.)
-mongoose.connect(database.mongoURI, {
+mongoose.connect((database.online_mongoURI || database.db_mongoURI), {
   useMongoClient: true
 }).then(() => console.log('connected to Mongo DataBase')).catch(err => console.log(err))
 

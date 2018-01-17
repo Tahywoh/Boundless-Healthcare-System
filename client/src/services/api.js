@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default() => {
   return axios.create({
-    baseURL: `https://server-owvqnfrqly.now.sh`
-    // baseURL: `http://localhost:9000`
+    baseURL: `https://server-xvjuwdaxhc.now.sh`
+    // baseURL: `http://localhost:7070`
   })
 }
