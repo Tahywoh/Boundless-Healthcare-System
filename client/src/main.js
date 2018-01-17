@@ -11,8 +11,9 @@ import socketio from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
 import VuexStore from '@/store/VuexStore'
 
-export const SocketInstance = socketio('http://localhost:9000')
+export const SocketInstance = socketio('https://server-owvqnfrqly.now.sh')
 
+// export const SocketInstance = socketio('http://localhost:9000')
 Vue.use(VueSocketIO, SocketInstance, VuexStore)
 Vue.use(Vuex)
 Vue.prototype.$eventBus = new Vue()

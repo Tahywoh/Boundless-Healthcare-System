@@ -318,7 +318,7 @@ form input {
 #field2 > div > div {
     margin: 1rem 0 !important;
 }
-#field1 > div > div[data-v-22c5f2f7] {
+#field1 > div > div{
     margin: 0.397rem 0 !important;
 }
 i.icon.ion-eye-disabled {
@@ -356,9 +356,7 @@ i.icon.ion-android-arrow-back{
   left: 0.5rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
-    /* font-size: 3rem; */
     position: absolute;
-    /* right: 22rem; */
     bottom: 12.5rem;
     border-radius: 50%;
     padding: 0rem 1.5rem;

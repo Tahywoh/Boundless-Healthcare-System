@@ -53,8 +53,8 @@
           <h5>{{docStatus}}</h5> 
         </div>
         <div v-else v-for="doctor in doctors" :key="doctor._id" class="blue-grey white-text eachDoctor">
-          <router-link to="/profile/doctor._id" class="btn waves-effect-waves-light"><span>{{doctor.fullName}}</span></router-link><br/>
-          <router-link to="/consult" class="right btn waves-effect waves-light consultBtn">consult</router-link>
+          <a class="btn waves-effect-waves-light"><span>{{doctor.fullName}}</span></a><br/>
+          <a class="right btn waves-effect waves-light consultBtn" @click="createChannel">consult {{doctor._id}}</a>
           <a href="" class="btn waves-effect-waves-light">City: <span>{{doctor.city}}</span></a>
           <a href="" class="btn waves-effect-waves-light">
           State: <span>{{doctor.state}}</span>
@@ -116,9 +116,11 @@ export default {
       },
       registeredDoctors: false,
       doctors: null,
+      // docId: `/doctor_id`,
       docStatus: 'No registered doctor(s) yet!'
     }
   },
+  sockets: {},
   mounted () {
     $('#docSearch').hide()
   },
@@ -157,6 +159,11 @@ export default {
           console.log(JSON.stringify(error.doctors))
         }
       }
+    },
+    createChannel (e) {
+      var newChannel = `${this.$store.state.profile.fullName.split(' ')[0]}`
+      console.log(newChannel + 'And' + `this.doctors.fullName.split(' ')[0]`)
+      console.log(e.path[16])
     }
   }
 }

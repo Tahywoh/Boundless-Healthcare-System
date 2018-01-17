@@ -19,7 +19,7 @@ const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/', (req, res) => {
   let {user, password, userType} = req.body
-  console.log(req.body)
+  // console.log(req.body)
 
   if (validator.isEmail(user)) {
     if (userType === 'Patient') {
@@ -37,12 +37,17 @@ router.post('/', (req, res) => {
             res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType, state, address}))
           } else {
             res.status(401).send('Incorrect password!')
+            return false
           }
         } else {
           if (err) {
             console.log(JSON.stringify(err, null, 2))
+          } else {
+            res.status(401).send('Patient does not exist!')
+            return false
           }
-          return res.status(401).send('Patient does not exist!')
+          res.status(401).send('Unable to connect to internet')
+          return false
         }
       })
     } else if (userType === 'Doctor') {
@@ -60,12 +65,17 @@ router.post('/', (req, res) => {
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement}))
             } else {
               res.status(401).send('Incorrect password!')
+              return false
             }
           } else {
             if (err) {
               console.log(JSON.stringify(err, null, 2))
+            } else {
+              res.status(401).send('Doctor does not exist!')
+              return false
             }
-            res.status(401).send('Doctor does not exist!')
+            res.status(401).send('Unable to connect to internet')
+            return false
           }
         })
       }
@@ -84,13 +94,17 @@ router.post('/', (req, res) => {
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement}))
             } else {
               res.status(401).send('Incorrect password')
+              return false
             }
           } else {
             if (err) {
               console.log(JSON.stringify(err, null, 2))
-              return res.status(403).send('Kindly check your internet connection')
+            } else {
+              res.status(401).send('Pharmacist does not exist!')
+              return false
             }
-            res.status(401).send('Pharamacist does not exist')
+            res.status(401).send('Unable to connect to internet')
+            return false
           }
         })
       }
@@ -109,19 +123,23 @@ router.post('/', (req, res) => {
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement}))
             } else {
               res.status(401).send('Incorrect password')
+              return false
             }
           } else {
             if (err) {
               console.log(JSON.stringify(err, null, 2))
-              return res.status(403).send('Kindly check your internet connection')
+            } else {
+              res.status(401).send('Medical lab scientist does not exist!')
+              return false
             }
-            res.status(401).send('Medical laboratory scientist does not exist')
+            res.status(401).send('Unable to connect to internet')
+            return false
           }
         })
       }
     } else {
-      res.status(403).send('User not found!')
-      return res.status(403).send('User not found!')
+      res.status(401).send('No internet access')
+      // return res.status(404).send('No internet access')
     }
   }
 })

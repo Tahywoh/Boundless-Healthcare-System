@@ -34,4 +34,7 @@ a.btn {
   margin: 0 !important; 
   font-weight: 100 !important;
 }
+#nav-mobile > div > li > a {
+    font-size: 0.7rem !important;
+}
 </style>

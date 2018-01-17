@@ -1,6 +1,16 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "./",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "node_modules/",
+      "/src/assets/useless.trash",
+      "../server/node_modules",
+      "**/node_modules",
+      "*.trash"
+    ],
     "rewrites": [
       {
         "source": "**",

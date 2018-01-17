@@ -1,4 +1,4 @@
-
+// console.log('database is running')
 const http = require('http')
 const express = require('express')
 const app = express()
@@ -62,11 +62,12 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
-
+app.get('/', (req, res) => {})
 // consultation socket IO connection
-
+var messageUsers = 0
 io.on('connection', (socket) => {
-  console.log('New user connected...')
+  messageUsers++
+  console.log(`New user connected, Total: ${messageUsers}`)
   socket.emit('newMessage', generateMessage('Admin', 'Welcome! Kindly consult your doctor by sending message to them'))
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'))

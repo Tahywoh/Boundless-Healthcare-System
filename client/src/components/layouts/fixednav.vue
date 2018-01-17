@@ -38,7 +38,6 @@ export default {
 </script>
 <style scoped>
  div > div.header-view > nav {
-  position: fixed !important;
   z-index: 300;
 }
 nav ul a:focus,

@@ -87,7 +87,7 @@ body {
   background-color: #f1f1f1 !important;
 }
  div > div.header-view > nav {
-  position: fixed !important;
+  /* position: fixed !important; */
   z-index: 300;
 }
 form.search-doctor ::placeholder {
@@ -150,10 +150,10 @@ nav ul a:focus,
 nav ul a:active {
   border-bottom: 2px solid #fff;
 }
-nav ul a {
+/* nav ul a {
   font-size: 0.7rem !important;
   padding: 0 1rem !important;
-}
+} */
 div.fixed-side-nav {
   padding: 0.2rem 0.5rem;
   overflow: hidden;

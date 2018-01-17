@@ -175,7 +175,7 @@ h5{
 }
 
 .basic-details {
-    margin-top: 1.5rem !important;
+  margin-top: 1.5rem !important;
 }
 
 </style>
