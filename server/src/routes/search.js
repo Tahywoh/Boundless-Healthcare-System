@@ -3,7 +3,11 @@ const mongoose = require('mongoose')
 const router = require('express').Router()
 
 require('../models/Doctor')
+const getData = require('../utils/getData')
 const Doctor = mongoose.model('doctor')
+let escapeRegex = (text) => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+}
 
 router.post('/doctors', (req, res) => {
   // console.log(JSON.stringify(req.body.query, null, 2))
@@ -28,7 +32,6 @@ router.post('/doctors', (req, res) => {
         console.log(JSON.stringify(err))
       }
     })
-
     // Doctor.find({$text: { $search: 'taiwo' }})
     //   .then((doc, err) => {
     //     if (doc !== null && !err) {
@@ -39,7 +42,6 @@ router.post('/doctors', (req, res) => {
   }
 })
 
-let escapeRegex = (text) => {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
-}
+router.post('/userDrugs', getData.getCurrentUserDrugs)
+
 module.exports = router

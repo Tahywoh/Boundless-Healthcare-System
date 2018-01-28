@@ -8,17 +8,14 @@
   <div class="main  flow-text">
     <heading/>
     <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.jpg" alt="Error displaying image"/>
-    <div class="content center-align white-text">
-      
-      
+    <div class="content center-align white-text"> 
       <div class="animated bounceInRight"><slot name="indexMainContent" class="animated bounceInRight">
-        
       <p>Diagnose your health condition and take necessary measure!</p>
       <p>We offer the best health care system</p>
       <p class="footnote">
-          Do you feel pain in any part of your body?<br/>
-          Kindly register  at the top right corner of the app to consult doctor
-        </p>
+        Do you feel pain in any part of your body?<br/>
+        Kindly register  at the top right corner of the app to consult doctor
+      </p>
         <br/>
         <br/>
         <br/>

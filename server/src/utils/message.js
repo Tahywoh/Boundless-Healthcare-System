@@ -15,4 +15,5 @@ var generateLocationMessage = (from, latitude, longitude) => {
     createdAt: formatedTime
   }
 }
+console.log(formatedTime)
 module.exports = {generateMessage, generateLocationMessage}

@@ -140,7 +140,7 @@ export default {
     margin-top: -2rem;
 }
 div#newmodal :focus {
-    background-color: transparent !important;
+    background-color: transparent;
 }
 #id01 > div > div > p > div > form > div:nth-child(4) > h5 > a {
     line-height: 21px;

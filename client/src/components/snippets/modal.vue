@@ -16,12 +16,12 @@
     </header>
     <div class="w3-container">
       
-      <p>
+      <div>
         <slot name="modal-content">
          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur quidem, eius tenetur sint repellendus iusto voluptatibus ab totam cupiditate beatae? Eius, quas hic aliquam possimus iste ex itaque quibusdam facere.
       </slot>
        
-      </p>
+      </div>
     </div>
     <!-- <footer class="w3-container w3-teal">
       <p>Modal Footer</p>

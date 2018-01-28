@@ -114,7 +114,7 @@
 
 <script scoped>
 import Index from '@/platform/index'
-import AuthService from '@/services/authService'
+import AuthServices from '@/services/authServices'
 export default {
   name: 'registerPharmacist',
   components: { Index },
@@ -271,7 +271,7 @@ export default {
         return false
       }
       try {
-        const response = await AuthService.registerPharmacist(validateReg)
+        const response = await AuthServices.registerPharmacist(validateReg)
         console.log(response.data)
         this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = ''

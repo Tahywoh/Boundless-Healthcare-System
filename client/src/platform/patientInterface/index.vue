@@ -52,10 +52,10 @@
         <div class="text-center center-align" v-if="!registeredDoctors">
           <h5>{{docStatus}}</h5> 
         </div>
-        <div v-else v-for="doctor in doctors" :key="doctor._id" class="blue-grey white-text eachDoctor">
+        <div v-else v-for="doctor in doctors" :key="doctor._id" class="blue-grey white-text eachDoctor" id="newDocs">
           <a class="btn waves-effect-waves-light"><span>{{doctor.fullName}}</span></a><br/>
-          <a class="right btn waves-effect waves-light consultBtn" @click="createChannel">consult {{doctor._id}}</a>
-          <a href="" class="btn waves-effect-waves-light">City: <span>{{doctor.city}}</span></a>
+          <a class="right btn waves-effect waves-light consultBtn" @click="createChannel" :id="doctor._id">consult</a>
+          <a href="" class="btn waves-effect-waves-light" >City: <span>{{doctor.city}}</span></a>
           <a href="" class="btn waves-effect-waves-light">
           State: <span>{{doctor.state}}</span>
           </a>
@@ -92,7 +92,7 @@
 <script>
 import Interface from '@/components/layouts/interface'
 import messages from '@/components/features/messages'
-import SearchService from '@/services/searchService'
+import SearchServices from '@/services/searchServices'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/patientInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
@@ -137,7 +137,7 @@ export default {
       }
       console.log(validSearchInput)
       try {
-        const doctors = (await SearchService.findDoctors({query: validSearchInput.search})).data
+        const doctors = (await SearchServices.findDoctors({query: validSearchInput.search})).data
         // let responseData = response.data
         console.log('doctors: ', doctors)
         $('#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.col.s12').hide()
@@ -161,9 +161,13 @@ export default {
       }
     },
     createChannel (e) {
-      var newChannel = `${this.$store.state.profile.fullName.split(' ')[0]}`
-      console.log(newChannel + 'And' + `this.doctors.fullName.split(' ')[0]`)
-      console.log(e.path[16])
+      // console.log(e.target.attributes[0].nodeValue)
+      this.doctors.forEach((doc) => {
+        if (doc._id === e.target.attributes[0].nodeValue) {
+          var newChannel = `${this.$store.state.profile.fullName.split(' ')[0].replace(/\s/g, '').toLowerCase()}A${Math.floor(Math.random(5) * 100)}N${Math.floor(Math.random(5) * 100)}D${Math.floor(Math.random(5) * 100) + doc.fullName.split(' ')[0].replace(/\s/g, '').toLowerCase()}`
+          console.log(newChannel)
+        }
+      })
     }
   }
 }
@@ -175,7 +179,7 @@ export default {
 }
 div a.consultBtn {
   background-color: sandybrown !important;
-}
+} 
 /* styling search doctor bar */
 .eachDoctor {
   padding: 0.2rem 0.34rem;

@@ -123,10 +123,11 @@ a.w3-bar-item.w3-button {
     margin-top: 1.5rem;
 }
 div > div.content {
-  padding-top: 4rem;
+  /* padding-top: 4rem; */
 }
 div ul {
-  padding: 0 0rem !important;
+    padding: 0 0rem !important;
+    z-index: 0;
 }
 div.main.flow-text
   > div.content.center-align.white-text

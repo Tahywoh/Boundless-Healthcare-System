@@ -6,6 +6,7 @@ export default {
     }
   },
   mounted () {
+    // console.log($('.collapsible'))
     this.$eventBus.$on('go-to-profile', () => {
       this.$router.replace(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface/profile`)
     })

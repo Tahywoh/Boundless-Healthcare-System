@@ -115,7 +115,7 @@
 
 <script>
 import Index from '@/platform/index'
-import AuthService from '@/services/authService'
+import AuthServices from '@/services/authServices'
 export default {
   name: 'register',
   components: { Index },
@@ -273,7 +273,7 @@ export default {
         return false
       }
       try {
-        const response = await AuthService.registerMedlabScientist(validateReg)
+        const response = await AuthServices.registerMedlabScientist(validateReg)
         console.log(response.data)
         this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = ''

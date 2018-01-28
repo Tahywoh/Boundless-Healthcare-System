@@ -58,7 +58,7 @@
 
 <script>
 import Index from '@/platform/index'
-import AuthService from '@/services/authService'
+import AuthServices from '@/services/authServices'
 export default {
   name: 'signin',
   components: { Index },
@@ -110,7 +110,7 @@ export default {
         return false
       }
       try {
-        const response = await AuthService.signInUsers(validateLogin)
+        const response = await AuthServices.signInUsers(validateLogin)
         console.log(JSON.stringify(response.data) + '\nThis is a success')
         let responseData = response.data
         if (this.loginData.userType === 'Patient') {
@@ -171,7 +171,7 @@ export default {
 
 <style>
 #index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
-   font-size: 0.89rem !important;
+  font-size: 0.89rem !important;
   margin: 0 !important;
   font-weight: 100 !important;
 }
