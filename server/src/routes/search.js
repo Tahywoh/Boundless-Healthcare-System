@@ -5,9 +5,12 @@ const router = require('express').Router()
 require('../models/Doctor')
 const getData = require('../utils/getData')
 const Doctor = mongoose.model('doctor')
+const Pharmacy = mongoose.model('pharmacy')
 let escapeRegex = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
+
+router.post('/userDrugs', getData.getCurrentUserDrugs)
 
 router.post('/doctors', (req, res) => {
   // console.log(JSON.stringify(req.body.query, null, 2))
@@ -16,7 +19,6 @@ router.post('/doctors', (req, res) => {
     let regex = new RegExp(escapeRegex(req.body.query), 'gi')
     // })
     console.log(regex)
-
     Doctor.find({fullName: regex}, 'fullName city state', (err, docs) => {
       if (!err) {
         let {fullName, city, state} = docs
@@ -29,9 +31,10 @@ router.post('/doctors', (req, res) => {
         }
         // console.log({fullName: `${docs.fullName}`, city: `${docs.city}`, state: `${docs.state}`})
       } else {
-        console.log(JSON.stringify(err))
+        console.log(JSON.stringify(err, null, 2))
       }
     })
+      .limit(10)
     // Doctor.find({$text: { $search: 'taiwo' }})
     //   .then((doc, err) => {
     //     if (doc !== null && !err) {
@@ -42,6 +45,25 @@ router.post('/doctors', (req, res) => {
   }
 })
 
-router.post('/userDrugs', getData.getCurrentUserDrugs)
+router.post('/pharmacy', (req, res) => {
+  if (req.body.query) {
+    let regex = new RegExp(escapeRegex(req.body.query), 'gi')
+
+    console.log(regex)
+
+    Pharmacy.find({drugName: regex}, 'seller drugName manufac briefDescription price', (err, pharmacy) => {
+      if (!err) {
+        let {seller, drugName, manufac, briefDescription, price} = pharmacy
+        if (pharmacy !== null) {
+          res.status(200).send(pharmacy)
+          console.log(seller, drugName, manufac, briefDescription, price)
+        } else {
+          console.log(JSON.stringify(err, null, 2))
+        }
+      }
+    })
+      .limit(10)
+  }
+})
 
 module.exports = router

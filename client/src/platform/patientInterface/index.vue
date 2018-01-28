@@ -242,7 +242,7 @@ input#autocomplete-input {
 }
 #pharmacy > div > div > div > div > div {
   padding-top: 0rem;
-  height: 100vh !important;
+  /* height: 100vh !important; */
 }
 
 #medicalLab .show-content {

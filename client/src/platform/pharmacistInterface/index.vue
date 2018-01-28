@@ -87,10 +87,10 @@
         <div id="drugs" class="col s12 w3-card">
           <div class="drugs transparent show-content">
             <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Your Products</h4>
-            <!-- <div class="text-center center-align">
+            <div class="text-center center-align" v-if="!registeredUserDrug">
               <h5>{{pharmacistDrugStatus}}</h5> 
-            </div> -->
-            <div class="blue-grey white-text eachUserDrug" v-for="userDrug in userDrugs" :key="userDrug._id">
+            </div>
+            <div class="blue-grey white-text eachUserDrug" v-for="userDrug in userDrugs" :key="userDrug._id" v-else>
               <ul class="collapsible user_drugs" data-collapsible="accordion">
                 <li>
                   <div class="collapsible-header blue-text">
@@ -102,8 +102,9 @@
                     </h5>
                   </div>
                   <div class="collapsible-body">
-                    <span>{{userDrug.briefDescription}}</span><br/><br/>
-                    <h6>Manufacturer:</h6> <small class="grey lighten-4 blue-text">{{userDrug.manufac}}</small>
+                    <h6>Description: </h6>
+                    <span v-text="userDrug.briefDescription"></span><br/><br/>
+                    <h6>Manufacturer:</h6> <small class="grey lighten-4 blue-text" v-text="userDrug.manufac"></small>
                   </div>
                 </li>
               </ul>
@@ -142,32 +143,7 @@ export default {
         briefDescription: '',
         seller: this.$store.state.profile.pharmacyName
       },
-      userDrugs: [
-        {
-          drugName: 'New mine',
-          manufac: 'GGTD',
-          price: '#3000',
-          briefDescription: 'for everyone'
-        },
-        {
-          drugName: 'New mine',
-          manufac: 'GGTD',
-          price: '#3000',
-          briefDescription: 'for everyone'
-        },
-        {
-          drugName: 'New mine',
-          manufac: 'GGTD',
-          price: '#3000',
-          briefDescription: 'for everyone'
-        },
-        {
-          drugName: 'New mine',
-          manufac: 'GGTD',
-          price: '#3000',
-          briefDescription: 'for everyone'
-        }
-      ],
+      userDrugs: null,
       registeredUserDrug: false
     }
   },
@@ -177,11 +153,9 @@ export default {
     if (this.$store.state.profile.pharmacyName) {
       validSeller.userDrugs = this.$store.state.profile.pharmacyName
     }
-    console.log(validSeller.userDrugs)
     try {
       let userDrugs = (await GetServices.getCurrentUserDrugs({user: validSeller.userDrugs})).data
       this.userDrugs = userDrugs
-      console.log(userDrugs)
       if (this.userDrugs !== null) {
         this.registeredUserDrug = true
       } else {
@@ -216,6 +190,7 @@ export default {
         const response = await PharmacyServices.addToPharmacy(validateDrug)
         let responseData = response.data
         console.log(responseData)
+        alert('Your drug has been successfully added!')
         document.getElementById('id01').style.display = 'none'
       } catch (error) {
         if (error) {
@@ -235,7 +210,7 @@ export default {
   padding: 0.3rem;
 }
 #drugs > div > div > ul > li > div.collapsible-header.blue-text > h5.right {
-  margin-left: 48%;
+  margin-left: auto;
   padding: 0.3rem;
   font-size: 19px;
 }

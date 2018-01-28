@@ -14,7 +14,7 @@ module.exports = {
   },
   getCurrentUserDrugs (req, res) {
     console.log(req.body)
-    Pharmacy.findOne({seller: req.body.user}, 'drugName manufac price briefDescription', (err, seller) => {
+    Pharmacy.find({seller: req.body.user}, 'drugName manufac price briefDescription', (err, seller) => {
       if (!err) {
         let {drugName, manufac, price, briefDescription} = seller
         if (seller !== []) {

@@ -37,4 +37,7 @@ a.btn {
 #nav-mobile > div > li > a {
     font-size: 0.7rem !important;
 }
+#drugs > div > div > ul > li > div.collapsible-body > h6{
+  font-weight: 400;
+}
 </style>

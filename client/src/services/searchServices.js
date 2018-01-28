@@ -1,5 +1,5 @@
 import Api from '@/services/api'
-import Store from '@/store/store'
+// import Store from '@/store/store'
 export default {
   getDoctors () {
     return Api().get('/doctors')
@@ -11,6 +11,6 @@ export default {
     return Api().post('/search/doctors', query)
   },
   findDrugs (query) {
-    return Api().post('/search/pharmacy', {token: Store.state.token, query})
+    return Api().post('/search/pharmacy', query)
   }
 }
