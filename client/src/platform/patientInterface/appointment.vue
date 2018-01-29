@@ -42,7 +42,7 @@
               <input type="text" class="datepicker" id="date">
             <label for="date">Date</label>
           </div>  
-          <h5 class="white-text"><a href="" class="submit btn waves-effect waves-light white-text blue">Submit</a></h5>
+          <h5 class="white-text"><button type="submit" href="" class="submit btn waves-effect waves-light white-text blue">Submit</button></h5>
         </div>
       </form>
     </div>
@@ -133,11 +133,15 @@ export default {
 </script>
 
 <style scoped>
+#id01 > div > div > div > div > form > div:nth-child(4) > h5 > button {
+  margin: 2rem 4rem 0rem;
+}
 /* styling the appointment section */
 #app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content > div > div > div > a.right.btn.waves-effect.waves-light {
     font-size: 0.7rem;
     padding: 0.1rem 0.5rem;
     margin-top: -2rem;
+    z-index: auto;
 }
 div#newmodal :focus {
     background-color: transparent;

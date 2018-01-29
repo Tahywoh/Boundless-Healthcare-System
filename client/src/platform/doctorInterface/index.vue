@@ -4,7 +4,6 @@
     <template slot="basic-details">
       <basicDetails/>
     </template>
-
     <template slot="side-nav-content">
       <div class="divider"></div>
       <a href="#" class="w3-bar-item w3-button">
@@ -73,7 +72,7 @@ export default{
   }
 }
 </script>
-<style scoped>
+<style>
 #app > div > div > div.header-view > nav > div > div, #app > div > div > div.header-view > nav > div > div > form > div{
   display: none !important;
 }
@@ -94,8 +93,8 @@ input#autocomplete-input {
   color: #2196f3 !important;
 }
 #pharmacy > div > div > div > div > div {
-  padding-top: 5rem;
-  height: 100vh !important;
+  padding-top: 0rem;
+  /* height: 100vh !important; */
 }
 #messages .show-content{
   height: 100vh;

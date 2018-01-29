@@ -3,7 +3,14 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 // create patients schema
 const PatientSchema = new Schema({
-
+  patientDocs: [
+    {
+      doctorName: {
+        type: String,
+        trim: true
+      }
+    }
+  ],
   fullName: {
     type: String,
     required: true,

@@ -58,6 +58,7 @@ router.post('/pharmacy', (req, res) => {
           res.status(200).send(pharmacy)
           console.log(seller, drugName, manufac, briefDescription, price)
         } else {
+          res.status(203).send('Drug not found! \n Please try searching with minimal words or strings')
           console.log(JSON.stringify(err, null, 2))
         }
       }

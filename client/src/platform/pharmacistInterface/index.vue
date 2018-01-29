@@ -3,7 +3,7 @@
     <interface>
       <template slot="fixed-nav-bar">
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
+          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
           Profile
           </a></li>
           <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
@@ -133,6 +133,7 @@ export default {
       add_icon: navs.links.addDrug.icon + ' x2 left',
       orders_icon: navs.links.orders.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
+      goToProfile: navs.links.profile.url,
       currency: '#',
       errorMsg: '',
       pharmacistDrugStatus: 'You have not added any drug!',
@@ -273,7 +274,7 @@ input#autocomplete-input {
   height: 100vh !important;
 }
 #drugs .show-content, #pharmacy .show-content{
-  min-height: 100vh;
+  min-height: 30vh;
 }
 h5{
   text-align: center !important;

@@ -12,10 +12,10 @@ export default {
       icon: 'icon ion-ios-plus'
     },
     updateProfile: {
-      url: '/doctor-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
+      url: '/pharmacist-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: '/doctor-interface/profile', text: 'Pharmacist Profile'
+      url: '/pharmacist-interface/profile', text: 'Pharmacist Profile'
     }
   }
 }

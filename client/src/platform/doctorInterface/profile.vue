@@ -1,13 +1,13 @@
 <template>
-  <div class="patient-profile">
+  <div class="doctor-profile">
      <fixednav/>
     <div class="row container blue-grey white-text center-align">
           <div class="row">
-            <div id="basicDetails" class="left col s7">
-              <p class="field left">
+            <div id="basicDetailsProfile" class="col s7">
+              <p class="field">
                 Full Name: <br/><span>{{profile.fullName}}</span>
               </p>
-              <p class="field left">
+              <p class="field">
                 Email Address: <br/><span>{{profile.email}}</span>
               </p>
             </div>
@@ -89,8 +89,8 @@ export default {
 </script>
 
 <style scoped>
-#basicDetails > p{
-  text-align: left !important;
+div.doctor-profile #basicDetailsProfile {
+  margin-top: 9%;
 }
 i.icon.ion-ios-paper{
   margin-left: 5rem;

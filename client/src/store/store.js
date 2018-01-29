@@ -12,6 +12,25 @@ export default new Vuex.Store({
     isUserLoggedIn: false,
     lastPageVisited: '',
     lastPage: '',
+    userData: {
+      docPatients: '',
+      patientDocs: '',
+      pharmacistOrders: '',
+      patientCarts: '',
+      appointment: {
+        reason: '',
+        start: '',
+        end: '',
+        date: '',
+        status: 'pending',
+        patient: {
+          doctorName: ''
+        },
+        doctor: {
+          patientName: ''
+        }
+      }
+    },
     profile: {
       user: null,
       fullName: '',
@@ -28,6 +47,11 @@ export default new Vuex.Store({
       laboratoryAddress: '',
       eduRequirement: '',
       licenseRequirement: ''
+    },
+    consult: {
+      roomNames: [],
+      isConnectedToSocket: false,
+      socketMessage: ''
     }
   },
   mutations: {
@@ -35,26 +59,57 @@ export default new Vuex.Store({
       state.token = user.token
       if (user.token) {
         state.isUserLoggedIn = true
+         // user profile
+        state.userType = user.userType
+        state.profile.user = user.user
+        state.profile.fullName = user.fullName
+        state.profile.telephone = user.telephone
+        state.profile.city = user.city
+        state.profile.state = user.state
+        state.profile.address = user.address
+        state.profile.specialty = user.specialty
+        state.profile.hospitalName = user.hospitalName
+        state.profile.hospitalAddress = user.hospitalAddress
+        state.profile.pharmacyName = user.pharmacyName
+        state.profile.pharmacyAddress = user.pharmacyAddress
+        state.profile.laboratoryName = user.laboratoryName
+        state.profile.laboratoryAddress = user.laboratoryAddress
+        state.profile.eduRequirement = user.eduRequirement
+        state.profile.licenseRequirement = user.licenseRequirement
+
+        // setting user meta data
+        state.userData.docPatients = user.docPatients
+        state.userData.patientDocs = user.patientDocs
+        state.userData.pharmacistOrders = user.pharmacistOrders
+        state.userData.patientCarts = user.patientCarts
+        // setting user appointments
+        state.userData.appointment.reason = user.reason
+        state.userData.appointment.date = user.date
+        state.userData.appointment.start = user.start
+        state.userData.appointment.end = user.end
+        state.userData.appointment.status = user.status
+        state.userData.appointment.patient.doctorName = user.doctorName
+        state.userData.appointment.doctor.patientName = user.patientName
       } else {
         state.isUserLoggedIn = false
         // this.$router.push('/login')
       }
-      state.userType = user.userType
-      state.profile.user = user.user
-      state.profile.fullName = user.fullName
-      state.profile.telephone = user.telephone
-      state.profile.city = user.city
-      state.profile.state = user.state
-      state.profile.address = user.address
-      state.profile.specialty = user.specialty
-      state.profile.hospitalName = user.hospitalName
-      state.profile.hospitalAddress = user.hospitalAddress
-      state.profile.pharmacyName = user.pharmacyName
-      state.profile.pharmacyAddress = user.pharmacyAddress
-      state.profile.laboratoryName = user.laboratoryName
-      state.profile.laboratoryAddress = user.laboratoryAddress
-      state.profile.eduRequirement = user.eduRequirement
-      state.profile.licenseRequirement = user.licenseRequirement
+    },
+    SOCKET_CONNECT (state) {
+      if (state.token !== '') {
+        state.consult.isConnectedToSocket = true
+      }
+    },
+    SOCKET_CREATECHANNEL (state, newRoom) {
+      if (state.token !== '') {
+        state.consult.roomNames.newRoom = newRoom.roomNames
+      }
+    },
+    SOCKET_DELETCHANNEL (state) {
+      state.consult.roomNames = null
+    },
+    SOCKET_DISCONNECT (state) {
+      state.consult.isConnectedToSocket = false
     },
     CLEAR_USER (state) {
       state.token = ''

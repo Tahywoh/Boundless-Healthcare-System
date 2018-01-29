@@ -9,7 +9,7 @@
                 <i class="icon ion-search x15"></i>
                 <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Search through available drugs" v-model="searchPharmacy"/>
               </div>
-              <small class="searchErr red-text text-center">{{searchErr}}</small>
+              <small class="searchErr red-text text-center" v-html="searchErr"></small>
             </form>
             
           </div>
@@ -83,9 +83,16 @@ export default {
       try {
         const pharmacy = (await SearchServices.findDrugs({query: validateSearchInput.searchPharmacy})).data
         console.log('pharmacy: ', pharmacy)
-        this.allDrugs = pharmacy
+        if (pharmacy !== []) {
+          this.searchErr = ''
+          this.allDrugs = pharmacy
+        } else {
+          this.searchErr = 'Drug not found! \n Please try searching with minimal words or strings'
+          return false
+        }
       } catch (error) {
         if (error) {
+          this.searchErr = error.pharmacy
           console.log(JSON.stringify(error.pharmacy, null, 3))
         }
       }

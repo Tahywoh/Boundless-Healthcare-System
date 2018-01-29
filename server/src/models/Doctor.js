@@ -2,8 +2,16 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-// create pharmacists scientistsschema
+// create pharmacists schema
 const DoctorSchema = new Schema({
+  docPatients: [
+    {
+      patientName: {
+        type: String,
+        trim: true
+      }
+    }
+  ],
   fullName: {
     type: String,
     required: true,

@@ -3,11 +3,11 @@
      <fixednav/>
     <div class="row container blue-grey white-text center-align">
           <div class="row">
-            <div id="basicDetails" class="left col s7">
-              <p class="field left">
+            <div id="basicDetailsProfile" class="col s7">
+              <p class="field">
                 Full Name: <br/><span>{{profile.fullName}}</span>
               </p>
-              <p class="field left">
+              <p class="field">
                 Email Address: <br/><span>{{profile.email}}</span>
               </p>
             </div>
@@ -66,8 +66,8 @@ export default {
 </script>
 
 <style scoped>
-#basicDetails > p{
-  text-align: left !important;
+div.patient-profile #basicDetailsProfile {
+  margin-top: 9%;
 }
 #app > div > div.main-interface > div:nth-child(3) {
     margin-left: 25%;
@@ -79,7 +79,7 @@ export default {
 #app > div > div.row.container.blue-grey.white-text.center-align > div {
     padding: 0.1rem 1.5rem;
 }
-#app > div > div.row.container.blue-grey.white-text.center-align > div > div.input-field.col.s6 > label, input :read-only+label, input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type=text]:not(.browser-default):disabled, input[type=text]:not(.browser-default)[readonly="readonly"], input[type=password]:not(.browser-default):disabled, input[type=password]:not(.browser-default)[readonly="readonly"], input[type=email]:not(.browser-default):disabled, input[type=email]:not(.browser-default)[readonly="readonly"], input[type=url]:not(.browser-default):disabled, input[type=url]:not(.browser-default)[readonly="readonly"], input[type=time]:not(.browser-default):disabled, input[type=time]:not(.browser-default)[readonly="readonly"], input[type=date]:not(.browser-default):disabled, input[type=date]:not(.browser-default)[readonly="readonly"], input[type=datetime]:not(.browser-default):disabled, input[type=datetime]:not(.browser-default)[readonly="readonly"], input[type=datetime-local]:not(.browser-default):disabled, input[type=datetime-local]:not(.browser-default)[readonly="readonly"], input[type=tel]:not(.browser-default):disabled, input[type=tel]:not(.browser-default)[readonly="readonly"], input[type=number]:not(.browser-default):disabled, input[type=number]:not(.browser-default)[readonly="readonly"], input[type=search]:not(.browser-default):disabled, input[type=search]:not(.browser-default)[readonly="readonly"], textarea.materialize-textarea:disabled, textarea.materialize-textarea[readonly="readonly"]{
+#app > div > div.row.container.blue-grey.white-text.center-align > div > div.input-field.col > label, input :read-only+label, input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type=text]:not(.browser-default):disabled, input[type=text]:not(.browser-default)[readonly="readonly"], input[type=password]:not(.browser-default):disabled, input[type=password]:not(.browser-default)[readonly="readonly"], input[type=email]:not(.browser-default):disabled, input[type=email]:not(.browser-default)[readonly="readonly"], input[type=url]:not(.browser-default):disabled, input[type=url]:not(.browser-default)[readonly="readonly"], input[type=time]:not(.browser-default):disabled, input[type=time]:not(.browser-default)[readonly="readonly"], input[type=date]:not(.browser-default):disabled, input[type=date]:not(.browser-default)[readonly="readonly"], input[type=datetime]:not(.browser-default):disabled, input[type=datetime]:not(.browser-default)[readonly="readonly"], input[type=datetime-local]:not(.browser-default):disabled, input[type=datetime-local]:not(.browser-default)[readonly="readonly"], input[type=tel]:not(.browser-default):disabled, input[type=tel]:not(.browser-default)[readonly="readonly"], input[type=number]:not(.browser-default):disabled, input[type=number]:not(.browser-default)[readonly="readonly"], input[type=search]:not(.browser-default):disabled, input[type=search]:not(.browser-default)[readonly="readonly"], textarea.materialize-textarea:disabled, textarea.materialize-textarea[readonly="readonly"]{
   color: #fff !important;
   font-weight: 500 !important;
   font-size: 15px !important;

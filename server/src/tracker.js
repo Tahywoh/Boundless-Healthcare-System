@@ -23,7 +23,7 @@ const config = require('./helpers/config')
 const database = require('./helpers/database')
 
 const port = process.env.PORT || 7070
-const {generateMessage, generateLocationMessage} = require('./utils/message')
+const {generateMessage, generateLocationMessage} = require('./socket/message')
 const getData = require('./utils/getData')
 
 app.set('port', port)
@@ -64,7 +64,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
-app.get('/', (req, res) => {})
+// app.get('/', (req, res) => {})
 // app.get('/getUserDrugs', getData.getUserDrugs)
 app.get('/getAllDrugs', getData.getAllDrugs)
 // consultation socket IO connection

@@ -9,7 +9,7 @@
           <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!" v-model="search" />
           <i class="icon ion-search x15" @click="findDoctors"></i>
         </div>
-        <small class="searchErr red-text">{{searchErr}}</small>
+        <!-- <small class="searchErr red-text">{{searchErr}}</small> -->
       </form>
     </div>
 
@@ -108,7 +108,7 @@ export default {
       cart_icon: navs.links.cart.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       search: '',
-      searchErr: '',
+      // searchErr: '',
       topLinks: {
         doLogOut: 'do-logout',
         goToProfile: navs.links.profile.url,
@@ -131,7 +131,8 @@ export default {
       if (this.search !== '' && this.search !== null && isNaN(this.search)) {
         validSearchInput.search = this.search.toLowerCase()
       } else {
-        this.searchErr = 'Please enter a valid input!'
+        // this.searchErr = 'Please enter a valid input!'
+        alert('Please enter a valid input!')
         console.log('Please enter a valid input!')
         return false
       }
@@ -164,7 +165,11 @@ export default {
       // console.log(e.target.attributes[0].nodeValue)
       this.doctors.forEach((doc) => {
         if (doc._id === e.target.attributes[0].nodeValue) {
-          var newChannel = `${this.$store.state.profile.fullName.split(' ')[0].replace(/\s/g, '').toLowerCase()}A${Math.floor(Math.random(5) * 100)}N${Math.floor(Math.random(5) * 100)}D${Math.floor(Math.random(5) * 100) + doc.fullName.split(' ')[0].replace(/\s/g, '').toLowerCase()}`
+          var newChannel = `${this.$store.state.profile.fullName.replace(/\s/g, '').toLowerCase()}A${Math.floor(Math.random(5) * 100)}N${Math.floor(Math.random(5) * 100)}D${Math.floor(Math.random(5) * 100) + doc.fullName.replace(/\s/g, '').toLowerCase()}`
+          this.$store.commit('SOCKET_CREATECHANNEL', {roomNames: newChannel})
+          if (confirm(`Are you sure you want to consult Doctor ${doc.fullName} with room name ${newChannel}?`)) {
+            alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them. Kindly go back to your dashboard to proceed.`)
+          }
           console.log(newChannel)
         }
       })

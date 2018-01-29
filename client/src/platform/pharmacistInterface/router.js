@@ -2,6 +2,7 @@
 
 import navs from './navs'
 import Index from './index'
+import Profile from './profile'
 
 export default [
   {
@@ -11,6 +12,15 @@ export default [
     meta: {
       requiresAuth: true,
       pharmacistAuth: true
+    }
+  },
+  {
+    path: navs.links.profile.url,
+    name: 'BHS | ' + navs.links.profile.url,
+    component: Profile,
+    meta: {
+      requiresAuth: true,
+      pharmacist: true
     }
   }
 ]

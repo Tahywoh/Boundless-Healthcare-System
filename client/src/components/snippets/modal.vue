@@ -59,6 +59,7 @@ span.w3-closebtn {
     font-weight: 400;
     text-align: center;
     line-height: 25%;
+    color: #fff;
 }
 
 </style>

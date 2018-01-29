@@ -1,9 +1,6 @@
 import Api from '@/services/api'
 // import Store from '@/store/store'
 export default {
-  getDoctors () {
-    return Api().get('/doctors')
-  },
   getDoctor () {
     return Api().get('doctors/:id')
   },

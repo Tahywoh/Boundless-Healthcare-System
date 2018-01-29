@@ -11,11 +11,16 @@
     // mixins: [mixins],
     mounted () {
       console.log(JSON.stringify(this.$store.state))
+      // console.log(JSON.stringify(this.$VuexStore.state))
     }
 }
 </script>
 
 <style>
+#app > div > div.row.container.blue-grey.white-text.center-align {
+    padding: 0.5rem 1.5rem;
+    margin-top: 0.3rem;
+}
 textarea{
   width: 100%;
   height: auto !important;
