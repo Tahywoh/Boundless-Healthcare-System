@@ -29,6 +29,7 @@
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^1.14.3",
     "shortid": "^2.2.8",
+    "sightengine": "^1.2.1",
     "socket.io": "^2.0.4",
     "socket.io-redis": "^5.2.0",
     "typed.js": "^2.0.6",

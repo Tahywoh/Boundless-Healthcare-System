@@ -49,7 +49,8 @@ export default new Vuex.Store({
       licenseRequirement: ''
     },
     consult: {
-      roomNames: [],
+      // roomNames: [],
+      newRoom: '',
       isConnectedToSocket: false,
       socketMessage: ''
     }
@@ -101,12 +102,20 @@ export default new Vuex.Store({
       }
     },
     SOCKET_CREATECHANNEL (state, newRoom) {
+      // if (state.token !== '') {
+      //   state.consult.roomNames.push({'newRoom': newRoom.roomNames})
+      // }
       if (state.token !== '') {
-        state.consult.roomNames.newRoom = newRoom.roomNames
+        state.consult.newRoom = newRoom.newRoom
+        // state.consult.roomNames.push({'channel': newRoom.roomName})
+      } else {
+        state.consult.newRoom = ''
+        // state.consult.roomNames = []
       }
     },
     SOCKET_DELETCHANNEL (state) {
-      state.consult.roomNames = null
+      // state.consult.roomNames = null
+      // state.consult.roomName = null
     },
     SOCKET_DISCONNECT (state) {
       state.consult.isConnectedToSocket = false
@@ -116,6 +125,9 @@ export default new Vuex.Store({
       state.userType = ''
       state.profile = {}
       state.isUserLoggedIn = false
+      state.consult.roomNames = []
+      state.consult.roomName = ''
+      // state.consult = null
     }
   },
   plugins: [createPersist({

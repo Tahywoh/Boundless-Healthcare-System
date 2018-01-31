@@ -141,9 +141,13 @@ export default {
         const doctors = (await SearchServices.findDoctors({query: validSearchInput.search})).data
         // let responseData = response.data
         console.log('doctors: ', doctors)
+
         $('#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.col.s12').hide()
+
         $('#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content#platform-content').hide()
+
         $('#pharmacy, #messages_conv, #medicalLab').hide()
+
         $('#docSearch').show()
         if (doctors.length !== 0) {
           this.registeredDoctors = true
@@ -163,16 +167,25 @@ export default {
     },
     createChannel (e) {
       // console.log(e.target.attributes[0].nodeValue)
+      let newChannel, docFullName, channel
       this.doctors.forEach((doc) => {
         if (doc._id === e.target.attributes[0].nodeValue) {
-          var newChannel = `${this.$store.state.profile.fullName.replace(/\s/g, '').toLowerCase()}A${Math.floor(Math.random(5) * 100)}N${Math.floor(Math.random(5) * 100)}D${Math.floor(Math.random(5) * 100) + doc.fullName.replace(/\s/g, '').toLowerCase()}`
-          this.$store.commit('SOCKET_CREATECHANNEL', {roomNames: newChannel})
-          if (confirm(`Are you sure you want to consult Doctor ${doc.fullName} with room name ${newChannel}?`)) {
-            alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them. Kindly go back to your dashboard to proceed.`)
+          channel = `${this.$store.state.profile.fullName.replace(/\s/g, '').toLowerCase()}AND${doc.fullName.replace(/\s/g, '').toLowerCase()}`
+
+          if (channel !== this.$store.state.consult.newRoom) {
+            newChannel = channel
+            this.$store.commit('SOCKET_CREATECHANNEL', {newRoom: newChannel})
+            if (confirm(`Are you sure you want to consult Doctor ${doc.fullName} with room name ${newChannel}?`)) {
+              alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them. Kindly go back to your dashboard to proceed.`)
+            }
+            console.log(newChannel)
+          } else {
+            alert(`You are already connected to ${doc.fullName}. Kindly go to your dashboard to consult them.`)
           }
-          console.log(newChannel)
+          docFullName = doc.fullName
         }
       })
+      console.log(docFullName)
     }
   }
 }
