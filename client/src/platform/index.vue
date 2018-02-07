@@ -5,33 +5,27 @@
 <div class="header-view">
      <navbar/>
 </div>
-  <div class="main  flow-text">
+  <div class="main flow-text">
     <heading/>
-    <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.jpg" alt="Error displaying image"/>
+    <div class="img responsive-img">
+      <slot name="bimg">
+        <img src="../assets/platform/screencapture-localhost-8000-1518019459150.png" alt="Error displaying image" class="img responsive-img"/>
+      </slot>
+    </div>
+    
     <div class="content center-align white-text"> 
-      <div class="animated bounceInRight"><slot name="indexMainContent" class="animated bounceInRight">
-      <p>Diagnose your health condition and take necessary measure!</p>
+      <div class="animated bounceInRight">
+        <slot name="indexMainContent" class="animated bounceInRight">
+      <!-- <p>Diagnose your health condition and take necessary measure!</p>
       <p>We offer the best health care system</p>
       <p class="footnote">
         Do you feel pain in any part of your body?<br/>
         Kindly register  at the top right corner of the app to consult doctor
       </p>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <p class="register-note x15">
+      <p class="register-note x15">
           Are you a licensed doctor, pharmacist or medical lab scientist?<br/>
-        Kindly register as one to supply the  sick with appropriate drugs, consult a reliable medical test and give the patient the best as regards their health conditions.</p>
-      </slot>
-        
+        Kindly register as one to supply the  sick with appropriate drugs, consult a reliable medical test and give the patient the best as regards their health conditions.</p> -->
+      </slot> 
       </div>
     </div>
   </div>
@@ -55,11 +49,11 @@ export default {
 }
 div.main{
   width: 100%;
-  height: 80vh;
+  /* height: 80vh; */
 }
 div.main img{
   width: 100%;
-  filter: brightness(.3);
+  /* filter: brightness(.3); */
   z-index: -1;
 }
 #index > div > div.content {
@@ -73,6 +67,7 @@ div.main img{
 }
 div.main p.register-note{
   font-weight: 300;
+  margin-top: 30%;
 }
 
 /* access styling form */
@@ -94,15 +89,20 @@ form input{
   top: -1.5rem; 
 }
 #index > div.main.flow-text > div.content.center-align.white-text {
-    background-color: rgba(33, 150, 243, .25);
+    /* background-color: rgba(33, 150, 243, .25); */
     min-width: 100%;
-    min-height: 127%;
+    min-height: auto;
+    /* -webkit-filter: brightness(.3); */
+    /* filter: brightness(.3); */
     width: auto;
-    height: auto;
+    /* height: 740px; */
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     -webkit-transition: -webkit-transform 0.6s, opacity 0.6s;
+    -webkit-transition: opacity 0.6s, -webkit-transform 0.6s;
+    transition: opacity 0.6s, -webkit-transform 0.6s;
     transition: transform 0.6s, opacity 0.6s;
+    transition: transform 0.6s, opacity 0.6s, -webkit-transform 0.6s;
     -webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
     transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
 }

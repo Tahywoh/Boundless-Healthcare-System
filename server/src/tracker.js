@@ -14,7 +14,8 @@ const search = require('./routes/search')
 const signin = require('./routes/signin')
 const signup = require('./routes/signup')
 var pharmacy = require('./routes/pharmacy')
-const handlePhotos = require('./utils/handlePhotos')
+const appointment = require('./routes/appointment')
+const handlePhoto = require('./utils/handlePhoto')
 
 var server = http.createServer(app)
 
@@ -22,7 +23,7 @@ var io = socketIO(server)
 const config = require('./helpers/config')
 const database = require('./helpers/database')
 
-const port = process.env.PORT || 7070
+const port = process.env.PORT || 7000
 const {generateMessage, generateLocationMessage} = require('./socket/message')
 const getData = require('./utils/getData')
 
@@ -68,10 +69,10 @@ app.use((req, res, next) => {
 // app.get('/getUserDrugs', getData.getUserDrugs)
 app.get('/getAllDrugs', getData.getAllDrugs)
 // consultation socket IO connection
-var messageUsers = 0
+// var messageUsers = 0
 io.on('connection', (socket) => {
-  messageUsers++
-  console.log(`New user connected, Total: ${messageUsers}`)
+  // messageUsers++
+  // console.log(`New user connected, Total: ${messageUsers}`)
   socket.emit('newMessage', generateMessage('Admin', 'Welcome! Kindly consult your doctor by sending message to them'))
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'))
@@ -99,7 +100,8 @@ app.use('/search', search)
 app.use('/signin', signin)
 app.use('/signup', signup)
 app.use('/pharmacy', pharmacy)
-app.use('/handlePhotos', handlePhotos)
+app.use('/appointment', appointment)
+app.use('/handlePhoto', handlePhoto)
 
 server.listen(port, () => {
   console.log(`server is running on port`, port)

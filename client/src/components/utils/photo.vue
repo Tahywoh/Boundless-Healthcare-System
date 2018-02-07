@@ -1,108 +1,120 @@
 <template>
-  <div class="photo-upload" :class="disabled ? 'disabled' : 'enabled'">
-    <div class="uploader" :class="{hovering: hovering}" :style="{backgroundImage: backgroundImage}" ref="uploader">
-      <span v-show="!(value || preview)" class="upload-instructions" style="color: black;">
-        Click or drag
-        <br>
-        image here
-        <br>
-        to upload...
-      </span>
-      <input class="file-photo" type="file" @change="handleImage" @dragenter="hovering = true"
-             @dragleave="hovering = false" :disabled="disabled"/>
-    </div>
+  <div id="testing-bla">
+    <div class="container">
+      <!--UPLOAD-->
+      <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+        <h1>Upload images</h1>
+        <div class="dropbox">
+          <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
+            <p v-if="isInitial">
+              Drag your file(s) here to begin<br> or click to browse
+            </p>
+            <p v-if="isSaving">
+              Uploading {{ fileCount }} files...
+            </p>
+        </div>
+      </form>
+  </div>
   </div>
 </template>
 
-<style>
-  .uploader {
-    position: relative;
-    overflow: hidden;
-    width: 300px;
-    height: 250px;
-    background-color: #f3f3f3;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-    border: 2px dashed #e8e8e8;
-  }
-
-  .enabled .uploader.hovering {
-    background-color: #bbb;
-  }
-
-  .enabled .uploader:hover {
-    background-color: skyblue;
-  }
-
-  .upload-instructions {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    text-align: center;
-  }
-
-  .file-photo {
-    position: absolute;
-    width: 300px;
-    height: 400px;
-    top: -50px;
-    left: 0;
-    z-index: 2;
-    opacity: 0;
-  }
-  .enabled .file-photo {
-    cursor: pointer;
-  }
-
-  .uploader img {
-    position: absolute;
-    width: 100%;
-    top: -1px;
-    left: -1px;
-    z-index: 1;
-    border: none;
-  }
-
-</style>
-
 <script>
-// import Axios from 'axios'
+import {upload} from '@/services/upload'
+const STATUS_INITIAL = 0
+const STATUS_SAVING = 1
+const STATUS_SUCCESS = 2
+const STATUS_FAILED = 3
 export default {
-  props: ['value', 'disabled'],
-  methods: {
-    handleImage (event) {
-      if (this.disabled) {
-        return
-      }
-      let files = event.target.files
-      if (files.length === 0) {
-        return
-      }
-      let reader = new FileReader()
-      reader.onload = (event) => {
-        this.preview = event.target.result
-        this.$emit('input', files[0])
-        console.log(this.$emit('input', files[0]))
-      }
-      reader.readAsDataURL(files[0])
-    }
-  },
-  data () {
+  name: 'app',
+  data  () {
     return {
-      hovering: false,
-      preview: null
+      uploadedFiles: [],
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: 'photos'
     }
   },
   computed: {
-    backgroundImage () {
-      let image = this.preview || this.value
-      if (!image) {
-        return null
-      }
-      return `url('${image}')`
+    isInitial () {
+      return this.currentStatus === STATUS_INITIAL
+    },
+    isSaving () {
+      return this.currentStatus === STATUS_SAVING
+    },
+    isSuccess () {
+      return this.currentStatus === STATUS_SUCCESS
+    },
+    isFailed () {
+      return this.currentStatus === STATUS_FAILED
     }
+  },
+  methods: {
+    reset () {
+        // reset form to initial state
+      this.currentStatus = STATUS_INITIAL
+      this.uploadedFiles = []
+      this.uploadError = null
+    },
+    save (formData) {
+      // upload data to the server
+      this.currentStatus = STATUS_SAVING
+      upload(formData)
+        .then(x => {
+          this.uploadedFiles = [].concat(x)
+          this.currentStatus = STATUS_SUCCESS
+        })
+        .catch(err => {
+          this.uploadError = err.response
+          this.currentStatus = STATUS_FAILED
+        })
+    },
+    filesChange (fieldName, fileList) {
+      // handle file changes
+      const formData = new FormData()
+
+      if (!fileList.length) return
+        // append the files to FormData
+      Array
+          .from(Array(fileList.length).keys())
+          .map(x => {
+            formData.append(fieldName, fileList[x], fileList[x].name)
+          })
+      // save it
+      this.save(formData)
+    }
+  },
+  mounted () {
+    this.reset()
   }
 }
 </script>
+<style lang="scss">
+  .dropbox {
+    outline: 2px dashed grey; /* the dash box */
+    outline-offset: -10px;
+    background: lightcyan;
+    color: dimgray;
+    padding: 10px 10px;
+    min-height: 200px; /* minimum height */
+    position: relative;
+    cursor: pointer;
+  }
+
+  .input-file {
+    opacity: 0; /* invisible but it's there! */
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .dropbox:hover {
+    background: lightblue; /* when mouse over to the drop zone, change color */
+  }
+
+  .dropbox p {
+    font-size: 1.2em;
+    text-align: center;
+    padding: 50px 0;
+  }
+</style>

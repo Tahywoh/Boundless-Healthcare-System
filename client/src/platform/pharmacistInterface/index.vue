@@ -28,7 +28,7 @@
                 <form class="col s12" @input="errorMsg" @submit.prevent="validateForm">
                   <div class="row">
                     <div class="input-field col s6">
-                      <input id="drug_name" type="text" class="validate" v-model="formData.drugName">
+                      <input id="drug_name" type="text" class="validate" v-model="formData.drugName" required>
                       <label for="drug_name">Drug Name</label>
                     </div>
                     <div class="input-field col s6">
@@ -38,13 +38,13 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s6">
-                      <input id="price" type="number" class="validate" value="# " v-model="formData.price" min="50" max="50000" placeholder="Default currency is Naira (#)">
+                      <input id="price" type="number" class="validate" value="# " v-model="formData.price" min="50" max="50000" placeholder="Default currency is Naira  required(#)">
                       <label for="price">Price</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
-                      <textarea id="briefDescrip" class="materialize-textarea" v-model="formData.briefDescription"></textarea>
+                      <textarea id="briefDescrip" class="materialize-textarea" v-model="formData.briefDescription" required></textarea>
                       <label for="briefDescrip">Brief Description</label>
                     </div>
                   </div>

@@ -21,14 +21,8 @@ export default new Vuex.Store({
         reason: '',
         start: '',
         end: '',
-        date: '',
-        status: 'pending',
-        patient: {
-          doctorName: ''
-        },
-        doctor: {
-          patientName: ''
-        }
+        note: '',
+        status: 'pending'
       }
     },
     profile: {
@@ -49,7 +43,8 @@ export default new Vuex.Store({
       licenseRequirement: ''
     },
     consult: {
-      // roomNames: [],
+      doctorName: '',
+      patientName: '',
       newRoom: '',
       isConnectedToSocket: false,
       socketMessage: ''
@@ -89,8 +84,6 @@ export default new Vuex.Store({
         state.userData.appointment.start = user.start
         state.userData.appointment.end = user.end
         state.userData.appointment.status = user.status
-        state.userData.appointment.patient.doctorName = user.doctorName
-        state.userData.appointment.doctor.patientName = user.patientName
       } else {
         state.isUserLoggedIn = false
         // this.$router.push('/login')

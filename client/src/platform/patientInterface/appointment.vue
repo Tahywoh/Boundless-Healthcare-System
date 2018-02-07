@@ -14,36 +14,42 @@
   <template slot="modal-title">Book Appointment</template>
   <template slot="modal-content">
       <div class="row">
-      <form class="col s12">
+      <form class="col s12" @submit.prevent="validateForm">
         <div class="row">
           <div class="input-field col s12">
-          <textarea id="reason" class="materialize-textarea"></textarea>
+          <textarea id="reason" class="materialize-textarea" v-model="formData.reason" required></textarea>
           <label for="reason">Reason</label>
         </div>
         </div>
          <div class="row">
           <div class="input-field col s6">
-            <input id="doctor" type="text" data-length="10">
+            <input id="doctor" type="text" data-length="10" required v-model="formData.to.fullName">
             <label for="doctor">Doctor</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s6">
-              <input type="text" class="timepicker" id="startTime">
+              <input type="text" class="timepicker" id="startTime" required v-model="formData.setTime.start" placeholder="9:00 am">
             <label for="startTime">Start</label>
           </div>
           <div class="input-field col s6">
-             <input type="text" class="timepicker" id="endTime">
+             <input type="text" class="timepicker" id="endTime" required v-model="formData.setTime.end"  placeholder="1:00 pm">
             <label for="endTime">End</label>
           </div>
         </div>
+
         <div class="row">
-          <div class="input-field col s6">
-              <input type="text" class="datepicker" id="date">
-            <label for="date">Date</label>
-          </div>  
-          <h5 class="white-text"><button type="submit" href="" class="submit btn waves-effect waves-light white-text blue">Submit</button></h5>
+          <small class="red-text left">
+            <b>Note:</b>&nbsp;The doctor is meant to specify date along with either the appointment is pending, accepted or canceled. And if the date is not feasible for him/her, he can always change it as well.
+          </small>
         </div>
+        <div class="row text-center">
+          <small class="errMsg red-text text-center" >
+            {{errMsg}}
+          </small>
+        </div>
+
+         <h5 class="white-text"><button type="submit" href="" class="submit btn waves-effect waves-light white-text blue" @click="seekAppointment()">Submit</button></h5>
       </form>
     </div>
     </template>
@@ -90,11 +96,29 @@ import Interface from '@/components/layouts/interface'
 import navs from '@/platform/patientInterface/navs'
 import Modal from '@/components/snippets/modal'
 import BasicDetails from '@/components/widgets/basicDetails'
+// import $ from 'jquery'
+import RequestServices from '@/services/requestServices'
 export default {
   components: {Interface, Modal, BasicDetails},
   data () {
     return {
+      errMsg: '',
       add_icon: navs.links.bookAppointment.icon + ' x2 left',
+      formData: {
+        reason: '',
+        creator: {
+          userType: `${this.$store.state.userType}`,
+          fullName: `${this.$store.state.profile.fullName}`
+        },
+        to: {
+          userType: 'Doctor',
+          fullName: ''
+        },
+        setTime: {
+          start: '',
+          end: ''
+        }
+      },
       appointments: [
         {
           body: 'I am sick',
@@ -128,6 +152,55 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    validateForm (e) {},
+    async seekAppointment () {
+      let appointmentData = {}
+      appointmentData.creator = {
+        userType: this.formData.creator.userType,
+        fullName: this.formData.creator.fullName
+      }
+      appointmentData.setTime = {
+        start: this.formData.setTime.start,
+        end: this.formData.setTime.end
+      }
+      appointmentData.to = {
+        userType: this.formData.to.userType,
+        fullName: this.formData.to.fullName
+      }
+      if (this.formData.reason) {
+        appointmentData.reason = this.formData.reason
+      } else {
+        this.errMsg = 'Invalid input. Pls enter a valid input'
+        // return false
+      }
+      try {
+        console.log(appointmentData)
+        const bookAppointment = await (RequestServices.seekAppointment(appointmentData))
+        console.log({'appointmentData': bookAppointment.data})
+        alert('success')
+      } catch (error) {
+        if (error) {
+          this.errMsg = error.bookAppointment.data
+          console.log(JSON.stringify(this.errMsg, null, 2))
+        }
+      }
+    }
+  },
+  mounted () {
+    console.log({'creator': `${this.formData.creator.userType}`})
+    // $('#timepicker').pickatime({
+    //   default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+    //   fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
+    //   twelvehour: false, // Use AM/PM or 24-hour format
+    //   donetext: 'OK', // text for done-button
+    //   cleartext: 'Clear', // text for clear-button
+    //   canceltext: 'Cancel', // Text for cancel-button
+    //   autoclose: false, // automatic close timepicker
+    //   ampmclickable: true, // make AM PM clickable
+    //   aftershow: function () {} // Function for after opening timepicker
+    // })
   }
 }
 </script>

@@ -1,6 +1,9 @@
 <template>
   <div class="login center-align">
     <index>
+      <template slot="bimg">
+        <img src="../../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
+      </template>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Login</h3>
         <form class="col s6 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete="">
@@ -172,11 +175,33 @@ export default {
 </script>
 
 <style>
-#index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
+
+#index > div.main.flow-text > div.content.center-align.white-text {
   font-size: 0.89rem !important;
   margin: 0 !important;
   font-weight: 100 !important;
+    background-color: rgba(33, 150, 243, .25);
+    min-width: 100%;
+    /* min-height: auto; */
+    /* -webkit-filter: brightness(.3); */
+    /* filter: brightness(.3); */
+    width: auto;
+    min-height: 890px !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transition: -webkit-transform 0.6s, opacity 0.6s;
+    -webkit-transition: opacity 0.6s, -webkit-transform 0.6s;
+    transition: opacity 0.6s, -webkit-transform 0.6s;
+    transition: transform 0.6s, opacity 0.6s;
+    transition: transform 0.6s, opacity 0.6s, -webkit-transform 0.6s;
+    -webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
 }
+/* #index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
+  font-size: 0.89rem !important;
+  margin: 0 !important;
+  font-weight: 100 !important;
+} */
 div.userTypes{
   margin-top: 1.26rem;
 }
