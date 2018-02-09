@@ -277,5 +277,19 @@ router.post('/medlabscientist', (req, res) => {
     }
   })
 })
+router.use((req, res, next) => {
+  newFunction(res, next)
+
+  // res.header('Access-Control-Allow-Origin', '*')
+  // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  // next()
+})
 
 module.exports = router
+function newFunction (res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
+  res.header('Access-Control-Allow-Credentials', true)
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+}

@@ -153,6 +153,18 @@ router.use((req, res, next) => {
 })
 
 router.use((req, res, next) => {
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
+  // res.header('Access-Control-Allow-Credentials', true)
+  // // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+  // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  // next()
+
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
+router.use((req, res, next) => {
   var token = req.header['x-access-token'] || req.body.token
 
   if (token) {

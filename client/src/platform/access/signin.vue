@@ -1,10 +1,10 @@
 <template>
   <div class="login center-align">
     <index>
-      <template slot="bimg">
+      <!-- <template slot="bimg">
         <img src="../../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
-      </template>
-      <div slot="indexMainContent" class="mainContent center-align">
+      </template> -->
+      <div slot="indexMainContent" class="mainContent center-align m6 s12">
         <h3 class="blue white-text">Login</h3>
         <form class="col s6 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete="">
           <div class="row">
@@ -176,7 +176,7 @@ export default {
 
 <style>
 
-#index > div.main.flow-text > div.content.center-align.white-text {
+/* #index > div.main.flow-text > div.content.center-align.white-text {
   font-size: 0.89rem !important;
   margin: 0 !important;
   font-weight: 100 !important;
@@ -184,7 +184,7 @@ export default {
     min-width: 100%;
     /* min-height: auto; */
     /* -webkit-filter: brightness(.3); */
-    /* filter: brightness(.3); */
+    /* filter: brightness(.3);
     width: auto;
     min-height: 890px !important;
     -webkit-transform: translate3d(0, 0, 0);
@@ -196,12 +196,12 @@ export default {
     transition: transform 0.6s, opacity 0.6s, -webkit-transform 0.6s;
     -webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
     transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
-}
-/* #index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
+} */
+#index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
   font-size: 0.89rem !important;
   margin: 0 !important;
   font-weight: 100 !important;
-} */
+}
 div.userTypes{
   margin-top: 1.26rem;
 }
@@ -232,7 +232,7 @@ button#loginBtn {
 }
 
 div.login form > div > div.input-field.col.s12 {
-    margin: -0.3rem 0rem 0px 0px !important;
+    margin: 0.7rem 0rem 0px 0px !important;
 }
 
 div.main.flow-text > div.content.center-align.white-text > div > div > form > div:nth-child(1){
@@ -267,7 +267,8 @@ div.main.flow-text
 
 .mainContent {
   width: 40%;
-  height: 85vh;
+  height: auto;
+  padding-bottom: 2rem;
   margin: 2rem auto;
   border-radius: 13px;
   border-width: 1px;

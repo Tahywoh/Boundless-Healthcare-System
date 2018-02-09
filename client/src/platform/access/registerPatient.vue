@@ -3,7 +3,7 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
-        <form class="col s6" @submit.prevent="validateForm" autocomplete @input="errorMsg" autofocus>
+        <form class="col m6 s12" @submit.prevent="validateForm" autocomplete @input="errorMsg" autofocus>
           <div id="field1">
             <div class="row">
               <div class="input-field col s6">
@@ -307,9 +307,11 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a 
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
   right: 26rem;
+  top: 31.5rem
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
     left: 29%;
+    top: 31.5rem;
 }
 .show{
   display: block !important;

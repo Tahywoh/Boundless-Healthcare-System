@@ -3,7 +3,7 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
-        <form class="col s6" @submit.prevent="validateForm" @input="errorMsg">
+        <form class="col m6 s12" @submit.prevent="validateForm" @input="errorMsg">
           <div id="field1" :class="show">
             <div class="row">
               <div class="input-field col s6">
