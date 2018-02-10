@@ -50,7 +50,7 @@
               <div class="input-field col s5">
                 <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
-                  <option v-for="option in options" v-bind:value="option.value">
+                  <option v-for="option in options" :value="option.value">
                     {{ option.text }}
                   </option>
                 </select>
@@ -187,7 +187,6 @@ export default {
     validateForm (e) {},
     async registerPatient () {
       let validateReg = {}
-      // console.log(this.formData)
       // validateReg.gender = this.formData.gender
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
@@ -229,7 +228,7 @@ export default {
       }
       if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
         validateReg.password = this.formData.password
-        validateReg.confirmPassword = this.formData.confirmPassword
+        // validateReg.confirmPassword = this.formData.confirmPassword
       } else if (validateReg.password === '' || validateReg.password === null) {
         this.errorMsg = 'Password is required!'
         return false
@@ -240,18 +239,29 @@ export default {
         this.errorMsg = 'Your password must be atleast 4 characters!'
         return false
       }
+      console.log({'This is vaidate reg': validateReg})
       try {
-        const response = await AuthServices.registerPatient(validateReg)
-        console.log(response.data)
-        this.successMsg = 'Successful Registration. You can now login'
-        this.errorMsg = ''
-        setTimeout(() => {
-          this.$router.push('/login')
-        }, 2300)
+        // const response = (await AuthServices.registerPatient(validateReg))
+        const response = await AuthServices.registerPatient({
+          fullName: validateReg.fullName,
+          address: validateReg.address,
+          telephone: validateReg.telephone,
+          email: validateReg.email,
+          password: validateReg.password,
+          state: validateReg.state,
+          city: validateReg.city,
+          gender: validateReg.gender
+        })
+        console.log({'response from server': response})
+        // this.successMsg = 'Successful Registration. You can now login'
+        this.errorMsg = 'reg is success'
+        // setTimeout(() => {
+        //   this.$router.push('/login')
+        // }, 2300)
       } catch (error) {
-        this.errorMsg = error.response.data
-        console.log(JSON.stringify(this.errorMsg, null, 2))
-        console.log(error.response.status, error.response.statusText)
+        // this.errorMsg = error.response.data
+        console.log({'error says': JSON.stringify(error.response.data)})
+        // console.log(error.response.status, error.response.statusText)
       }
     }
   }

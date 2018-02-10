@@ -1,5 +1,6 @@
 var router = require('express').Router()
 var multer = require('multer')
+// const cloudinary = require('cloudinary')
 var storage = multer.diskStorage({
   destination (req, file, cb) {
     cb(null, 'public/uploads')

@@ -20,7 +20,7 @@
               <h5>You have not added any drug!</h5> 
               </div>
             <div class="blue-grey white-text eachDrug" v-for="allDrug in allDrugs" :key="allDrug._id" v-else>
-              <ul class="collapsible" data-collapsible="accordion">
+              <ul >
                 <li>
                   <div class="collapsible-header blue-text">
                     <h5 class="left">{{allDrug.drugName}}</h5>
@@ -29,11 +29,6 @@
                         Price: {{allDrug.price}}
                       </a>
                     </h5>
-                  </div>
-                  <div class="collapsible-body">
-                    <h6>Description: </h6>
-                    <span>{{allDrug.briefDescription}}</span><br/><br/>
-                    <h6>Manufacturer:</h6> <small class="grey lighten-4 blue-text">{{allDrug.manufac}}</small>
                   </div>
                 </li>
               </ul>

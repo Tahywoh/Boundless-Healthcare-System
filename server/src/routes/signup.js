@@ -16,7 +16,7 @@ const Pharmacist = mongoose.model('pharmacist')
 const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/patient', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
+  console.log(JSON.stringify(req.body))
   let { fullName, email, telephone, age, city, state, gender, address, password } = req.body
 
   let patientData = {}
@@ -38,8 +38,6 @@ router.post('/patient', (req, res) => {
   }
   if ((gender === 'Male' || gender === 'Female')) {
     patientData.gender = gender
-  } else {
-    res.status(403).send('You must choose your gender')
   }
   if (address && address.length > 11) {
     patientData.address = address
@@ -47,30 +45,24 @@ router.post('/patient', (req, res) => {
   if (password && password.length >= 5) {
     patientData.password = bcrypt.hashSync(password, 10)
   } else {
-    return res.status(422).send('invalid or no password supplied!')
+    res.status(422).send('invalid or no password supplied!')
   }
-  Patient.findOne({email: patientData.email})
-    .then(patient => {
-      if (!patient) {
-        let newPatient = new Patient(patientData)
-        newPatient.save(err => {
-          if (!err) {
-            console.log('Registration successful!')
-            return res.status(201).json('Patient has successfully been registered!')
-          } else {
-            if (err.code === 11000) {
-              console.log('user already exist')
-              return res.status(409).send('user already exist!')
-            } else {
-              console.log(JSON.stringify(err, null, 2))
-              return res.status(500).send('There were errors registering you. <br/> We\' working towards fixing this!')
-            }
-          }
-        })
+
+  let newPatient = new Patient(patientData)
+  newPatient.save(err => {
+    if (!err) {
+      console.log('Registration successful!')
+      return res.status(201).json('Patient has successfully been registered!')
+    } else {
+      if (err.code === 11000) {
+        console.log('user already exist')
+        return res.status(409).send('user already exist!')
       } else {
-        return res.status(409).send('User already exist!')
+        console.log(JSON.stringify(err, null, 2))
+        return res.status(500).send('There were errors registering you. <br/> We\'re working towards fixing this!')
       }
-    })
+    }
+  })
 })
 
 // Now we signup the doctor on the platform.
@@ -277,19 +269,16 @@ router.post('/medlabscientist', (req, res) => {
     }
   })
 })
-router.use((req, res, next) => {
-  newFunction(res, next)
 
-  // res.header('Access-Control-Allow-Origin', '*')
+router.use((req, res, next) => {
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
+  // res.header('Access-Control-Allow-Credentials', true)
+  // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
   // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   // next()
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
 })
 
 module.exports = router
-function newFunction (res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
-  res.header('Access-Control-Allow-Credentials', true)
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
-}

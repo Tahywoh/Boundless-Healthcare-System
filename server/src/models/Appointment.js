@@ -3,25 +3,26 @@ const mongoose = require('mongoose')
 const {Schema} = require('mongoose')
 // const {ObjectId} = Schema.Types
 const DateType = Schema.Types.Date
-// const {objectId} = Schema.Types
+const {ObjectId} = Schema.Types
 
 const AppointmentSchema = new Schema({
-  // _id: Schema.Types.ObjectId,
-  // doctor: {
-  //   ref: 'doctor',
-  //   type: ObjectId
-  // },
   doctor: {
-    type: String
+    ref: 'doctor',
+    type: ObjectId
+  },
+  patient: {
+    ref: 'patient',
+    type: ObjectId
+  },
+  medlabscientist: {
+    ref: 'medlabscientist',
+    type: ObjectId
   },
   reason: {
     type: String,
     trim: true
   },
-  creator: {
-    userType: String,
-    fullName: String
-  },
+  creator: String,
   setTime: {
     start: DateType,
     end: DateType

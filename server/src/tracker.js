@@ -9,14 +9,13 @@ const socketIO = require('socket.io')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-
 const search = require('./routes/search')
 const signin = require('./routes/signin')
 const signup = require('./routes/signup')
 var pharmacy = require('./routes/pharmacy')
 const appointment = require('./routes/appointment')
 const handlePhoto = require('./utils/handlePhoto')
-
+// const jwt = require('jsonwebtoken')
 var server = http.createServer(app)
 
 var io = socketIO(server)
@@ -54,17 +53,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: false
 }))
-app.use((req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
-  // res.header('Access-Control-Allow-Credentials', true)
-  // // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
-  // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  // next()
 
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
-})
 // app.get('/', (req, res) => {})
 // app.get('/getUserDrugs', getData.getUserDrugs)
 app.get('/getAllDrugs', getData.getAllDrugs)
@@ -94,6 +83,32 @@ io.on('connection', (socket) => {
 //   res.header('Access-Control-Allow-Origin', '*')
 //   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
 //   next()
+// })
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
+  res.header('Access-Control-Allow-Credentials', true)
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  // next()
+
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
+
+// app.use((req, res, next) => {
+//   console.log(JSON.stringify(req.body, null, 2))
+//   var token = req.headers['x-access-token'] || req.body.token
+//   if (token) {
+//     jwt.verify(token, req.app.get('tokenSecret'), function (err, decoded) {
+//       if (err) console.log(JSON.stringify(err))
+//       req.decoded = decoded
+//       next()
+//     })
+//   } else {
+//     res.status(403).json({'result': 'No token provided'})
+//   }
 // })
 
 app.use('/search', search)

@@ -165,9 +165,10 @@ export default {
         if (error) {
           this.errorMsg = error.response.data
           console.log(JSON.stringify(this.errorMsg, null, 3))
-        } else {
-          this.errorMsg = 'Kindly check your internet connection!'
         }
+        // else {
+        //   this.errorMsg = 'Kindly check your internet connection!'
+        // }
       }
     }
   }

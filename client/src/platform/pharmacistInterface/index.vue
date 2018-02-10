@@ -91,7 +91,7 @@
               <h5>{{pharmacistDrugStatus}}</h5> 
             </div>
             <div class="blue-grey white-text eachUserDrug" v-for="userDrug in userDrugs" :key="userDrug._id" v-else>
-              <ul class="collapsible user_drugs" data-collapsible="accordion">
+              <ul class="user_drugs" >
                 <li>
                   <div class="collapsible-header blue-text">
                     <h5 class="left">{{userDrug.drugName}}</h5>
@@ -100,11 +100,6 @@
                         {{userDrug.price}}
                       </span>
                     </h5>
-                  </div>
-                  <div class="collapsible-body">
-                    <h6>Description: </h6>
-                    <span v-text="userDrug.briefDescription"></span><br/><br/>
-                    <h6>Manufacturer:</h6> <small class="grey lighten-4 blue-text" v-text="userDrug.manufac"></small>
                   </div>
                 </li>
               </ul>
