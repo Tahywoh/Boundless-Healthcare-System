@@ -106,18 +106,12 @@ export default {
       add_icon: navs.links.bookAppointment.icon + ' x2 left',
       formData: {
         reason: '',
-        creator: {
-          userType: `${this.$store.state.userType}`,
-          fullName: `${this.$store.state.profile.fullName}`
-        },
-        to: {
-          userType: 'Doctor',
-          fullName: ''
-        },
+        creator: this.$store.state.profile.email,
         setTime: {
           start: '',
           end: ''
-        }
+        },
+        doctor: 'New testing doctor'
       },
       appointments: [
         {

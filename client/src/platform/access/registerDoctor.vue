@@ -119,7 +119,7 @@
 
 <script>
 import Index from '@/platform/index'
-import AuthServices from '@/services/authServices'
+import AuthServices from '@/services/authService'
 export default {
   name: 'registerDoctor',
   components: { Index },
@@ -289,7 +289,7 @@ export default {
         this.errorMsg = ''
         setTimeout(() => {
           this.$router.push('/login')
-        }, 2300)
+        }, 3300)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))

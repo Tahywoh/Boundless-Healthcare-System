@@ -21,7 +21,7 @@
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
-                <input id="telephone" type="number" class="validate" v-model="formData.telephone" required>
+                <input id="telephone" type="number" class="validate" v-model="formData.telephone" required min="0">
                 <label for="telephone">Telephone</label>
               </div>
               <div class="input-field col s6">
@@ -114,7 +114,7 @@
 
 <script scoped>
 import Index from '@/platform/index'
-import AuthServices from '@/services/authServices'
+import AuthServices from '@/services/authService'
 export default {
   name: 'registerPharmacist',
   components: { Index },
@@ -203,6 +203,7 @@ export default {
       console.log(this.formData)
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
+      validateReg.gender = this.formData.gender
 
       // validating form data
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
@@ -228,11 +229,6 @@ export default {
       } else {
         this.errorMsg = 'You must provide your state'
         return false
-      }
-      if (this.formData.gender === '') {
-        this.errorMsg = 'You must choose your gender'
-      } else if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
-        validateReg.gender = this.formData.gender
       }
       if (this.formData.pharmacyName && this.formData.pharmacyName.length >= 7) {
         validateReg.pharmacyName = this.formData.pharmacyName
@@ -277,7 +273,7 @@ export default {
         this.errorMsg = ''
         setTimeout(() => {
           this.$router.push('/login')
-        }, 2300)
+        }, 3300)
       } catch (error) {
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))
@@ -341,6 +337,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a 
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
   right: 26rem;
+  bottom: 4rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
     left: 29%;

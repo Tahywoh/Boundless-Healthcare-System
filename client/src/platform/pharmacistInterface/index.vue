@@ -88,7 +88,7 @@
           <div class="drugs transparent show-content">
             <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Your Products</h4>
             <div class="text-center center-align" v-if="!registeredUserDrug">
-              <h5>{{pharmacistDrugStatus}}</h5> 
+              <h5 v-html="pharmacistDrugStatus"></h5> 
             </div>
             <div class="blue-grey white-text eachUserDrug" v-for="userDrug in userDrugs" :key="userDrug._id" v-else>
               <ul class="user_drugs" >
@@ -131,7 +131,10 @@ export default {
       goToProfile: navs.links.profile.url,
       currency: '#',
       errorMsg: '',
-      pharmacistDrugStatus: 'You have not added any drug!',
+      pharmacistDrugStatus: `You have not added any drug!
+      <br/>
+      Kindly click add drug at your left hand side to add one and your drug(s) will appear here.
+      `,
       formData: {
         drugName: '',
         manufac: '',
@@ -152,7 +155,7 @@ export default {
     try {
       let userDrugs = (await GetServices.getCurrentUserDrugs({user: validSeller.userDrugs})).data
       this.userDrugs = userDrugs
-      if (this.userDrugs !== null) {
+      if (this.userDrugs.length !== 0) {
         this.registeredUserDrug = true
       } else {
         this.registeredUserDrug = false
@@ -188,6 +191,11 @@ export default {
         console.log(responseData)
         alert('Your drug has been successfully added!')
         document.getElementById('id01').style.display = 'none'
+        this.formData.drugName = ''
+        this.formData.manufac = ''
+        this.formData.briefDescription = ''
+        this.formData.price = ''
+        this.errorMsg = ''
       } catch (error) {
         if (error) {
           this.errorMsg = error.response.data

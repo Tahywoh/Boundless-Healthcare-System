@@ -7,10 +7,25 @@
 </div>
   <div class="main flow-text">
     <heading/>
-    <div class="img responsive-img">
+    <div class="homeContent">
         <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
+        <!-- <div class="content center-align white-text"> 
+          <div class="animated bounceInRight">
+            <slot name="indexMainContent" class="animated bounceInRight m6 s12">
+          <p>Diagnose your health condition and take necessary measure!</p>
+          <p>We offer the best health care system</p>
+          <p class="footnote">
+            Do you feel pain in any part of your body?<br/>
+            Kindly register  at the top right corner of the app to consult doctor
+          </p>
+          <p class="register-note x15">
+              Are you a licensed doctor, pharmacist or medical lab scientist?<br/>
+            Kindly register as one to supply the  sick with appropriate drugs, conduct a reliable medical test and give the patient the best as regards their health conditions.</p>
+          </slot> 
+          </div>
+        </div> -->
     </div>
-    
+
     <div class="content center-align white-text"> 
       <div class="animated bounceInRight">
         <slot name="indexMainContent" class="animated bounceInRight m6 s12">
@@ -22,7 +37,7 @@
       </p>
       <p class="register-note x15">
           Are you a licensed doctor, pharmacist or medical lab scientist?<br/>
-        Kindly register as one to supply the  sick with appropriate drugs, consult a reliable medical test and give the patient the best as regards their health conditions.</p>
+        Kindly register as one to supply the  sick with appropriate drugs, conduct a reliable medical test and give the patient the best as regards their health conditions.</p>
       </slot> 
       </div>
     </div>

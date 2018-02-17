@@ -34,7 +34,6 @@ router.post('/doctors', (req, res) => {
         console.log(JSON.stringify(err, null, 2))
       }
     })
-      .limit(10)
     // Doctor.find({$text: { $search: 'taiwo' }})
     //   .then((doc, err) => {
     //     if (doc !== null && !err) {
@@ -63,7 +62,6 @@ router.post('/pharmacy', (req, res) => {
         }
       }
     })
-      .limit(10)
   }
 })
 

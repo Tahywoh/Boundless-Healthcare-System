@@ -20,7 +20,7 @@ router.post('/patient', (req, res) => {
   let { fullName, email, telephone, age, city, state, gender, address, password } = req.body
 
   let patientData = {}
-  patientData.age = age
+  // patientData.age = age
   if (fullName && fullName.length > 6) {
     patientData.fullName = fullName
   }
@@ -29,6 +29,13 @@ router.post('/patient', (req, res) => {
   }
   if (telephone && telephone.length >= 9) {
     patientData.telephone = telephone
+  } else {
+    res.status(422).send('Invalid phone number')
+  }
+  if (age && age >= 16) {
+    patientData.age = age
+  } else {
+    res.status(403).send('Only users are 17 and above can use this platform')
   }
   if (city && city.length >= 3) {
     patientData.city = city
@@ -100,8 +107,6 @@ router.post('/doctor', (req, res) => {
   }
   if (gender === 'Male' || gender === 'Female') {
     doctorData.gender = gender
-  } else {
-    res.status(403).send('You must choose your gender')
   }
   if (hospitalName && hospitalName.length >= 7) {
     doctorData.hospitalName = hospitalName
@@ -173,8 +178,6 @@ router.post('/pharmacist', (req, res) => {
   }
   if (gender === 'Male' || gender === 'Female') {
     pharmacistData.gender = gender
-  } else {
-    res.status(403).send('You must choose your gender')
   }
   if (pharmacyName && pharmacyName.length >= 7) {
     pharmacistData.pharmacyName = pharmacyName
@@ -233,8 +236,6 @@ router.post('/medlabscientist', (req, res) => {
   }
   if (gender === 'Male' || gender === 'Female') {
     medlabscientistData.gender = gender
-  } else {
-    res.status(403).send('You must choose your gender')
   }
   if (laboratoryName && laboratoryName.length >= 7) {
     medlabscientistData.laboratoryName = laboratoryName

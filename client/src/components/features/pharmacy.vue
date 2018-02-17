@@ -17,7 +17,10 @@
             <!-- <h1>Alright testing</h1> -->
             <div class="show-content">
               <div class="text-center center-align" v-if="!registeredDrug">
-              <h5>You have not added any drug!</h5> 
+              <h5>
+                No drug in the pharmacy yet!<br/>
+                Kindly click on add drug at your left hand side to add one.
+              </h5> 
               </div>
             <div class="blue-grey white-text eachDrug" v-for="allDrug in allDrugs" :key="allDrug._id" v-else>
               <ul >
@@ -77,13 +80,19 @@ export default {
       // console.log(validateSearchInput)
       try {
         const pharmacy = (await SearchServices.findDrugs({query: validateSearchInput.searchPharmacy})).data
-        console.log('pharmacy: ', pharmacy)
-        if (pharmacy !== []) {
+        if (pharmacy.length !== 0) {
+          this.searchPharmacy = ''
           this.searchErr = ''
           this.allDrugs = pharmacy
+          console.log('Drug not found')
         } else {
-          this.searchErr = 'Drug not found! \n Please try searching with minimal words or strings'
-          return false
+          this.allDrugs = null
+          if (this.$store.state.userType === 'Pharmacist') {
+            this.searchErr = 'Drug not found, you can add the drug to pharmacy by clicking on add drug button at your left hand side.'
+          } else {
+            this.searchErr = 'Drug not found! Please try searching with minimal words or strings'
+            return false
+          }
         }
       } catch (error) {
         if (error) {

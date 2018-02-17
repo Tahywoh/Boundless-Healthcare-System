@@ -104,7 +104,7 @@
 
 <script>
 import Index from '@/platform/index'
-import AuthServices from '@/services/authServices'
+import AuthServices from '@/services/authService'
 export default {
   name: 'registerPatient',
   components: { Index },
@@ -237,31 +237,31 @@ export default {
         return false
       } else {
         this.errorMsg = 'Your password must be atleast 4 characters!'
-        return false
+        // return false
       }
       console.log({'This is vaidate reg': validateReg})
       try {
-        // const response = (await AuthServices.registerPatient(validateReg))
-        const response = await AuthServices.registerPatient({
-          fullName: validateReg.fullName,
-          address: validateReg.address,
-          telephone: validateReg.telephone,
-          email: validateReg.email,
-          password: validateReg.password,
-          state: validateReg.state,
-          city: validateReg.city,
-          gender: validateReg.gender
-        })
+        const response = (await AuthServices.registerPatient(validateReg))
+        // const response = await AuthServices.registerPatient({
+        //   fullName: validateReg.fullName,
+        //   address: validateReg.address,
+        //   telephone: validateReg.telephone,
+        //   email: validateReg.email,
+        //   password: validateReg.password,
+        //   state: validateReg.state,
+        //   city: validateReg.city,
+        //   gender: validateReg.gender
+        // })
         console.log({'response from server': response})
-        // this.successMsg = 'Successful Registration. You can now login'
+        this.successMsg = 'Successful Registration. You can now login'
         this.errorMsg = 'reg is success'
-        // setTimeout(() => {
-        //   this.$router.push('/login')
-        // }, 2300)
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 3300)
       } catch (error) {
-        // this.errorMsg = error.response.data
+        this.errorMsg = error.response.data
         console.log({'error says': JSON.stringify(error.response.data)})
-        // console.log(error.response.status, error.response.statusText)
+        console.log(error.response.status, error.response.statusText)
       }
     }
   }

@@ -61,7 +61,7 @@
 
 <script>
 import Index from '@/platform/index'
-import AuthServices from '@/services/authServices'
+import AuthServices from '@/services/authService'
 export default {
   name: 'signin',
   components: { Index },
@@ -114,7 +114,7 @@ export default {
       }
       try {
         const response = await AuthServices.signInUsers(validateLogin)
-        console.log(JSON.stringify(response.data) + '\nThis is a success')
+        console.log(JSON.stringify(response) + '\n This is a success')
         let responseData = response.data
         if (this.loginData.userType === 'Patient') {
           let {fullName, telephone, city, token, user, userType, state, address} = responseData
@@ -156,7 +156,7 @@ export default {
           this.$router.push(this.$store.state.lastPageVisited)
         } else if (this.$store.state.lastPage.trim().length > 0) {
           console.log('lastpage')
-          this.$router.push(`${this.$store.state.lastPage}`)
+          // this.$router.push(`${this.$store.state.lastPage}`)
         } else {
           location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
@@ -164,7 +164,7 @@ export default {
       } catch (error) {
         if (error) {
           this.errorMsg = error.response.data
-          console.log(JSON.stringify(this.errorMsg, null, 3))
+          // console.log(JSON.stringify(this.errorMsg, null, 3))
         }
         // else {
         //   this.errorMsg = 'Kindly check your internet connection!'

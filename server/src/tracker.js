@@ -22,7 +22,7 @@ var io = socketIO(server)
 const config = require('./helpers/config')
 const database = require('./helpers/database')
 
-const port = process.env.PORT || 7000
+const port = process.env.PORT || 7070
 const {generateMessage, generateLocationMessage} = require('./socket/message')
 const getData = require('./utils/getData')
 
@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
 // })
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
+  res.header('Access-Control-Allow-Origin', 'http://localhost:9000')
   res.header('Access-Control-Allow-Credentials', true)
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
