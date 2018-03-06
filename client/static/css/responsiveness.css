@@ -1,0 +1,81 @@
+
+
+/* tablet device */
+@media only screen and (max-width: 900px) {
+  html, body{
+    font-size: 14px;
+    margin: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+  #index > div.main.flow-text.wrapper > div.header.center.animated.lightSpeedIn > p{
+    font-size: 2rem;
+  }
+  #nav-mobile{
+    font-size: 13px ;
+    padding: 0rem 0rem;
+  }
+
+  /* signin page */
+  #index > div.main.flow-text.wrapper > div.content.center-align.white-text > div > div {
+    width: 68%;
+  }
+
+  /* reg patient */ 
+  div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
+    right: 22% !important;
+    top: 63%;
+}
+/* #slide-out{
+  display: none !important;
+} */
+}
+
+
+
+/* mobile device */
+
+@media only screen and (max-width: 600px) {
+  #slide-out > a > i {
+    height: 0px;
+    line-height: 0px;
+    margin-left: 150%;
+  }
+  /* signin page */
+  #index > div.main.flow-text.wrapper > div.content.center-align.white-text > div > div {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  #slide-out {
+    margin: auto 45%;
+  }
+}
+
+
+/* desktop device */
+
+@media only screen and (min-width: 992px) {
+  div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
+    right: 32% !important;
+    top: 68% !important;
+}
+#slide-out{
+  display: none !important;
+}
+div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
+  right: 32% !important;
+  top: 70% !important;
+}
+/* div.mainContent {
+  height: inherit;
+} */
+div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow[data-v-44ccda2f] {
+  left: 29%;
+  top: 82%;
+}
+}

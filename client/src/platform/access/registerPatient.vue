@@ -237,9 +237,9 @@ export default {
         return false
       } else {
         this.errorMsg = 'Your password must be atleast 4 characters!'
-        // return false
+        return false
       }
-      console.log({'This is vaidate reg': validateReg})
+      // console.log({'This is vaidate reg': validateReg})
       try {
         const response = (await AuthServices.registerPatient(validateReg))
         // const response = await AuthServices.registerPatient({
@@ -252,9 +252,10 @@ export default {
         //   city: validateReg.city,
         //   gender: validateReg.gender
         // })
-        console.log({'response from server': response})
-        this.successMsg = 'Successful Registration. You can now login'
-        this.errorMsg = 'reg is success'
+        // console.log({'response from server': response})
+        this.successMsg = response.data
+        alert('You have successfully registered. You can now login')
+        this.errorMsg = ''
         setTimeout(() => {
           this.$router.push('/login')
         }, 3300)
@@ -282,7 +283,7 @@ input {
 }
 div.main img{
   width: 100%;
-  filter: brightness(.79) !important;
+  /* filter: brightness(.79) !important; */
   z-index: -1;
 }
 option, option:disabled{

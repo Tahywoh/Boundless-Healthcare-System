@@ -25,7 +25,7 @@ router.post('/seekAppointment', (req, res) => {
           // console.log(patientId)
           let newAppointment
           // console.log(patient + '\n' + doctor)
-          if (creator === 'doctor') {
+          if (creator === 'Doctor') {
             newAppointment = new Appointment({
               doctor,
               patient,
@@ -34,7 +34,7 @@ router.post('/seekAppointment', (req, res) => {
               note,
               creator: req.body.doctor
             })
-          } else {
+          } else if (creator === 'Patient') {
             newAppointment = new Appointment({
               doctor: docId,
               patient: patientId,
@@ -76,51 +76,53 @@ router.post('/seekAppointment', (req, res) => {
     }
   })
 
-  Medlabscientist.find({email: labScientist}, '_id', (err, result) => {
-    if (!err) {
-      let medlabscientist = result[0]._id
+  if (labScientist) {
+    Medlabscientist.find({email: labScientist}, '_id', (err, result) => {
+      if (!err) {
+        let medlabscientist = result[0]._id
 
-      Patient.find({email: patient}, '_id', (err, result) => {
-        if (!err) {
-          let patientId = result[0]._id
-          // console.log(patientId)
-          let newAppointment
-          // console.log(patient + '\n' + doctor)
-          if (creator === 'MedlabScientist') {
-            newAppointment = new Appointment({
-              medlabscientist,
-              patient,
-              reason,
-              setTime,
-              note,
-              creator: req.body.labScientist
+        Patient.find({email: patient}, '_id', (err, result) => {
+          if (!err) {
+            let patientId = result[0]._id
+            // console.log(patientId)
+            let newAppointment
+            // console.log(patient + '\n' + doctor)
+            if (creator === 'MedlabScientist') {
+              newAppointment = new Appointment({
+                medlabscientist,
+                patient,
+                reason,
+                setTime,
+                note,
+                creator: req.body.labScientist
+              })
+            } else {
+              newAppointment = new Appointment({
+                medlabscientist,
+                patient: patientId,
+                reason,
+                creator: req.body.patient,
+                setTime
+              })
+            }
+            newAppointment.save((err, data) => {
+              if (!err) {
+                // appointmentId = data._id
+                res.status(200).send(JSON.stringify(data, null, 3))
+                console.log(data)
+              } else {
+                // handle error
+                console.log(JSON.stringify(err, null, 2))
+              }
             })
           } else {
-            newAppointment = new Appointment({
-              medlabscientist,
-              patient: patientId,
-              reason,
-              creator: req.body.patient,
-              setTime
-            })
+            // handle your error
+            console.log(JSON.stringify(err, null, 2))
           }
-          newAppointment.save((err, data) => {
-            if (!err) {
-              // appointmentId = data._id
-              res.status(200).send(JSON.stringify(data, null, 3))
-              console.log(data)
-            } else {
-              // handle error
-              console.log(JSON.stringify(err, null, 2))
-            }
-          })
-        } else {
-          // handle your error
-          console.log(JSON.stringify(err, null, 2))
-        }
-      })
-    }
-  })
+        })
+      }
+    })
+  }
 })
 
 router.post('/fetchAppointment', (req, res) => {

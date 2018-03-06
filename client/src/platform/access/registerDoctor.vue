@@ -284,8 +284,8 @@ export default {
       }
       try {
         const response = await AuthServices.registerDoctor(validateReg)
-        console.log(response.data)
-        this.successMsg = 'Successful Registration. You can now login'
+        this.successMsg = response.data
+        alert('You have successfully registered. You can now login')
         this.errorMsg = ''
         setTimeout(() => {
           this.$router.push('/login')
@@ -331,7 +331,7 @@ i.icon.ion-ios-paper{
 }
 div.main img{
   width: 100%;
-  filter: brightness(.79) !important;
+  /* filter: brightness(.79) !important; */
   z-index: -1;
 }
 option, option:disabled{

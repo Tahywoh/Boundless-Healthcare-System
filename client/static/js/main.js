@@ -9,7 +9,7 @@ $(document).ready(function () {
   // $('#address_profile').val('No 2, Balogun oke odo, tanke Ilorin, Ilorin')
   $('#address_profile').trigger('autoresize')
   $('.collapsible').collapsible()
-
+  // $("#sideMenu").sideNav();
   // $('.timepicker').pickatime({
   //   default: 'now', // Set default time: 'now', '1:30AM', '16:30'
   //   fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')

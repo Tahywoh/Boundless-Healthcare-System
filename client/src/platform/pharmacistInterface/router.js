@@ -3,6 +3,7 @@
 import navs from './navs'
 import Index from './index'
 import Profile from './profile'
+import Eachdrug from '@/components/features/eachDrug'
 
 export default [
   {
@@ -16,11 +17,23 @@ export default [
   },
   {
     path: navs.links.profile.url,
-    name: 'BHS | ' + navs.links.profile.url,
+    name: 'BHS | ' + navs.links.profile.text,
     component: Profile,
     meta: {
       requiresAuth: true,
-      pharmacist: true
+      pharmacistAuth: true
+    }
+  },
+  {
+    path: `/pharmacy/drug-description/*`,
+    name: 'BHS | Drug description',
+    component: Eachdrug,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true,
+      patientAuth: true,
+      doctorAuth: true,
+      medicalLabScientistAuth: true
     }
   }
 ]

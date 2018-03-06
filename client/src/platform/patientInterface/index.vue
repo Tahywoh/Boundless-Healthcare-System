@@ -167,8 +167,12 @@ export default {
     },
     createChannel (e) {
       // console.log(e.target.attributes[0].nodeValue)
-      let newChannel, docFullName, channel
+      let newChannel, docFullName, channel, docEmail
       this.doctors.forEach((doc) => {
+        docFullName = doc.fullName
+        docEmail = doc.email
+        this.$store.state.consult.doctorName = docFullName
+        this.$store.state.consult.doctorEmail = docEmail
         if (doc._id === e.target.attributes[0].nodeValue) {
           channel = `${this.$store.state.profile.fullName.replace(/\s/g, '').toLowerCase()}AND${doc.fullName.replace(/\s/g, '').toLowerCase()}`
 
@@ -182,10 +186,9 @@ export default {
           } else {
             alert(`You are already connected to ${doc.fullName}. Kindly go to your dashboard to consult them.`)
           }
-          docFullName = doc.fullName
         }
       })
-      console.log(docFullName)
+      console.log(this.$store.state.consult.doctorName)
     }
   }
 }

@@ -23,18 +23,24 @@
         </div>
          <div class="row">
           <div class="input-field col s6">
-            <input id="doctor" type="text" data-length="10" required v-model="formData.to.fullName">
-            <label for="doctor">Doctor</label>
+            <input id="doctor" type="text" data-length="10" required v-model="formData.doctorName">
+            <label for="doctor">Doctor Name</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="doctor" type="text" data-length="10" required disabled>{{formData.doctor}}
+            <label for="doctor">Doctor Email</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s6">
-              <input type="text" class="timepicker" id="startTime" required v-model="formData.setTime.start" placeholder="9:00 am">
-            <label for="startTime">Start</label>
+            Start
+              <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start" >
+            <!-- <label for="startTime">Start</label> -->
           </div>
           <div class="input-field col s6">
-             <input type="text" class="timepicker" id="endTime" required v-model="formData.setTime.end"  placeholder="1:00 pm">
-            <label for="endTime">End</label>
+            End
+             <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"  placeholder="1:00 pm">
+            <!-- <label for="endTime">End</label> -->
           </div>
         </div>
 
@@ -98,6 +104,7 @@ import Modal from '@/components/snippets/modal'
 import BasicDetails from '@/components/widgets/basicDetails'
 // import $ from 'jquery'
 import RequestServices from '@/services/requestServices'
+// import datetime from 'vuejs-datetimepicker'
 export default {
   components: {Interface, Modal, BasicDetails},
   data () {
@@ -106,12 +113,14 @@ export default {
       add_icon: navs.links.bookAppointment.icon + ' x2 left',
       formData: {
         reason: '',
-        creator: this.$store.state.profile.email,
+        creator: this.$store.state.userType,
         setTime: {
           start: '',
           end: ''
         },
-        doctor: 'New testing doctor'
+        doctor: this.$store.state.consult.doctorEmail,
+        doctorName: this.$store.state.consult.doctorName,
+        patient: this.$store.state.profile.user
       },
       appointments: [
         {
@@ -148,20 +157,19 @@ export default {
     }
   },
   methods: {
+    alerMe () {
+      alert(this.formData.setTime.start)
+      console.log(this.formData.setTime.start)
+    },
     validateForm (e) {},
     async seekAppointment () {
       let appointmentData = {}
-      appointmentData.creator = {
-        userType: this.formData.creator.userType,
-        fullName: this.formData.creator.fullName
-      }
+      appointmentData.creator = this.formData.creator
+      appointmentData.doctor = this.formData.doctor
+      appointmentData.patient = this.formData.patient
       appointmentData.setTime = {
         start: this.formData.setTime.start,
         end: this.formData.setTime.end
-      }
-      appointmentData.to = {
-        userType: this.formData.to.userType,
-        fullName: this.formData.to.fullName
       }
       if (this.formData.reason) {
         appointmentData.reason = this.formData.reason
@@ -183,18 +191,18 @@ export default {
     }
   },
   mounted () {
-    console.log({'creator': `${this.formData.creator.userType}`})
-    // $('#timepicker').pickatime({
-    //   default: 'now', // Set default time: 'now', '1:30AM', '16:30'
-    //   fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
-    //   twelvehour: false, // Use AM/PM or 24-hour format
-    //   donetext: 'OK', // text for done-button
-    //   cleartext: 'Clear', // text for clear-button
-    //   canceltext: 'Cancel', // Text for cancel-button
-    //   autoclose: false, // automatic close timepicker
-    //   ampmclickable: true, // make AM PM clickable
-    //   aftershow: function () {} // Function for after opening timepicker
-    // })
+    // console.log({'creator': `${this.formData.creator.userType}`})
+    // // $('#timepicker').pickatime({
+    // //   default: 'now', // Set default time: 'now', '1:30AM', '16:30'
+    // //   fromnow: 0,       // set default time to * milliseconds from now (using with default = 'now')
+    // //   twelvehour: false, // Use AM/PM or 24-hour format
+    // //   donetext: 'OK', // text for done-button
+    // //   cleartext: 'Clear', // text for clear-button
+    // //   canceltext: 'Cancel', // Text for cancel-button
+    // //   autoclose: false, // automatic close timepicker
+    // //   ampmclickable: true, // make AM PM clickable
+    // //   aftershow: function () {} // Function for after opening timepicker
+    // // })
   }
 }
 </script>

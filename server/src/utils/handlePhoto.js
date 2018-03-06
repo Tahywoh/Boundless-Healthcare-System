@@ -1,6 +1,8 @@
 var router = require('express').Router()
 var multer = require('multer')
-// const cloudinary = require('cloudinary')
+const fileParser = require('connect-multiparty')
+const cloudinary = require('cloudinary')
+cloudinary.config({cloud_name: 'taiwad', api_key: '869714852511566', api_secret: 'hOBuvh-tLT-yKTD9xm5mKLyb8eI'})
 var storage = multer.diskStorage({
   destination (req, file, cb) {
     cb(null, 'public/uploads')
@@ -28,5 +30,28 @@ router.post('/uploads', upload.any(), (req, res) => {
     }
   })
   // res.status(200).send(JSON.stringify(req.files))
+})
+
+router.post('/imgUpload', fileParser, (req, res) => {
+  var imageFile = req.files.photos
+  console.log(imageFile)
+  cloudinary
+    .v2
+    .uploader
+    .upload(imageFile.path, (error, result) => {
+      if (!error) {
+        console.log(result)
+        if (result.url) {
+          res.send(result.url)
+        } else {
+          console.log('err uploading at initial')
+          res.status(413).send({message: 'Error uploading your picture, Please try again', code: 'NOT_OK'})
+          console.log('Error uploading to cloudinary: ', JSON.stringify(result))
+        }
+      } else {
+        res.status(500).send('Error uploading your picture, Please try  again')
+        console.log('Error uploading to cloudinary: \nerror: ', JSON.stringify(error))
+      }
+    })
 })
 module.exports = router

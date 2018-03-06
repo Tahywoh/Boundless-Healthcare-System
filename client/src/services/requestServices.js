@@ -17,7 +17,7 @@ let header = {
 export default {
   seekAppointment (data, header) {
     // data.token = fetchStoreData('authToken')
-    return Api().post('/appointment/seekAppointment', data, header)
+    return Api().post('/appointment/seekAppointment', data)
   },
   fetchAppointments () {
     return Api().get('/my_appoiointments', header)

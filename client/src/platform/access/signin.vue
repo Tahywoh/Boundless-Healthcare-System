@@ -6,7 +6,7 @@
       </template> -->
       <div slot="indexMainContent" class="mainContent center-align m6 s12">
         <h3 class="blue white-text">Login</h3>
-        <form class="col s6 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete="">
+        <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete @submit="signInUsers">
           <div class="row">
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
@@ -49,8 +49,7 @@
             </div>
           </div>
              <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
-           <button  class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers"
-           >Login</button>
+           <button type="submit" class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn">Login</button>type="submit"
           
       </form>
       </div>
@@ -113,9 +112,10 @@ export default {
         return false
       }
       try {
-        const response = await AuthServices.signInUsers(validateLogin)
-        console.log(JSON.stringify(response) + '\n This is a success')
-        let responseData = response.data
+        const response = (await AuthServices.signInUsers(validateLogin)).data
+        // console.log(JSON.stringify(response) + '\n This is a success')
+        let responseData = response
+        console.log(JSON.stringify(response))
         if (this.loginData.userType === 'Patient') {
           let {fullName, telephone, city, token, user, userType, state, address} = responseData
 
@@ -158,13 +158,13 @@ export default {
           console.log('lastpage')
           // this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
+          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }
       } catch (error) {
         if (error) {
-          this.errorMsg = error.response.data
-          // console.log(JSON.stringify(this.errorMsg, null, 3))
+          this.errorMsg = error.response
+          console.log(JSON.stringify(this.errorMsg, null, 3))
         }
         // else {
         //   this.errorMsg = 'Kindly check your internet connection!'
@@ -244,10 +244,10 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > di
 div.mainContent h3{
   width: initial;
 }
-div.main img {
+#index > div.main.flow-text.wrapper > div.homeContent > img {
   width: 100%;
-  filter: brightness(0.79) !important;
-  z-index: -1;
+  filter: opacity(.6) !important;
+  /* z-index: -1; */
 }
 
 .file-field.input-field {

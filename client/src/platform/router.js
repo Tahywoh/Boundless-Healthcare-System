@@ -7,6 +7,7 @@ import RegisterMedlabScientist from '@/platform/access/registerMedlabScientist'
 import Signin from '@/platform/access/signin'
 import Photo from '@/components/utils/photo'
 import Newphoto from '@/components/utils/newphoto'
+import Testphoto from '@/components/utils/testphoto'
 import activeModules from '@/platform/activeModules'
 
 let routes = [
@@ -44,6 +45,11 @@ let routes = [
     path: '/photo',
     name: 'photo',
     component: Photo
+  },
+  {
+    path: '/testphoto',
+    name: 'Testing-photo',
+    component: Testphoto
   },
   {
     path: '/newphoto',

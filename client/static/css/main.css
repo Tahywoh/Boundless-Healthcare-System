@@ -7,6 +7,13 @@ html, body{
   margin-left: 0 !important;
   padding: 0 !important;
 }
+.calender-div {
+  background-color: #2196f3;
+  z-index: 50;
+}
+#id01 > div > div > div > div > form > div:nth-child(3) > div:nth-child(1) > div > div > div > div.time-picker > div.hour-selector > div.scroll-hider > ul {
+  height: 185px;
+}
 
 .x06{
   font-size: 0.6rem;

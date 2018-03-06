@@ -315,7 +315,7 @@ i.icon.ion-ios-paper{
 }
 div.main img{
   width: 100%;
-  filter: brightness(.79) !important;
+  /* filter: brightness(.79) !important; */
   z-index: -1;
 }
 option, option:disabled{

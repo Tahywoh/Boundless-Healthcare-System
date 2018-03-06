@@ -3,7 +3,7 @@
     <interface>
       <template slot="fixed-nav-bar">
           <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light">
+          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
           Profile
           </a></li>
           <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
@@ -70,7 +70,8 @@ export default {
   data () {
     return {
       appointment_icon: navs.links.appointment.icon + ' x2 left',
-      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left'
+      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
+      goToProfile: navs.links.profile.url
     }
   }
 }

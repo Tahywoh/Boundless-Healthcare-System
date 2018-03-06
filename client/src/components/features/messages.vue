@@ -6,7 +6,9 @@
       <p v-else>You're disconnected from the server!</p>
       </div>
       <h3>Attending doctor</h3>
-      <div id="users"></div>
+      <div id="users">
+        <li>{{docName}}</li>
+      </div>
   </div>
  
   <div class="chat__main">
@@ -41,16 +43,17 @@ export default {
     return {
       isConnected: false,
       socketMessages: [],
-      message: null
+      message: null,
+      docName: this.$store.state.consult.doctorName
     }
   },
   sockets: {
     connect () {
       // Fired when the socket connects.
       if ((this.$store.state.token && this.$store.state.userType === 'Patient') || (this.$store.state.token && this.$store.state.userType === 'Doctor')) {
+        // this.$store.commit('SOCKET_CONNECT')
         console.log('New user connected... ')
         this.isConnected = this.$store.state.consult.isConnectedToSocket
-        // this.$store.commit('SOCKET_CONNECT')
         // if (this.$store.state.isConnected) {
         //   this.isConnected = true
         // }
@@ -73,7 +76,7 @@ export default {
         this.message = ''
       } else {
         alert('Unable to connect to server')
-        location.href = '/'
+        this.$router.push('/')
       }
     },
     newLocationMessage (message) {

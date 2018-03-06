@@ -1,5 +1,5 @@
 <template>
-  <div class="pharmacist-profile">
+  <div class="medlabScientist-profile">
     <!-- <fixednav/> -->
     <navbar>
       <template slot="navbar">
@@ -50,15 +50,15 @@
               <label for="state">State:</label>
             </div>
             <div class="input-field col s6"><br/>
-              <input id="pharmacyName" type="text" class="validate"  v-model="profile.pharmacyName" readonly>
-              <label for="pharmacyName">Pharmacy Name:</label>
+              <input id="pharmacyName" type="text" class="validate"  v-model="profile.laboratoryName" readonly>
+              <label for="pharmacyName">Laboratory Name</label>
             </div>
           </div>
           <div class="row">
             <div class=" input-field col s12">
               <i class="icon ion-location"></i>
-              <textarea type="text" class="validate materialize-textarea" readonly v-model="profile.pharmacyAddress"></textarea>
-              <label for="address_profile">Pharmacy Address:</label>
+              <textarea type="text" class="validate materialize-textarea" readonly v-model="profile.laboratoryAddress"></textarea>
+              <label for="address_profile">Laboratory Address:</label>
             </div>
           </div>
           <div class="row">
@@ -90,8 +90,8 @@ export default {
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,
-        pharmacyName: `${this.$store.state.profile.pharmacyName}`,
-        pharmacyAddress: `${this.$store.state.profile.pharmacyAddress}`,
+        laboratoryName: `${this.$store.state.profile.laboratoryName}`,
+        laboratoryAddress: `${this.$store.state.profile.laboratoryAddress}`,
         eduRequirement: `${this.$store.state.profile.eduRequirement}`,
         licenseRequirement: `${this.$store.state.profile.licenseRequirement}`
       }
@@ -102,10 +102,10 @@ export default {
 
 
 <style scoped>
-div.pharmacist-profile nav ul li a{
+div.medlabScientist-profile nav ul li a{
   font-size: 0.7rem !important;
 }
-div.pharmacist-profile #basicDetailsProfile {
+div.medlabScientist-profile #basicDetailsProfile {
   margin-top: 9%;
 }
 

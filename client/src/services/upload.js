@@ -17,7 +17,7 @@ let upload = (formData) => {
         .then(x => x.data)
         // add url field
         .then(x => x.map(img => Object.assign({},
-            img, { url: `${BASE_URL}/uploads/${img.id}` })))
+            img, { url: `uploads/${img.id}` })))
 }
 
 export {upload}

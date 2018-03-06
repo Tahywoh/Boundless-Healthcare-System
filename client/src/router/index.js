@@ -59,7 +59,7 @@ router.beforeEach((to, from, next) => {
           next('/login')
         }
       } else if (to.meta.medicalLabScientistAuth) {
-        if (userType === 'MedicalLabScientist') {
+        if (userType === 'MedicalLab Scientist') {
           next()
         } else {
           updateStore('lastPageVisited', to.path)

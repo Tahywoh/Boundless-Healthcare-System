@@ -3,9 +3,9 @@
    <!-- TODO: nav section of the index -->
 
 <div class="header-view">
-     <navbar/>
+  <navbar/>
 </div>
-  <div class="main flow-text">
+  <div class="main flow-text wrapper">
     <heading/>
     <div class="homeContent">
         <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
@@ -24,6 +24,8 @@
           </slot> 
           </div>
         </div> -->
+        <img src="../assets/platform/natanael-melchor-465383 (1).jpg" alt="error displaying image" class="img responsive-img hide-on-large-only">
+        <img src="../assets/platform/medlab2.jpg" alt="error displaying image" class="img responsive-img hide-on-med-and-up">
     </div>
 
     <div class="content center-align white-text"> 
@@ -35,7 +37,7 @@
         Do you feel pain in any part of your body?<br/>
         Kindly register  at the top right corner of the app to consult doctor
       </p>
-      <p class="register-note x15">
+      <p class="register-note x15 white blue-text animate slideInLeft">
           Are you a licensed doctor, pharmacist or medical lab scientist?<br/>
         Kindly register as one to supply the  sick with appropriate drugs, conduct a reliable medical test and give the patient the best as regards their health conditions.</p>
       </slot> 
@@ -66,9 +68,9 @@ div.main{
 }
 div.main img{
   width: 100%;
-  filter: brightness(.3);
+  filter: opacity(.43299);
   z-index: -1;
-  height: 776px;
+  /* height: 776px; */
 }
 #index > div > div.content {
     position: absolute;
@@ -102,8 +104,11 @@ form input{
 #field2 i.icon.ion-ios-paper{
   top: -1.5rem; 
 }
+div.homeContent {
+  background-color: rgb(33, 150, 243);
+}
 #index > div.main.flow-text > div.content.center-align.white-text {
-    background-color: rgba(33, 150, 243, .25);
+    /* background-color: rgba(33, 150, 243, .25); */
     min-width: 100%;
     min-height: auto;
     /* -webkit-filter: brightness(.3); */

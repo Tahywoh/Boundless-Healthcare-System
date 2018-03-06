@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {upload} from '@/services/upload'
+import UploadService from '@/services/uploadService'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
 const STATUS_SUCCESS = 2
@@ -35,7 +35,7 @@ export default {
   props: {
     id: {
       type: Number,
-      required: false
+      required: true
     }
   },
   data () {
@@ -58,7 +58,7 @@ export default {
       // upload data to the server
       this.currentStatus = STATUS_SAVING
 
-      upload.upload(formData)
+      UploadService.imageUpload(formData)
         .then(x => {
           this.imgUrl = x.data
           this.uploadedFiles = [].concat(x)
@@ -118,6 +118,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.id)
     this.reset()
   }
 }

@@ -12,19 +12,6 @@ export default new Vuex.Store({
     isUserLoggedIn: false,
     lastPageVisited: '',
     lastPage: '',
-    userData: {
-      docPatients: '',
-      patientDocs: '',
-      pharmacistOrders: '',
-      patientCarts: '',
-      appointment: {
-        reason: '',
-        start: '',
-        end: '',
-        note: '',
-        status: 'pending'
-      }
-    },
     profile: {
       user: null,
       fullName: '',
@@ -42,8 +29,22 @@ export default new Vuex.Store({
       eduRequirement: '',
       licenseRequirement: ''
     },
+    userData: {
+      docPatients: '',
+      patientDocs: '',
+      pharmacistOrders: '',
+      patientCarts: '',
+      appointment: {
+        reason: '',
+        start: '',
+        end: '',
+        note: '',
+        status: 'pending'
+      }
+    },
     consult: {
       doctorName: '',
+      doctorEmail: '',
       patientName: '',
       newRoom: '',
       isConnectedToSocket: false,
@@ -90,7 +91,7 @@ export default new Vuex.Store({
       }
     },
     SOCKET_CONNECT (state) {
-      if (state.token !== '') {
+      if (state.token) {
         state.consult.isConnectedToSocket = true
       }
     },
@@ -117,6 +118,8 @@ export default new Vuex.Store({
       state.token = ''
       state.userType = ''
       state.profile = {}
+      state.consult = {}
+      state.userData = {}
       state.isUserLoggedIn = false
       state.consult.roomNames = []
       state.consult.roomName = ''

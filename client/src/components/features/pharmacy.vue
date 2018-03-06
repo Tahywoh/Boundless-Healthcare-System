@@ -26,9 +26,11 @@
               <ul >
                 <li>
                   <div class="collapsible-header blue-text">
-                    <h5 class="left">{{allDrug.drugName}}</h5>
+                    <h5 class="left" @click="toDrugDescrip" :id="allDrug._id">
+                      {{allDrug.drugName}}
+                    </h5>
                     <h5 class="right grey darken-3">
-                      <a class="right btn waves-effect waves-light" >
+                      <a class="right btn waves-effect waves-light">
                         Price: {{allDrug.price}}
                       </a>
                     </h5>
@@ -100,6 +102,13 @@ export default {
           console.log(JSON.stringify(error.pharmacy, null, 3))
         }
       }
+    },
+    toDrugDescrip (e) {
+      this.allDrugs.forEach((drug) => {
+        if (drug._id === e.target.attributes[0].nodeValue) {
+          this.$router.push(`/pharmacy/drug-description/${drug._id}`)
+        }
+      })
     }
   }
 }
