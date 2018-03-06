@@ -17,11 +17,11 @@
               <strong class="x15">{{eachDrug.price}}</strong>
               </h6>
               <h6><button class="currency btn blue">Currency: </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
-              <h6><button class="btn blue waves-effect waves-light">Add to cart</button></h6>
+              <h6><button class="btn amber waves-effect waves-light">Add to cart</button></h6>
             </div>
           </div>
         </div>
-        <div class="recent-drugs col s4 m5">
+        <div class="recent-drugs col s4 grey lighten-2 push-s1">
           <a><h5>Recently ordered drugs</h5></a>
           
           <div class="card-panel blue">
@@ -50,8 +50,8 @@
             </span>
             </p>
           </div>
-
-           <div class="card-panel blue">
+          <a class="btn right waves-effect waves-light amber darken-3">More ...</a>
+           <!-- <div class="card-panel blue">
             <button class="btn grey">Tetracychlin</button>
             <p>
               <span class="white-text">
@@ -67,7 +67,7 @@
               This is an antiseptic majorly used for Headache
             </span>
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -101,13 +101,22 @@ export default {
 </script>
 
 <style>
+#eDrug > div.row > div > div.recent-drugs.col.s4.m5 > div {
+  padding: 0.7rem;
+}
+#eDrug > div.row > div > div.col.s8.m7 > div > div.additionalDetail.card-action > h6:nth-child(3){
+  margin-left: 67%;
+}
 #eDrug > div.row > div{
-  padding-top: 2rem;
+  padding-top: 1.2rem;
 }
 #eDrug > div.row > div > div > div > div.card-content > h5{
   text-align: left !important;
 }
 #eDrug > div.row > div > div.iexist.col.s12.m5 > a {
     background-color: #bd4810;
+}
+#eDrug > div.row > div > div.col.s8.m7 {
+  padding-top: 2rem;
 }
 </style>
