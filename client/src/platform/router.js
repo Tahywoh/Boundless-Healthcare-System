@@ -5,6 +5,7 @@ import RegisterDoctor from '@/platform/access/registerDoctor'
 import RegisterPharmacist from '@/platform/access/registerPharmacist'
 import RegisterMedlabScientist from '@/platform/access/registerMedlabScientist'
 import Signin from '@/platform/access/signin'
+import Login from '@/platform/access/login'
 import Photo from '@/components/utils/photo'
 import Newphoto from '@/components/utils/newphoto'
 import Testphoto from '@/components/utils/testphoto'
@@ -40,6 +41,11 @@ let routes = [
     path: '/login',
     name: 'BHS || login',
     component: Signin
+  },
+  {
+    path: '/loginuser',
+    name: 'BHS testing login',
+    component: Login
   },
   {
     path: '/photo',

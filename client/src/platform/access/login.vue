@@ -1,9 +1,6 @@
 <template>
   <div class="login center-align">
     <index>
-      <!-- <template slot="bimg">
-        <img src="../../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
-      </template> -->
       <div slot="indexMainContent" class="mainContent center-align m6 s12">
         <h3 class="blue white-text">Login</h3>
         <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete @submit="signInUsers">
@@ -58,6 +55,7 @@
   </div>
 </template>
 
+
 <script>
 import Index from '@/platform/index'
 import AuthServices from '@/services/authService'
@@ -111,6 +109,7 @@ export default {
         this.errorMsg = 'Please choose a user type!'
         return false
       }
+      // console.log(validateLogin)
       try {
         const response = (await AuthServices.signInUsers(validateLogin)).data
         // console.log(JSON.stringify(response) + '\n This is a success')
@@ -118,39 +117,12 @@ export default {
         console.log(JSON.stringify(response))
         if (this.loginData.userType === 'Patient') {
           let {fullName, telephone, city, token, user, userType, state, address} = responseData
-
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
           this.$store.commit('SOCKET_CONNECT')
 
           console.log(fullName, telephone, city, state, address)
-          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-        } else if (this.loginData.userType === 'Doctor') {
-          let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = responseData
-
-          this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement})
-          this.$store.commit('SOCKET_CONNECT')
-          console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
-          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-        } else if (this.loginData.userType === 'Pharmacist') {
-          let {fullName, telephone, city, token, user, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
-
-          this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
-
-          console.log(fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
-          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-        } else if (this.loginData.userType === 'MedicalLab Scientist') {
-          let {fullName, telephone, city, token, user, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
-          this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
-
-          console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
           // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
         }
         if (this.$store.state.lastPageVisited > 0) {
@@ -165,7 +137,7 @@ export default {
           // this.loginData.userType = userType
           // this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
           // this.$store.commit('SOCKET_CONNECT')
-          window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }
       } catch (error) {

@@ -76,7 +76,7 @@ export default {
         this.message = ''
       } else {
         alert('Unable to connect to server')
-        this.$router.push('/')
+        // this.$router.push('/')
       }
     },
     newLocationMessage (message) {

@@ -35,6 +35,7 @@ router.post('/', (req, res) => {
 
             let token = jwt.sign(payload, config.token_secret)
             res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType, state, address}))
+            console.log(JSON.stringify({token, user, fullName, telephone, city, userType, state, address}, null, 2))
           } else {
             res.status(401).send('Incorrect password!')
             return false
@@ -63,6 +64,7 @@ router.post('/', (req, res) => {
               }
               let token = jwt.sign(payload, config.token_secret)
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement}))
+              console.log(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement}, null, 2))
             } else {
               res.status(401).send('Incorrect password!')
               return false
@@ -92,6 +94,7 @@ router.post('/', (req, res) => {
               }
               let token = jwt.sign(payload, config.token_secret)
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement}))
+              console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement}, null, 2))
             } else {
               res.status(401).send('Incorrect password')
               return false
@@ -121,6 +124,7 @@ router.post('/', (req, res) => {
               }
               let token = jwt.sign(payload, config.token_secret)
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement}))
+              console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement}, null, 2))
             } else {
               res.status(401).send('Incorrect password')
               return false
