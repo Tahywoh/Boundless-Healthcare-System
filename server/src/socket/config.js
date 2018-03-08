@@ -1,5 +1,5 @@
 const http = require('http')
-const port = process.env.PORT || 7070
+const port = process.env.PORT || 5050
 let server
 var dServer = () => {
   server = http.createServer(require('express')())

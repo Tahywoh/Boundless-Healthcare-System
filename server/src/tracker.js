@@ -22,7 +22,7 @@ var io = socketIO(server)
 const config = require('./helpers/config')
 const database = require('./helpers/database')
 
-const port = process.env.PORT || 7070
+const port = process.env.PORT || 5050
 const {generateMessage, generateLocationMessage} = require('./socket/message')
 const getData = require('./utils/getData')
 

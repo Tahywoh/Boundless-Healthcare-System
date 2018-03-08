@@ -29,11 +29,7 @@ export default [
     name: 'BHS | Drug description',
     component: Eachdrug,
     meta: {
-      requiresAuth: true,
-      pharmacistAuth: true,
-      patientAuth: true,
-      doctorAuth: true,
-      medicalLabScientistAuth: true
+      requiresAuth: true
     }
   }
 ]

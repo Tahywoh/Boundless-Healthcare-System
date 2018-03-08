@@ -1,9 +1,9 @@
 <template>
   <div class="login center-align">
     <index>
-      <div slot="indexMainContent" class="mainContent center-align m6 s12">
+      <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Login</h3>
-        <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete @submit="signInUsers">
+        <form class="col s6 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete="">
           <div class="row">
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
@@ -46,7 +46,8 @@
             </div>
           </div>
              <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
-           <button type="submit" class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn">Login</button>type="submit"
+           <button  class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers"
+           >Login</button>
           
       </form>
       </div>

@@ -8,7 +8,7 @@
 // }
 
 import * as axios from 'axios'
-const BASE_URL = 'http:localhost:7070'
+const BASE_URL = 'http:localhost:5050'
 
 let upload = (formData) => {
   const url = `${BASE_URL}/handlePhoto/uploads`

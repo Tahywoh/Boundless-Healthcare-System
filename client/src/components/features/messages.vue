@@ -6,7 +6,7 @@
       <p v-else>You're disconnected from the server!</p>
       </div>
       <h3>Attending doctor</h3>
-      <div id="users">
+      <div id="users" v-if="docName">
         <li>{{docName}}</li>
       </div>
   </div>

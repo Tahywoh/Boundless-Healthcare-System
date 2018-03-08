@@ -153,29 +153,29 @@ export default {
           console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
           // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
         }
-        if (this.$store.state.lastPageVisited > 0) {
-          console.log('lastPageVisited', this.$store.state.lastPageVisited)
-          this.$router.push(this.$store.state.lastPageVisited)
-        } else if (this.$store.state.lastPage.trim().length > 0) {
-          console.log('lastpage')
-          this.$router.push(`${this.$store.state.lastPage}`)
-        } else {
-          // let {fullName, telephone, city, token, user, userType, state, address} = responseData
-          // this.authToken = token
-          // this.loginData.userType = userType
-          // this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
-          // this.$store.commit('SOCKET_CONNECT')
-          window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
-        }
+        // if (this.$store.state.lastPageVisited > 0) {
+        //   console.log('lastPageVisited', this.$store.state.lastPageVisited)
+        //   this.$router.push(this.$store.state.lastPageVisited)
+        // } else if (this.$store.state.lastPage.trim().length > 0) {
+        //   console.log('lastpage')
+        //   this.$router.push(`${this.$store.state.lastPage}`)
+        // } else {
+        //   // let {fullName, telephone, city, token, user, userType, state, address} = responseData
+        //   // this.authToken = token
+        //   // this.loginData.userType = userType
+        //   // this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
+        //   // this.$store.commit('SOCKET_CONNECT')
+        //   window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+        //   // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
+        // }
+        console.log('i am a success')
       } catch (error) {
         if (error) {
           this.errorMsg = error.response.data
           console.log(JSON.stringify(this.errorMsg, null, 3))
+        } else {
+          this.errorMsg = 'Kindly check your internet connection!'
         }
-        // else {
-        //   this.errorMsg = 'Kindly check your internet connection!'
-        // }
       }
     }
   }
