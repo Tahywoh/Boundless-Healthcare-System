@@ -104,7 +104,7 @@
 
 <script>
 import Index from '@/platform/index'
-import AuthServices from '@/services/authService'
+import AuthServices from '@/services/authServices'
 export default {
   name: 'registerPatient',
   components: { Index },
