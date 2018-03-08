@@ -68,7 +68,7 @@
               </a></li>
             </span>
             <span class="ifLoggedOut"  v-else>
-              <li ><a  id="regAs" @click="dropDownMenu" class="w3-dropdown-hover">
+              <li ><a  id="regAs" @click="" class="w3-dropdown-hover">
               Register
               <i class="icon ion-arrow-right-b w3-xlarge right"></i>
               </a>

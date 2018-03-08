@@ -115,7 +115,7 @@ export default {
         const response = (await AuthServices.signInUsers(validateLogin)).data
         // console.log(JSON.stringify(response) + '\n This is a success')
         let responseData = response
-        console.log(JSON.stringify(response))
+        // console.log(JSON.stringify(response))
         if (this.loginData.userType === 'Patient') {
           let {fullName, telephone, city, token, user, userType, state, address} = responseData
 
