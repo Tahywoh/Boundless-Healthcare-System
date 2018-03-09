@@ -10,7 +10,7 @@
     name: 'app',
     // mixins: [mixins],
     mounted () {
-      // console.log(JSON.stringify(this.$store.state))
+      console.log(JSON.stringify(this.$store.state))
     }
 }
 </script>

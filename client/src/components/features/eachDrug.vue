@@ -77,26 +77,13 @@
 
 <script>
 import Fixednav from '@/components/layouts/fixednav'
-import GetServices from '@/services/getServices'
 export default {
   components: {Fixednav},
   data () {
     return {
-      eachDrug: null
+      eachDrug: this.$store.state.currentDrug
     }
-  },
-  async mounted () {
-    const eachDrug = (await GetServices.getAllDrugs()).data
-    this.eachDrug = eachDrug
-    console.log(eachDrug)
-    this.eachDrug.forEach((drug) => {
-      let loc = window.location.href.split('/')
-      if (drug._id === loc[5]) {
-        this.eachDrug = drug
-      }
-    })
-  },
-  methods: {}
+  }
 }
 </script>
 

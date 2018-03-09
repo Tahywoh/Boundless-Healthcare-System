@@ -24,8 +24,8 @@ const AppointmentSchema = new Schema({
   },
   creator: String,
   setTime: {
-    start: DateType,
-    end: DateType
+    start: String,
+    end: String
   },
   note: {
     type: String,

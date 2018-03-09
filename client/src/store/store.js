@@ -12,6 +12,26 @@ export default new Vuex.Store({
     isUserLoggedIn: false,
     lastPageVisited: '',
     lastPage: '',
+    currentDrug: null,
+    userData: {
+      docPatients: '',
+      patientDocs: '',
+      pharmacistOrders: '',
+      patientCarts: '',
+      appointment: {
+        reason: '',
+        start: '',
+        end: '',
+        date: '',
+        status: 'pending',
+        patient: {
+          doctorName: ''
+        },
+        doctor: {
+          patientName: ''
+        }
+      }
+    },
     profile: {
       user: null,
       fullName: '',
@@ -28,19 +48,6 @@ export default new Vuex.Store({
       laboratoryAddress: '',
       eduRequirement: '',
       licenseRequirement: ''
-    },
-    userData: {
-      docPatients: '',
-      patientDocs: '',
-      pharmacistOrders: '',
-      patientCarts: '',
-      appointment: {
-        reason: '',
-        start: '',
-        end: '',
-        note: '',
-        status: 'pending'
-      }
     },
     consult: {
       doctorName: '',
@@ -114,6 +121,9 @@ export default new Vuex.Store({
     SOCKET_DISCONNECT (state) {
       state.consult.isConnectedToSocket = false
     },
+    SET_CURRENTDRUG (state, user) {
+      state.currentDrug = user.currentDrug
+    },
     CLEAR_USER (state) {
       state.token = ''
       state.userType = ''
@@ -124,6 +134,7 @@ export default new Vuex.Store({
       state.consult.roomNames = []
       state.consult.roomName = ''
       // state.consult = null
+      state.currentDrug = null
     }
   },
   plugins: [createPersist({

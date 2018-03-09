@@ -19,13 +19,13 @@ router.post('/doctors', (req, res) => {
     let regex = new RegExp(escapeRegex(req.body.query), 'gi')
     // })
     console.log(regex)
-    Doctor.find({fullName: regex}, 'fullName city state', (err, docs) => {
+    Doctor.find({fullName: regex}, 'fullName email city state', (err, docs) => {
       if (!err) {
-        let {fullName, city, state} = docs
+        let {fullName, city, state, email} = docs
         if (docs !== []) {
           res.status(200).send(docs)
           // res.render('/doctors', docs)
-          console.log(fullName, city, state)
+          console.log(fullName, city, state, email)
         } else {
           res.status(203).send('Doctor not found!')
         }

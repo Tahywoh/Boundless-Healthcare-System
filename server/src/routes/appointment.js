@@ -13,6 +13,7 @@ router.post('/seekAppointment', (req, res) => {
   console.log(JSON.stringify(req.body))
   // res.status(200).send(JSON.stringify(req.body, null, 2))
   let {doctor, patient, creator, reason, note, setTime, labScientist} = req.body
+
   Doctor.find({email: doctor}, '_id', (err, result) => {
     if (!err) {
       let docId = result[0]._id
@@ -125,7 +126,7 @@ router.post('/seekAppointment', (req, res) => {
   }
 })
 
-router.post('/fetchAppointment', (req, res) => {
+router.post('/fetchAppointments', (req, res) => {
   let {user} = req.body
   // if (user === 'Patient') {
   Appointment.find({

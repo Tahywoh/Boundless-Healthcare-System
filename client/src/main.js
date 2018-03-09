@@ -29,5 +29,5 @@ new Vue({
   store,
   mixins: [mixin],
   template: '<App/>',
-  components: { App }
+  components: {App}
 })

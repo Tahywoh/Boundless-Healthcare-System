@@ -15,12 +15,12 @@ let header = {
 }
 
 export default {
-  seekAppointment (data, header) {
+  seekAppointment (data) {
     // data.token = fetchStoreData('authToken')
-    return Api().post('/appointment/seekAppointment', data)
+    return Api().post('/appointment/seekAppointment', data, header)
   },
-  fetchAppointments () {
-    return Api().get('/my_appoiointments', header)
+  fetchAppointments (data) {
+    return Api().get('/appointment/fetchAppointments', data, header)
   },
   cancelAppointment (userId) {
     return Api().post('/cancelAppointment', userId)
