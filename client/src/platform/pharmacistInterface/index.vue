@@ -162,7 +162,7 @@ export default {
       }
     } catch (error) {
       if (error) {
-        console.log(JSON.stringify(error))
+        console.log(JSON.stringify(error.userDrugs))
       }
     }
     console.log(this.userDrugs)

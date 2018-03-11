@@ -8,7 +8,7 @@
     <div class="divider"></div>
 <modal>
   <div slot="triggerModal">
-   <a href="#" class="transparent black-text"> <i :class="add_icon"></i>
+   <a href="#" class="transparent black-text" v-if="isPatient"> <i :class="add_icon"></i>
   Book Appontment</a>
   </div>    
   <template slot="modal-title">Book Appointment</template>
@@ -78,41 +78,48 @@
 <div class="w3-container container">
   <!-- <p>Lorem ipsum...</p>
   <button class="w3-btn">Button</button> -->
-  <div class="eachAppointment blue-grey white-text" v-for="(appointment, index) in appointments" :key="index">
-    <p v-html="appointment.body">I am sick
+  <!-- <div class="eachAppointment blue-grey white-text" v-for="(userAppointment, index) in userAppointments" :key="index">
+    <p v-text="userAppointment.reason">I am sick
     </p>
     
     <p class="combine">
-      <a href="" class="btn waves-effect-waves-light">status: <span v-text="appointment.status">Approved</span></a>
+      <a href="" class="btn waves-effect-waves-light">status: <span v-text="userAppointment.status.statusText"></span></a>
     </p>
+
     <p>
     <a href="" class="btn waves-effect-waves-light">
-      Time: <span v-text="appointment.time">10:00 - 12: 00</span>
+      Time: <span v-text="userAppointment.setTime.start"></span> - <span v-text="userAppointment.setTime.end"></span>
     </a>
     </p>
 
-    <p class="atending_doc">
+    <p class="atending_doc" v-if="userAppointment.doctor">
       <a href="" class="btn waves-effect waves-light">
       Attending Doctor:
-  	  <span id="attendingDoctor">{{appointment.attendingDoctor}}</span>
+  	  <span id="attendingDoctor">{{userAppointment.doctor.fullName}}</span>
       </a>  
     </p>
-    <div class="labUser">
-      <p class="atending_doc">
+    <p class="atending_patient" v-if="userAppointment.patient">
+      <a href="" class="btn waves-effect waves-light">
+      Patient:
+  	  <span id="attendingPatient">{{userAppointment.patient.fullName}}</span>
+      </a>  
+    </p>
+    <div class="labUser" v-if="userAppointment.medlabscientist">
+      <p class="labName">
       <a href="" class="btn waves-effect waves-light">
       Laboratory Name:
-  	  <span id="attendingDoctor">{{appointment.attendingDoctor}}</span>
+  	  <span id="labname">{{userAppointment.laboratoryName}}</span>
       </a>
-    </p>
-    <p>
-      <a href="" class="btn waves-effect waves-light">
-      Laboratory Address:
-  	  <span id="attendingDoctor">{{appointment.attendingDoctor}}</span>
-      </a>  
-    </p>
+      </p>
+      <p>
+        <a href="" class="btn waves-effect waves-light">
+        Laboratory Address:
+        <span id="labaddr">{{userAppointment.laboratoryAddress}}</span>
+        </a>  
+      </p>
     </div>
     
-  </div>
+  </div> -->
 </div>
 
 
@@ -135,6 +142,7 @@ export default {
   components: {Interface, Modal, BasicDetails, datetime},
   data () {
     return {
+      isPatient: false,
       errMsg: '',
       add_icon: navs.links.bookAppointment.icon + ' x2 left',
       formData: {
@@ -148,6 +156,7 @@ export default {
         doctorName: this.$store.state.consult.doctorName,
         patient: this.$store.state.profile.user
       },
+      userAppointments: null,
       appointments: [
         {
           body: 'I am sick',
@@ -182,11 +191,37 @@ export default {
       ]
     }
   },
+  async mounted () {
+    if (this.$store.state.userType === 'Patient') {
+      this.isPatient = true
+    }
+    let bookedAppointment = {}
+    if (this.$store.state.profile.user) {
+      bookedAppointment.userId = this.$store.state.profile.user
+    }
+    if (this.$store.state.userType === 'Patient') {
+      bookedAppointment.user = 'Patient'
+    } else if (this.$store.state.userType === 'Doctor') {
+      bookedAppointment.user = 'Doctor'
+      return false
+    } else if (this.$store.state.userType === 'MedicalLabScientist') {
+      bookedAppointment.user = 'MedicalLabScientist'
+    }
+    // console.log(bookedAppointment)
+    try {
+      let userAppointments = (await RequestServices.fetchAppointments(bookedAppointment)).data
+      if (userAppointments.length > 0) {
+        this.userAppointments = userAppointments
+        console.log(this.userAppointments)
+        // console.log(userAppointments)
+      }
+    } catch (error) {
+      if (Error) {
+        console.log(JSON.stringify(error.userAppointments))
+      }
+    }
+  },
   methods: {
-    alerMe () {
-      alert(this.formData.setTime.start)
-      console.log(this.formData.setTime.start)
-    },
     validateForm (e) {},
     async seekAppointment () {
       let appointmentData = {}
@@ -208,7 +243,6 @@ export default {
         appointmentData.reason = this.formData.reason
       } else {
         this.errMsg = 'Invalid input. Please enter a valid input'
-        return false
       }
       try {
         console.log(appointmentData)
@@ -225,7 +259,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #id01 > div > div > div > div > form > div:nth-child(4) > h5 > button {
   margin: 2rem 4rem 0rem;
 }

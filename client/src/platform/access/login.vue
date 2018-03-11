@@ -133,6 +133,7 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
+          alert('now login')
           // let {fullName, telephone, city, token, user, userType, state, address} = responseData
           // this.authToken = token
           // this.loginData.userType = userType

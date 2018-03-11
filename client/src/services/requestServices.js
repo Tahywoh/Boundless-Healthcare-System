@@ -20,7 +20,7 @@ export default {
     return Api().post('/appointment/seekAppointment', data, header)
   },
   fetchAppointments (data) {
-    return Api().get('/appointment/fetchAppointments', data, header)
+    return Api().post('/appointment/fetchAppointments', data, header)
   },
   cancelAppointment (userId) {
     return Api().post('/cancelAppointment', userId)

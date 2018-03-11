@@ -127,23 +127,70 @@ router.post('/seekAppointment', (req, res) => {
 })
 
 router.post('/fetchAppointments', (req, res) => {
-  let {user} = req.body
-  // if (user === 'Patient') {
-  Appointment.find({
-    creator: user
-  })
-    .populate('doctor patient medlabscientist', 'fullName')
-    .exec((err, appointmentData) => {
-      if (!err && appointmentData !== null) {
-        // let {patient} = appointmentData
-        // console.log(fullName)
-        res.status(200).send(JSON.stringify(appointmentData, null, 3))
-      } else {
-        console.log(JSON.stringify(err, null, 2))
-        // handle err
+  let {user, userId} = req.body
+  console.log(req.body)
+  if (user === 'Patient') {
+    Patient.find({email: userId}, '_id', (err, result) => {
+      if (!err) {
+        let uid = result[0]._id
+        Appointment.find({
+          patient: uid
+        })
+          .populate('doctor patient medlabscientist', 'fullName')
+          .exec((err, appointmentData) => {
+            if (!err && appointmentData !== null) {
+            // let {patient} = appointmentData
+            // console.log(fullName)
+              res.status(200).send(JSON.stringify(appointmentData, null, 3))
+            } else {
+              console.log(JSON.stringify(err, null, 2))
+            // handle err
+            }
+          })
       }
     })
-  // }
+  } else if (user === 'Doctor') {
+    Doctor.find({email: userId}, '_id', (err, result) => {
+      if (!err) {
+        let uid = result[0]._id
+        Appointment.find({
+          doctor: uid
+        })
+          .populate('doctor patient medlabscientist', 'fullName')
+          .exec((err, appointmentData) => {
+            if (!err && appointmentData !== null) {
+            // let {patient} = appointmentData
+            // console.log(fullName)
+              res.status(200).send(JSON.stringify(appointmentData, null, 3))
+            } else {
+              console.log(JSON.stringify(err, null, 2))
+            // handle err
+            }
+          })
+        return false
+      } else {
+        Medlabscientist.find({email: userId}, '_id', (err, result) => {
+          if (!err) {
+            let uid = result[0]._id
+            Appointment.find({
+              medlabscientist: uid
+            })
+              .populate('doctor patient medlabscientist', 'fullName')
+              .exec((err, appointmentData) => {
+                if (!err && appointmentData !== null) {
+                // let {patient} = appointmentData
+                // console.log(fullName)
+                  res.status(200).send(JSON.stringify(appointmentData, null, 3))
+                } else {
+                  console.log(JSON.stringify(err, null, 2))
+                // handle err
+                }
+              })
+          }
+        })
+      }
+    })
+  }
 })
 
 router.use((req, res, next) => {

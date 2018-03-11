@@ -113,8 +113,9 @@ export default {
       }
       try {
         const response = await AuthServices.signInUsers(validateLogin)
-        // console.log(JSON.stringify(response.data) + '\nThis is a success')
+        console.log({verifyLogin: this.$store.state})
         let responseData = response.data
+        console.log(responseData)
         if (this.loginData.userType === 'Patient') {
           let {fullName, telephone, city, token, user, userType, state, address} = responseData
 
@@ -122,8 +123,8 @@ export default {
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
           this.$store.commit('SOCKET_CONNECT')
-
           console.log(fullName, telephone, city, state, address)
+          return false
         } else if (this.loginData.userType === 'Doctor') {
           let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = responseData
 
@@ -133,6 +134,7 @@ export default {
           this.$store.commit('SOCKET_CONNECT')
 
           console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
+          return false
         } else if (this.loginData.userType === 'Pharmacist') {
           let {fullName, telephone, city, token, user, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
 
@@ -141,7 +143,8 @@ export default {
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
 
           console.log(fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
-        } else if (this.loginData.userType === 'MedicalLab Scientist') {
+          return false
+        } else {
           let {fullName, telephone, city, token, user, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
@@ -157,7 +160,7 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           alert('can now login')
           // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }
