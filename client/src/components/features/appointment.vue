@@ -78,18 +78,19 @@
 <div class="w3-container container">
   <!-- <p>Lorem ipsum...</p>
   <button class="w3-btn">Button</button> -->
-  <!-- <div class="eachAppointment blue-grey white-text" v-for="(userAppointment, index) in userAppointments" :key="index">
-    <p v-text="userAppointment.reason">I am sick
-    </p>
-    
-    <p class="combine">
-      <a href="" class="btn waves-effect-waves-light">status: <span v-text="userAppointment.status.statusText"></span></a>
-    </p>
-
-    <p>
-    <a href="" class="btn waves-effect-waves-light">
-      Time: <span v-text="userAppointment.setTime.start"></span> - <span v-text="userAppointment.setTime.end"></span>
+   <!-- <div class="eachAppointment blue-grey white-text" v-for="(appointment, index) in appointments" :key="index">
+    <p v-html="appointment.body">I am sick</p>
+    <a href="" class="right btn waves-effect waves-light">
+      Attending Doctor:
+  	  <span id="attendingDoctor">{{appointment.attendingDoctor}}</span>
     </a>
+    <a href="" class="btn waves-effect-waves-light">status: <span v-text="appointment.status">Approved</span></a>
+    <a href="" class="btn waves-effect-waves-light">
+      Time: <span v-text="appointment.time">10:00 - 12: 00</span>
+    </a>
+  </div> -->
+  <div class="eachAppointment blue-grey white-text" v-for="(userAppointment, index) in userAppointments" :key="index">
+    <p v-text="userAppointment.reason">I am sick
     </p>
 
     <p class="atending_doc" v-if="userAppointment.doctor">
@@ -118,8 +119,31 @@
         </a>  
       </p>
     </div>
+     <p>
+    <a href="" class="btn waves-effect-waves-light">
+      Time: <span v-html="userAppointment.setTime.start"></span> - <span v-html="userAppointment.setTime.end"></span>
+    </a>
+    </p>
+    <p class="combine">
+        <span class="btn waves-effect-waves-light blue">
+        status:
+        </span>
+        <select class="browser-default waves-effect waves-light btn blue" style="class: browser" id="appointmentStatus" v-if="!isPatient">
+          <option selected disabled>{{userAppointment.status.statusText}}</option>
+          <option v-for="(option, index) in options" :value="option.value" :key="index">
+            {{ option.text }}
+          </option>
+        </select>
+        <div class="notPatient">
+          <a class="btn waves-light waves-effect">
+            {{userAppointment.status.statusText}}
+          </a>
+        </div>
+      
+      <!-- <a href="" class="right btn waves-effect waves-light">Default: <span v-text="userAppointment.status.statusText"></span></a> -->
+    </p>
     
-  </div> -->
+  </div>
 </div>
 
 
@@ -157,37 +181,10 @@ export default {
         patient: this.$store.state.profile.user
       },
       userAppointments: null,
-      appointments: [
-        {
-          body: 'I am sick',
-          status: 'approved',
-          time: '10:00am - 12:00pm',
-          attendingDoctor: 'Dr. Sodiq'
-        },
-        {
-          body: 'I am feeling pain',
-          status: 'approved',
-          time: '10:00am - 12:00pm',
-          attendingDoctor: 'Dr. Mrs. Hikma'
-        },
-        {
-          body: 'I am sick',
-          status: 'canceled',
-          time: '10:00am - 12:00pm',
-          attendingDoctor: 'Dr. Kehinde'
-        },
-        {
-          body: 'I have a continous headache',
-          status: 'approved',
-          time: '10:00am - 12:00pm',
-          attendingDoctor: 'Dr. Adewale'
-        },
-        {
-          body: 'I have a continous headache',
-          status: 'held',
-          time: '10:00am - 12:00pm',
-          attendingDoctor: 'Dr. Taiwo'
-        }
+      options: [
+        {text: 'Approved', value: 'Approved'},
+        {text: 'Cancelled', value: 'Cancelled'},
+        {text: 'Held', value: 'Held'}
       ]
     }
   },
@@ -212,8 +209,10 @@ export default {
       let userAppointments = (await RequestServices.fetchAppointments(bookedAppointment)).data
       if (userAppointments.length > 0) {
         this.userAppointments = userAppointments
-        console.log(this.userAppointments)
-        // console.log(userAppointments)
+        console.log({testinguAP: this.userAppointments})
+        for (let i = 0; i < this.userAppointments.length; i++) {
+          console.log({testfield: this.userAppointments[i].setTime.start})
+        }
       }
     } catch (error) {
       if (Error) {
@@ -222,6 +221,10 @@ export default {
     }
   },
   methods: {
+    okay (e) {
+      // e = 'It is working!'
+      console.log(e)
+    },
     validateForm (e) {},
     async seekAppointment () {
       let appointmentData = {}
@@ -238,20 +241,27 @@ export default {
       }
       if (this.formData.doctor) {
         appointmentData.doctor = this.formData.doctor
+      } else {
+        alert('You are yet to consult a doctor!')
+        return false
       }
       if (this.formData.reason) {
         appointmentData.reason = this.formData.reason
       } else {
-        this.errMsg = 'Invalid input. Please enter a valid input'
+        alert('Invalid input. Please enter a valid input')
+        return false
       }
       try {
         console.log(appointmentData)
         const bookAppointment = await (RequestServices.seekAppointment(appointmentData))
         console.log({'appointmentData': bookAppointment.data})
+        this.formData.reason = ''
+        this.formData.setTime.start = ''
+        this.formData.setTime.end = ''
       } catch (error) {
         if (error) {
-          this.errMsg = error.bookAppointment.data
-          console.log(JSON.stringify(this.errMsg, null, 2))
+          alert(error.bookAppointment.data)
+          console.log(JSON.stringify(error.bookAppointment.data, null, 2))
         }
       }
     }
@@ -260,6 +270,17 @@ export default {
 </script>
 
 <style scoped>
+#app > div > div > div > div > div > div > div.platform-content > div > div > div > p.combine > a {
+  margin-top: -2.1rem;
+}
+#app > div > div > div > div > div > div > div.platform-content > div > div > div > p.combine > select[data-v-3bcfc470] {
+    width: auto;
+    margin-top: -2.15rem;
+    margin-left: 9rem;
+}
+#app > div > div > div > div > div > div > div.platform-content > div > div > div > p.atending_doc > a {
+  text-align: left;
+}
 #id01 > div > div > div > div > form > div:nth-child(4) > h5 > button {
   margin: 2rem 4rem 0rem;
 }

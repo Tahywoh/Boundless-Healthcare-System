@@ -50,7 +50,7 @@
               <div class="input-field col s5">
                 <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
-                  <option v-for="option in options" :value="option.value">
+                  <option v-for="(option, index) in options" :value="option.value" :key="index">
                     {{ option.text }}
                   </option>
                 </select>

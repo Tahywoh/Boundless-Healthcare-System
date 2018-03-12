@@ -14,68 +14,75 @@ router.post('/seekAppointment', (req, res) => {
   // res.status(200).send(JSON.stringify(req.body, null, 2))
   let {doctor, patient, creator, reason, note, setTime, labScientist} = req.body
 
-  Doctor.find({email: doctor}, '_id', (err, result) => {
-    if (!err) {
-      let docId = result[0]._id
-      // console.log(docId)
-      // let doctor = result[0]._id
-      // console.log(doctor)
-      Patient.find({email: patient}, '_id', (err, result) => {
-        if (!err) {
-          let patientId = result[0]._id
-          // console.log(patientId)
-          let newAppointment
-          // console.log(patient + '\n' + doctor)
-          if (creator === 'Doctor') {
-            newAppointment = new Appointment({
-              doctor,
-              patient,
-              reason,
-              setTime,
-              note,
-              creator: req.body.doctor
-            })
-          } else if (creator === 'Patient') {
-            newAppointment = new Appointment({
-              doctor: docId,
-              patient: patientId,
-              reason,
-              creator: req.body.patient,
-              setTime
-            })
-          }
-          newAppointment.save((err, data) => {
-            if (!err) {
-              // appointmentId = data._id
-              res.status(200).send(JSON.stringify(data, null, 3))
-              console.log(data)
-
-              // Appointment.find({reason})
-              //   .populate('doctor patient', 'fullName')
-              //   .exec((err, appointmentData) => {
-              //     if (!err) {
-              //       console.log('This is appointment data: %s', appointmentData)
-              //       res.status(200).send(JSON.stringify(appointmentData.fullName, null, 3))
-              //     } else {
-              //       console.log(JSON.stringify(err, null, 2))
-              //     // handle err
-              //     }
-              //   })
-            } else {
-              // handle error
-              console.log(JSON.stringify(err, null, 2))
-            }
-          })
-        } else {
-          // handle your error
-          console.log(JSON.stringify(err, null, 2))
-        }
-      })
+  if (doctor) {
+    let docData = {}
+    if (reason && reason.length > 10) {
+      docData.reason = reason
     } else {
-      console.log(JSON.stringify(err, null, 2))
-      // handle your error
+      res.status(422).send('Enter a valid reason')
     }
-  })
+    if (setTime.start && setTime.end) {
+      docData.setTime = setTime
+    } else {
+      res.status(422).send('Enter a valid start and end time of the appointment.')
+    }
+    if (doctor) {
+      docData.doctor = doctor
+    }
+    if (patient) {
+      docData.patient = patient
+    }
+    Doctor.find({email: docData.doctor}, '_id', (err, result) => {
+      if (!err) {
+        let docId = result[0]._id
+        // console.log(docId)
+        // let doctor = result[0]._id
+        // console.log(doctor)
+        Patient.find({email: docData.patient}, '_id', (err, result) => {
+          if (!err) {
+            let patientId = result[0]._id
+            // console.log(patientId)
+            let newAppointment
+            // console.log(patient + '\n' + doctor)
+            if (creator === 'Doctor') {
+              newAppointment = new Appointment({
+                doctor: docData.doctor,
+                patient: docData.patient,
+                reason: docData.reason,
+                setTime: docData.setTime,
+                note,
+                creator: docData.doctor
+              })
+            } else if (creator === 'Patient') {
+              newAppointment = new Appointment({
+                doctor: docId,
+                patient: patientId,
+                reason: docData.reason,
+                creator: docData.patient,
+                setTime: docData.setTime
+              })
+            }
+            newAppointment.save((err, data) => {
+              if (!err) {
+                // appointmentId = data._id
+                res.status(200).send(JSON.stringify(data, null, 3))
+                console.log(data)
+              } else {
+                // handle error
+                console.log(JSON.stringify(err, null, 2))
+              }
+            })
+          } else {
+            // handle your error
+            console.log(JSON.stringify(err, null, 2))
+          }
+        })
+      } else {
+        console.log(JSON.stringify(err, null, 2))
+        // handle your error
+      }
+    })
+  }
 
   if (labScientist) {
     Medlabscientist.find({email: labScientist}, '_id', (err, result) => {
