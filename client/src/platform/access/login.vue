@@ -56,6 +56,7 @@
   </div>
 </template>
 
+
 <script>
 import Index from '@/platform/index'
 import AuthServices from '@/services/authServices'
@@ -109,44 +110,21 @@ export default {
         this.errorMsg = 'Please choose a user type!'
         return false
       }
+      // console.log(validateLogin)
       try {
-        const response = await AuthServices.signInUsers(validateLogin)
-        console.log(JSON.stringify(response.data) + '\nThis is a success')
-        let responseData = response.data
+        const response = (await AuthServices.signInUsers(validateLogin)).data
+        // console.log(JSON.stringify(response) + '\n This is a success')
+        let responseData = response
+        console.log(JSON.stringify(response))
         if (this.loginData.userType === 'Patient') {
           let {fullName, telephone, city, token, user, userType, state, address} = responseData
-
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
           this.$store.commit('SOCKET_CONNECT')
 
           console.log(fullName, telephone, city, state, address)
-        } else if (this.loginData.userType === 'Doctor') {
-          let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = responseData
-
-          this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement})
-          this.$store.commit('SOCKET_CONNECT')
-
-          console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
-        } else if (this.loginData.userType === 'Pharmacist') {
-          let {fullName, telephone, city, token, user, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
-
-          this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
-
-          console.log(fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
-        } else if (this.loginData.userType === 'MedicalLab Scientist') {
-          let {fullName, telephone, city, token, user, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
-
-          this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
-
-          console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
+          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
         }
         if (this.$store.state.lastPageVisited > 0) {
           console.log('lastPageVisited', this.$store.state.lastPageVisited)
@@ -155,6 +133,12 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
+          alert('now login')
+          // let {fullName, telephone, city, token, user, userType, state, address} = responseData
+          // this.authToken = token
+          // this.loginData.userType = userType
+          // this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
+          // this.$store.commit('SOCKET_CONNECT')
           location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }
@@ -162,9 +146,10 @@ export default {
         if (error) {
           this.errorMsg = error.response.data
           console.log(JSON.stringify(this.errorMsg, null, 3))
-        } else {
-          this.errorMsg = 'Kindly check your internet connection!'
         }
+        // else {
+        //   this.errorMsg = 'Kindly check your internet connection!'
+        // }
       }
     }
   }
@@ -172,6 +157,28 @@ export default {
 </script>
 
 <style>
+
+/* #index > div.main.flow-text > div.content.center-align.white-text {
+  font-size: 0.89rem !important;
+  margin: 0 !important;
+  font-weight: 100 !important;
+    background-color: rgba(33, 150, 243, .25);
+    min-width: 100%;
+    /* min-height: auto; */
+    /* -webkit-filter: brightness(.3); */
+    /* filter: brightness(.3);
+    width: auto;
+    min-height: 890px !important;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transition: -webkit-transform 0.6s, opacity 0.6s;
+    -webkit-transition: opacity 0.6s, -webkit-transform 0.6s;
+    transition: opacity 0.6s, -webkit-transform 0.6s;
+    transition: transform 0.6s, opacity 0.6s;
+    transition: transform 0.6s, opacity 0.6s, -webkit-transform 0.6s;
+    -webkit-transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+    transition-timing-function: cubic-bezier(0.7, 0, 0.3, 1);
+} */
 #index > div.main.flow-text > div.content.center-align.white-text > div > div > form > small{
   font-size: 0.89rem !important;
   margin: 0 !important;
@@ -207,7 +214,7 @@ button#loginBtn {
 }
 
 div.login form > div > div.input-field.col.s12 {
-    margin: -0.3rem 0rem 0px 0px !important;
+    margin: 0.7rem 0rem 0px 0px !important;
 }
 
 div.main.flow-text > div.content.center-align.white-text > div > div > form > div:nth-child(1){
@@ -218,10 +225,10 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > di
 div.mainContent h3{
   width: initial;
 }
-div.main img {
+#index > div.main.flow-text.wrapper > div.homeContent > img {
   width: 100%;
-  filter: brightness(0.79) !important;
-  z-index: -1;
+  filter: opacity(.6) !important;
+  /* z-index: -1; */
 }
 
 .file-field.input-field {
@@ -242,7 +249,8 @@ div.main.flow-text
 
 .mainContent {
   width: 40%;
-  height: 85vh;
+  height: auto;
+  padding-bottom: 2rem;
   margin: 2rem auto;
   border-radius: 13px;
   border-width: 1px;

@@ -12,7 +12,7 @@ export default {
       url: '/MedicalLabScientist-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: '/MedicalLab Scientist-interface/profile', text: 'Medlab Scientist Profile'
+      url: '/MedicalLabScientist-interface/profile', text: 'Medlab Scientist Profile'
     }
   }
 }

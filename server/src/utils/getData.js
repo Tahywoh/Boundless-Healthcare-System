@@ -3,15 +3,17 @@ require('../models/Pharmacy')
 const Pharmacy = mongoose.model('pharmacy')
 
 module.exports = {
-  getUserDrugs (req, res) {
-    // console.log(JSON.stringify(req.url))
-    Pharmacy.find()
-      .then(pharm => {
-        if (pharm) {
-          res.status(200).send(pharm)
-        }
-      })
-  },
+  // getUserDrugs (req, res) {
+  //   // console.log(JSON.stringify(req.url))
+  //   Pharmacy.find()
+  //     .then(pharm => {
+  //       if (pharm) {
+  //         res.status(200).send(pharm)
+  //       }
+  //     })
+  //     .limit(10)
+  //     .skip(10)
+  // },
   getCurrentUserDrugs (req, res) {
     console.log(req.body)
     Pharmacy.find({seller: req.body.user}, 'drugName manufac price briefDescription', (err, seller) => {

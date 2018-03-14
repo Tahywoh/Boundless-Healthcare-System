@@ -1,82 +1,53 @@
 <template>
-    <div id="getPhoto">
-        <header class="navbar">
-      <span class="navbar-text"> Image moderation with VueJs, NodeJs and
-        <a href="">Sightengine</a>
-      </span>
-        </header>
-
-        <div class="container">
-            <img :src="imageSrc" class="image">
-            <input @change="uploadImage" type="file" name="photo" accept="image/*">
-        </div>
-    </div>
+  <div class="testingUpload">
+    <file-upload :url='url' :thumb-url='thumbUrl' :headers="headers" @change="onFileChange" @submit="mySaveMethod"></file-upload>
+    <div><img src="../../assets/platform/2017-03-09-09-31-31-900x598.jpg" alt="checkme" class="responsive-img"></div>
+    <router-view></router-view>
+  </div>
 </template>
-
+ 
 <script>
-import Api from '@/services/api'
+import Vue from 'vue'
+import FileUpload from 'v-file-upload'
+Vue.use(FileUpload)
+// import { FileUploadService } from 'v-file-upload'
 export default {
-  name: 'app',
   data () {
     return {
-      imageSrc: ''
+      url: 'http://localhost:5050/handlePhoto/imgUpload',
+      headers: {'access-token': `${this.$store.state.token}`},
+      filesUploaded: []
     }
   },
   methods: {
-    uploadImage (e) {
-      var files = e.target.files
-      if (!files[0]) {
-        return
-      }
-      var data = new FormData()
-      data.append('media', files[0])
-      var reader = new FileReader()
-      reader.onload = (e) => {
-        this.imageSrc = e.target.result
-      }
-      // reader.readAsDataURL(files[0])
-      Api().post('/handlePhotos/uploads', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then(response => {
-        // reader.readAsDataURL(files[0])
-        console.log(response)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    thumbUrl (file) {
+      // console.log(JSON.stringify(file))
+      return file
+    },
+    onFileChange (file) {
+      // Handle files like:
+      console.log(this.filesUploaded)
+      console.log(this.file)
+      this.fileUploaded = file
+    },
+    mySaveMethod (file) {
+      let fileUpload = new FileUpload(
+        this.url,
+        this.headers,
+        this.onProgress
+      )
+      fileUpload
+        .upload(file, { doc_id: 1 })
+        .then(e => {
+          console.log(JSON.stringify(e))
+          // Handle success
+          alert('Upload is a success!')
+        })
+        .catch(e => {
+          // Handle error
+          console.log(JSON.stringify(e))
+        })
     }
   }
 }
-</script>
-
-<style>
-  
-.image {
-  width: 100%;
-  height: 100%;
-}
-.container {
-  margin: 0 auto;
-  width: 600px;
-}
-.navbar {
-  width: 100%;
-  cursor: default;
-  background-color: #2CA8E5;
-  height: 65px;
-  display: flex;
-  align-items: center;
-  padding-left: 35px;
-  margin-bottom:50px;
-}
-.navbar-text {
-  color: white;
-  font-weight: bold;
-}
-.navbar-text a {
-  color: white;
-}
-</style>
+</script> 

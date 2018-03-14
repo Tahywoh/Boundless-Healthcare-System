@@ -6,7 +6,7 @@ export default {
       url: '/Patient-interface', text: 'Patient Interface'
     },
     appointment: {
-      url: '/Patient-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
+      url: '/Patient-interface/appointment', text: 'Patient-Appointment', icon: 'icon ion-android-contacts'
     },
     bookAppointment: {icon: 'icon ion-ios-plus'},
     medicalRecord: {

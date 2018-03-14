@@ -28,7 +28,7 @@
                 <form class="col s12" @input="errorMsg" @submit.prevent="validateForm">
                   <div class="row">
                     <div class="input-field col s6">
-                      <input id="drug_name" type="text" class="validate" v-model="formData.drugName">
+                      <input id="drug_name" type="text" class="validate" v-model="formData.drugName" required>
                       <label for="drug_name">Drug Name</label>
                     </div>
                     <div class="input-field col s6">
@@ -38,13 +38,13 @@
                   </div>
                   <div class="row">
                     <div class="input-field col s6">
-                      <input id="price" type="number" class="validate" value="# " v-model="formData.price" min="50" max="50000" placeholder="Default currency is Naira (#)">
+                      <input id="price" type="number" class="validate" value="# " v-model="formData.price" min="50" max="50000" placeholder="Default currency is Naira  required(#)">
                       <label for="price">Price</label>
                     </div>
                   </div>
                   <div class="row">
                     <div class="input-field col s12">
-                      <textarea id="briefDescrip" class="materialize-textarea" v-model="formData.briefDescription"></textarea>
+                      <textarea id="briefDescrip" class="materialize-textarea" v-model="formData.briefDescription" required></textarea>
                       <label for="briefDescrip">Brief Description</label>
                     </div>
                   </div>
@@ -88,10 +88,10 @@
           <div class="drugs transparent show-content">
             <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Your Products</h4>
             <div class="text-center center-align" v-if="!registeredUserDrug">
-              <h5>{{pharmacistDrugStatus}}</h5> 
+              <h5 v-html="pharmacistDrugStatus"></h5> 
             </div>
             <div class="blue-grey white-text eachUserDrug" v-for="userDrug in userDrugs" :key="userDrug._id" v-else>
-              <ul class="collapsible user_drugs" data-collapsible="accordion">
+              <ul class="user_drugs" >
                 <li>
                   <div class="collapsible-header blue-text">
                     <h5 class="left">{{userDrug.drugName}}</h5>
@@ -100,11 +100,6 @@
                         {{userDrug.price}}
                       </span>
                     </h5>
-                  </div>
-                  <div class="collapsible-body">
-                    <h6>Description: </h6>
-                    <span v-text="userDrug.briefDescription"></span><br/><br/>
-                    <h6>Manufacturer:</h6> <small class="grey lighten-4 blue-text" v-text="userDrug.manufac"></small>
                   </div>
                 </li>
               </ul>
@@ -136,7 +131,10 @@ export default {
       goToProfile: navs.links.profile.url,
       currency: '#',
       errorMsg: '',
-      pharmacistDrugStatus: 'You have not added any drug!',
+      pharmacistDrugStatus: `You have not added any drug!
+      <br/>
+      Kindly click add drug at your left hand side to add one and your drug(s) will appear here.
+      `,
       formData: {
         drugName: '',
         manufac: '',
@@ -157,14 +155,14 @@ export default {
     try {
       let userDrugs = (await GetServices.getCurrentUserDrugs({user: validSeller.userDrugs})).data
       this.userDrugs = userDrugs
-      if (this.userDrugs !== null) {
+      if (this.userDrugs.length !== 0) {
         this.registeredUserDrug = true
       } else {
         this.registeredUserDrug = false
       }
     } catch (error) {
       if (error) {
-        console.log(JSON.stringify(error))
+        console.log(JSON.stringify(error.userDrugs))
       }
     }
     console.log(this.userDrugs)
@@ -188,14 +186,18 @@ export default {
       validateDrug.manufac = this.formData.manufac
       validateDrug.seller = this.formData.seller
       try {
-        const response = await PharmacyServices.addToPharmacy(validateDrug)
-        let responseData = response.data
+        const responseData = (await PharmacyServices.addToPharmacy(validateDrug)).data
         console.log(responseData)
         alert('Your drug has been successfully added!')
         document.getElementById('id01').style.display = 'none'
+        this.formData.drugName = ''
+        this.formData.manufac = ''
+        this.formData.briefDescription = ''
+        this.formData.price = ''
+        this.errorMsg = ''
       } catch (error) {
         if (error) {
-          this.errorMsg = error.response.data
+          this.errorMsg = error.responseData
         }
       }
     }

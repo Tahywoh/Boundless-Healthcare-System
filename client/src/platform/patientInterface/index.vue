@@ -52,7 +52,7 @@
         <div class="text-center center-align" v-if="!registeredDoctors">
           <h5>{{docStatus}}</h5> 
         </div>
-        <div v-else v-for="doctor in doctors" :key="doctor._id" class="blue-grey white-text eachDoctor" id="newDocs">
+        <div v-else v-for="(doctor, index) in doctors" :key="index" class="blue-grey white-text eachDoctor">
           <a class="btn waves-effect-waves-light"><span>{{doctor.fullName}}</span></a><br/>
           <a class="right btn waves-effect waves-light consultBtn" @click="createChannel" :id="doctor._id">consult</a>
           <a href="" class="btn waves-effect-waves-light" >City: <span>{{doctor.city}}</span></a>
@@ -136,7 +136,7 @@ export default {
         console.log('Please enter a valid input!')
         return false
       }
-      console.log(validSearchInput)
+      // console.log(validSearchInput)
       try {
         const doctors = (await SearchServices.findDoctors({query: validSearchInput.search})).data
         // let responseData = response.data
@@ -166,15 +166,19 @@ export default {
       }
     },
     createChannel (e) {
-      // console.log(e.target.attributes[0].nodeValue)
-      let newChannel, docFullName, channel
+      // console.log(e.currentTarget.id)
+      let newChannel, docFullName, channel, docEmail
       this.doctors.forEach((doc) => {
-        if (doc._id === e.target.attributes[0].nodeValue) {
+        // this.$store.state.consult.doctorName = docFullName
+        // this.$store.state.consult.doctorEmail = docEmail
+        if (doc._id === e.currentTarget.id) {
           channel = `${this.$store.state.profile.fullName.replace(/\s/g, '').toLowerCase()}AND${doc.fullName.replace(/\s/g, '').toLowerCase()}`
-
+          docFullName = doc.fullName
+          docEmail = doc.email
           if (channel !== this.$store.state.consult.newRoom) {
             newChannel = channel
             this.$store.commit('SOCKET_CREATECHANNEL', {newRoom: newChannel})
+            this.$store.commit('SET_DOCPATIENT', {doctorName: docFullName, doctorEmail: docEmail})
             if (confirm(`Are you sure you want to consult Doctor ${doc.fullName} with room name ${newChannel}?`)) {
               alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them. Kindly go back to your dashboard to proceed.`)
             }
@@ -182,10 +186,9 @@ export default {
           } else {
             alert(`You are already connected to ${doc.fullName}. Kindly go to your dashboard to consult them.`)
           }
-          docFullName = doc.fullName
         }
       })
-      console.log(docFullName)
+      console.log(this.$store.state.consult.doctorName)
     }
   }
 }

@@ -18,20 +18,14 @@
       </div>
     </form>
     <div class="uploaded-image" :style="{ 'background-image': 'url(' + imgUrl + ')' }" v-if="isSuccess">
-      
       <!-- <i class="icon ion-eye" /> -->
 
     </div>
-
-    <div class="succeed" v-if="isSuccess">
-        <img :src="imgUrl" alt="Error displaying image, unable to upload image" class="responsive-img">
-      </div>
   </div>
 </template>
 
 <script>
-// import {upload} from '@/services/upload'
-import * as axios from 'axios'
+import UploadService from '@/services/uploadService'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
 const STATUS_SUCCESS = 2
@@ -41,7 +35,7 @@ export default {
   props: {
     id: {
       type: Number,
-      required: false
+      required: true
     }
   },
   data () {
@@ -54,39 +48,6 @@ export default {
     }
   },
   methods: {
-    toValidUrl (url) {
-      let newurl = url.split('//')[0] + '/'
-      let newurl2 = url.split('//')[1]
-      let obtained = []
-      obtained.push(newurl)
-      let capitalizeVal = newurl2.split('/')
-      capitalizeVal.forEach(word => {
-        let newWord = word.split('')
-        newWord[0] = '/' + newWord[0]
-        newWord = newWord.join('')
-        obtained.push(newWord)
-      })
-      // console.log(obtained.join('/'))
-      url = obtained.join('/')
-      console.log(url)
-      return url
-    },
-    upload (formData) {
-      const url = `http://localhost:5050/handlePhoto/imgUpload`
-      return axios.post(url, formData)
-      // get data
-        .then((x) => {
-          if (x) {
-            console.log(JSON.stringify(x.data, undefined, 3))
-            this.imgUrl = this.toValidUrl(x.data)
-            console.log({x})
-            return x.data
-          }
-        })
-      // // add url field
-      //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:5050/public/uploads/${img.id}` })))
-    },
     reset () {
       // reset form to initial state
       this.currentStatus = STATUS_INITIAL
@@ -97,7 +58,7 @@ export default {
       // upload data to the server
       this.currentStatus = STATUS_SAVING
 
-      this.upload(formData)
+      UploadService.imageUpload(formData)
         .then(x => {
           this.imgUrl = x.data
           this.uploadedFiles = [].concat(x)
@@ -157,6 +118,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.id)
     this.reset()
   }
 }

@@ -12,6 +12,7 @@ export default new Vuex.Store({
     isUserLoggedIn: false,
     lastPageVisited: '',
     lastPage: '',
+    currentDrug: null,
     userData: {
       docPatients: '',
       patientDocs: '',
@@ -49,7 +50,9 @@ export default new Vuex.Store({
       licenseRequirement: ''
     },
     consult: {
-      // roomNames: [],
+      doctorName: '',
+      doctorEmail: '',
+      patientName: '',
       newRoom: '',
       isConnectedToSocket: false,
       socketMessage: ''
@@ -79,32 +82,30 @@ export default new Vuex.Store({
         state.profile.licenseRequirement = user.licenseRequirement
 
         // setting user meta data
-        state.userData.docPatients = user.docPatients
-        state.userData.patientDocs = user.patientDocs
-        state.userData.pharmacistOrders = user.pharmacistOrders
-        state.userData.patientCarts = user.patientCarts
+        // state.userData.docPatients = user.docPatients
+        // state.userData.patientDocs = user.patientDocs
+        // state.userData.pharmacistOrders = user.pharmacistOrders
+        // state.userData.patientCarts = user.patientCarts
         // setting user appointments
-        state.userData.appointment.reason = user.reason
-        state.userData.appointment.date = user.date
-        state.userData.appointment.start = user.start
-        state.userData.appointment.end = user.end
-        state.userData.appointment.status = user.status
-        state.userData.appointment.patient.doctorName = user.doctorName
-        state.userData.appointment.doctor.patientName = user.patientName
+
+        // state.userData.appointment.reason = user.reason
+        // state.userData.appointment.date = user.date
+        // state.userData.appointment.start = user.start
+        // state.userData.appointment.end = user.end
+        // state.userData.appointment.status = user.status
       } else {
         state.isUserLoggedIn = false
         // this.$router.push('/login')
       }
     },
     SOCKET_CONNECT (state) {
-      if (state.token !== '') {
+      if (state.token) {
         state.consult.isConnectedToSocket = true
       }
     },
     SOCKET_CREATECHANNEL (state, newRoom) {
-      // if (state.token !== '') {
-      //   state.consult.roomNames.push({'newRoom': newRoom.roomNames})
-      // }
+      // state.consult.doctorName = newRoom.doctorName
+      // state.consult.doctorEmail = newRoom.doctorEmail
       if (state.token !== '') {
         state.consult.newRoom = newRoom.newRoom
         // state.consult.roomNames.push({'channel': newRoom.roomName})
@@ -120,14 +121,24 @@ export default new Vuex.Store({
     SOCKET_DISCONNECT (state) {
       state.consult.isConnectedToSocket = false
     },
+    SET_CURRENTDRUG (state, user) {
+      state.currentDrug = user.currentDrug
+    },
+    SET_DOCPATIENT (state, data) {
+      state.consult.doctorName = data.doctorName
+      state.consult.doctorEmail = data.doctorEmail
+    },
     CLEAR_USER (state) {
       state.token = ''
       state.userType = ''
       state.profile = {}
+      state.consult = {}
+      state.userData = {}
       state.isUserLoggedIn = false
       state.consult.roomNames = []
       state.consult.roomName = ''
       // state.consult = null
+      state.currentDrug = null
     }
   },
   plugins: [createPersist({

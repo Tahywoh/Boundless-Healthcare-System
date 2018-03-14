@@ -5,8 +5,10 @@ import RegisterDoctor from '@/platform/access/registerDoctor'
 import RegisterPharmacist from '@/platform/access/registerPharmacist'
 import RegisterMedlabScientist from '@/platform/access/registerMedlabScientist'
 import Signin from '@/platform/access/signin'
+import Login from '@/platform/access/login'
 import Photo from '@/components/utils/photo'
 import Newphoto from '@/components/utils/newphoto'
+import Testphoto from '@/components/utils/testphoto'
 import activeModules from '@/platform/activeModules'
 
 let routes = [
@@ -41,9 +43,19 @@ let routes = [
     component: Signin
   },
   {
+    path: '/loginuser',
+    name: 'BHS testing login',
+    component: Login
+  },
+  {
     path: '/photo',
     name: 'photo',
     component: Photo
+  },
+  {
+    path: '/testphoto',
+    name: 'Testing-photo',
+    component: Testphoto
   },
   {
     path: '/newphoto',
