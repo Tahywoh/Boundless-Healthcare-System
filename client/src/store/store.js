@@ -103,9 +103,8 @@ export default new Vuex.Store({
       }
     },
     SOCKET_CREATECHANNEL (state, newRoom) {
-      // if (state.token !== '') {
-      //   state.consult.roomNames.push({'newRoom': newRoom.roomNames})
-      // }
+      // state.consult.doctorName = newRoom.doctorName
+      // state.consult.doctorEmail = newRoom.doctorEmail
       if (state.token !== '') {
         state.consult.newRoom = newRoom.newRoom
         // state.consult.roomNames.push({'channel': newRoom.roomName})
@@ -123,6 +122,10 @@ export default new Vuex.Store({
     },
     SET_CURRENTDRUG (state, user) {
       state.currentDrug = user.currentDrug
+    },
+    SET_DOCPATIENT (state, data) {
+      state.consult.doctorName = data.doctorName
+      state.consult.doctorEmail = data.doctorEmail
     },
     CLEAR_USER (state) {
       state.token = ''

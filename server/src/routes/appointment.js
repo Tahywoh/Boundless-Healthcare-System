@@ -200,6 +200,25 @@ router.post('/fetchAppointments', (req, res) => {
   }
 })
 
+router.post('/updateAppointment', (req, res) => {
+  let {appointment, setStatus, timeStamp} = req.body
+  console.log(req.body)
+  Appointment.findOneAndUpdate({_id: appointment}, {
+    $set: {
+      status: {
+        statusText: setStatus,
+        date: timeStamp
+      }
+    }
+  }, {
+    returnOriginal: false
+  })
+    .then((newResult) => {
+      console.log(newResult)
+      res.status(200).send(newResult)
+    })
+})
+
 router.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Credentials', true)

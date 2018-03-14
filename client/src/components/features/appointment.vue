@@ -33,16 +33,13 @@
         </div>
         <div class="row">
           <div class="input-field col s6">
-            Start
-            <datetime v-model="formData.setTime.start"></datetime>
-              <!-- <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start" > -->
-            <!-- <label for="startTime">Start</label> -->
+            Start Time
+            <!-- <datetime v-model="formData.setTime.start"></datetime> -->
+              <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start"><br/>
           </div>
           <div class="input-field col s6">
-            End
-             <!-- <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"  placeholder="1:00 pm"> -->
-             <datetime v-model="formData.setTime.end"></datetime>
-            <!-- <label for="endTime">End</label> -->
+            End Time
+             <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"><br/>
           </div>
         </div>
 
@@ -76,30 +73,17 @@
 </header>
 
 <div class="w3-container container">
-  <!-- <p>Lorem ipsum...</p>
-  <button class="w3-btn">Button</button> -->
-   <!-- <div class="eachAppointment blue-grey white-text" v-for="(appointment, index) in appointments" :key="index">
-    <p v-html="appointment.body">I am sick</p>
-    <a href="" class="right btn waves-effect waves-light">
-      Attending Doctor:
-  	  <span id="attendingDoctor">{{appointment.attendingDoctor}}</span>
-    </a>
-    <a href="" class="btn waves-effect-waves-light">status: <span v-text="appointment.status">Approved</span></a>
-    <a href="" class="btn waves-effect-waves-light">
-      Time: <span v-text="appointment.time">10:00 - 12: 00</span>
-    </a>
-  </div> -->
-  <div class="eachAppointment blue-grey white-text" v-for="(userAppointment, index) in userAppointments" :key="index">
-    <p v-text="userAppointment.reason">I am sick
+  <div class="eachAppointment blue-grey white-text" v-for="(userAppointment, index) in userAppointments" :key="index" v-if="checkAppointments">
+    <p v-text="userAppointment.reason">
     </p>
 
-    <p class="atending_doc" v-if="userAppointment.doctor">
+    <p class="atending_doc" v-if="userAppointment.doctor && isPatient">
       <a href="" class="btn waves-effect waves-light">
       Attending Doctor:
   	  <span id="attendingDoctor">{{userAppointment.doctor.fullName}}</span>
       </a>  
     </p>
-    <p class="atending_patient" v-if="userAppointment.patient">
+    <p class="atending_patient" v-if="userAppointment.patient && !isPatient">
       <a href="" class="btn waves-effect waves-light">
       Patient:
   	  <span id="attendingPatient">{{userAppointment.patient.fullName}}</span>
@@ -122,27 +106,48 @@
      <p>
     <a href="" class="btn waves-effect-waves-light">
       Time: <span v-html="userAppointment.setTime.start"></span> - <span v-html="userAppointment.setTime.end"></span>
+    </a><br/><br/>
+    <a href="" class="btn waves-effect-waves-light" v-if="userAppointment.setTime.date">
+      Date:
     </a>
+    <div v-if="!isPatient">
+      <a href="" class="btn waves-effect waves-light blue s4">
+        Date:
+      </a>
+      <form class="col s12" @submit.prevent="validateForm">
+         <div class="row">
+          <div class="input-field col s6">
+            <input type="date" class="blue" v-model="checkDate">
+          </div>
+        </div>
+      </form>
+    </div>
     </p>
     <p class="combine">
         <span class="btn waves-effect-waves-light blue">
         status:
         </span>
-        <select class="browser-default waves-effect waves-light btn blue" style="class: browser" id="appointmentStatus" v-if="!isPatient">
-          <option selected disabled>{{userAppointment.status.statusText}}</option>
+        <div class="notPatient">
+          <a class="btn waves-light waves-effect restrictStatusStyle">
+            {{userAppointment.status.statusText}}
+          </a>
+        </div>
+        <div v-if="!isPatient">
+          <span class="btn waves-effect waves-light blue">
+          Change Status
+        </span>
+           <select class="browser-default waves-effect waves-light btn blue accessStatusStyle" style="class: browser" :id="userAppointment._id" @change="toggleAppointmentStatus">
+          <option selected disabled>Change Status</option>
           <option v-for="(option, index) in options" :value="option.value" :key="index">
             {{ option.text }}
           </option>
         </select>
-        <div class="notPatient">
-          <a class="btn waves-light waves-effect">
-            {{userAppointment.status.statusText}}
-          </a>
         </div>
-      
       <!-- <a href="" class="right btn waves-effect waves-light">Default: <span v-text="userAppointment.status.statusText"></span></a> -->
     </p>
-    
+  </div>
+  <div class="noAppointment" v-if="!checkAppointments">
+    <h4 class="center">No Appointments yet!</h4>
   </div>
 </div>
 
@@ -161,16 +166,19 @@ import Modal from '@/components/snippets/modal'
 import BasicDetails from '@/components/widgets/basicDetails'
 // import $ from 'jquery'
 import RequestServices from '@/services/requestServices'
-import datetime from 'vuejs-datetimepicker'
+// import datetime from 'vuejs-datetimepicker'
+// import VueTimepicker from 'vue-time-picker'
 export default {
-  components: {Interface, Modal, BasicDetails, datetime},
+  components: {Interface, Modal, BasicDetails},
   data () {
     return {
+      checkAppointments: true,
       isPatient: false,
+      checkDate: '',
       errMsg: '',
       add_icon: navs.links.bookAppointment.icon + ' x2 left',
       formData: {
-        reason: 'hi',
+        reason: '',
         creator: this.$store.state.userType,
         setTime: {
           start: '',
@@ -182,12 +190,14 @@ export default {
       },
       userAppointments: null,
       options: [
+        {text: 'Pending', value: 'Pending'},
         {text: 'Approved', value: 'Approved'},
         {text: 'Cancelled', value: 'Cancelled'},
         {text: 'Held', value: 'Held'}
       ]
     }
   },
+  watch: this.userAppointments,
   async mounted () {
     if (this.$store.state.userType === 'Patient') {
       this.isPatient = true
@@ -200,7 +210,6 @@ export default {
       bookedAppointment.user = 'Patient'
     } else if (this.$store.state.userType === 'Doctor') {
       bookedAppointment.user = 'Doctor'
-      return false
     } else if (this.$store.state.userType === 'MedicalLabScientist') {
       bookedAppointment.user = 'MedicalLabScientist'
     }
@@ -209,28 +218,65 @@ export default {
       let userAppointments = (await RequestServices.fetchAppointments(bookedAppointment)).data
       if (userAppointments.length > 0) {
         this.userAppointments = userAppointments
-        console.log({testinguAP: this.userAppointments})
-        for (let i = 0; i < this.userAppointments.length; i++) {
-          console.log({testfield: this.userAppointments[i].setTime.start})
-        }
+        // console.log(this.userAppointments)
+      } else {
+        this.checkAppointments = false
       }
     } catch (error) {
-      if (Error) {
+      if (error) {
         console.log(JSON.stringify(error.userAppointments))
       }
     }
   },
   methods: {
-    okay (e) {
-      // e = 'It is working!'
-      console.log(e)
+    verifyMeridian (inputTime) {
+      let newTimeInput = inputTime.split(':')
+      if (newTimeInput[0] > 12) {
+        newTimeInput[0] = newTimeInput[0] - 12
+        newTimeInput = newTimeInput.join(':') + 'PM'
+      } else {
+        newTimeInput = newTimeInput.join(':') + 'AM'
+      }
+      console.log(newTimeInput)
+      return newTimeInput
+    },
+    toggleAppointmentStatus (e) {
+      this.userAppointments.forEach((eachAppointment) => {
+        if (eachAppointment._id === e.target.id) {
+          var newk
+          let k = new Date()
+          let D = k.getUTCDate() + '/' + k.getUTCMonth() + '/' + k.getUTCFullYear()
+          let t = k.getHours() + ':' + k.getMinutes() + ':' + k.getSeconds()
+          if (k.getHours() > 12) {
+            newk = k.getHours() - 12
+          }
+          t = newk + ':' + k.getMinutes() + ':' + k.getSeconds()
+          let paramT = D + '  ' + t
+          console.log(paramT)
+          this.updateAppointment(eachAppointment._id, e.currentTarget.value, paramT)
+        }
+      })
+      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface/appointment`
+      console.log(e.currentTarget.value)
     },
     validateForm (e) {},
+    async updateAppointment (identifier, data, newD) {
+      try {
+        let updatedAppointment = (await RequestServices.updateAppointment({appointment: identifier, setStatus: data, timeStamp: newD})).data
+        console.log(updatedAppointment)
+      } catch (error) {
+        if (error) {
+          console.log(JSON.stringify(error.updatedAppointment))
+        }
+      }
+    },
     async seekAppointment () {
+      this.formData.setTime.start = this.verifyMeridian(this.formData.setTime.start)
+      this.formData.setTime.end = this.verifyMeridian(this.formData.setTime.end)
       let appointmentData = {}
       appointmentData.creator = this.formData.creator
       appointmentData.patient = this.formData.patient
-      if (this.formData.setTime.start && this.formData.setTime.end) {
+      if ((this.formData.setTime.start) || (this.formData.setTime.end <= 12)) {
         appointmentData.setTime = {
           start: this.formData.setTime.start,
           end: this.formData.setTime.end
@@ -255,9 +301,11 @@ export default {
         console.log(appointmentData)
         const bookAppointment = await (RequestServices.seekAppointment(appointmentData))
         console.log({'appointmentData': bookAppointment.data})
+        document.getElementById('id01').style.display = 'none'
         this.formData.reason = ''
         this.formData.setTime.start = ''
         this.formData.setTime.end = ''
+        alert(`You have successfully book appointment with ${this.doctorName}`)
       } catch (error) {
         if (error) {
           alert(error.bookAppointment.data)
@@ -270,6 +318,31 @@ export default {
 </script>
 
 <style scoped>
+#app > div > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content > div > div > div:nth-child(1) > div:nth-child(5) > form > div > div > input {
+  margin-left: -0.8rem;
+  text-align: left;
+  padding-left: 2rem;
+  color: #fff !important;
+}
+#app > div > div > div > div > div > div > div.platform-content > div > div > div  a {
+  z-index: 0;
+}
+#app > div > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content > div > div > div > div:nth-child(7) {
+  margin-top: -1.4rem;
+}
+#appointmentStatus > option {
+    color: #2196f3;
+    background-color: #fff;
+}
+div .accessStatusStyle {
+  width: auto;
+    margin-top: -2.1rem;
+    margin-left: 14rem;
+}
+div .restrictStatusStyle {
+  margin-top: -3.0rem;
+  margin-left: 9rem;
+}
 #app > div > div > div > div > div > div > div.platform-content > div > div > div > p.combine > a {
   margin-top: -2.1rem;
 }

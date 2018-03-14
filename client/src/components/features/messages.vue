@@ -51,7 +51,7 @@ export default {
     connect () {
       // Fired when the socket connects.
       if ((this.$store.state.token && this.$store.state.userType === 'Patient') || (this.$store.state.token && this.$store.state.userType === 'Doctor')) {
-        // this.$store.commit('SOCKET_CONNECT')
+        this.$store.commit('SOCKET_CONNECT')
         console.log('New user connected... ')
         this.isConnected = this.$store.state.consult.isConnectedToSocket
         // if (this.$store.state.isConnected) {

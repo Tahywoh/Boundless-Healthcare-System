@@ -67,7 +67,6 @@ export default {
     } else {
       this.registeredDrug = false
     }
-    console.log(allDrugs)
   },
   methods: {
     validateForm (e) {},
@@ -82,17 +81,18 @@ export default {
       // console.log(validateSearchInput)
       try {
         const pharmacy = (await SearchServices.findDrugs({query: validateSearchInput.searchPharmacy})).data
-        if (pharmacy.length !== 0) {
+        if (pharmacy.length > 0) {
           this.searchPharmacy = ''
           this.searchErr = ''
           this.allDrugs = pharmacy
-          console.log('Drug not found')
         } else {
           this.allDrugs = null
           if (this.$store.state.userType === 'Pharmacist') {
             this.searchErr = 'Drug not found, you can add the drug to pharmacy by clicking on add drug button at your left hand side.'
+            console.log('Drug not found')
           } else {
             this.searchErr = 'Drug not found! Please try searching with minimal words or strings'
+            console.log('Drug not found')
             return false
           }
         }
@@ -105,7 +105,7 @@ export default {
     },
     toDrugDescrip (e) {
       this.allDrugs.forEach((drug) => {
-        if (drug._id === e.target.attributes[0].nodeValue) {
+        if (drug._id === e.currentTarget.id) {
           // this.$store.state.currentDrug = drug
           this.$store.commit('SET_CURRENTDRUG', {currentDrug: drug})
           this.$router.push(`/pharmacy/drug-description/${drug._id}`)

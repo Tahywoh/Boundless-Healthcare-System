@@ -11,7 +11,7 @@
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
                 <input type="email" name="user" class="validate grey-text text-darken-3" v-model="loginData.user">
-                <label for="email">Email</label>
+                <label for="email">User</label>
               </div>
           </div>
           <div class="row">
@@ -122,7 +122,7 @@ export default {
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
-          this.$store.commit('SOCKET_CONNECT')
+          // this.$store.commit('SOCKET_CONNECT')
           console.log(fullName, telephone, city, state, address)
           return false
         } else if (this.loginData.userType === 'Doctor') {
@@ -131,7 +131,7 @@ export default {
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement})
-          this.$store.commit('SOCKET_CONNECT')
+          // this.$store.commit('SOCKET_CONNECT')
 
           console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
           return false
@@ -153,17 +153,18 @@ export default {
 
           console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
         }
-        if (this.$store.state.lastPageVisited > 0) {
-          console.log('lastPageVisited', this.$store.state.lastPageVisited)
-          this.$router.push(this.$store.state.lastPageVisited)
-        } else if (this.$store.state.lastPage.trim().length > 0) {
-          console.log('lastpage')
-          this.$router.push(`${this.$store.state.lastPage}`)
-        } else {
-          // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-          alert('can now login')
-          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
-        }
+        alert('success')
+        // if (this.$store.state.lastPageVisited > 0) {
+        //   console.log('lastPageVisited', this.$store.state.lastPageVisited)
+        //   this.$router.push(this.$store.state.lastPageVisited)
+        // } else if (this.$store.state.lastPage.trim().length > 0) {
+        //   console.log('lastpage')
+        //   this.$router.push(`${this.$store.state.lastPage}`)
+        // } else {
+        //   location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+        //   alert('can now login')
+        //   // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
+        // }
       } catch (error) {
         if (error) {
           this.errorMsg = error.response.data

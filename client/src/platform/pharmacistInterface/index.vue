@@ -186,8 +186,7 @@ export default {
       validateDrug.manufac = this.formData.manufac
       validateDrug.seller = this.formData.seller
       try {
-        const response = await PharmacyServices.addToPharmacy(validateDrug)
-        let responseData = response.data
+        const responseData = (await PharmacyServices.addToPharmacy(validateDrug)).data
         console.log(responseData)
         alert('Your drug has been successfully added!')
         document.getElementById('id01').style.display = 'none'
@@ -198,7 +197,7 @@ export default {
         this.errorMsg = ''
       } catch (error) {
         if (error) {
-          this.errorMsg = error.response.data
+          this.errorMsg = error.responseData
         }
       }
     }

@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
+// var formatedTime = date.format('MMM D, YYYY') + ` &nbsp;&nbsp; ` + date.format('h:mm a')
 // const Schema = mongoose.Schema
 const {Schema} = require('mongoose')
 // const {ObjectId} = Schema.Types
-const DateType = Schema.Types.Date
+// const DateType = Schema.Types.Date
 const {ObjectId} = Schema.Types
 
 const AppointmentSchema = new Schema({
@@ -25,7 +26,8 @@ const AppointmentSchema = new Schema({
   creator: String,
   setTime: {
     start: String,
-    end: String
+    end: String,
+    Date: String
   },
   note: {
     type: String,
@@ -34,9 +36,12 @@ const AppointmentSchema = new Schema({
   status: {
     statusText: {
       type: String,
-      default: 'pending'
+      default: 'Pending'
     },
-    date: DateType
+    date: {
+      type: String,
+      default: Date.now
+    }
   },
   createdAt: {
     type: Date,

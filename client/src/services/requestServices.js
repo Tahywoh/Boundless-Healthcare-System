@@ -22,7 +22,10 @@ export default {
   fetchAppointments (data) {
     return Api().post('/appointment/fetchAppointments', data, header)
   },
+  updateAppointment (data) {
+    return Api().post('/appointment/updateAppointment', data, header)
+  },
   cancelAppointment (userId) {
-    return Api().post('/cancelAppointment', userId)
+    return Api().post('/cancelAppointment', userId, header)
   }
 }
