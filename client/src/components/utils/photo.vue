@@ -72,7 +72,8 @@ export default {
       return url
     },
     upload (formData) {
-      const url = `http://localhost:5050/handlePhoto/imgUpload`
+      // const url = `http://localhost:5050/handlePhoto/imgUpload`
+      const url = `https://server-kzzqzcsbsm.now.sh/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {

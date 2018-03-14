@@ -14,7 +14,7 @@ Vue.use(FileUpload)
 export default {
   data () {
     return {
-      url: 'http://localhost:5050/handlePhoto/imgUpload',
+      url: 'https://server-kzzqzcsbsm.now.sh/handlePhoto/imgUpload',
       headers: {'access-token': `${this.$store.state.token}`},
       filesUploaded: []
     }
