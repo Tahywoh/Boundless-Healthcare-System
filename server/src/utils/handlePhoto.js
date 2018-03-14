@@ -18,7 +18,8 @@ const Photo = mongoose.model('photo')
 var upload = multer({storage: storage})
 router.post('/uploads', upload.any(), (req, res) => {
   // console.log(JSON.stringify(req.headers))
-  console.log(req)
+  // console.log({req: req.files[0]})
+  console.log(req.files)
   console.log('file received')
   let newPhoto = new Photo({imageData: req.files[0]})
   newPhoto.save(err => {
@@ -34,18 +35,21 @@ router.post('/uploads', upload.any(), (req, res) => {
 })
 
 router.post('/imgUpload', fileParser, (req, res) => {
-  var imageFile = req.files.photos
   console.log(req.files)
+  // var imageFile = req.files.file
+  var imageFile = req.files.photos
+  // console.log(req.files.file)
   console.log(imageFile)
-  console.log(JSON.stringify(req, null, 3))
+  // console.log(JSON.stringify(req, null, 3))
   cloudinary
     .v2
     .uploader
     .upload(imageFile.path, (error, result) => {
       if (!error) {
-        console.log(result)
+        console.log(JSON.stringify(result, null, 3))
         if (result.url) {
-          res.send(result.url)
+          console.log({result: result.secure_url})
+          res.status(200).send(result.secure_url)
         } else {
           console.log('err uploading at initial')
           res.status(413).send({message: 'Error uploading your picture, Please try again', code: 'NOT_OK'})

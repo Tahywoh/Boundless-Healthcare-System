@@ -14,17 +14,20 @@ Vue.use(FileUpload)
 export default {
   data () {
     return {
-      url: 'http://localhost:5050/handlePhoto/uploads',
+      url: 'http://localhost:5050/handlePhoto/imgUpload',
       headers: {'access-token': `${this.$store.state.token}`},
       filesUploaded: []
     }
   },
   methods: {
     thumbUrl (file) {
-      return file.myThumbUrlProperty
+      // console.log(JSON.stringify(file))
+      return file
     },
     onFileChange (file) {
       // Handle files like:
+      console.log(this.filesUploaded)
+      console.log(this.file)
       this.fileUploaded = file
     },
     mySaveMethod (file) {
@@ -36,9 +39,9 @@ export default {
       fileUpload
         .upload(file, { doc_id: 1 })
         .then(e => {
+          console.log(JSON.stringify(e))
           // Handle success
           alert('Upload is a success!')
-          // console.log(e)
         })
         .catch(e => {
           // Handle error

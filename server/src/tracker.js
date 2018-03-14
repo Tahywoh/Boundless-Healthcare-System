@@ -20,7 +20,7 @@ var server = http.createServer(app)
 
 var io = socketIO(server)
 const config = require('./helpers/config')
-const database = require('./helpers/database')
+// const database = require('./helpers/database')
 
 const port = process.env.PORT || 5050
 const {generateMessage, generateLocationMessage} = require('./socket/message')
@@ -34,7 +34,7 @@ app.set('tokenSecret', config.token_secret)
 mongoose.Promise = global.Promise
 
 // connect to mongoose(install save mongoose to node js module and sign up for mlab acct.)
-mongoose.connect(database.mongoURI, {
+mongoose.connect(`mongodb://BHS:adeshina@ds033196.mlab.com:33196/boundless_healthcare_system`, {
   useMongoClient: true
 }).then(() => console.log('connected to Mongo DataBase')).catch(err => console.log(err))
 
@@ -86,7 +86,7 @@ io.on('connection', (socket) => {
 // })
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:9000')
+  res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Credentials', true)
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
