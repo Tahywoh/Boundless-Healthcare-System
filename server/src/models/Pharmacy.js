@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const DateType = Schema.Types.Date
 
 // creating schema for drugs
 const pharmacySchema = new Schema({
@@ -24,6 +25,20 @@ const pharmacySchema = new Schema({
   seller: {
     type: String,
     required: true
+  },
+  orders: {
+    currentOrder: {
+      type: Number,
+      default: 0
+    },
+    requests: [
+      {
+        email: String,
+        fullName: String,
+        userType: String,
+        orderedAt: DateType
+      }
+    ]
   },
   date: {
     type: Date,

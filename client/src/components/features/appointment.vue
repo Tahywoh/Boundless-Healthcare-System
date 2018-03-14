@@ -103,25 +103,27 @@
         </a>  
       </p>
     </div>
-     <p>
+    <p>
     <a href="" class="btn waves-effect-waves-light">
       Time: <span v-html="userAppointment.setTime.start"></span> - <span v-html="userAppointment.setTime.end"></span>
     </a><br/><br/>
-    <a href="" class="btn waves-effect-waves-light" v-if="userAppointment.setTime.date">
-      Date:
-    </a>
-    <div v-if="!isPatient">
-      <a href="" class="btn waves-effect waves-light blue s4">
+    </p>
+    <p>
+      <a href="" class="btn waves-effect-waves-light" v-if="userAppointment.setTime.date">
         Date:
       </a>
-      <form class="col s12" @submit.prevent="validateForm">
-         <div class="row">
-          <div class="input-field col s6">
-            <input type="date" class="blue" v-model="checkDate">
+      <div v-if="!isPatient">
+        <a href="" class="btn waves-effect waves-light blue s4">
+          Date:
+        </a>
+        <form class="col s12" @submit.prevent="validateForm">
+          <div class="row">
+            <div class="input-field col s6">
+              <input type="date" class="blue" v-model="checkDate">
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
     </p>
     <p class="combine">
         <span class="btn waves-effect-waves-light blue">

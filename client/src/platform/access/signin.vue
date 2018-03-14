@@ -122,7 +122,7 @@ export default {
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
-          // this.$store.commit('SOCKET_CONNECT')
+          this.$store.commit('SOCKET_CONNECT')
           console.log(fullName, telephone, city, state, address)
           return false
         } else if (this.loginData.userType === 'Doctor') {
@@ -131,7 +131,7 @@ export default {
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement})
-          // this.$store.commit('SOCKET_CONNECT')
+          this.$store.commit('SOCKET_CONNECT')
 
           console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
           return false

@@ -136,7 +136,7 @@ export default {
         console.log('Please enter a valid input!')
         return false
       }
-      console.log(validSearchInput)
+      // console.log(validSearchInput)
       try {
         const doctors = (await SearchServices.findDoctors({query: validSearchInput.search})).data
         // let responseData = response.data
@@ -166,7 +166,7 @@ export default {
       }
     },
     createChannel (e) {
-      console.log(e.currentTarget.id)
+      // console.log(e.currentTarget.id)
       let newChannel, docFullName, channel, docEmail
       this.doctors.forEach((doc) => {
         // this.$store.state.consult.doctorName = docFullName
