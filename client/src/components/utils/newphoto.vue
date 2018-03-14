@@ -1,7 +1,7 @@
 <template>
   <div class="testingUpload">
     <file-upload :url='url' :thumb-url='thumbUrl' :headers="headers" @change="onFileChange" @submit="mySaveMethod"></file-upload>
-    <div><img src="../../assets/hush-naidoo-382152.jpg" alt="" class="responsive-img"></div>
+    <div><img src="../../assets/platform/2017-03-09-09-31-31-900x598.jpg" alt="checkme" class="responsive-img"></div>
     <router-view></router-view>
   </div>
 </template>

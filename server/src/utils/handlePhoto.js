@@ -1,6 +1,6 @@
 var router = require('express').Router()
 var multer = require('multer')
-const fileParser = require('connect-multiparty')
+const fileParser = require('connect-multiparty')()
 const cloudinary = require('cloudinary')
 cloudinary.config({cloud_name: 'taiwad', api_key: '869714852511566', api_secret: 'hOBuvh-tLT-yKTD9xm5mKLyb8eI'})
 var storage = multer.diskStorage({
@@ -18,6 +18,7 @@ const Photo = mongoose.model('photo')
 var upload = multer({storage: storage})
 router.post('/uploads', upload.any(), (req, res) => {
   // console.log(JSON.stringify(req.headers))
+  console.log(req)
   console.log('file received')
   let newPhoto = new Photo({imageData: req.files[0]})
   newPhoto.save(err => {
@@ -34,7 +35,9 @@ router.post('/uploads', upload.any(), (req, res) => {
 
 router.post('/imgUpload', fileParser, (req, res) => {
   var imageFile = req.files.photos
+  console.log(req.files)
   console.log(imageFile)
+  console.log(JSON.stringify(req, null, 3))
   cloudinary
     .v2
     .uploader
@@ -50,7 +53,7 @@ router.post('/imgUpload', fileParser, (req, res) => {
         }
       } else {
         res.status(500).send('Error uploading your picture, Please try  again')
-        console.log('Error uploading to cloudinary: \nerror: ', JSON.stringify(error))
+        console.log('Error uploading to cloudinary: \n error: ', JSON.stringify(error))
       }
     })
 })

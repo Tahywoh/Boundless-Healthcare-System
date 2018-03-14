@@ -82,16 +82,17 @@ export default new Vuex.Store({
         state.profile.licenseRequirement = user.licenseRequirement
 
         // setting user meta data
-        state.userData.docPatients = user.docPatients
-        state.userData.patientDocs = user.patientDocs
-        state.userData.pharmacistOrders = user.pharmacistOrders
-        state.userData.patientCarts = user.patientCarts
+        // state.userData.docPatients = user.docPatients
+        // state.userData.patientDocs = user.patientDocs
+        // state.userData.pharmacistOrders = user.pharmacistOrders
+        // state.userData.patientCarts = user.patientCarts
         // setting user appointments
-        state.userData.appointment.reason = user.reason
-        state.userData.appointment.date = user.date
-        state.userData.appointment.start = user.start
-        state.userData.appointment.end = user.end
-        state.userData.appointment.status = user.status
+
+        // state.userData.appointment.reason = user.reason
+        // state.userData.appointment.date = user.date
+        // state.userData.appointment.start = user.start
+        // state.userData.appointment.end = user.end
+        // state.userData.appointment.status = user.status
       } else {
         state.isUserLoggedIn = false
         // this.$router.push('/login')

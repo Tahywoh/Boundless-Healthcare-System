@@ -113,18 +113,20 @@ export default {
       }
       try {
         const response = await AuthServices.signInUsers(validateLogin)
+        console.log({response})
         console.log({verifyLogin: this.$store.state})
         let responseData = response.data
-        console.log(responseData)
         if (this.loginData.userType === 'Patient') {
+          console.log(responseData)
           let {fullName, telephone, city, token, user, userType, state, address} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
+          console.log('I got here')
           this.$store.commit('SOCKET_CONNECT')
           console.log(fullName, telephone, city, state, address)
-          return false
+          // return false
         } else if (this.loginData.userType === 'Doctor') {
           let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = responseData
 
@@ -134,7 +136,7 @@ export default {
           this.$store.commit('SOCKET_CONNECT')
 
           console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
-          return false
+          // return false
         } else if (this.loginData.userType === 'Pharmacist') {
           let {fullName, telephone, city, token, user, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
 
@@ -143,7 +145,7 @@ export default {
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
 
           console.log(fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
-          return false
+          // return false
         } else {
           let {fullName, telephone, city, token, user, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
@@ -153,20 +155,19 @@ export default {
 
           console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
         }
-        alert('success')
-        // if (this.$store.state.lastPageVisited > 0) {
-        //   console.log('lastPageVisited', this.$store.state.lastPageVisited)
-        //   this.$router.push(this.$store.state.lastPageVisited)
-        // } else if (this.$store.state.lastPage.trim().length > 0) {
-        //   console.log('lastpage')
-        //   this.$router.push(`${this.$store.state.lastPage}`)
-        // } else {
-        //   location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-        //   alert('can now login')
-        //   // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
-        // }
+        if (this.$store.state.lastPageVisited > 0) {
+          console.log('lastPageVisited', this.$store.state.lastPageVisited)
+          this.$router.push(this.$store.state.lastPageVisited)
+        } else if (this.$store.state.lastPage.trim().length > 0) {
+          console.log('lastpage')
+          this.$router.push(`${this.$store.state.lastPage}`)
+        } else {
+          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
+        }
       } catch (error) {
         if (error) {
+          console.log({error})
           this.errorMsg = error.response.data
           console.log(JSON.stringify(this.errorMsg, null, 3))
         } else {
