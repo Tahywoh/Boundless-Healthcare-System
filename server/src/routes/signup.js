@@ -17,10 +17,10 @@ const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/patient', (req, res) => {
   console.log(JSON.stringify(req.body))
-  let { fullName, email, telephone, age, city, state, gender, address, password } = req.body
+  let { fullName, email, telephone, profilePhoto, age, city, state, gender, address, password } = req.body
 
   let patientData = {}
-  // patientData.age = age
+  patientData.profilePhoto = profilePhoto
   if (fullName && fullName.length > 6) {
     patientData.fullName = fullName
   }
@@ -76,10 +76,11 @@ router.post('/patient', (req, res) => {
 
 router.post('/doctor', (req, res) => {
   console.log(JSON.stringify(req.body, null, 2))
-  let {fullName, email, telephone, age, city, state, gender, hospitalName, hospitalAddress, specialty, eduRequirement, licenseRequirement, password} = req.body
+  let {fullName, email, telephone, age, city, state, gender, profilePhoto, hospitalName, hospitalAddress, specialty, eduRequirement, licenseRequirement, password} = req.body
 
   let doctorData = {}
   doctorData.age = age
+  doctorData.profilePhoto = profilePhoto
   if (fullName && fullName.length > 6) {
     doctorData.fullName = fullName
   } else {
@@ -157,10 +158,11 @@ router.post('/doctor', (req, res) => {
 
 router.post('/pharmacist', (req, res) => {
   console.log(JSON.stringify(req.body, null, 2))
-  let {fullName, email, telephone, age, city, state, gender, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, password} = req.body
+  let {fullName, email, telephone, age, city, state, profilePhoto, gender, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, password} = req.body
 
   let pharmacistData = {}
   pharmacistData.age = age
+  pharmacistData.profilePhoto = profilePhoto
   if (fullName && fullName.length > 6) {
     pharmacistData.fullName = fullName
   }
@@ -215,10 +217,11 @@ router.post('/pharmacist', (req, res) => {
 
 router.post('/medlabscientist', (req, res) => {
   console.log(JSON.stringify(req.body, null, 2))
-  let {fullName, email, telephone, age, city, state, gender, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, password} = req.body
+  let {fullName, email, telephone, age, city, state, profilePhoto, gender, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, password} = req.body
 
   let medlabscientistData = {}
   medlabscientistData.age = age
+  medlabscientistData.profilePhoto = profilePhoto
   if (fullName && fullName.length > 6) {
     medlabscientistData.fullName = fullName
   }

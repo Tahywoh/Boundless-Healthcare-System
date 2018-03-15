@@ -5,10 +5,8 @@ const Schema = mongoose.Schema
 const PatientSchema = new Schema({
   patientDocs: [
     {
-      doctorName: {
-        type: String,
-        trim: true
-      }
+      doctorName: String,
+      doctorEmail: String
     }
   ],
   fullName: {

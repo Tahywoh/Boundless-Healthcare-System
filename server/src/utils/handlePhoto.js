@@ -44,12 +44,27 @@ router.post('/imgUpload', fileParser, (req, res) => {
   cloudinary
     .v2
     .uploader
-    .upload(imageFile.path, (error, result) => {
+    .upload(imageFile.path, {public_id: `profile_photos/${imageFile.originalFilename.replace(/\s/g, '-').slice(0, -4)}`}, (error, result) => {
       if (!error) {
-        console.log(JSON.stringify(result, null, 3))
-        if (result.url) {
-          console.log({result: result.secure_url})
-          res.status(200).send(result.secure_url)
+        if (result) {
+          let newPhoto = new Photo({
+            photoUrl: {
+              url: result.url,
+              secure_url: result.secure_url,
+              original_filename: result.original_filename,
+              format: result.format,
+              public_id: result.public_id
+            }
+          })
+          newPhoto.save(err => {
+            if (!err) {
+              console.log(JSON.stringify(result, undefined, 3))
+              console.log({result: result.url})
+              res.status(200).send(result.secure_url)
+            } else {
+              console.log(JSON.stringify(err, null, 3))
+            }
+          })
         } else {
           console.log('err uploading at initial')
           res.status(413).send({message: 'Error uploading your picture, Please try again', code: 'NOT_OK'})

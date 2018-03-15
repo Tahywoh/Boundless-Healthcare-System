@@ -77,9 +77,8 @@ export default {
       // get data
         .then((x) => {
           if (x) {
-            console.log(JSON.stringify(x.data, undefined, 3))
             this.imgUrl = this.toValidUrl(x.data)
-            console.log({x})
+            console.log(x.data)
             return x.data
           }
         })

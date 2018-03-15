@@ -3,15 +3,16 @@ const Schema = mongoose.Schema
 
 // creating schema for photo upload
 const photoSchema = new Schema({
-  imageData: {
-    fieldname: String,
-    originalname: String,
-    encoding: String,
-    mimetype: String,
-    destination: String,
-    filename: String,
-    path: String,
-    size: Number
+  photoUrl: {
+    original_filename: String,
+    format: String,
+    url: String,
+    secure_url: String,
+    public_id: String
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 })
 

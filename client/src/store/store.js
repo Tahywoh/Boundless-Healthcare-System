@@ -40,6 +40,7 @@ export default new Vuex.Store({
       state: '',
       address: '',
       specialty: '',
+      profilePhoto: '',
       hospitalName: '',
       hospitalAddress: '',
       pharmacyName: '',
@@ -80,7 +81,7 @@ export default new Vuex.Store({
         state.profile.laboratoryAddress = user.laboratoryAddress
         state.profile.eduRequirement = user.eduRequirement
         state.profile.licenseRequirement = user.licenseRequirement
-
+        state.profile.profilePhoto = user.profilePhoto
         // setting user meta data
         // state.userData.docPatients = user.docPatients
         // state.userData.patientDocs = user.patientDocs

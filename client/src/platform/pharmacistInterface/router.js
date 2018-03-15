@@ -25,7 +25,7 @@ export default [
     }
   },
   {
-    path: `/pharmacy/drug-description/*`,
+    path: `/pharmacy/drug-description/current-drug`,
     name: 'BHS | Drug description',
     component: Eachdrug,
     meta: {

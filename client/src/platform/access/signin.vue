@@ -118,42 +118,42 @@ export default {
         let responseData = response.data
         if (this.loginData.userType === 'Patient') {
           console.log(responseData)
-          let {fullName, telephone, city, token, user, userType, state, address} = responseData
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, address} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
+          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, address})
           console.log('I got here')
           this.$store.commit('SOCKET_CONNECT')
           console.log(fullName, telephone, city, state, address)
           // return false
         } else if (this.loginData.userType === 'Doctor') {
-          let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = responseData
+          let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, profilePhoto, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
           this.$store.commit('SOCKET_CONNECT')
 
-          console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
+          console.log(fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
           // return false
         } else if (this.loginData.userType === 'Pharmacist') {
-          let {fullName, telephone, city, token, user, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
 
-          console.log(fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
+          console.log(fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
           // return false
         } else {
-          let {fullName, telephone, city, token, user, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
 
-          console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
+          console.log(fullName, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
         }
         if (this.$store.state.lastPageVisited > 0) {
           console.log('lastPageVisited', this.$store.state.lastPageVisited)
@@ -162,7 +162,8 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          alert('succss login')
+          // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }
       } catch (error) {

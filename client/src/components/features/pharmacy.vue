@@ -108,7 +108,7 @@ export default {
         if (drug._id === e.currentTarget.id) {
           // this.$store.state.currentDrug = drug
           this.$store.commit('SET_CURRENTDRUG', {currentDrug: drug})
-          this.$router.push(`/pharmacy/drug-description/${drug._id}`)
+          this.$router.push(`/pharmacy/drug-description/current-drug`)
         }
       })
     }

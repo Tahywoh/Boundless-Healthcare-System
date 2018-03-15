@@ -55,11 +55,14 @@
                 <i class="icon ion-ios-contact"></i>
                 <div class="file-field input-field">
                   <div class="btn bg-for-tab blue">
-                  <span>Photo</span>
-                  <input type="file"  name="profilePhoto">
+                  <span>
+                    Photo
+                  </span>
+                  <input type="file" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
                 </div>
                 <div class="file-path-wrapper">
-                  <input  class="file-path validate"  type="text">
+                  <input  class="file-path validate" type="text">
+                  <i class="fa fa-spinner fa-pulse right" v-if="isSaving"></i>
                 </div>
                 </div>
               </div>
@@ -118,13 +121,29 @@
 
 
 <script>
+import * as axios from 'axios'
 import Index from '@/platform/index'
 import AuthServices from '@/services/authServices'
+const STATUS_INITIAL = 0
+const STATUS_SAVING = 1
+const STATUS_SUCCESS = 2
+const STATUS_FAILED = 3
 export default {
   name: 'registerDoctor',
+  props: {
+    id: {
+      type: Number,
+      required: false
+    }
+  },
   components: { Index },
   data () {
     return {
+      uploadedFiles: [],
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: 'photos',
+      imgUrl: '',
       errorMsg: '',
       successMsg: '',
       formData: {
@@ -141,7 +160,8 @@ export default {
         eduRequirement: '',
         licenseRequirement: '',
         passsword: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        profilePhoto: ''
       },
       options: [
         {text: 'Male', value: 'Male'},
@@ -151,6 +171,69 @@ export default {
     }
   },
   methods: {
+    upload (formData) {
+      const url = `http://localhost:5050/handlePhoto/imgUpload`
+      return axios.post(url, formData)
+      // get data
+        .then((x) => {
+          if (x) {
+            console.log({x})
+            this.formData.profilePhoto = x.data
+            console.log(this.formData.profilePhoto)
+          }
+        })
+      // // add url field
+      //     .then(x => x.map(img => Object.assign({},
+      //       img, { url: `http:localhost:5050/public/uploads/${img.id}` })))
+    },
+    reset () {
+      // reset form to initial state
+      this.currentStatus = STATUS_INITIAL
+      this.uploadedFiles = []
+      this.uploadError = null
+    },
+    save (formData) {
+      // upload data to the server
+      this.currentStatus = STATUS_SAVING
+
+      this.upload(formData)
+        .then(x => {
+          this.imgUrl = x.data
+          this.uploadedFiles = [].concat(x)
+          this.currentStatus = STATUS_SUCCESS
+          this.$eventBus.$emit('img-uploaded', {
+            index: this.id,
+            url: x.data
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          this.uploadError = err.response
+          alert(`${this.uploadError}`)
+          this.currentStatus = STATUS_FAILED
+        })
+    },
+    filesChange (fieldName, fileList) {
+      // handle file changes
+      const formData = new FormData()
+
+      if (!fileList.length) return
+
+      // append the files to FormData
+      Array
+        .from(Array(fileList.length).keys())
+        .map(x => {
+          formData.append(fieldName, fileList[x], fileList[x].name)
+        })
+
+      // save it
+      this.save(formData)
+    },
+    closeUploader () {
+      // if (this.imgUrl.length > 0) {
+      //   this.$eventBus.$emit('delete-image-url')
+      // }
+    },
     triggerField2 () {
       let field1 = document.getElementById('field1')
       let field2 = document.getElementById('field2')
@@ -210,6 +293,7 @@ export default {
       console.log(this.formData)
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
+      validateReg.profilePhoto = this.formData.profilePhoto
       // validating form data
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
         validateReg.fullName = this.toCapitalize(this.formData.fullName)
@@ -296,11 +380,43 @@ export default {
         console.log(error.response.status, error.response.statusText)
       }
     }
+  },
+  computed: {
+    isInitial () {
+      return this.currentStatus === STATUS_INITIAL
+    },
+    isSaving () {
+      return this.currentStatus === STATUS_SAVING
+    },
+    isSuccess () {
+      return this.currentStatus === STATUS_SUCCESS
+    },
+    isFailed () {
+      return this.currentStatus === STATUS_FAILED
+    },
+    dropformstyle () {
+      if (!this.isSuccess) {
+        return {outline: '2px dashed grey'}
+      } else {
+        return {}
+      }
+    }
+  },
+  mounted () {
+    this.reset()
   }
 }
 </script>
 
 <style>
+#field1 > div:nth-child(4) > div.input-field.col.s7 > div > div.file-path-wrapper > i {
+    margin-top: -3rem;
+    margin-right: 3rem;
+    z-index: 1;
+    color: grey;
+    background-color: rgba(0, 0, 0, .4);
+    font-size: 2.5rem;
+}
 input {
   color: #000 !important;
 }
