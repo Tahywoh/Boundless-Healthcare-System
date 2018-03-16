@@ -1,5 +1,6 @@
 // import $ from 'jquery'
 $(document).ready(function () {
+  $('textarea#addressProfileUpdate').characterCounter()
   $('ul.tabs').tabs()
   $('form').submit(function (e) {
     e.preventDefault()
@@ -9,6 +10,7 @@ $(document).ready(function () {
   // $('#address_profile').val('No 2, Balogun oke odo, tanke Ilorin, Ilorin')
   $('#address_profile').trigger('autoresize')
   $('.collapsible').collapsible()
+
   // $("#sideMenu").sideNav();
   // $('.timepicker').pickatime({
   //   default: 'now', // Set default time: 'now', '1:30AM', '16:30'

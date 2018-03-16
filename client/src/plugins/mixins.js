@@ -7,13 +7,14 @@ export default {
   },
   mounted () {
     // console.log($('.collapsible'))
-    this.$eventBus.$on('go-to-profile', () => {
-      this.$router.replace(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface/profile`)
-    })
+    // this.$eventBus.$on('go-to-profile', () => {
+    //   this.$router.replace(`/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`)
+    // })
     this.$eventBus.$on('do-nothing', () => {})
     this.$eventBus.$on('do-logout', () => this.logOut())
     this.$eventBus.$on('go-to-dashboard', () => this.goToDashboard())
     this.$eventBus.$on('go-to-profile', () => this.goToProfile())
+    this.$eventBus.$on('go-to-updateProfile', () => this.goToUpdateProfile())
     this.$eventBus.$on('go-to-appointment', () => this.goToAppointment())
     this.$eventBus.$on('send-location', () => this.locateMe())
   },
@@ -77,10 +78,13 @@ export default {
       location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
     },
     goToProfile () {
-      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface/profile`
+      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
+    },
+    goToUpdateProfile () {
+      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/${encodeURI('update profile')}`
     },
     goToAppointment () {
-      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface/appointment`
+      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
     }
   },
   beforeDestroy () {

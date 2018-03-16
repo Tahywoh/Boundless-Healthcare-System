@@ -19,6 +19,7 @@
             <div class="divider"></div>
             <router-link to="/register/pharmacist" title="pharmacist">Pharmacist</router-link>
             <div class="divider"></div>
+            <div class="divider"></div>
             <router-link to="/register/medlabscientist" title="medical laboratory scientist">Medlab Scientist</router-link>
           </div>
           

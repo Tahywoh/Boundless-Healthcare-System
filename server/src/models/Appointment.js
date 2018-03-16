@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 // const Schema = mongoose.Schema
 const {Schema} = require('mongoose')
 // const {ObjectId} = Schema.Types
-// const DateType = Schema.Types.Date
+const DateType = Schema.Types.Date
 const {ObjectId} = Schema.Types
 
 const AppointmentSchema = new Schema({
@@ -38,10 +38,7 @@ const AppointmentSchema = new Schema({
       type: String,
       default: 'Pending'
     },
-    date: {
-      type: String,
-      default: Date.now
-    }
+    date: DateType
   },
   createdAt: {
     type: Date,

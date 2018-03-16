@@ -113,20 +113,18 @@ export default {
       }
       try {
         const response = await AuthServices.signInUsers(validateLogin)
-        console.log({response})
-        console.log({verifyLogin: this.$store.state})
         let responseData = response.data
         if (this.loginData.userType === 'Patient') {
-          console.log(responseData)
-          let {fullName, telephone, city, token, user, profilePhoto, userType, state, address} = responseData
+          // console.log(responseData)
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, address, patientDocs, carts} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, address})
-          console.log('I got here')
+          this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
           this.$store.commit('SOCKET_CONNECT')
-          console.log(fullName, telephone, city, state, address)
-          // return false
+          console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto})
+          // return
         } else if (this.loginData.userType === 'Doctor') {
           let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, profilePhoto, eduRequirement, licenseRequirement} = responseData
 
@@ -134,17 +132,17 @@ export default {
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
           this.$store.commit('SOCKET_CONNECT')
-
+          this.$store.commit('SET_USERDATA', {docPatients: 0})
           console.log(fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
-          // return false
+          // return
         } else if (this.loginData.userType === 'Pharmacist') {
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
-
-          console.log(fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
+          this.$store.commit('SET_USERDATA', {pharmacistOrders: 0})
+          // console.log(fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
           // return false
         } else {
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
@@ -162,7 +160,7 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          alert('succss login')
+          // alert('succss login')
           // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
         }

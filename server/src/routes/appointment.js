@@ -10,8 +10,6 @@ const Patient = mongoose.model('patient')
 const Medlabscientist = mongoose.model('medlabscientist')
 
 router.post('/seekAppointment', (req, res) => {
-  console.log(JSON.stringify(req.body))
-  // res.status(200).send(JSON.stringify(req.body, null, 2))
   let {doctor, patient, creator, reason, note, setTime, labScientist} = req.body
 
   if (doctor) {
@@ -35,15 +33,10 @@ router.post('/seekAppointment', (req, res) => {
     Doctor.find({email: docData.doctor}, '_id', (err, result) => {
       if (!err) {
         let docId = result[0]._id
-        // console.log(docId)
-        // let doctor = result[0]._id
-        // console.log(doctor)
         Patient.find({email: docData.patient}, '_id', (err, result) => {
           if (!err) {
             let patientId = result[0]._id
-            // console.log(patientId)
             let newAppointment
-            // console.log(patient + '\n' + doctor)
             if (creator === 'Doctor') {
               newAppointment = new Appointment({
                 doctor: docData.doctor,
@@ -66,7 +59,6 @@ router.post('/seekAppointment', (req, res) => {
               if (!err) {
                 // appointmentId = data._id
                 res.status(200).send(JSON.stringify(data, null, 3))
-                console.log(data)
               } else {
                 // handle error
                 console.log(JSON.stringify(err, null, 2))
@@ -92,9 +84,7 @@ router.post('/seekAppointment', (req, res) => {
         Patient.find({email: patient}, '_id', (err, result) => {
           if (!err) {
             let patientId = result[0]._id
-            // console.log(patientId)
             let newAppointment
-            // console.log(patient + '\n' + doctor)
             if (creator === 'MedlabScientist') {
               newAppointment = new Appointment({
                 medlabscientist,
@@ -117,7 +107,6 @@ router.post('/seekAppointment', (req, res) => {
               if (!err) {
                 // appointmentId = data._id
                 res.status(200).send(JSON.stringify(data, null, 3))
-                console.log(data)
               } else {
                 // handle error
                 console.log(JSON.stringify(err, null, 2))
@@ -135,7 +124,7 @@ router.post('/seekAppointment', (req, res) => {
 
 router.post('/fetchAppointments', (req, res) => {
   let {user, userId} = req.body
-  console.log(req.body)
+  // console.log(req.body)
   if (user === 'Patient') {
     Patient.find({email: userId}, '_id', (err, result) => {
       if (!err) {
@@ -146,8 +135,6 @@ router.post('/fetchAppointments', (req, res) => {
           .populate('doctor patient medlabscientist', 'fullName')
           .exec((err, appointmentData) => {
             if (!err && appointmentData !== null) {
-            // let {patient} = appointmentData
-            // console.log(fullName)
               res.status(200).send(JSON.stringify(appointmentData, null, 3))
             } else {
               console.log(JSON.stringify(err, null, 2))
@@ -166,8 +153,6 @@ router.post('/fetchAppointments', (req, res) => {
           .populate('doctor patient medlabscientist', 'fullName')
           .exec((err, appointmentData) => {
             if (!err && appointmentData !== null) {
-            // let {patient} = appointmentData
-            // console.log(fullName)
               res.status(200).send(JSON.stringify(appointmentData, null, 3))
             } else {
               console.log(JSON.stringify(err, null, 2))
@@ -201,17 +186,18 @@ router.post('/fetchAppointments', (req, res) => {
 })
 
 router.post('/updateAppointment', (req, res) => {
-  let {appointment, setStatus, timeStamp} = req.body
-  console.log(req.body)
+  let {appointment, setStatus} = req.body
+  // console.log(req.body)
   Appointment.findOneAndUpdate({_id: appointment}, {
     $set: {
       status: {
         statusText: setStatus,
-        date: timeStamp
+        date: new Date().toISOString()
       }
     }
   }, {
-    returnOriginal: false
+    upsert: true,
+    new: true
   })
     .then((newResult) => {
       console.log(newResult)

@@ -4,6 +4,7 @@ import Index from './index'
 import Appointment from './appointment'
 import MedicalRecord from './medicalrecord'
 import Profile from './profile'
+import UpdateProfile from './updateprofile.vue'
 
 export default [
   {
@@ -38,6 +39,15 @@ export default [
     path: navs.links.profile.url,
     name: 'BHS | ' + navs.links.profile.text,
     component: Profile,
+    meta: {
+      requiresAuth: true,
+      patientAuth: true
+    }
+  },
+  {
+    path: navs.links.updateProfile.url,
+    name: 'BHS | ' + navs.links.updateProfile.text,
+    component: UpdateProfile,
     meta: {
       requiresAuth: true,
       patientAuth: true

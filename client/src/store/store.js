@@ -14,23 +14,10 @@ export default new Vuex.Store({
     lastPage: '',
     currentDrug: null,
     userData: {
-      docPatients: '',
-      patientDocs: '',
-      pharmacistOrders: '',
-      patientCarts: '',
-      appointment: {
-        reason: '',
-        start: '',
-        end: '',
-        date: '',
-        status: 'pending',
-        patient: {
-          doctorName: ''
-        },
-        doctor: {
-          patientName: ''
-        }
-      }
+      docPatients: 0,
+      patientDocs: 0,
+      pharmacistOrders: 0,
+      patientCarts: 0
     },
     profile: {
       user: null,
@@ -82,21 +69,17 @@ export default new Vuex.Store({
         state.profile.eduRequirement = user.eduRequirement
         state.profile.licenseRequirement = user.licenseRequirement
         state.profile.profilePhoto = user.profilePhoto
-        // setting user meta data
-        // state.userData.docPatients = user.docPatients
-        // state.userData.patientDocs = user.patientDocs
-        // state.userData.pharmacistOrders = user.pharmacistOrders
-        // state.userData.patientCarts = user.patientCarts
-        // setting user appointments
-
-        // state.userData.appointment.reason = user.reason
-        // state.userData.appointment.date = user.date
-        // state.userData.appointment.start = user.start
-        // state.userData.appointment.end = user.end
-        // state.userData.appointment.status = user.status
       } else {
         state.isUserLoggedIn = false
         // this.$router.push('/login')
+      }
+    },
+    SET_USERDATA (state, user) {
+      if (state.token) {
+        state.userData.docPatients = user.docPatients
+        state.userData.patientDocs = user.patientDocs
+        state.userData.pharmacistOrders = user.pharmacistOrders
+        state.userData.patientCarts = user.patientCarts
       }
     },
     SOCKET_CONNECT (state) {

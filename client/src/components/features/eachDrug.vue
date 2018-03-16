@@ -17,7 +17,7 @@
               <strong class="x15">{{eachDrug.price}}</strong>
               </h6>
               <h6><button class="currency btn blue">Currency: </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
-              <h6><button class="btn amber waves-effect waves-light">Add to cart</button></h6>
+              <h6><button class="btn amber waves-effect waves-light" @click="addToCart">Add to cart</button></h6>
             </div>
           </div>
         </div>
@@ -77,11 +77,26 @@
 
 <script>
 import Fixednav from '@/components/layouts/fixednav'
+import PharmacyServices from '@/services/pharmacyServices'
 export default {
   components: {Fixednav},
   data () {
     return {
-      eachDrug: this.$store.state.currentDrug
+      eachDrug: this.$store.state.currentDrug,
+      goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
+    }
+  },
+  methods: {
+    async addToCart () {
+      try {
+        let cartData = (await PharmacyServices.addToCart({drug: this.eachDrug._id, user: this.$store.state.profile.user, userType: this.$store.state.userType})).data
+        console.log(cartData)
+      } catch (error) {
+        console.log({error})
+        if (error.cartData) {
+          console.log(JSON.stringify(error.cartData))
+        }
+      }
     }
   }
 }

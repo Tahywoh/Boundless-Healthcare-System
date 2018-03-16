@@ -62,6 +62,7 @@ export default {
   async mounted () {
     const allDrugs = (await GetServices.getAllDrugs()).data
     this.allDrugs = allDrugs
+    console.log({allDrugs})
     if (this.allDrugs !== null) {
       this.registeredDrug = true
     } else {
@@ -75,8 +76,8 @@ export default {
       if (this.searchPharmacy !== '' && this.searchPharmacy !== null && isNaN(this.searchPharmacy)) {
         validateSearchInput.searchPharmacy = this.searchPharmacy.toLowerCase()
       } else {
-        this.searchErr = 'Please enter a valid drug name!'
-        return false
+        // this.searchErr = 'Please enter a valid drug name!'
+        // return false
       }
       // console.log(validateSearchInput)
       try {
@@ -85,6 +86,7 @@ export default {
           this.searchPharmacy = ''
           this.searchErr = ''
           this.allDrugs = pharmacy
+          // console.log(this.allDrugs)
         } else {
           this.allDrugs = null
           if (this.$store.state.userType === 'Pharmacist') {
@@ -108,7 +110,7 @@ export default {
         if (drug._id === e.currentTarget.id) {
           // this.$store.state.currentDrug = drug
           this.$store.commit('SET_CURRENTDRUG', {currentDrug: drug})
-          this.$router.push(`/pharmacy/drug-description/current-drug`)
+          this.$router.push(`/pharmacy/drug-description/current-drug-${Math.floor(Math.random() * 951732548)}`)
         }
       })
     }

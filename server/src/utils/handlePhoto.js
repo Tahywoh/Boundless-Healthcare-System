@@ -35,43 +35,27 @@ router.post('/uploads', upload.any(), (req, res) => {
 })
 
 router.post('/imgUpload', fileParser, (req, res) => {
-  console.log(req.files)
+  // console.log(req.files)
   // var imageFile = req.files.file
   var imageFile = req.files.photos
   // console.log(req.files.file)
-  console.log(imageFile)
+  // console.log(imageFile)
   // console.log(JSON.stringify(req, null, 3))
   cloudinary
     .v2
     .uploader
-    .upload(imageFile.path, {public_id: `profile_photos/${imageFile.originalFilename.replace(/\s/g, '-').slice(0, -4)}`}, (error, result) => {
+    .upload(imageFile.path, {public_id: `bhs/profile_photos/${imageFile.originalFilename.replace(/\s/g, '-').slice(0, -4)}`}, (error, result) => {
       if (!error) {
         if (result) {
-          let newPhoto = new Photo({
-            photoUrl: {
-              url: result.url,
-              secure_url: result.secure_url,
-              original_filename: result.original_filename,
-              format: result.format,
-              public_id: result.public_id
-            }
-          })
-          newPhoto.save(err => {
-            if (!err) {
-              console.log(JSON.stringify(result, undefined, 3))
-              console.log({result: result.url})
-              res.status(200).send(result.secure_url)
-            } else {
-              console.log(JSON.stringify(err, null, 3))
-            }
-          })
+          console.log('image successfully uploaded!')
+          res.status(200).send(result.secure_url)
         } else {
           console.log('err uploading at initial')
-          res.status(413).send({message: 'Error uploading your picture, Please try again', code: 'NOT_OK'})
+          res.status(413).send({message: 'Error uploading your picture, Please try again or ignore and proceed.', code: 'NOT_OK'})
           console.log('Error uploading to cloudinary: ', JSON.stringify(result))
         }
       } else {
-        res.status(500).send('Error uploading your picture, Please try  again')
+        res.status(500).send('Error uploading your picture, Please try  again or ignore and proceed.')
         console.log('Error uploading to cloudinary: \n error: ', JSON.stringify(error))
       }
     })

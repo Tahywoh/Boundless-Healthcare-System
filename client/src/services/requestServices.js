@@ -1,8 +1,8 @@
 import Api from '@/services/api'
 
 let fetchStoreData = key => {
-  if (window.localStorage.getItem('mDr-default') && window.localStorage.getItem('mDr-default') !== null) {
-    return JSON.parse(JSON.parse(window.localStorage.getItem('mDr-default')).value)[key]
+  if (window.localStorage.getItem('BHS-default') && window.localStorage.getItem('BHS-default') !== null) {
+    return JSON.parse(JSON.parse(window.localStorage.getItem('BHS-default')).value)[key]
   } else {
     return null
   }
@@ -10,7 +10,7 @@ let fetchStoreData = key => {
 
 let header = {
   headers: {
-    'x-access-token': fetchStoreData('authToken')
+    'x-access-token': fetchStoreData('token')
   }
 }
 

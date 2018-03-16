@@ -19,7 +19,7 @@ export default {
       url: '/Patient-interface/cart', text: 'Cart', icon: 'icon ion-ios-cart'
     },
     updateProfile: {
-      url: '/Patient-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
+      url: `/Patient-interface/${encodeURI('update profile')}`, text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
       url: '/Patient-interface/profile', text: 'Patient Profile'

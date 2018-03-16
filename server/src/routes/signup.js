@@ -16,7 +16,7 @@ const Pharmacist = mongoose.model('pharmacist')
 const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/patient', (req, res) => {
-  console.log(JSON.stringify(req.body))
+  // console.log(JSON.stringify(req.body))
   let { fullName, email, telephone, profilePhoto, age, city, state, gender, address, password } = req.body
 
   let patientData = {}
@@ -75,7 +75,7 @@ router.post('/patient', (req, res) => {
 // Now we signup the doctor on the platform.
 
 router.post('/doctor', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
+  // console.log(JSON.stringify(req.body, null, 2))
   let {fullName, email, telephone, age, city, state, gender, profilePhoto, hospitalName, hospitalAddress, specialty, eduRequirement, licenseRequirement, password} = req.body
 
   let doctorData = {}
@@ -157,7 +157,7 @@ router.post('/doctor', (req, res) => {
 })
 
 router.post('/pharmacist', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
+  // console.log(JSON.stringify(req.body, null, 2))
   let {fullName, email, telephone, age, city, state, profilePhoto, gender, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, password} = req.body
 
   let pharmacistData = {}
@@ -216,7 +216,7 @@ router.post('/pharmacist', (req, res) => {
 })
 
 router.post('/medlabscientist', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
+  // console.log(JSON.stringify(req.body, null, 2))
   let {fullName, email, telephone, age, city, state, profilePhoto, gender, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, password} = req.body
 
   let medlabscientistData = {}

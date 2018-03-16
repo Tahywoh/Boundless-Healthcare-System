@@ -62,11 +62,13 @@
                 </div>
                 <div class="file-path-wrapper">
                   <input  class="file-path validate"  type="text">
+                  <i class="fa fa-spinner fa-pulse right" v-if="isSaving"></i>
                 </div>
                 </div>
               </div>
             </div>
           </div>
+          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
           <div id="field2" style="display: none">
             <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
@@ -84,7 +86,7 @@
                 <i class="icon ion-ios-paper"></i>
                 <input id="edu" required type="text" class="validate" v-model="formData.eduRequirement" placeholder="Education details">
                 <input id="license" required type="text" class="validate" v-model="formData.licenseRequirement" placeholder="License requirements">
-                <label for="edu">Education and Licensing Requirments</label>
+                <label for="edu" class="active">Education and Licensing Requirments</label>
               </div>
             </div>
              <div class="row">
@@ -101,11 +103,9 @@
             </div>
             <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
-          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
-           <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
            <button  class="btn text-center blue submit-btn hide waves-effect waves-light" type="submit" id="submitBtn" @click="registerPharmacist"
-           >Submit</button>
-          
+           >Submit</button><br/
+          <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
       </form>
       </div>
     </index>
@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `http://localhost:5050/handlePhoto/imgUpload`
+      const url = `http://localhost:6050/handlePhoto/imgUpload`
       return axios.post(url, formData)
         // get data
         .then((x) => {
@@ -175,9 +175,6 @@ export default {
             console.log(this.formData.profilePhoto)
           }
         })
-      // // add url field
-      //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:5050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state
@@ -199,10 +196,16 @@ export default {
             url: x.data
           })
         })
-        .catch(err => {          console.log(err)
-          this.uploadError = err.response
-          alert(`${this.uploadError}`)
-          this.currentStatus = STATUS_FAILED
+        .catch(err => {
+           if (err) {
+            // alert('Error uploading your image. Please try again or ignore and proceed')
+            console.log(JSON.stringify(err))
+            // this.uploadError = err.response
+            // console.log(JSON.stringify(this.uploadError))
+            // alert(JSON.stringify(this.uploadError.data))
+            this.currentStatus = STATUS_FAILED
+            // return
+          }
         })
     },
     filesChange (fieldName, fileList) {
@@ -390,6 +393,14 @@ export default {
 </script>
 
 <style scoped>
+div.input-field.col.s7 > div > div.file-path-wrapper > i {
+    margin-top: -3rem;
+    margin-right: 3rem;
+    z-index: 1;
+    color: grey;
+    background-color: rgba(0, 0, 0, .4);
+    font-size: 2.5rem;
+}
 input {
   color: #000 !important;
 }
@@ -430,22 +441,24 @@ i.icon.ion-android-arrow-forward, i.icon.ion-android-arrow-back {
     bottom: -0.29rem;
 }
 .a-b-arrow{
-  left: 23rem;
+  /* left: 23rem; */
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
     /* font-size: 3rem; */
-    position: absolute;
+    /* position: absolute; */
     /* right: 22rem; */
-    bottom: 9.5rem;
+    /* bottom: 9.5rem; */
     border-radius: 50%;
     padding: 0rem 1.5rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  right: 26rem;
-  bottom: 4rem;
+  /* right: 26rem; */
+  /* bottom: 4rem; */
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    left: 29%;
+    /* left: 29%; */`
+    margin-top: 11%;
+    float: left !important;
 }
 .show{
   display: block !important;

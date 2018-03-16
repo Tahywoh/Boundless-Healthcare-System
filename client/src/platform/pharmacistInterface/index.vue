@@ -39,7 +39,7 @@
                   <div class="row">
                     <div class="input-field col s6">
                       <input id="price" type="number" class="validate" value="# " v-model="formData.price" min="50" max="50000" placeholder="Default currency is Naira  required(#)">
-                      <label for="price">Price</label>
+                      <label for="price" class="active">Price</label>
                     </div>
                   </div>
                   <div class="row">
@@ -59,7 +59,7 @@
         <a href="#" class="w3-bar-item w3-button">
           <i :class="orders_icon"></i>
           &nbsp;Orders
-          <span class="circle blue notification-circle">4</span>
+          <span class="circle blue notification-circle">{{pharmacistOrders}}</span>
         </a>
         <div class="divider"></div>
         <a href="#" class="w3-bar-item w3-button">
@@ -73,7 +73,7 @@
       <template slot="ul-tabs">
         <ul class="tabs"> 
           <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-          <li class="tab col s6"><a  href="#drugs" class="btn waves-effect waves-light">Drugs</a></li>
+          <li class="tab col s6"><a  href="#drugs" class="btn waves-effect waves-light">Drugs <span class="circle amber notification-circle">{{pharmacistProducts}}</span></a></li>
         </ul>
       </template>
 
@@ -86,7 +86,8 @@
         </div>
         <div id="drugs" class="col s12 w3-card">
           <div class="drugs transparent show-content">
-            <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Your Products</h4>
+            <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Your Products
+            </h4>
             <div class="text-center center-align" v-if="!registeredUserDrug">
               <h5 v-html="pharmacistDrugStatus"></h5> 
             </div>
@@ -131,6 +132,8 @@ export default {
       goToProfile: navs.links.profile.url,
       currency: '#',
       errorMsg: '',
+      pharmacistOrders: this.$store.state.userData.pharmacistOrders,
+      pharmacistProducts: 0,
       pharmacistDrugStatus: `You have not added any drug!
       <br/>
       Kindly click add drug at your left hand side to add one and your drug(s) will appear here.
@@ -140,7 +143,7 @@ export default {
         manufac: '',
         price: '',
         briefDescription: '',
-        seller: this.$store.state.profile.pharmacyName
+        seller: this.$store.state.profile.user
       },
       userDrugs: null,
       registeredUserDrug: false
@@ -155,8 +158,9 @@ export default {
     try {
       let userDrugs = (await GetServices.getCurrentUserDrugs({user: validSeller.userDrugs})).data
       this.userDrugs = userDrugs
-      if (this.userDrugs.length !== 0) {
+      if (this.userDrugs.length > 0) {
         this.registeredUserDrug = true
+        this.pharmacistProducts = this.userDrugs.length
       } else {
         this.registeredUserDrug = false
       }
@@ -197,7 +201,7 @@ export default {
         this.errorMsg = ''
       } catch (error) {
         if (error) {
-          this.errorMsg = error.responseData
+          alert(error.responseData)
         }
       }
     }

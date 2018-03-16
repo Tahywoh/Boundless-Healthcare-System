@@ -68,6 +68,7 @@
               </div>
             </div>
           </div>
+          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
           <div id="field2" style="display: none">
            <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
@@ -91,7 +92,7 @@
                 <i class="icon ion-ios-paper"></i>
                 <input id="edu" required type="text" class="validate"  v-model="formData.eduRequirement" placeholder="Education details">
                 <input id="license" required type="text" class="validate"  v-model="formData.licenseRequirement" placeholder="License requirements">
-                <label for="edu">Education and Licensing Requirments</label>
+                <label for="edu" class="active">Education and Licensing Requirments</label>
               </div>
             </div>
              <div class="row">
@@ -108,7 +109,6 @@
             </div>
             <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
-           <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
            <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
            <button  class="btn text-center blue submit-btn hide" type="submit" id="submitBtn" @click="registerDoctor">Submit</button>
           
@@ -172,14 +172,14 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `http://localhost:5050/handlePhoto/imgUpload`
+      const url = `http://localhost:6050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
           if (x) {
             console.log({x})
             this.formData.profilePhoto = x.data
-            console.log(this.formData.profilePhoto)
+            console.log({photoUrl: this.formData.profilePhoto})
           }
         })
       // // add url field
@@ -207,10 +207,15 @@ export default {
           })
         })
         .catch(err => {
-          console.log(err)
-          this.uploadError = err.response
-          alert(`${this.uploadError}`)
-          this.currentStatus = STATUS_FAILED
+          if (err) {
+            // alert('Error uploading your image. Please try again or ignore and proceed')
+            console.log(JSON.stringify(err))
+            // this.uploadError = err.response
+            // console.log(JSON.stringify(this.uploadError))
+            // alert(JSON.stringify(this.uploadError.data))
+            this.currentStatus = STATUS_FAILED
+            // return
+          }
         })
     },
     filesChange (fieldName, fileList) {
@@ -408,7 +413,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #field1 > div:nth-child(4) > div.input-field.col.s7 > div > div.file-path-wrapper > i {
     margin-top: -3rem;
     margin-right: 3rem;
@@ -472,18 +477,18 @@ i.icon.ion-android-arrow-back{
   left: 0.5rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
-    position: absolute;
-    bottom: 12.5rem;
+    /* position: absolute; */
+    /* bottom: 12.5rem; */
     border-radius: 50%;
     padding: 0rem 1.5rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  right: 26rem;
-  top: 38.5rem;
+  /* right: 26rem; */
+  /* top: 38.5rem; */
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    left: 29%;
-    top: 38.5rem;
+    /* left: 29%; */
+    /* top: 38.5rem; */
 }
 .show{
   display: block !important;

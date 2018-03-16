@@ -23,9 +23,9 @@ router.post('/', (req, res) => {
 
   if (validator.isEmail(user)) {
     if (userType === 'Patient') {
-      Patient.findOne({email: user}, 'user password fullName telephone city state address profilePhoto', (err, patientData) => {
+      Patient.findOne({email: user}, 'user password fullName telephone city state address profilePhoto carts patientDocs', (err, patientData) => {
         if (!err && patientData !== null) {
-          let {fullName, telephone, city, state, address, profilePhoto} = patientData
+          let {fullName, telephone, city, state, address, profilePhoto, carts, patientDocs} = patientData
           let isValidPassword = bcrypt.compareSync(password, patientData.password)
           if (isValidPassword) {
             const payload = {
@@ -34,8 +34,8 @@ router.post('/', (req, res) => {
             }
 
             let token = jwt.sign(payload, config.token_secret)
-            console.log(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto}, null, 2))
-            res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto}))
+            // console.log(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}, null, 2))
+            res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}))
           } else {
             res.status(401).send('Incorrect password!')
             return false
@@ -64,7 +64,7 @@ router.post('/', (req, res) => {
               }
               let token = jwt.sign(payload, config.token_secret)
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto}))
-              console.log(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto}, null, 2))
+              // console.log(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto}, null, 2))
             } else {
               res.status(401).send('Incorrect password!')
               return false
@@ -94,7 +94,7 @@ router.post('/', (req, res) => {
               }
               let token = jwt.sign(payload, config.token_secret)
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement}))
-              console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement}, null, 2))
+              // console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement}, null, 2))
             } else {
               res.status(401).send('Incorrect password')
               return false
@@ -124,7 +124,7 @@ router.post('/', (req, res) => {
               }
               let token = jwt.sign(payload, config.token_secret)
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto}))
-              console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, profilePhoto, eduRequirement, licenseRequirement}, null, 2))
+              // console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, profilePhoto, eduRequirement, licenseRequirement}, null, 2))
             } else {
               res.status(401).send('Incorrect password')
               return false

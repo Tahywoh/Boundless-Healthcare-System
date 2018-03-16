@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 // create patients schema
+const DateType = Schema.Types.Date
 const PatientSchema = new Schema({
   patientDocs: [
     {
@@ -9,6 +10,20 @@ const PatientSchema = new Schema({
       doctorEmail: String
     }
   ],
+  carts: {
+    cartNo: {
+      type: Number,
+      default: 0
+    },
+    cartData: [
+      {
+        drugName: String,
+        price: String,
+        seller: String,
+        Date: DateType
+      }
+    ]
+  },
   fullName: {
     type: String,
     required: true,
