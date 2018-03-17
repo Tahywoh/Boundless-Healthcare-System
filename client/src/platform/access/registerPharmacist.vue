@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `http://localhost:6050/handlePhoto/imgUpload`
+      const url = `http://localhost:8050/handlePhoto/imgUpload`
       return axios.post(url, formData)
         // get data
         .then((x) => {
@@ -197,7 +197,7 @@ export default {
           })
         })
         .catch(err => {
-           if (err) {
+          if (err) {
             // alert('Error uploading your image. Please try again or ignore and proceed')
             console.log(JSON.stringify(err))
             // this.uploadError = err.response
@@ -288,7 +288,7 @@ export default {
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
       validateReg.gender = this.formData.gender
-
+      validateReg.profilePhoto = this.formData.profilePhoto
       // validating form data
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
         validateReg.fullName = this.toCapitalize(this.formData.fullName)

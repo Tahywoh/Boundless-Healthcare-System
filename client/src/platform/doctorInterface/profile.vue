@@ -8,6 +8,7 @@
               <p class="field">
                 Full Name: <br/><span>{{profile.fullName}}</span>
               </p>
+              <br/>
               <p class="field">
                 Email Address: <br/><span>{{profile.email}}</span>
               </p>
@@ -96,6 +97,12 @@ export default {
 </script>
 
 <style scoped>
+#app > div > div.profileWra {
+    padding-top: 2rem;
+}
+#app > div > div.profileWra > div > div {
+  padding: 2rem 0.4rem;
+}
 #app > div > div.profileWra > div > div:nth-child(1) > div.profilePic.col.s3.right {
   margin-top: 2rem;
 }

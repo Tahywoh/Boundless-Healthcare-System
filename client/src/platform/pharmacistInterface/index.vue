@@ -62,7 +62,7 @@
           <span class="circle blue notification-circle">{{pharmacistOrders}}</span>
         </a>
         <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <a :href="updateProfile" class="w3-bar-item w3-button">
           <i :class="updateprofile_icon"></i>Update Profile</a>
       </template>
 
@@ -126,6 +126,7 @@ export default {
   name: 'index',
   data () {
     return {
+      updateProfile: navs.links.updateProfile.url,
       add_icon: navs.links.addDrug.icon + ' x2 left',
       orders_icon: navs.links.orders.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',

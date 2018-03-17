@@ -52,23 +52,16 @@ router.post('/addDrug', (req, res) => {
 })
 
 router.post('/placeOrder', (req, res) => {
-  console.log(req.body)
-  // res.send('seen')
   let {drug, user, userType} = req.body
-  Pharmacy.findOne({_id: drug}, 'drugName price seller', (err, pharamResult) => {
+  let dataPharm
+  Pharmacy.findOne({_id: drug}, 'drugName price seller', (err, pharmResult) => {
     if (!err) {
+      // let {price, seller, drugName} = pharmResult
       if (userType !== 'Patient') {
         res.status(203).send('Only patients can order drugs!')
       } else {
         Patient.findOne({email: user}, 'email fullName', (err, patientResult) => {
           if (!err) {
-            // let orderedData = {noOfOrders: 0, requests: []}
-            // orderedData.requests.push({
-            //   email: patientResult.email,
-            //   fullName: patientResult.fullName,
-            //   userType,
-            //   orderedAt: date})
-            // orderedData.noOfOrders = orderedData.requests.length
             Pharmacy.findOneAndUpdate({_id: drug}, {
               $push: {
                 'orders.requests': {
@@ -86,8 +79,29 @@ router.post('/placeOrder', (req, res) => {
               new: true
             })
               .then(saveToPharm => {
-                // console.log(JSON.stringify(saveToPharm, null, 3))
-                res.status(200).send({saveToPharm})
+                dataPharm = saveToPharm
+                console.log({dataPharm})
+              })
+
+            Patient.findOneAndUpdate({email: user}, {
+              $inc: {
+                'carts.cartNo': 1
+              },
+              $push: {
+                'carts.cartData': {
+                  drugName: pharmResult.drugName,
+                  price: pharmResult.price,
+                  seller: pharmResult.seller,
+                  Date: new Date().toISOString()
+                }
+              }
+            }, {
+              upsert: true,
+              new: true
+            })
+              .then(saveToPatient => {
+                console.log('carts and orders successfully pushed to their desired mongoose docs')
+                res.status(200).send({saveToPatient: saveToPatient.carts, dataPharm: dataPharm.orders})
               })
           } else {
             console.log(JSON.stringify(err, null, 2))

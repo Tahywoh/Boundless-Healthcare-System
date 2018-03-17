@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `http://localhost:6050/handlePhoto/imgUpload`
+      const url = `http://localhost:8050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
@@ -164,7 +164,7 @@ export default {
         })
       // // add url field
       //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:5050/public/uploads/${img.id}` })))
+      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state
@@ -187,7 +187,7 @@ export default {
           })
         })
         .catch(err => {
-           if (err) {
+          if (err) {
             // alert('Error uploading your image. Please try again or ignore and proceed')
             console.log(JSON.stringify(err))
             // this.uploadError = err.response
@@ -277,6 +277,9 @@ export default {
       // validateReg.gender = this.formData.gender
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
+      if (this.formData.profilePhoto !== undefined) {
+        validateReg.profilePhoto = this.formData.profilePhoto
+      }
       // validating the form data
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
         validateReg.fullName = this.toCapitalize(this.formData.fullName)
@@ -329,17 +332,6 @@ export default {
       // console.log({'This is vaidate reg': validateReg})
       try {
         const response = (await AuthServices.registerPatient(validateReg))
-        // const response = await AuthServices.registerPatient({
-        //   fullName: validateReg.fullName,
-        //   address: validateReg.address,
-        //   telephone: validateReg.telephone,
-        //   email: validateReg.email,
-        //   password: validateReg.password,
-        //   state: validateReg.state,
-        //   city: validateReg.city,
-        //   gender: validateReg.gender
-        // })
-        // console.log({'response from server': response})
         this.successMsg = response.data
         alert('You have successfully registered. You can now login')
         this.errorMsg = ''

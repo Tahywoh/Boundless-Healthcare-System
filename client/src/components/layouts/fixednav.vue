@@ -5,7 +5,7 @@
         <slot name="fixed-nav-bar">
           <li>
         <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>
           <li><a @click="$eventBus.$emit(topLinks.toAppointment)" class="btn transparent white-text waves-effect waves-light">Appointment
@@ -29,7 +29,6 @@ export default {
     return {
       topLinks: {
         doLogOut: 'do-logout',
-        goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`,
         toAppointment: 'go-to-appointment'
       }
     }

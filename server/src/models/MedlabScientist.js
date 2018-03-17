@@ -44,13 +44,24 @@ const MedlabSchema = new Schema({
     required: true,
     trim: true
   },
+  eduRequirement: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  licenseRequirement: {
+    type: String,
+    required: true,
+    trim: true
+  },
   laboratoryName: {
     type: String,
     required: true
   },
   laboratoryAddress: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   date: {
     type: Date,

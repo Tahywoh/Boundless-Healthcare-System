@@ -52,9 +52,9 @@
         <div class="text-center center-align" v-if="!registeredDoctors">
           <h5>{{docStatus}}</h5> 
         </div>
-        <div v-else v-for="(doctor, index) in doctors" :key="index" class="blue-grey white-text eachDoctor">
+        <div v-else v-for="(doctor, index) in doctors" :id="index" :key="doctor._id" class="blue-grey white-text eachDoctor">
           <a class="btn waves-effect-waves-light"><span>{{doctor.fullName}}</span></a><br/>
-          <a class="right btn waves-effect waves-light consultBtn" @click="createChannel" :id="doctor._id">consult</a>
+          <a class="right btn waves-effect waves-light consultBtn" @click="createChannel(doctor._id)" :id="index" :key="doctor._id">consult</a>
           <a href="" class="btn waves-effect-waves-light" >City: <span>{{doctor.city}}</span></a>
           <a href="" class="btn waves-effect-waves-light">
           State: <span>{{doctor.state}}</span>
@@ -165,13 +165,12 @@ export default {
         }
       }
     },
-    createChannel (e) {
-      // console.log(e.currentTarget.id)
+    createChannel (docId) {
       let newChannel, docFullName, channel, docEmail
       this.doctors.forEach((doc) => {
         // this.$store.state.consult.doctorName = docFullName
         // this.$store.state.consult.doctorEmail = docEmail
-        if (doc._id === e.currentTarget.id) {
+        if (doc._id === docId) {
           channel = `${this.$store.state.profile.fullName.replace(/\s/g, '').toLowerCase()}AND${doc.fullName.replace(/\s/g, '').toLowerCase()}`
           docFullName = doc.fullName
           docEmail = doc.email

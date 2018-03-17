@@ -3,12 +3,26 @@
 import navs from './navs'
 import Index from './index'
 import Profile from './profile'
+import UpdateProfile from './updateprofile'
 
 export default [
   {
     path: navs.links.interface.url,
     name: 'BHS | ' + navs.links.interface.text,
-    component: Index
+    component: Index,
+    meta: {
+      requiresAuth: true,
+      medicalLabScientistAuth: true
+    }
+  },
+  {
+    path: navs.links.updateProfile.url,
+    name: 'BHS | ' + navs.links.updateProfile.text,
+    component: UpdateProfile,
+    meta: {
+      requiresAuth: true,
+      medicalLabScientistAuth: true
+    }
   },
   {
     path: navs.links.profile.url,

@@ -13,7 +13,10 @@
                 Email Address: <br/><span>{{profile.email}}</span>
               </p>
             </div>
-            <div class="profilePic right col s5">
+            <div class="profilePic col s3 right" v-if="profile.photoUrl">
+              <img :src="profile.photoUrl" :alt="profile.fullName" class="circle responsive-img"> <!-- notice the "circle" class -->
+            </div>
+            <div class="profilePic right col s5" v-else>
               <i class="icon ion-android-contact x35 white-text text-center center-align" style="font-size: 10rem"></i>
             </div>
           </div>
@@ -69,7 +72,8 @@ export default {
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,
-        address: `${this.$store.state.profile.address}`
+        address: `${this.$store.state.profile.address}`,
+        photoUrl: `${this.$store.state.profile.profilePhoto}`
       }
     }
   }

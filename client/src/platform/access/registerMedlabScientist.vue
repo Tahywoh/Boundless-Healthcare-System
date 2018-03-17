@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `http://localhost:6050/handlePhoto/imgUpload`
+      const url = `http://localhost:8050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
@@ -177,7 +177,7 @@ export default {
         })
       // // add url field
       //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:5050/public/uploads/${img.id}` })))
+      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state
@@ -291,7 +291,7 @@ export default {
       console.log(this.formData)
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
-
+      validateReg.profilePhoto = this.formData.profilePhoto
       // validating form data
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
         validateReg.fullName = this.toCapitalize(this.formData.fullName)

@@ -22,11 +22,11 @@
                 Kindly click on add drug at your left hand side to add one.
               </h5> 
               </div>
-            <div class="blue-grey white-text eachDrug" v-for="allDrug in allDrugs" :key="allDrug._id" v-else>
+            <div class="blue-grey white-text eachDrug" v-for="(allDrug, index) in allDrugs" :key="allDrug._id" :id="index" v-else>
               <ul >
                 <li>
                   <div class="collapsible-header blue-text">
-                    <h5 class="left" @click="toDrugDescrip" :id="allDrug._id">
+                    <h5 class="left" @click="toDrugDescrip(allDrug._id)" :id="index">
                       {{allDrug.drugName}}
                     </h5>
                     <h5 class="right grey darken-3">
@@ -62,7 +62,6 @@ export default {
   async mounted () {
     const allDrugs = (await GetServices.getAllDrugs()).data
     this.allDrugs = allDrugs
-    console.log({allDrugs})
     if (this.allDrugs !== null) {
       this.registeredDrug = true
     } else {
@@ -75,18 +74,13 @@ export default {
       let validateSearchInput = {}
       if (this.searchPharmacy !== '' && this.searchPharmacy !== null && isNaN(this.searchPharmacy)) {
         validateSearchInput.searchPharmacy = this.searchPharmacy.toLowerCase()
-      } else {
-        // this.searchErr = 'Please enter a valid drug name!'
-        // return false
       }
-      // console.log(validateSearchInput)
       try {
         const pharmacy = (await SearchServices.findDrugs({query: validateSearchInput.searchPharmacy})).data
         if (pharmacy.length > 0) {
           this.searchPharmacy = ''
           this.searchErr = ''
           this.allDrugs = pharmacy
-          // console.log(this.allDrugs)
         } else {
           this.allDrugs = null
           if (this.$store.state.userType === 'Pharmacist') {
@@ -101,13 +95,12 @@ export default {
       } catch (error) {
         if (error) {
           this.searchErr = error.pharmacy
-          console.log(JSON.stringify(error.pharmacy, null, 3))
         }
       }
     },
-    toDrugDescrip (e) {
+    toDrugDescrip (drugId) {
       this.allDrugs.forEach((drug) => {
-        if (drug._id === e.currentTarget.id) {
+        if (drug._id === drugId) {
           // this.$store.state.currentDrug = drug
           this.$store.commit('SET_CURRENTDRUG', {currentDrug: drug})
           this.$router.push(`/pharmacy/drug-description/current-drug-${Math.floor(Math.random() * 951732548)}`)

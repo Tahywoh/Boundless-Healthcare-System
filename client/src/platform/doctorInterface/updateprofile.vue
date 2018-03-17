@@ -1,5 +1,5 @@
 <template>
-  <div class="pharmacist-update-profile">
+  <div class="doctor-update-profile">
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
@@ -57,16 +57,20 @@
             <input id="state" type="text" class="validate" v-model="profileData.state">
             <label for="state" class="active">State</label>
           </div>
-          <div class="input-field col s6"><br/>
-              <input id="hospitalName" type="text" class="validate"  v-model="profileData.pharmacyName">
-              <label for="hospitalName" class="active">Pharmacy Name</label>
-          </div>
+          <div class=" input-field col s6"><br/>
+              <input id="specialty" type="text" class="validate"  v-model="profileData.specialty">
+              <label for="specialty" class="active">Specialty</label>
+            </div>
         </div>
          <div class="row">
-            <div class=" input-field col s12">
+            <div class="input-field col s6"><br/>
+              <input id="hospitalName" type="text" class="validate"  v-model="profileData.hospitalName">
+              <label for="hospitalName" class="active">Hospital Name</label>
+            </div>
+            <div class=" input-field col s6">
               <i class="icon ion-location"></i>
-              <textarea type="text" class="validate materialize-textarea" v-model="profileData.pharmacyAddress"></textarea>
-              <label for="address_profile" class="active">Pharmacy Address</label>
+              <textarea type="text" class="validate materialize-textarea" v-model="profileData.hospitalAddress"></textarea>
+              <label for="address_profile" class="active">Hospital Address</label>
             </div>
           </div>
          <div class="row">
@@ -121,13 +125,15 @@ export default {
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,
-        pharmacyName: `${this.$store.state.profile.pharmacyName}`,
-        pharmacyAddress: `${this.$store.state.profile.pharmacyAddress}`,
-        eduRequirement: `${this.$store.state.profile.eduRequirement}`,
         photoUrl: `${this.$store.state.profile.profilePhoto}`,
+        specialty: `${this.$store.state.profile.specialty}`,
+        hospitalName: `${this.$store.state.profile.hospitalName}`,
+        hospitalAddress: `${this.$store.state.profile.hospitalAddress}`,
+        eduRequirement: `${this.$store.state.profile.eduRequirement}`,
         licenseRequirement: `${this.$store.state.profile.licenseRequirement}`
       },
-      goToProfile: navs.links.profile.url
+      goToProfile: navs.links.profile.url,
+      goToAppointment: navs.links.appointment.url
     }
   }
 }

@@ -35,7 +35,8 @@ const PatientSchema = new Schema({
   },
   age: {
     type: Number,
-    required: true
+    required: true,
+    trim: true
   },
   email: {
     type: String,

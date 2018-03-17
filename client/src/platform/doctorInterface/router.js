@@ -4,6 +4,8 @@ import navs from './navs'
 import Index from './index'
 import Profile from './profile'
 import Appointment from './appointment'
+import MedicalRecord from './medicalrecord'
+import UpdateProfile from './updateprofile'
 
 export default [
   {
@@ -22,6 +24,25 @@ export default [
     meta: {
       requiresAuth: true,
       doctorAuth: true
+    }
+  },
+  {
+    path: navs.links.updateProfile.url,
+    name: 'BHS | ' + navs.links.updateProfile.text,
+    component: UpdateProfile,
+    meta: {
+      requiresAuth: true,
+      doctorAuth: true
+    }
+  },
+  {
+    path: navs.links.medicalRecord.url,
+    name: 'BHS | ' + navs.links.medicalRecord.text,
+    component: MedicalRecord,
+    meta: {
+      requiresAuth: true,
+      doctorAuth: true,
+      patientAuth: true
     }
   },
   {

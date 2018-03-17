@@ -4,6 +4,7 @@ import navs from './navs'
 import Index from './index'
 import Profile from './profile'
 import Eachdrug from '@/components/features/eachDrug'
+import UpdateProfile from './updateProfile'
 
 export default [
   {
@@ -19,6 +20,15 @@ export default [
     path: navs.links.profile.url,
     name: 'BHS | ' + navs.links.profile.text,
     component: Profile,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true
+    }
+  },
+  {
+    path: navs.links.updateProfile.url,
+    name: 'BHS | ' + navs.links.updateProfile.text,
+    component: UpdateProfile,
     meta: {
       requiresAuth: true,
       pharmacistAuth: true

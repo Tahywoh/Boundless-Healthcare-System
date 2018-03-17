@@ -124,7 +124,7 @@ router.post('/', (req, res) => {
               }
               let token = jwt.sign(payload, config.token_secret)
               res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto}))
-              // console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, profilePhoto, eduRequirement, licenseRequirement}, null, 2))
+              console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, profilePhoto, eduRequirement, licenseRequirement}, null, 2))
             } else {
               res.status(401).send('Incorrect password')
               return false
@@ -157,7 +157,7 @@ router.use((req, res, next) => {
 })
 
 router.use((req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', 'http://localhost:9000')
+  // res.header('Access-Control-Allow-Origin', '*')
   // res.header('Access-Control-Allow-Credentials', true)
   // // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
   // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
