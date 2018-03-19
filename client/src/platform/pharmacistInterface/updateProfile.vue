@@ -18,6 +18,7 @@
     </fixednav>
     
     <div class="update-profile-data">
+    <h5 class="flow-text center">Update Profile</h5>
       <div class="row">
       <form class="col s12 m8 offset-m2">
         <div class="row">
@@ -100,7 +101,7 @@
         </div>
         <div class="divider"></div>
         <div class="row"><div class="col s4 offset-s4">
-          <a class="center-align blue btn waves-light waves-effect">Update Profile</a></div></div>
+          <a class="center-align blue btn waves-light waves-effect">Submit</a></div></div>
       </form>
     </div>
   </div>

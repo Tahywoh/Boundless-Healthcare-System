@@ -6,3 +6,4 @@ server/node_modules/
 /client/src/assets/useless.trash
 /server/src/routes/test.taiwo
 **/node_modules
+**/dist

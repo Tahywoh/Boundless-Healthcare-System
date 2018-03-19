@@ -18,6 +18,7 @@
     </fixednav>
     
     <div class="update-profile-data">
+      <h5 class="flow-text center">Update Profile</h5>
       <div class="row">
       <form class="col s12 m8 offset-m2">
         <div class="row">
@@ -84,7 +85,7 @@
         </div>
         <div class="divider"></div>
         <div class="row"><div class="col s4 offset-s4">
-          <button class="center-align blue btn waves-light waves-effect" @click="updatePatientProfile">Update Profile</button></div></div>
+          <button class="center-align blue btn waves-light waves-effect" @click="updatePatientProfile">Submit</button></div></div>
       </form>
     </div>
   </div>
@@ -131,6 +132,7 @@ export default {
   },
   methods: {
     upload (formData) {
+      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
       const url = `http://localhost:8050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data

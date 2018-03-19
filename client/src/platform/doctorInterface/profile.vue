@@ -2,6 +2,7 @@
   <div class="doctor-profile">
      <fixednav/>
      <div class="profileWra">
+     <h5 class="flow-text center">Doctor Profile</h5>
       <div class="row container blue-grey white-text center-align">
           <div class="row">
             <div id="basicDetailsProfile" class="col s7">

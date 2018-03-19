@@ -10,12 +10,22 @@
     name: 'app',
     // mixins: [mixins],
     mounted () {
-      console.log(JSON.stringify(this.$store.state))
+      // console.log(JSON.stringify(this.$store.state))
     }
 }
 </script>
 
 <style>
+#app > div > div.update-profile-data > h5 {
+    font-weight: 500;
+    color: #2196f3;
+}
+#app > div > div.profileWra > h5 {
+    font-weight: 500;
+    background-color: #2196f3;
+    padding: 0.5rem;
+    width: 100%;
+}
 #app > div > div.update-profile-data > div > form > div:nth-child(1) > div > img, #app > div > div.profileWra > div > div > div.profilePic.col.s3.right > img {
   border-radius: 15px;
 }

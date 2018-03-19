@@ -173,6 +173,7 @@ export default {
   methods: {
     upload (formData) {
       const url = `http://localhost:8050/handlePhoto/imgUpload`
+      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
@@ -298,7 +299,9 @@ export default {
       console.log(this.formData)
       validateReg.age = this.formData.age
       validateReg.telephone = this.formData.telephone
-      validateReg.profilePhoto = this.formData.profilePhoto
+      if (this.formData.profilePhoto) {
+        validateReg.profilePhoto = this.formData.profilePhoto
+      }
       // validating form data
       if (this.formData.fullName && this.formData.fullName.length >= 7) {
         validateReg.fullName = this.toCapitalize(this.formData.fullName)
