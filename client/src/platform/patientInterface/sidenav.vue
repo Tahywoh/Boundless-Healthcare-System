@@ -12,7 +12,7 @@
       <span class="circle blue notification-circle">2</span>
     </router-link>
     <div class="divider"></div>
-    <a href="#" class="w3-bar-item w3-button">
+    <a :href="carts" class="w3-bar-item w3-button">
       <i :class="cart_icon"></i>
       Cart 
       <span class="circle blue notification-circle">{{patientCarts}}</span>
@@ -36,8 +36,9 @@ export default {
       medicalrecord_icon: navs.links.medicalRecord.icon + ' x2 left',
       message_icon: navs.links.messages.icon + ' x2 left',
       cart_icon: navs.links.cart.icon + ' x2 left',
+      carts: navs.links.cart.url,
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
-      patientCarts: this.$store.state.userData.patientCarts
+      patientCarts: this.$store.state.userData.patientCarts.cartNo || 0
     }
   }
 }

@@ -51,10 +51,10 @@ router.post('/addDrug', (req, res) => {
   })
 })
 
-router.post('/placeOrder', (req, res) => {
+router.post('/addToCart', (req, res) => {
   let {drug, user, userType} = req.body
-  let dataPharm
-  Pharmacy.findOne({_id: drug}, 'drugName price seller', (err, pharmResult) => {
+  // let dataPharm
+  Pharmacy.findOne({_id: drug}, 'drugName price seller briefDescription', (err, pharmResult) => {
     if (!err) {
       // let {price, seller, drugName} = pharmResult
       if (userType !== 'Patient') {
@@ -62,26 +62,26 @@ router.post('/placeOrder', (req, res) => {
       } else {
         Patient.findOne({email: user}, 'email fullName', (err, patientResult) => {
           if (!err) {
-            Pharmacy.findOneAndUpdate({_id: drug}, {
-              $push: {
-                'orders.requests': {
-                  email: patientResult.email,
-                  fullName: patientResult.fullName,
-                  userType,
-                  orderedAt: new Date().toISOString()
-                }
-              },
-              $inc: {
-                'orders.noOfOrders': 1
-              }
-            }, {
-              upsert: true,
-              new: true
-            })
-              .then(saveToPharm => {
-                dataPharm = saveToPharm
-                console.log({dataPharm})
-              })
+            // Pharmacy.findOneAndUpdate({_id: drug}, {
+            //   $push: {
+            //     'orders.requests': {
+            //       email: patientResult.email,
+            //       fullName: patientResult.fullName,
+            //       userType,
+            //       orderedAt: new Date().toISOString()
+            //     }
+            //   },
+            //   $inc: {
+            //     'orders.noOfOrders': 1
+            //   }
+            // }, {
+            //   upsert: true,
+            //   new: true
+            // })
+            //   .then(saveToPharm => {
+            //     // dataPharm = saveToPharm
+            //     // console.log({dataPharm})
+            //   })
 
             Patient.findOneAndUpdate({email: user}, {
               $inc: {
@@ -92,6 +92,7 @@ router.post('/placeOrder', (req, res) => {
                   drugName: pharmResult.drugName,
                   price: pharmResult.price,
                   seller: pharmResult.seller,
+                  briefDescription: pharmResult.briefDescription,
                   Date: new Date().toISOString()
                 }
               }
@@ -101,7 +102,7 @@ router.post('/placeOrder', (req, res) => {
             })
               .then(saveToPatient => {
                 console.log('carts and orders successfully pushed to their desired mongoose docs')
-                res.status(200).send({saveToPatient: saveToPatient.carts, dataPharm: dataPharm.orders})
+                res.status(200).send({saveToPatient: saveToPatient.carts})
               })
           } else {
             console.log(JSON.stringify(err, null, 2))
@@ -112,6 +113,55 @@ router.post('/placeOrder', (req, res) => {
       console.log(JSON.stringify(err, null, 2))
     }
   })
+})
+
+router.post('/removeFromCart', (req, res) => {
+  console.log(req.body)
+  let {email, drug} = req.body
+  var rData
+  Patient.findOneAndUpdate({email}, {
+    $inc: {
+      'carts.cartNo': -1
+    },
+    $pull: {
+      'carts.cartData': {
+        _id: drug
+      }
+    }
+  }, {
+    upsert: true,
+    new: true
+  })
+    .then(removedData => {
+      rData = removedData
+      console.log(JSON.stringify(rData, null, 2))
+      res.status(200).send(rData.carts)
+    })
+})
+
+router.post('/placeOrder', (req, res) => {
+  let {email, fullName, userType} = req.body
+  console.log(req.body)
+  Pharmacy.findOneAndUpdate({email}, {
+    $push: {
+      'orders.requests': {
+        email,
+        fullName,
+        userType,
+        orderedAt: new Date().toISOString()
+      }
+    },
+    $inc: {
+      'orders.noOfOrders': 1
+    }
+  }, {
+    upsert: true,
+    new: true
+  })
+    .then(saveToPharm => {
+      console.log({saveToPharm})
+      res.status(200).send(saveToPharm)
+    })
 })
 
 module.exports = router

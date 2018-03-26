@@ -48,10 +48,8 @@ router.post(`/${encodeURI('update patient profile')}`, (req, res) => {
 // handling server sid of update doctor profile
 
 router.post(`/${encodeURI('update doctor profile')}`, (req, res) => {
-  // console.log(req.body)
-  // res.status(200).send(req.body)
   let {fullName, telephone, email, profilePhoto, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = req.body
-
+  console.log(req.body)
   let doctorData = {}
   if (profilePhoto) {
     doctorData.profilePhoto = profilePhoto

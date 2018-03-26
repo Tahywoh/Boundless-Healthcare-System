@@ -8,6 +8,12 @@ export default {
     return Api().post('/pharmacy/removeDrug', data)
   },
   addToCart (data) {
+    return Api().post('/pharmacy/addToCart', data)
+  },
+  removeFromCart (data) {
+    return Api().post('/pharmacy/removeFromCart', data)
+  },
+  placeOrder (data) {
     return Api().post('/pharmacy/placeOrder', data)
   }
 }

@@ -91,11 +91,11 @@
             <div class="text-center center-align" v-if="!registeredUserDrug">
               <h5 v-html="pharmacistDrugStatus"></h5> 
             </div>
-            <div class="blue-grey white-text eachUserDrug" v-for="userDrug in userDrugs" :key="userDrug._id" v-else>
+            <div class="blue-grey white-text eachUserDrug" v-for="(userDrug, index) in userDrugs" :key="userDrug._id" :id="index" v-else>
               <ul class="user_drugs" >
                 <li>
                   <div class="collapsible-header blue-text">
-                    <h5 class="left">{{userDrug.drugName}}</h5>
+                    <h5 class="left" @click="viewDrugDetails(userDrug._id)">{{userDrug.drugName}}</h5>
                     <h5 class="right grey darken-3">Price: &nbsp; 
                       <span class="right">
                         {{userDrug.price}}
@@ -174,6 +174,14 @@ export default {
   },
   methods: {
     validateForm (e) {},
+    viewDrugDetails (drugId) {
+      this.userDrugs.forEach(item => {
+        if (item._id === drugId) {
+          this.$store.commit('SET_CURRENTUSERDRUG', {currentUserDrug: item})
+          this.$router.push(`/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${item.drugName}`)
+        }
+      })
+    },
     async addToPharmacy () {
       let validateDrug = {}
       if (this.formData.drugName !== '') {

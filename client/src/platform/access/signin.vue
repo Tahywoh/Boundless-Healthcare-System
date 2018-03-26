@@ -121,7 +121,8 @@ export default {
           this.authToken = token
           this.loginData.userType = userType
           this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, address})
-          this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
+          // this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
+          this.$store.commit('SET_PATIENTCARTS', {patientCarts: carts})
           this.$store.commit('SOCKET_CONNECT')
           console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto})
           // return

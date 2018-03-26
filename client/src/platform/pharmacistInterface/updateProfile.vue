@@ -7,9 +7,6 @@
         <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
           Profile
         </a></li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" :href="goToAppointment">Appointment
-        </a>
-        </li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>

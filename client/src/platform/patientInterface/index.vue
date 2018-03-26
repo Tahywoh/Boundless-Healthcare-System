@@ -8,6 +8,8 @@
       <!-- <i class="icon ion-search x15"></i> -->
           <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!" v-model="search" />
           <i class="icon ion-search x15" @click="findDoctors"></i>
+          <!-- <autocomplete  anchor="title" label="writer" :on-select="getData(testData)"> -->
+          <!-- </autocomplete> -->
         </div>
         <!-- <small class="searchErr red-text">{{searchErr}}</small> -->
       </form>
@@ -53,7 +55,7 @@
           <h5>{{docStatus}}</h5> 
         </div>
         <div v-else v-for="(doctor, index) in doctors" :id="index" :key="doctor._id" class="blue-grey white-text eachDoctor">
-          <a class="btn waves-effect-waves-light"><span>{{doctor.fullName}}</span></a><br/>
+          <a class="btn waves-effect-waves-light" @click="viewDoc(doctor._id)">{{doctor.fullName}}</a><br/>
           <a class="right btn waves-effect waves-light consultBtn" @click="createChannel(doctor._id)" :id="index" :key="doctor._id">consult</a>
           <a href="" class="btn waves-effect-waves-light" >City: <span>{{doctor.city}}</span></a>
           <a href="" class="btn waves-effect-waves-light">
@@ -98,8 +100,10 @@ import navs from '@/platform/patientInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
 import Sidenav from '@/platform/patientInterface/sidenav'
 import $ from 'jquery'
+import Autocomplete from 'vue2-autocomplete-js'
+import GetServices from '@/services/getServices'
 export default {
-  components: {Interface, messages, Pharmacy, BasicDetails, Sidenav},
+  components: {Interface, messages, Pharmacy, BasicDetails, Sidenav, Autocomplete},
   name: 'index',
   data () {
     return {
@@ -108,6 +112,7 @@ export default {
       cart_icon: navs.links.cart.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       search: '',
+      allDocs: null,
       // searchErr: '',
       topLinks: {
         doLogOut: 'do-logout',
@@ -125,6 +130,14 @@ export default {
     $('#docSearch').hide()
   },
   methods: {
+    async getAllDocs () {
+      const allDocs = (await GetServices.getAllDocs()).data
+      this.allDocs = allDocs
+    },
+    getData (d) {
+      console.log(d)
+      return d
+    },
     validateForm (e) {},
     async findDoctors () {
       let validSearchInput = {}
@@ -141,7 +154,6 @@ export default {
         const doctors = (await SearchServices.findDoctors({query: validSearchInput.search})).data
         // let responseData = response.data
         console.log('doctors: ', doctors)
-
         $('#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.col.s12').hide()
 
         $('#app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content#platform-content').hide()
@@ -149,13 +161,14 @@ export default {
         $('#pharmacy, #messages_conv, #medicalLab').hide()
 
         $('#docSearch').show()
-        if (doctors.length !== 0) {
+        if (doctors.length > 0) {
           this.registeredDoctors = true
+          this.docStatus = this.search
           this.doctors = doctors
           this.search = ''
         } else if (doctors.length === 0) {
           this.registeredDoctors = false
-          this.docStatus = 'Doctor not found!'
+          this.docStatus = `Doctor not found!`
         } else {
           this.registeredDoctors = false
         }
@@ -164,6 +177,15 @@ export default {
           console.log(JSON.stringify(error.doctors))
         }
       }
+    },
+    viewDoc (docId) {
+      // console.log('i was clicked')
+      this.doctors.forEach(doc => {
+        if (doc._id === docId) {
+          this.$store.commit('SET_VIEWDOC', {viewDoc: doc})
+          this.$router.push(`/patient/view-doc/${doc.fullName.toLowerCase().split(' ')[0]}`)
+        }
+      })
     },
     createChannel (docId) {
       let newChannel, docFullName, channel, docEmail

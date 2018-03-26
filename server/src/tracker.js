@@ -25,7 +25,7 @@ const database = require('./helpers/database')
 
 const port = process.env.PORT || 8050
 const {generateMessage, generateLocationMessage} = require('./socket/message')
-const getData = require('./utils/getData')
+// const getData = require('./utils/getData')
 
 app.set('port', port)
 app.set('sessionSecret', config.session_secret)
@@ -55,7 +55,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 
-app.get('/getAllDrugs', getData.getAllDrugs)
+// app.get('/getAllDrugs', getData.getAllDrugs)
 // consultation socket IO connection
 // var messageUsers = 0
 io.on('connection', (socket) => {

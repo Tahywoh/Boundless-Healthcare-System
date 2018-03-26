@@ -11,7 +11,8 @@ let escapeRegex = (text) => {
 }
 
 router.post('/userDrugs', getData.getCurrentUserDrugs)
-
+router.get('/getAllDrugs', getData.getAllDrugs)
+router.get('/getAllDocs', getData.getAllDocs)
 router.post('/doctors', (req, res) => {
   // console.log(JSON.stringify(req.body.query, null, 2))
   // let doctorMatch = req.body.query
@@ -19,13 +20,13 @@ router.post('/doctors', (req, res) => {
     let regex = new RegExp(escapeRegex(req.body.query), 'gi')
     // })
     console.log(regex)
-    Doctor.find({fullName: regex}, 'fullName email city state', (err, docs) => {
+    Doctor.find({fullName: regex}, 'fullName email city state profilePhoto hospitalName hospitalAddress specialty', (err, docs) => {
       if (!err) {
-        let {fullName, city, state, email} = docs
+        let {fullName, city, state, email, profilePhoto, hospitalAddress, hospitalName, specialty} = docs
         if (docs !== []) {
           res.status(200).send(docs)
           // res.render('/doctors', docs)
-          console.log(fullName, city, state, email)
+          console.log(fullName, city, state, email, profilePhoto, hospitalName, hospitalAddress, specialty)
         } else {
           res.status(203).send('Doctor not found!')
         }

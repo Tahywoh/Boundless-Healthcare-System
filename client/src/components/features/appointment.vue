@@ -72,7 +72,7 @@
   <h4>Appointments</h4>
 </header>
 
-<div class="w3-container container">
+<div class="container" style="width: 100%;">
   <div class="eachAppointment blue-grey white-text" v-for="(userAppointment, index) in userAppointments" :key="index" v-if="checkAppointments">
     <p v-text="userAppointment.reason">
     </p>

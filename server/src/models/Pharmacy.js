@@ -41,7 +41,8 @@ const pharmacySchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  delete: false
 })
 
 mongoose.model('pharmacy', pharmacySchema)

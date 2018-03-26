@@ -94,7 +94,7 @@
                 <span>
                   Photo
                 </span>
-                <input type="file"  accept="image/*" class="input-file">
+                 <input type="file" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
               </div>
               <div class="file-path-wrapper">
                 <input  class="file-path validate" type="text">
@@ -115,24 +115,40 @@
 
 <script>
 import Fixednav from '@/components/layouts/fixednav'
-import AuthServices from '@/services/authServices'
 import navs from './navs'
+import AuthServices from '@/services/authServices'
+import * as axios from 'axios'
+const STATUS_INITIAL = 0
+const STATUS_SAVING = 1
+const STATUS_SUCCESS = 2
+const STATUS_FAILED = 3
 export default {
   components: {Fixednav},
+  props: {
+    id: {
+      type: Number,
+      required: false
+    }
+  },
   data () {
     return {
+      uploadedFiles: [],
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: 'photos',
+      imgUrl: '',
       profileData: {
-        fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
-        telephone: `${this.$store.state.profile.telephone}`,
-        city: `${this.$store.state.profile.city}`,
-        state: `${this.$store.state.profile.state}`,
-        photoUrl: `${this.$store.state.profile.profilePhoto}`,
-        specialty: `${this.$store.state.profile.specialty}`,
-        hospitalName: `${this.$store.state.profile.hospitalName}`,
-        hospitalAddress: `${this.$store.state.profile.hospitalAddress}`,
-        eduRequirement: `${this.$store.state.profile.eduRequirement}`,
-        licenseRequirement: `${this.$store.state.profile.licenseRequirement}`
+        fullName: this.$store.state.profile.fullName,
+        email: this.$store.state.profile.user,
+        telephone: this.$store.state.profile.telephone,
+        city: this.$store.state.profile.city,
+        state: this.$store.state.profile.state,
+        photoUrl: this.$store.state.profile.profilePhoto,
+        specialty: this.$store.state.profile.specialty,
+        hospitalName: this.$store.state.profile.hospitalName,
+        hospitalAddress: this.$store.state.profile.hospitalAddress,
+        eduRequirement: this.$store.state.profile.eduRequirement,
+        licenseRequirement: this.$store.state.profile.licenseRequirement
       },
       goToProfile: navs.links.profile.url,
       goToAppointment: navs.links.appointment.url
@@ -165,8 +181,8 @@ export default {
     async updateDoctorProfile () {
       let validateProfileData = {}
       validateProfileData.telephone = this.profileData.telephone
-      if (this.profileData.profilePhoto) {
-        validateProfileData.profilePhoto = this.profileData.profilePhoto
+      if (this.profileData.photoUrl) {
+        validateProfileData.profilePhoto = this.profileData.photoUrl
       }
       // validating form data
       if (this.profileData.fullName && this.profileData.fullName.length >= 7) {
@@ -200,7 +216,7 @@ export default {
         return false
       }
       if (this.profileData.hospitalAddress) {
-        validateProfileData.hospitalAddress = this.formData.hospitalAddress
+        validateProfileData.hospitalAddress = this.profileData.hospitalAddress
       } else {
         this.errorMsg = 'A valid address of hospital is required to serve you better'
         // return false
@@ -230,6 +246,96 @@ export default {
       } catch (error) {
         console.log(error)
         console.log({newData: error.newUserData})
+      }
+    },
+    upload (formData) {
+      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
+      const url = `http://localhost:8050/handlePhoto/imgUpload`
+      return axios.post(url, formData)
+      // get data
+        .then((x) => {
+          if (x) {
+            // console.log({x: x.dgata})
+            this.profileData.photoUrl = x.data
+            console.log({photoUrl: this.profileData.photoUrl})
+          }
+        })
+      // // add url field
+      //     .then(x => x.map(img => Object.assign({},
+      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
+    },
+    reset () {
+      // reset form to initial state
+      this.currentStatus = STATUS_INITIAL
+      this.uploadedFiles = []
+      this.uploadError = null
+    },
+    save (formData) {
+      // upload data to the server
+      this.currentStatus = STATUS_SAVING
+
+      this.upload(formData)
+        .then(x => {
+          this.imgUrl = x.data
+          this.uploadedFiles = [].concat(x)
+          this.currentStatus = STATUS_SUCCESS
+          this.$eventBus.$emit('img-uploaded', {
+            index: this.id,
+            url: x.data
+          })
+        })
+        .catch(err => {
+          if (err) {
+            // alert('Error uploading your image. Please try again or ignore and proceed')
+            console.log(JSON.stringify(err))
+            // this.uploadError = err.response
+            // console.log(JSON.stringify(this.uploadError))
+            // alert(JSON.stringify(this.uploadError.data))
+            this.currentStatus = STATUS_FAILED
+            // return
+          }
+        })
+    },
+    filesChange (fieldName, fileList) {
+      // handle file changes
+      const formData = new FormData()
+
+      if (!fileList.length) return
+
+      // append the files to FormData
+      Array
+        .from(Array(fileList.length).keys())
+        .map(x => {
+          formData.append(fieldName, fileList[x], fileList[x].name)
+        })
+
+      // save it
+      this.save(formData)
+    },
+    closeUploader () {
+      // if (this.imgUrl.length > 0) {
+      //   this.$eventBus.$emit('delete-image-url')
+      // }
+    }
+  },
+  computed: {
+    isInitial () {
+      return this.currentStatus === STATUS_INITIAL
+    },
+    isSaving () {
+      return this.currentStatus === STATUS_SAVING
+    },
+    isSuccess () {
+      return this.currentStatus === STATUS_SUCCESS
+    },
+    isFailed () {
+      return this.currentStatus === STATUS_FAILED
+    },
+    dropformstyle () {
+      if (!this.isSuccess) {
+        return {outline: '2px dashed grey'}
+      } else {
+        return {}
       }
     }
   }

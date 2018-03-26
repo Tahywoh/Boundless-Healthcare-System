@@ -16,7 +16,7 @@ export default {
       url: '/Patient-interface/:id', text: 'Message', icon: 'icon ion-chatbox-working'
     },
     cart: {
-      url: '/Patient-interface/cart', text: 'Cart', icon: 'icon ion-ios-cart'
+      url: '/Patient-interface/carts', text: 'Cart', icon: 'icon ion-ios-cart'
     },
     updateProfile: {
       url: `/Patient-interface/${encodeURI('update profile')}`, text: 'Update Patient Profile', icon: 'icon ion-edit'

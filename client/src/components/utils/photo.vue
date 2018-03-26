@@ -22,22 +22,36 @@
       <!-- <i class="icon ion-eye" /> -->
 
     </div>
-
+    <br>
+    <br>
+    <br>
+    <autocomplete
+    :url="url"
+    anchor="title"
+    label="writer"
+    :onSelect="getData"
+  >
+  </autocomplete>
     <div class="succeed" v-if="isSuccess">
         <img :src="imgUrl" alt="Error displaying image, unable to upload image" class="responsive-img">
       </div>
+
+
+
   </div>
 </template>
 
 <script>
 // import {upload} from '@/services/upload'
 import * as axios from 'axios'
+import Autocomplete from 'vue2-autocomplete-js'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
 const STATUS_SUCCESS = 2
 const STATUS_FAILED = 3
 
 export default {
+  components: {Autocomplete},
   props: {
     id: {
       type: Number,
@@ -46,6 +60,12 @@ export default {
   },
   data () {
     return {
+      url: `http://localhost:8050/search/getAllDocs`,
+      data: {
+        'Apple': 'apple',
+        'Microsoft': 'microsoft',
+        'Google': 'https://placehold.it/250x250'
+      },
       uploadedFiles: [],
       uploadError: null,
       currentStatus: null,
@@ -54,6 +74,10 @@ export default {
     }
   },
   methods: {
+    getData (data) {
+      console.log(data)
+      return data
+    },
     toValidUrl (url) {
       let newurl = url.split('//')[0] + '/'
       let newurl2 = url.split('//')[1]

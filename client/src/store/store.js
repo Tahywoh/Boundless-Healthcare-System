@@ -13,11 +13,13 @@ export default new Vuex.Store({
     lastPageVisited: '',
     lastPage: '',
     currentDrug: null,
+    currentUserDrug: null,
+    viewDoc: null,
     userData: {
       docPatients: 0,
       patientDocs: 0,
       pharmacistOrders: 0,
-      patientCarts: 0
+      patientCarts: null
     },
     profile: {
       user: null,
@@ -74,6 +76,14 @@ export default new Vuex.Store({
         // this.$router.push('/login')
       }
     },
+    SET_PATIENTCARTS (state, user) {
+      if (state.token) {
+        state.userData.patientCarts = user.patientCarts
+      }
+    },
+    CLEAR_CARTS (state) {
+      state.userData.patientCarts = null
+    },
     SET_USERDATA (state, user) {
       if (state.token) {
         state.userData.docPatients = user.docPatients
@@ -108,6 +118,12 @@ export default new Vuex.Store({
     SET_CURRENTDRUG (state, user) {
       state.currentDrug = user.currentDrug
     },
+    SET_CURRENTUSERDRUG (state, user) {
+      state.currentUserDrug = user.currentUserDrug
+    },
+    SET_VIEWDOC (state, user) {
+      state.viewDoc = user.viewDoc
+    },
     SET_DOCPATIENT (state, data) {
       state.consult.doctorName = data.doctorName
       state.consult.doctorEmail = data.doctorEmail
@@ -123,6 +139,7 @@ export default new Vuex.Store({
       state.consult.roomName = ''
       // state.consult = null
       state.currentDrug = null
+      state.userData.patientCarts = null
     }
   },
   plugins: [createPersist({
