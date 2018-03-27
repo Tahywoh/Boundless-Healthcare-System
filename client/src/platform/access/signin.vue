@@ -112,63 +112,64 @@ export default {
         return false
       }
       try {
-        const response = (await AuthServices.signInUsers(validateLogin)).data
-        // console.log(JSON.stringify(response) + '\n This is a success')
-        let responseData = response
-        // console.log(JSON.stringify(response))
+        const response = await AuthServices.signInUsers(validateLogin)
+        let responseData = response.data
         if (this.loginData.userType === 'Patient') {
-          let {fullName, telephone, city, token, user, userType, state, address} = responseData
+          // console.log(responseData)
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, address, patientDocs, carts} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
+          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, address})
+          // this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
+          this.$store.commit('SET_PATIENTCARTS', {patientCarts: carts})
           this.$store.commit('SOCKET_CONNECT')
-
-          console.log(fullName, telephone, city, state, address)
-          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto})
+          // return
         } else if (this.loginData.userType === 'Doctor') {
-          let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement} = responseData
+          let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, profilePhoto, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
           this.$store.commit('SOCKET_CONNECT')
+<<<<<<< HEAD
           console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
           // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+=======
+          this.$store.commit('SET_USERDATA', {docPatients: 0})
+          console.log(fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
+          // return
+>>>>>>> loginissues
         } else if (this.loginData.userType === 'Pharmacist') {
-          let {fullName, telephone, city, token, user, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USERDATA', {pharmacistOrders: 0})
+          // console.log(fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
+          // return false
+        } else {
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
-          console.log(fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
-          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-        } else if (this.loginData.userType === 'MedicalLab Scientist') {
-          let {fullName, telephone, city, token, user, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
 
-          console.log(fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
-          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          console.log(fullName, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
         }
-        // if (this.$store.state.lastPageVisited > 0) {
-        //   console.log('lastPageVisited', this.$store.state.lastPageVisited)
-        //   this.$router.push(this.$store.state.lastPageVisited)
-        // } else if (this.$store.state.lastPage.trim().length > 0) {
-        //   console.log('lastpage')
-        //   this.$router.push(`${this.$store.state.lastPage}`)
-        // } else {
-        //   // let {fullName, telephone, city, token, user, userType, state, address} = responseData
-        //   // this.authToken = token
-        //   // this.loginData.userType = userType
-        //   // this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, address})
-        //   // this.$store.commit('SOCKET_CONNECT')
-        //   window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-        //   // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
-        // }
-        console.log('i am a success')
+        if (this.$store.state.lastPageVisited > 0) {
+          console.log('lastPageVisited', this.$store.state.lastPageVisited)
+          this.$router.push(this.$store.state.lastPageVisited)
+        } else if (this.$store.state.lastPage.trim().length > 0) {
+          console.log('lastpage')
+          this.$router.push(`${this.$store.state.lastPage}`)
+        } else {
+          // alert('succss login')
+          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
+        }
       } catch (error) {
         if (error) {
           this.errorMsg = error.response.data

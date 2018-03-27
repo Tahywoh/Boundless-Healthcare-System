@@ -10,15 +10,50 @@
     name: 'app',
     // mixins: [mixins],
     mounted () {
-      console.log(JSON.stringify(this.$store.state))
+      // console.log(JSON.stringify(this.$store.state))
     }
 }
 </script>
 
 <style>
+#nav-mobile > div > li > a {
+  font-size: 0.5rem !important;
+}
+.btn, .btn-large, .btn-flat {
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 1rem;
+    text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+}
+nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 11px;
+}
+#app > div > div.update-profile-data > h5 {
+    font-weight: 500;
+    color: #2196f3;
+}
+#app > div > div.profileWra > h5 {
+    font-weight: 500;
+    background-color: #2196f3;
+    padding: 0.5rem;
+    width: 100%;
+}
+#app > div > div.update-profile-data > div > form > div:nth-child(1) > div > img, #app > div > div.profileWra > div > div > div.profilePic.col.s3.right > img {
+  border-radius: 15px;
+}
+#app > div > div.profileWra > div > div:nth-child(1) > div.profilePic.col.s3.right {
+  margin-top: 2rem;
+}
 #app > div > div.row.container.blue-grey.white-text.center-align {
-    padding: 0.5rem 1.5rem;
-    margin-top: 0.3rem;
+  padding: 0.5rem 1.5rem;
+  margin-top: 0.3rem;
 }
 textarea{
   width: 100%;
@@ -37,9 +72,6 @@ a.btn {
   font-size: 0.89rem !important;
   margin: 0 !important; 
   font-weight: 100 !important;
-}
-#nav-mobile > div > li > a {
-    font-size: 0.7rem !important;
 }
 #drugs > div > div > ul > li > div.collapsible-body > h6{
   font-weight: 400;

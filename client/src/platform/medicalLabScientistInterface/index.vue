@@ -24,7 +24,7 @@
           <span class="circle blue notification-circle">6</span>
         </a>
         <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <a :href="updateProfile" class="w3-bar-item w3-button">
           <i :class="updateprofile_icon"></i>
           Update Profile
         </a>
@@ -71,18 +71,19 @@ export default {
     return {
       appointment_icon: navs.links.appointment.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
-      goToProfile: navs.links.profile.url
+      goToProfile: navs.links.profile.url,
+      updateProfile: navs.links.updateProfile.url
     }
   }
 }
 </script>
 
 <style>
-  i.icon.ion-search.x15 {
-  position: absolute;
-  top: 0.2rem;
-  left: 46rem;
-  font-size: 2.2rem;
+i.icon.ion-search.x15 {
+    position: absolute;
+    top: 0.2rem;
+    left: 92%;
+    font-size: 2.2rem;
 }
 input#autocomplete-input {
   border: 2px solid;

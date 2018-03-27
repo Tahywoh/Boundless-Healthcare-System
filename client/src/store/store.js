@@ -13,24 +13,13 @@ export default new Vuex.Store({
     lastPageVisited: '',
     lastPage: '',
     currentDrug: null,
+    currentUserDrug: null,
+    viewDoc: null,
     userData: {
-      docPatients: '',
-      patientDocs: '',
-      pharmacistOrders: '',
-      patientCarts: '',
-      appointment: {
-        reason: '',
-        start: '',
-        end: '',
-        date: '',
-        status: 'pending',
-        patient: {
-          doctorName: ''
-        },
-        doctor: {
-          patientName: ''
-        }
-      }
+      docPatients: 0,
+      patientDocs: 0,
+      pharmacistOrders: 0,
+      patientCarts: null
     },
     profile: {
       user: null,
@@ -40,6 +29,7 @@ export default new Vuex.Store({
       state: '',
       address: '',
       specialty: '',
+      profilePhoto: '',
       hospitalName: '',
       hospitalAddress: '',
       pharmacyName: '',
@@ -80,22 +70,29 @@ export default new Vuex.Store({
         state.profile.laboratoryAddress = user.laboratoryAddress
         state.profile.eduRequirement = user.eduRequirement
         state.profile.licenseRequirement = user.licenseRequirement
-
-        // setting user meta data
-        // state.userData.docPatients = user.docPatients
-        // state.userData.patientDocs = user.patientDocs
-        // state.userData.pharmacistOrders = user.pharmacistOrders
-        // state.userData.patientCarts = user.patientCarts
-        // setting user appointments
-
-        // state.userData.appointment.reason = user.reason
-        // state.userData.appointment.date = user.date
-        // state.userData.appointment.start = user.start
-        // state.userData.appointment.end = user.end
-        // state.userData.appointment.status = user.status
+        state.profile.profilePhoto = user.profilePhoto
       } else {
         state.isUserLoggedIn = false
         // this.$router.push('/login')
+      }
+    },
+    SET_PATIENTCARTS (state, user) {
+      if (state.token) {
+        state.userData.patientCarts = user.patientCarts
+      }
+    },
+    CLEAR_CARTS (state) {
+      state.userData.patientCarts = null
+    },
+    CLEAR_CURRENTUSERDRUGS (state) {
+      state.currentUserDrug = null
+    },
+    SET_USERDATA (state, user) {
+      if (state.token) {
+        state.userData.docPatients = user.docPatients
+        state.userData.patientDocs = user.patientDocs
+        state.userData.pharmacistOrders = user.pharmacistOrders
+        state.userData.patientCarts = user.patientCarts
       }
     },
     SOCKET_CONNECT (state) {
@@ -124,6 +121,12 @@ export default new Vuex.Store({
     SET_CURRENTDRUG (state, user) {
       state.currentDrug = user.currentDrug
     },
+    SET_CURRENTUSERDRUG (state, user) {
+      state.currentUserDrug = user.currentUserDrug
+    },
+    SET_VIEWDOC (state, user) {
+      state.viewDoc = user.viewDoc
+    },
     SET_DOCPATIENT (state, data) {
       state.consult.doctorName = data.doctorName
       state.consult.doctorEmail = data.doctorEmail
@@ -139,6 +142,7 @@ export default new Vuex.Store({
       state.consult.roomName = ''
       // state.consult = null
       state.currentDrug = null
+      state.userData.patientCarts = null
     }
   },
   plugins: [createPersist({

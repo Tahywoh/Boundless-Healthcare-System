@@ -3,6 +3,7 @@ node_modules/
 /src/assets/useless.trash
 ../server/node_modules
 **/node_modules
+**/dist
 *.trash
 /dist/
 npm-debug.log*

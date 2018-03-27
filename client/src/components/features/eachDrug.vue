@@ -12,12 +12,15 @@
             <div class="card-action">
               <h6><button class="blue btn seller">Seller: </button>&nbsp;<strong class="x15">{{eachDrug.seller}}</strong></h6>
             </div>
+            <div class="card-action">
+              <h6><button class="blue btn manufacturer">Manufacturer: </button>&nbsp;<strong class="x15">{{eachDrug.manufac}}</strong></h6>
+            </div>
             <div class="additionalDetail card-action">
               <h6><button class="price btn blue">Price:</button>&nbsp;
               <strong class="x15">{{eachDrug.price}}</strong>
               </h6>
               <h6><button class="currency btn blue">Currency: </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
-              <h6><button class="btn amber waves-effect waves-light">Add to cart</button></h6>
+              <h6><button class="btn amber waves-effect waves-light" @click="addToCart">Add to cart</button></h6>
             </div>
           </div>
         </div>
@@ -51,23 +54,6 @@
             </p>
           </div>
           <a class="btn right waves-effect waves-light amber darken-3">More ...</a>
-           <!-- <div class="card-panel blue">
-            <button class="btn grey">Tetracychlin</button>
-            <p>
-              <span class="white-text">
-              This is an antiseptic majorly used for Headache
-            </span>
-            </p>
-          </div>
-
-           <div class="card-panel blue">
-            <button class="btn grey">Aspirin</button>
-            <p>
-              <span class="white-text">
-              This is an antiseptic majorly used for Headache
-            </span>
-            </p>
-          </div> -->
         </div>
       </div>
     </div>
@@ -77,11 +63,28 @@
 
 <script>
 import Fixednav from '@/components/layouts/fixednav'
+import PharmacyServices from '@/services/pharmacyServices'
 export default {
   components: {Fixednav},
   data () {
     return {
-      eachDrug: this.$store.state.currentDrug
+      eachDrug: this.$store.state.currentDrug,
+      goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
+    }
+  },
+  methods: {
+    async addToCart () {
+      try {
+        let cartData = (await PharmacyServices.addToCart({drug: this.eachDrug._id, user: this.$store.state.profile.user, userType: this.$store.state.userType})).data
+        this.$store.commit('SET_PATIENTCARTS', {patientCarts: cartData.saveToPatient})
+        console.log({cartData})
+        alert('Drug has successfully beed added to cart!')
+      } catch (error) {
+        console.log({error})
+        if (error.cartData) {
+          console.log(JSON.stringify(error.cartData))
+        }
+      }
     }
   }
 }

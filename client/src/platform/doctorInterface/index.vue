@@ -18,7 +18,7 @@
         <span class="circle blue notification-circle">3</span>
       </a>
       <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <a class="w3-bar-item w3-button" :href="updateProfile">
           <i :class="updateprofile_icon"></i>
           Update Profile
         </a>
@@ -67,7 +67,8 @@ export default{
     return {
       patient_icon: navs.links.patient.icon + ' x2 left',
       message_icon: navs.links.message.icon + ' x2 left',
-      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left'
+      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
+      updateProfile: navs.links.updateProfile.url
     }
   }
 }
@@ -77,10 +78,10 @@ export default{
   display: none !important;
 }
 i.icon.ion-search.x15 {
-  position: absolute;
-  top: 0.2rem;
-  left: 46rem;
-  font-size: 2.2rem;
+    position: absolute;
+    top: 0.2rem;
+    left: 92%;
+    font-size: 2.2rem;
 }
 input#autocomplete-input {
   border: 2px solid;

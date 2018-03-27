@@ -15,16 +15,17 @@ const signup = require('./routes/signup')
 var pharmacy = require('./routes/pharmacy')
 const appointment = require('./routes/appointment')
 const handlePhoto = require('./utils/handlePhoto')
+const profile = require('./routes/profile')
 // const jwt = require('jsonwebtoken')
 var server = http.createServer(app)
 
 var io = socketIO(server)
 const config = require('./helpers/config')
-// const database = require('./helpers/database')
+const database = require('./helpers/database')
 
-const port = process.env.PORT || 5050
+const port = process.env.PORT || 8050
 const {generateMessage, generateLocationMessage} = require('./socket/message')
-const getData = require('./utils/getData')
+// const getData = require('./utils/getData')
 
 app.set('port', port)
 app.set('sessionSecret', config.session_secret)
@@ -34,7 +35,7 @@ app.set('tokenSecret', config.token_secret)
 mongoose.Promise = global.Promise
 
 // connect to mongoose(install save mongoose to node js module and sign up for mlab acct.)
-mongoose.connect(`mongodb://BHS:adeshina@ds033196.mlab.com:33196/boundless_healthcare_system`, {
+mongoose.connect(database.mongoURI, {
   useMongoClient: true
 }).then(() => console.log('connected to Mongo DataBase')).catch(err => console.log(err))
 
@@ -54,9 +55,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 
-// app.get('/', (req, res) => {})
-// app.get('/getUserDrugs', getData.getUserDrugs)
-app.get('/getAllDrugs', getData.getAllDrugs)
+// app.get('/getAllDrugs', getData.getAllDrugs)
 // consultation socket IO connection
 // var messageUsers = 0
 io.on('connection', (socket) => {
@@ -117,6 +116,7 @@ app.use('/signup', signup)
 app.use('/pharmacy', pharmacy)
 app.use('/appointment', appointment)
 app.use('/handlePhoto', handlePhoto)
+app.use('/profile', profile)
 
 server.listen(port, () => {
   console.log(`server is running on port`, port)

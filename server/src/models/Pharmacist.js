@@ -50,15 +50,18 @@ const PharmacistSchema = new Schema({
   },
   licenseRequirement: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   pharmacyName: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   pharmacyAddress: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   date: {
     type: Date,

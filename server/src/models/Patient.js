@@ -2,15 +2,29 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 // create patients schema
+const DateType = Schema.Types.Date
 const PatientSchema = new Schema({
   patientDocs: [
     {
-      doctorName: {
-        type: String,
-        trim: true
-      }
+      doctorName: String,
+      doctorEmail: String
     }
   ],
+  carts: {
+    cartNo: {
+      type: Number,
+      default: 0
+    },
+    cartData: [
+      {
+        drugName: String,
+        price: String,
+        seller: String,
+        briefDescription: String,
+        Date: DateType
+      }
+    ]
+  },
   fullName: {
     type: String,
     required: true,
@@ -22,7 +36,8 @@ const PatientSchema = new Schema({
   },
   age: {
     type: Number,
-    required: true
+    required: true,
+    trim: true
   },
   email: {
     type: String,

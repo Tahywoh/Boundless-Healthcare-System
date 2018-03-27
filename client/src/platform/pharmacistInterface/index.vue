@@ -2,18 +2,19 @@
   <div class="pharmacist-dashboard">
     <interface>
       <template slot="fixed-nav-bar">
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+        <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
           Profile
-          </a></li>
-          <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        </a></li>
+        <li>
+          <a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
-          </li>
+        </li>
       </template>
 
       <template slot="basic-details">
-         <basicDetails/>
+        <basicDetails/>
       </template>
 
       <template slot="side-nav-content">
@@ -39,7 +40,7 @@
                   <div class="row">
                     <div class="input-field col s6">
                       <input id="price" type="number" class="validate" value="# " v-model="formData.price" min="50" max="50000" placeholder="Default currency is Naira  required(#)">
-                      <label for="price">Price</label>
+                      <label for="price" class="active">Price</label>
                     </div>
                   </div>
                   <div class="row">
@@ -59,10 +60,10 @@
         <a href="#" class="w3-bar-item w3-button">
           <i :class="orders_icon"></i>
           &nbsp;Orders
-          <span class="circle blue notification-circle">4</span>
+          <span class="circle blue notification-circle">{{pharmacistOrders}}</span>
         </a>
         <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <a :href="updateProfile" class="w3-bar-item w3-button">
           <i :class="updateprofile_icon"></i>Update Profile</a>
       </template>
 
@@ -73,7 +74,7 @@
       <template slot="ul-tabs">
         <ul class="tabs"> 
           <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-          <li class="tab col s6"><a  href="#drugs" class="btn waves-effect waves-light">Drugs</a></li>
+          <li class="tab col s6"><a  href="#drugs" class="btn waves-effect waves-light">Drugs <span class="circle amber notification-circle">{{pharmacistProducts}}</span></a></li>
         </ul>
       </template>
 
@@ -86,15 +87,16 @@
         </div>
         <div id="drugs" class="col s12 w3-card">
           <div class="drugs transparent show-content">
-            <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Your Products</h4>
+            <h4 class="text-center center-align blue darken-2 white-text z-depth-2">Your Products
+            </h4>
             <div class="text-center center-align" v-if="!registeredUserDrug">
               <h5 v-html="pharmacistDrugStatus"></h5> 
             </div>
-            <div class="blue-grey white-text eachUserDrug" v-for="userDrug in userDrugs" :key="userDrug._id" v-else>
+            <div class="blue-grey white-text eachUserDrug" v-for="(userDrug, index) in userDrugs" :key="userDrug._id" :id="index" v-else>
               <ul class="user_drugs" >
                 <li>
                   <div class="collapsible-header blue-text">
-                    <h5 class="left">{{userDrug.drugName}}</h5>
+                    <h5 class="left" @click="viewDrugDetails(userDrug._id)">{{userDrug.drugName}}</h5>
                     <h5 class="right grey darken-3">Price: &nbsp; 
                       <span class="right">
                         {{userDrug.price}}
@@ -125,12 +127,15 @@ export default {
   name: 'index',
   data () {
     return {
+      updateProfile: navs.links.updateProfile.url,
       add_icon: navs.links.addDrug.icon + ' x2 left',
       orders_icon: navs.links.orders.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       goToProfile: navs.links.profile.url,
       currency: '#',
       errorMsg: '',
+      pharmacistOrders: this.$store.state.userData.pharmacistOrders,
+      pharmacistProducts: 0,
       pharmacistDrugStatus: `You have not added any drug!
       <br/>
       Kindly click add drug at your left hand side to add one and your drug(s) will appear here.
@@ -140,7 +145,7 @@ export default {
         manufac: '',
         price: '',
         briefDescription: '',
-        seller: this.$store.state.profile.pharmacyName
+        seller: this.$store.state.profile.user
       },
       userDrugs: null,
       registeredUserDrug: false
@@ -155,8 +160,9 @@ export default {
     try {
       let userDrugs = (await GetServices.getCurrentUserDrugs({user: validSeller.userDrugs})).data
       this.userDrugs = userDrugs
-      if (this.userDrugs.length !== 0) {
+      if (this.userDrugs.length > 0) {
         this.registeredUserDrug = true
+        this.pharmacistProducts = this.userDrugs.length
       } else {
         this.registeredUserDrug = false
       }
@@ -169,6 +175,14 @@ export default {
   },
   methods: {
     validateForm (e) {},
+    viewDrugDetails (drugId) {
+      this.userDrugs.forEach(item => {
+        if (item._id === drugId) {
+          this.$store.commit('SET_CURRENTUSERDRUG', {currentUserDrug: item})
+          this.$router.push(`/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view`)
+        }
+      })
+    },
     async addToPharmacy () {
       let validateDrug = {}
       if (this.formData.drugName !== '') {
@@ -190,6 +204,7 @@ export default {
         console.log(responseData)
         alert('Your drug has been successfully added!')
         document.getElementById('id01').style.display = 'none'
+        location.href = `/Pharmacist-interface`
         this.formData.drugName = ''
         this.formData.manufac = ''
         this.formData.briefDescription = ''
@@ -197,7 +212,7 @@ export default {
         this.errorMsg = ''
       } catch (error) {
         if (error) {
-          this.errorMsg = error.responseData
+          alert(error.responseData)
         }
       }
     }
@@ -256,10 +271,10 @@ div#newmodal :focus {
   padding-top: 1rem;
 }
 i.icon.ion-search.x15 {
-  position: absolute;
-  top: 0.2rem;
-  left: 46rem;
-  font-size: 2.2rem;
+    position: absolute;
+    top: 0.2rem;
+    left: 92%;
+    font-size: 2.2rem;
 }
 input#autocomplete-input {
   border: 2px solid;

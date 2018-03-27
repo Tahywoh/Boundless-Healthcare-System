@@ -1,5 +1,5 @@
 <template>
-  <div class="pharmacist-update-profile">
+  <div class="medlabscientist-update-profile">
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
@@ -7,6 +7,9 @@
         <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
           Profile
         </a></li>
+          <li><a  class="btn transparent white-text waves-effect waves-light" :href="goToAppointment">Appointment
+        </a>
+        </li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
@@ -15,7 +18,6 @@
     </fixednav>
     
     <div class="update-profile-data">
-    <h5 class="flow-text center">Update Profile</h5>
       <div class="row">
       <form class="col s12 m8 offset-m2">
         <div class="row">
@@ -56,15 +58,15 @@
             <label for="state" class="active">State</label>
           </div>
           <div class="input-field col s6"><br/>
-              <input id="hospitalName" type="text" class="validate"  v-model="profileData.pharmacyName">
-              <label for="hospitalName" class="active">Pharmacy Name</label>
+              <input id="hospitalName" type="text" class="validate"  v-model="profileData.laboratoryName">
+              <label for="hospitalName" class="active">Laboratory Name</label>
           </div>
         </div>
          <div class="row">
             <div class=" input-field col s12">
               <i class="icon ion-location"></i>
-              <textarea type="text" class="validate materialize-textarea" v-model="profileData.pharmacyAddress"></textarea>
-              <label for="address_profile" class="active">Pharmacy Address</label>
+              <textarea type="text" class="validate materialize-textarea" v-model="profileData.laboratoryAddress"></textarea>
+              <label for="address_profile" class="active">Laboratory Address</label>
             </div>
           </div>
          <div class="row">
@@ -98,7 +100,7 @@
         </div>
         <div class="divider"></div>
         <div class="row"><div class="col s4 offset-s4">
-          <a class="center-align blue btn waves-light waves-effect">Submit</a></div></div>
+          <a class="center-align blue btn waves-light waves-effect">Update Profile</a></div></div>
       </form>
     </div>
   </div>
@@ -119,13 +121,19 @@ export default {
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,
-        pharmacyName: `${this.$store.state.profile.pharmacyName}`,
-        pharmacyAddress: `${this.$store.state.profile.pharmacyAddress}`,
-        eduRequirement: `${this.$store.state.profile.eduRequirement}`,
         photoUrl: `${this.$store.state.profile.profilePhoto}`,
+        laboratoryName: `${this.$store.state.profile.laboratoryName}`,
+        laboratoryAddress: `${this.$store.state.profile.laboratoryAddress}`,
+        eduRequirement: `${this.$store.state.profile.eduRequirement}`,
         licenseRequirement: `${this.$store.state.profile.licenseRequirement}`
       },
-      goToProfile: navs.links.profile.url
+      goToProfile: navs.links.profile.url,
+      goToAppointment: navs.links.appointment.url
+    }
+  },
+  methods: {
+    test () {
+      console.log(this.profileData)
     }
   }
 }

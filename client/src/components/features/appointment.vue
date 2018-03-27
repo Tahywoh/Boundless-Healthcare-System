@@ -72,7 +72,7 @@
   <h4>Appointments</h4>
 </header>
 
-<div class="w3-container container">
+<div class="container" style="width: 100%;">
   <div class="eachAppointment blue-grey white-text" v-for="(userAppointment, index) in userAppointments" :key="index" v-if="checkAppointments">
     <p v-text="userAppointment.reason">
     </p>
@@ -245,29 +245,20 @@ export default {
     toggleAppointmentStatus (e) {
       this.userAppointments.forEach((eachAppointment) => {
         if (eachAppointment._id === e.target.id) {
-          var newk
-          let k = new Date()
-          let D = k.getUTCDate() + '/' + k.getUTCMonth() + '/' + k.getUTCFullYear()
-          let t = k.getHours() + ':' + k.getMinutes() + ':' + k.getSeconds()
-          if (k.getHours() > 12) {
-            newk = k.getHours() - 12
-          }
-          t = newk + ':' + k.getMinutes() + ':' + k.getSeconds()
-          let paramT = D + '  ' + t
-          console.log(paramT)
-          this.updateAppointment(eachAppointment._id, e.currentTarget.value, paramT)
+          this.updateAppointment(eachAppointment._id, e.currentTarget.value)
         }
       })
-      location.href = `/${this.$store.state.userType.replace(/\\s/g, '')}-interface/appointment`
+      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
       console.log(e.currentTarget.value)
     },
     validateForm (e) {},
-    async updateAppointment (identifier, data, newD) {
+    async updateAppointment (identifier, data) {
       try {
-        let updatedAppointment = (await RequestServices.updateAppointment({appointment: identifier, setStatus: data, timeStamp: newD})).data
+        let updatedAppointment = (await RequestServices.updateAppointment({appointment: identifier, setStatus: data})).data
         console.log(updatedAppointment)
       } catch (error) {
         if (error) {
+          console.log(error)
           console.log(JSON.stringify(error.updatedAppointment))
         }
       }

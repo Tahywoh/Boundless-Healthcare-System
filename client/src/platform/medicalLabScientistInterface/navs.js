@@ -9,10 +9,10 @@ export default {
       url: '/MedicalLabScientist-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
     },
     updateProfile: {
-      url: '/MedicalLabScientist-interface/update-profile', text: 'Update Profile', icon: 'icon ion-edit'
+      url: `/MedicalLabScientist-interface/${encodeURI('update profile')}`, text: 'Update Profile', icon: 'icon ion-edit'
     },
     profile: {
-      url: '/MedicalLabScientist-interface/profile', text: 'Medlab Scientist Profile'
+      url: '/MedicalLabScientist-interface/profile', text: 'Medical laboratory Scientist Profile'
     }
   }
 }

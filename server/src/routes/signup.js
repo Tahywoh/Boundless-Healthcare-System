@@ -16,11 +16,13 @@ const Pharmacist = mongoose.model('pharmacist')
 const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/patient', (req, res) => {
-  console.log(JSON.stringify(req.body))
-  let { fullName, email, telephone, age, city, state, gender, address, password } = req.body
+  // console.log(JSON.stringify(req.body))
+  let { fullName, email, telephone, profilePhoto, age, city, state, gender, address, password } = req.body
 
   let patientData = {}
-  // patientData.age = age
+  if (profilePhoto) {
+    patientData.profilePhoto = profilePhoto
+  }
   if (fullName && fullName.length > 6) {
     patientData.fullName = fullName
   }
@@ -75,11 +77,14 @@ router.post('/patient', (req, res) => {
 // Now we signup the doctor on the platform.
 
 router.post('/doctor', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
-  let {fullName, email, telephone, age, city, state, gender, hospitalName, hospitalAddress, specialty, eduRequirement, licenseRequirement, password} = req.body
+  // console.log(JSON.stringify(req.body, null, 2))
+  let {fullName, email, telephone, age, city, state, gender, profilePhoto, hospitalName, hospitalAddress, specialty, eduRequirement, licenseRequirement, password} = req.body
 
   let doctorData = {}
   doctorData.age = age
+  if (profilePhoto) {
+    doctorData.profilePhoto = profilePhoto
+  }
   if (fullName && fullName.length > 6) {
     doctorData.fullName = fullName
   } else {
@@ -156,11 +161,14 @@ router.post('/doctor', (req, res) => {
 })
 
 router.post('/pharmacist', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
-  let {fullName, email, telephone, age, city, state, gender, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, password} = req.body
+  // console.log(JSON.stringify(req.body, null, 2))
+  let {fullName, email, telephone, age, city, state, profilePhoto, gender, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, password} = req.body
 
   let pharmacistData = {}
   pharmacistData.age = age
+  if (profilePhoto) {
+    pharmacistData.profilePhoto = profilePhoto
+  }
   if (fullName && fullName.length > 6) {
     pharmacistData.fullName = fullName
   }
@@ -214,11 +222,13 @@ router.post('/pharmacist', (req, res) => {
 })
 
 router.post('/medlabscientist', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
-  let {fullName, email, telephone, age, city, state, gender, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, password} = req.body
+  let {fullName, email, telephone, age, city, state, profilePhoto, gender, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, password} = req.body
 
   let medlabscientistData = {}
   medlabscientistData.age = age
+  if (profilePhoto) {
+    medlabscientistData.profilePhoto = profilePhoto
+  }
   if (fullName && fullName.length > 6) {
     medlabscientistData.fullName = fullName
   }
@@ -272,7 +282,7 @@ router.post('/medlabscientist', (req, res) => {
 })
 
 router.use((req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
+  // res.header('Access-Control-Allow-Origin', '*')
   // res.header('Access-Control-Allow-Credentials', true)
   // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
   // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')

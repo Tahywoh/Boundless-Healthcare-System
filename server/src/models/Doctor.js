@@ -72,7 +72,8 @@ const DoctorSchema = new Schema({
   },
   hospitalAddress: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   date: {
     type: Date,

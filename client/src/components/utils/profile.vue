@@ -2,7 +2,7 @@
   <div class="user-profile">
     <interface>
       <template slot="basic-details">
-        <!-- <basicDetails/> -->
+        <basicDetails/>
       </template>
 
       <template slot="side-nav-content">

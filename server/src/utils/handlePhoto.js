@@ -35,28 +35,27 @@ router.post('/uploads', upload.any(), (req, res) => {
 })
 
 router.post('/imgUpload', fileParser, (req, res) => {
-  console.log(req.files)
+  // console.log(req.files)
   // var imageFile = req.files.file
   var imageFile = req.files.photos
   // console.log(req.files.file)
-  console.log(imageFile)
+  // console.log(imageFile)
   // console.log(JSON.stringify(req, null, 3))
   cloudinary
     .v2
     .uploader
-    .upload(imageFile.path, (error, result) => {
+    .upload(imageFile.path, {public_id: `bhs/profile_photos/${imageFile.originalFilename.replace(/\s/g, '-').slice(0, -4)}`}, (error, result) => {
       if (!error) {
-        console.log(JSON.stringify(result, null, 3))
-        if (result.url) {
-          console.log({result: result.secure_url})
+        if (result) {
+          console.log('image successfully uploaded!')
           res.status(200).send(result.secure_url)
         } else {
           console.log('err uploading at initial')
-          res.status(413).send({message: 'Error uploading your picture, Please try again', code: 'NOT_OK'})
+          res.status(413).send({message: 'Error uploading your picture, Please try again or ignore and proceed.', code: 'NOT_OK'})
           console.log('Error uploading to cloudinary: ', JSON.stringify(result))
         }
       } else {
-        res.status(500).send('Error uploading your picture, Please try  again')
+        res.status(500).send('Error uploading your picture, Please try  again or ignore and proceed.')
         console.log('Error uploading to cloudinary: \n error: ', JSON.stringify(error))
       }
     })

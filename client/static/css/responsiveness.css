@@ -26,8 +26,8 @@
 
   /* reg patient */ 
   div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
-    right: 22% !important;
-    top: 63%;
+    /* right: 22% !important; */
+    /* top: 63%; */
 }
 /* #slide-out{
   display: none !important;
@@ -61,21 +61,21 @@
 
 @media only screen and (min-width: 992px) {
   div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
-    right: 32% !important;
-    top: 68% !important;
+    /* right: 32% !important; */
+    /* top: 68% !important; */
 }
 #slide-out{
   display: none !important;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
-  right: 32% !important;
-  top: 70% !important;
+  /* right: 32% !important; */
+  /* top: 70% !important; */
 }
 /* div.mainContent {
   height: inherit;
 } */
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow[data-v-44ccda2f] {
-  left: 29%;
-  top: 82%;
+  /* left: 29%; */
+  /* top: 82%; */
 }
 }

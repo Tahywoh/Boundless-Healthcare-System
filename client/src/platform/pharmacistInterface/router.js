@@ -4,6 +4,9 @@ import navs from './navs'
 import Index from './index'
 import Profile from './profile'
 import Eachdrug from '@/components/features/eachDrug'
+import UpdateProfile from './updateProfile'
+import UserDrug from './userDrug'
+import EditDrug from './edit-medication'
 
 export default [
   {
@@ -25,7 +28,34 @@ export default [
     }
   },
   {
-    path: `/pharmacy/drug-description/*`,
+    path: `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view`,
+    name: 'BHS | Pharmacist Products',
+    component: UserDrug,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true
+    }
+  },
+  {
+    path: `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`,
+    name: 'BHS | Pharmacist Edit Products',
+    component: EditDrug,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true
+    }
+  },
+  {
+    path: navs.links.updateProfile.url,
+    name: 'BHS | ' + navs.links.updateProfile.text,
+    component: UpdateProfile,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true
+    }
+  },
+  {
+    path: `/pharmacy/drug-description/current-drug-*`,
     name: 'BHS | Drug description',
     component: Eachdrug,
     meta: {
