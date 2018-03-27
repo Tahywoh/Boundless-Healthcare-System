@@ -2,18 +2,19 @@
   <div class="pharmacist-dashboard">
     <interface>
       <template slot="fixed-nav-bar">
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+        <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
           Profile
-          </a></li>
-          <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        </a></li>
+        <li>
+          <a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
-          </li>
+        </li>
       </template>
 
       <template slot="basic-details">
-         <basicDetails/>
+        <basicDetails/>
       </template>
 
       <template slot="side-nav-content">
@@ -178,7 +179,7 @@ export default {
       this.userDrugs.forEach(item => {
         if (item._id === drugId) {
           this.$store.commit('SET_CURRENTUSERDRUG', {currentUserDrug: item})
-          this.$router.push(`/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${item.drugName}`)
+          this.$router.push(`/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view`)
         }
       })
     },
@@ -203,6 +204,7 @@ export default {
         console.log(responseData)
         alert('Your drug has been successfully added!')
         document.getElementById('id01').style.display = 'none'
+        location.href = `/Pharmacist-interface`
         this.formData.drugName = ''
         this.formData.manufac = ''
         this.formData.briefDescription = ''
@@ -269,10 +271,10 @@ div#newmodal :focus {
   padding-top: 1rem;
 }
 i.icon.ion-search.x15 {
-  position: absolute;
-  top: 0.2rem;
-  left: 46rem;
-  font-size: 2.2rem;
+    position: absolute;
+    top: 0.2rem;
+    left: 92%;
+    font-size: 2.2rem;
 }
 input#autocomplete-input {
   border: 2px solid;

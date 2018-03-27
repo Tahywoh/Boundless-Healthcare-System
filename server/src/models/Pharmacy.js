@@ -34,6 +34,7 @@ const pharmacySchema = new Schema({
         email: String,
         fullName: String,
         userType: String,
+        deliveryLoc: String,
         orderedAt: DateType
       }
     ]
@@ -41,8 +42,7 @@ const pharmacySchema = new Schema({
   date: {
     type: Date,
     default: Date.now
-  },
-  delete: false
+  }
 })
 
 mongoose.model('pharmacy', pharmacySchema)

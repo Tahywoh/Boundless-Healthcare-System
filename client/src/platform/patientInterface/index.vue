@@ -266,10 +266,10 @@ form.search-doctor #autocomplete-input {
   margin-top: 0.08rem;
 }
 i.icon.ion-search.x15 {
-  position: absolute;
-  top: 0.2rem;
-  left: 46rem;
-  font-size: 2.2rem;
+    position: absolute;
+    top: 0.2rem;
+    left: 92%;
+    font-size: 2.2rem;
 }
 input#autocomplete-input {
   border: 2px solid;

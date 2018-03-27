@@ -84,6 +84,9 @@ export default new Vuex.Store({
     CLEAR_CARTS (state) {
       state.userData.patientCarts = null
     },
+    CLEAR_CURRENTUSERDRUGS (state) {
+      state.currentUserDrug = null
+    },
     SET_USERDATA (state, user) {
       if (state.token) {
         state.userData.docPatients = user.docPatients

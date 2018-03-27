@@ -6,11 +6,11 @@
       Medical record
     </a>
     <div class="divider"></div>
-    <router-link to="/Patient-interface#messages_conv" class="w3-bar-item w3-button">
+    <!-- <router-link to="/Patient-interface#messages_conv" class="w3-bar-item w3-button">
       <i :class="message_icon"></i>  
       Messages 
       <span class="circle blue notification-circle">2</span>
-    </router-link>
+    </router-link> -->
     <div class="divider"></div>
     <a :href="carts" class="w3-bar-item w3-button">
       <i :class="cart_icon"></i>

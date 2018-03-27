@@ -4,6 +4,9 @@ export default {
   addToPharmacy (drugDetails) {
     return Api().post('/pharmacy/addDrug', drugDetails)
   },
+  updateDrug (data) {
+    return Api().post('/pharmacy/updateDrug', data)
+  },
   removeFromPharmacy (data) {
     return Api().post('/pharmacy/removeDrug', data)
   },

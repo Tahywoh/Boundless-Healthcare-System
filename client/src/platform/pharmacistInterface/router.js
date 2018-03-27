@@ -6,6 +6,7 @@ import Profile from './profile'
 import Eachdrug from '@/components/features/eachDrug'
 import UpdateProfile from './updateProfile'
 import UserDrug from './userDrug'
+import EditDrug from './edit-medication'
 
 export default [
   {
@@ -27,9 +28,18 @@ export default [
     }
   },
   {
-    path: `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/*`,
+    path: `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view`,
     name: 'BHS | Pharmacist Products',
     component: UserDrug,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true
+    }
+  },
+  {
+    path: `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`,
+    name: 'BHS | Pharmacist Edit Products',
+    component: EditDrug,
     meta: {
       requiresAuth: true,
       pharmacistAuth: true

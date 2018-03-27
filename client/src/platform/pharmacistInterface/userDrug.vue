@@ -32,8 +32,8 @@
             </div>
             <div class="card-action">
               <h6>
-                <button class="btn amber waves-effect waves-light" >Edit</button>
-                <button class="btn amber waves-effect waves-light">Remove</button>  
+                <button class="btn amber waves-effect waves-light" @click="editUserDrug">Edit</button>
+                <button class="btn amber waves-effect waves-light" @click="removeFromPharmacy">Remove</button>  
               </h6>
             </div>
           </div>
@@ -54,6 +54,26 @@ export default {
       userDrug: this.$store.state.currentUserDrug,
       goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
     }
+  },
+  methods: {
+    editUserDrug () {
+      this.$router.push(`/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`)
+    },
+    async removeFromPharmacy () {
+      if (confirm(`Are you sure you want to remove ${this.$store.state.currentUserDrug.drugName} from your list of drugs? \n\n NOTE: This can not be reversed.`)) {
+        try {
+          const removedData = (PharmacyServices.removeFromPharmacy({id: this.userDrug._id})).data
+          alert('Drug successfully removed')
+          location.href = `/Pharmacist-interface`
+          console.log(removedData)
+        } catch (error) {
+          console.log(error)
+          if (error.removedData) {
+            console.log(JSON.stringify(error.removedData))
+          }
+        }
+      }
+    }
   }
 }
 </script>
@@ -64,5 +84,9 @@ export default {
 }
 #app > div > div.row > div > div > div > div.card-content > h5 {
   text-align: left !important;
+}
+#nav-mobile > li > a {
+    font-size: 0.7rem;
+    outline: 0;
 }
 </style>

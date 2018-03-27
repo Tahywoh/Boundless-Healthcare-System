@@ -70,7 +70,7 @@ export default {
         this.$store.commit('CLEAR_CARTS')
         this.$store.commit('SET_PATIENTCARTS', {patientCarts: removedData})
         location.href = '/Patient-interface/carts'
-        alert('Item successfully removed from cart!')
+        alert('Item removed from cart!')
       } catch (error) {
         console.log(error)
         if (error.removedData) {
@@ -81,10 +81,12 @@ export default {
     async placeOrder (dataId) {
       if (confirm(`Do you want your drug to be delivered to the following address? \n ${JSON.stringify(this.$store.state.profile.address)}`)) {
         try {
-          let orderRequest = (await PharmacyServices.placeOrder({email: this.$store.state.profile.user, fullName: this.$store.state.profile.fullName, userType: this.$store.state.userType, drug: dataId})).data
+          let orderRequest = (await PharmacyServices.placeOrder({email: this.$store.state.profile.user, fullName: this.$store.state.profile.fullName, userType: this.$store.state.userType, drug: dataId, deliveryLoc: this.$store.state.profile.address})).data
           console.log({orderRequest})
-          alert('Your has been sent successfully. You will receive your package in due time')
-          this.removeFromCart(dataId)
+          alert('Your order request has been sent successfully. You will receive your package in due time')
+          if (confirm(`Do you want to remove item from cart?`)) {
+            this.removeFromCart(dataId)
+          }
         } catch (error) {
           console.log(error)
           if (error.orderRequest) {

@@ -9,10 +9,52 @@ const Patient = mongoose.model('patient')
 const Pharmacist = mongoose.model('pharmacist')
 
 router.post('/addDrug', (req, res) => {
-  // console.log(JSON.stringify(req.body, null, 2))
+  console.log(JSON.stringify(req.body, null, 2))
   let {drugName, manufac, price, briefDescription, seller} = req.body
   let pharmData = {}
   pharmData.manufac = manufac
+  if (seller) {
+    Pharmacist.findOne({email: seller}, 'pharmacyName', (err, result) => {
+      if (!err) {
+        pharmData.seller = result.pharmacyName
+        if (drugName) {
+          pharmData.drugName = drugName
+        } else {
+          res.status(403).send('Please enter a valid drug name!')
+          return false
+        }
+        if (price) {
+          pharmData.price = price
+        } else {
+          res.status(403).send('Please enter a valid price')
+          return false
+        }
+        if (briefDescription) {
+          pharmData.briefDescription = briefDescription
+        } else {
+          res.status(403).send('Please enter drug description')
+          return false
+        }
+        console.log({level2: pharmData.seller})
+        let newDrug = new Pharmacy(pharmData)
+        newDrug.save(err => {
+          if (!err) {
+            console.log({pharmData})
+            res.status(200).send(`Adding drug` + ' is a success')
+          } else {
+            console.log(JSON.stringify(err, null, 2))
+          }
+        })
+      }
+    })
+  }
+})
+
+router.post('/updateDrug', (req, res) => {
+  let {drugName, manufac, price, briefDescription, seller, id} = req.body
+  let pharmData = {}
+  pharmData.manufac = manufac
+
   if (seller) {
     Pharmacist.findOne({email: seller}, 'pharmacyName', (err, result) => {
       if (!err) {
@@ -40,15 +82,25 @@ router.post('/addDrug', (req, res) => {
     return false
   }
 
-  let newDrug = new Pharmacy(pharmData)
-  newDrug.save(err => {
-    if (!err) {
-      console.log(pharmData)
-      res.status(200).send(`Adding drug` + ' is a success')
-    } else {
-      console.log(JSON.stringify(err, null, 2))
-    }
+  Pharmacy.findOneAndUpdate({_id: id}, {
+    $set: pharmData
+  }, {
+    upsert: true,
+    new: true
   })
+    .then(updatedDrug => {
+      return res.status(200).send(updatedDrug)
+    })
+})
+
+router.post('/removeDrug', (req, res) => {
+  console.log(req.body)
+  let {id} = req.body
+  Pharmacy.findOneAndRemove({_id: id})
+    .then(result => {
+      console.log(JSON.stringify(result, undefined, 3))
+      res.status(200).send(result)
+    })
 })
 
 router.post('/addToCart', (req, res) => {
@@ -116,7 +168,6 @@ router.post('/addToCart', (req, res) => {
 })
 
 router.post('/removeFromCart', (req, res) => {
-  console.log(req.body)
   let {email, drug} = req.body
   var rData
   Patient.findOneAndUpdate({email}, {
@@ -134,20 +185,21 @@ router.post('/removeFromCart', (req, res) => {
   })
     .then(removedData => {
       rData = removedData
-      console.log(JSON.stringify(rData, null, 2))
+      // console.log(JSON.stringify(rData, null, 2))
       res.status(200).send(rData.carts)
     })
 })
 
 router.post('/placeOrder', (req, res) => {
-  let {email, fullName, userType} = req.body
+  let {email, fullName, userType, drug, deliveryLoc} = req.body
   console.log(req.body)
-  Pharmacy.findOneAndUpdate({email}, {
+  Pharmacy.findOneAndUpdate({_id: drug}, {
     $push: {
       'orders.requests': {
         email,
         fullName,
         userType,
+        deliveryLoc,
         orderedAt: new Date().toISOString()
       }
     },
