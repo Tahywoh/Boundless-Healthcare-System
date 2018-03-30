@@ -19,6 +19,12 @@ div > div.input-field.col.s5 > select {
   height: 185px;
 }
 
+.btn-small {
+  padding: 0.3rem !important;
+  border-radius: 3px !important;
+  background-color: #2196f3;
+  color: #fff;
+}
 .x06{
   font-size: 0.6rem;
 }

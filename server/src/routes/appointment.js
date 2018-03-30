@@ -185,9 +185,23 @@ router.post('/fetchAppointments', (req, res) => {
   }
 })
 
+router.post('/setAppointmentDate', (req, res) => {
+  let {appointment, setDate} = req.body
+  Appointment.findOneAndUpdate({_id: appointment}, {
+    $set: {
+      'setTime.Date': setDate
+    }
+  }, {
+    upsert: true,
+    new: true
+  })
+    .then(result => {
+      res.status(200).send(result)
+    })
+})
+
 router.post('/updateAppointment', (req, res) => {
   let {appointment, setStatus} = req.body
-  // console.log(req.body)
   Appointment.findOneAndUpdate({_id: appointment}, {
     $set: {
       status: {
@@ -200,7 +214,6 @@ router.post('/updateAppointment', (req, res) => {
     new: true
   })
     .then((newResult) => {
-      console.log(newResult)
       res.status(200).send(newResult)
     })
 })

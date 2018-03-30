@@ -27,7 +27,7 @@ const AppointmentSchema = new Schema({
   setTime: {
     start: String,
     end: String,
-    Date: String
+    Date: DateType
   },
   note: {
     type: String,
@@ -38,7 +38,10 @@ const AppointmentSchema = new Schema({
       type: String,
       default: 'Pending'
     },
-    date: DateType
+    date: {
+      type: DateType,
+      default: Date.now
+    }
   },
   createdAt: {
     type: Date,

@@ -10,9 +10,13 @@ let escapeRegex = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
-router.post('/userDrugs', getData.getCurrentUserDrugs)
+// All get requests comes here
 router.get('/getAllDrugs', getData.getAllDrugs)
 router.get('/getAllDocs', getData.getAllDocs)
+router.get('/getAllLabs', getData.getAllLabs)
+
+router.post('/userDrugs', getData.getCurrentUserDrugs)
+router.post('/pharmacistOrders', getData.getPharmacistOrders)
 router.post('/doctors', (req, res) => {
   // console.log(JSON.stringify(req.body.query, null, 2))
   // let doctorMatch = req.body.query

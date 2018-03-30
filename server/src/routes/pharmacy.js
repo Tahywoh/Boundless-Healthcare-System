@@ -110,31 +110,10 @@ router.post('/addToCart', (req, res) => {
     if (!err) {
       // let {price, seller, drugName} = pharmResult
       if (userType !== 'Patient') {
-        res.status(203).send('Only patients can order drugs!')
+        res.status(403).send('Only patients can order drugs!')
       } else {
         Patient.findOne({email: user}, 'email fullName', (err, patientResult) => {
           if (!err) {
-            // Pharmacy.findOneAndUpdate({_id: drug}, {
-            //   $push: {
-            //     'orders.requests': {
-            //       email: patientResult.email,
-            //       fullName: patientResult.fullName,
-            //       userType,
-            //       orderedAt: new Date().toISOString()
-            //     }
-            //   },
-            //   $inc: {
-            //     'orders.noOfOrders': 1
-            //   }
-            // }, {
-            //   upsert: true,
-            //   new: true
-            // })
-            //   .then(saveToPharm => {
-            //     // dataPharm = saveToPharm
-            //     // console.log({dataPharm})
-            //   })
-
             Patient.findOneAndUpdate({email: user}, {
               $inc: {
                 'carts.cartNo': 1

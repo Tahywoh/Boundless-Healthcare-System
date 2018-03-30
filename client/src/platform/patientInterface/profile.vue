@@ -2,7 +2,7 @@
   <div class="patient-profile">
      <fixednav/>
      <div class="profileWra">
-     <h5 class="flow-text center">Patient Profile</h5>
+        <h5 class="flow-text center">Personal Information</h5>
        <div class="row container blue-grey white-text center-align">
        
           <div class="row">

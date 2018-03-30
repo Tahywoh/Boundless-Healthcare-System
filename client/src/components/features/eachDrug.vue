@@ -78,11 +78,14 @@ export default {
         let cartData = (await PharmacyServices.addToCart({drug: this.eachDrug._id, user: this.$store.state.profile.user, userType: this.$store.state.userType})).data
         this.$store.commit('SET_PATIENTCARTS', {patientCarts: cartData.saveToPatient})
         console.log({cartData})
-        alert('Drug has successfully beed added to cart!')
+        if (cartData.saveToPatient) {
+          alert('Drug has successfully beed added to cart!')
+        }
       } catch (error) {
         console.log({error})
-        if (error.cartData) {
-          console.log(JSON.stringify(error.cartData))
+        if (error.response.data) {
+          console.log(JSON.stringify(error.response.data))
+          alert(error.response.data)
         }
       }
     }

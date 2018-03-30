@@ -74,15 +74,15 @@
     </div>
     <div id="messages_conv" class="col s12 w3-card">
       <div class="messages transparent show-content">
-        <!-- <h5>No conversations yet</h5> -->
         <messages/>
       </div>
     </div>
     <div id="medicalLab" class="col s12 w3-card">
       <div class="medical-lab show-content transparent">
-        <h5 class="text-center">App in development, <br/>
-        Please check back later!
+        <h5 class="text-center">Have you need to take a medical test?<br/>
+        You can search below for available medical lab centres.
         </h5>
+        <medical-lab/>
       </div>
     </div>
   </template>
@@ -102,8 +102,9 @@ import Sidenav from '@/platform/patientInterface/sidenav'
 import $ from 'jquery'
 import Autocomplete from 'vue2-autocomplete-js'
 import GetServices from '@/services/getServices'
+import MedicalLab from '@/components/features/medicalLabs'
 export default {
-  components: {Interface, messages, Pharmacy, BasicDetails, Sidenav, Autocomplete},
+  components: {Interface, messages, Pharmacy, BasicDetails, Sidenav, Autocomplete, MedicalLab},
   name: 'index',
   data () {
     return {
@@ -183,7 +184,7 @@ export default {
       this.doctors.forEach(doc => {
         if (doc._id === docId) {
           this.$store.commit('SET_VIEWDOC', {viewDoc: doc})
-          this.$router.push(`/patient/view-doc/${doc.fullName.toLowerCase().split(' ')[0]}`)
+          this.$router.push(`/patient/view-doctor/${doc.fullName.toLowerCase().split(' ')[0]}`)
         }
       })
     },
@@ -287,9 +288,9 @@ input#autocomplete-input {
   /* height: 100vh !important; */
 }
 
-#medicalLab .show-content {
+/* #medicalLab .show-content {
   height: 100vh;
-}
+} */
 #messages_conv .show-content{
   height: 90.7vh;
 }

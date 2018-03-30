@@ -172,7 +172,7 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `http://localhost:8050/handlePhoto/imgUpload`
+      const url = `http://localhost:1050/handlePhoto/imgUpload`
       // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
@@ -185,7 +185,7 @@ export default {
         })
       // // add url field
       //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
+      //       img, { url: `http:localhost:1050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state
@@ -383,6 +383,7 @@ export default {
           this.$router.push('/login')
         }, 3300)
       } catch (error) {
+        console.log(error)
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))
         console.log(error.response.status, error.response.statusText)

@@ -18,7 +18,7 @@
 
       <template slot="side-nav-content">
         <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <a :href="toAppointment" class="w3-bar-item w3-button">
           <i :class="appointment_icon"></i>
           &nbsp;Appointments
           <span class="circle blue notification-circle">6</span>
@@ -37,20 +37,23 @@
       <template slot="ul-tabs">
         <ul class="tabs"> 
           <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-          <li class="tab col s6"><a  href="#appointment" class="btn waves-effect waves-light">Appointment</a></li>
+          <li class="tab col s6"><a  href="#medlab" class="btn waves-effect waves-light">Medical lab</a></li>
         </ul>
       </template>
 
       <template slot="platform-content">
         <div id="pharmacy" class="col s12 w3-card">
-        <h5 class="text-center">Have you been prescribed drugst?<br/>
+        <h5 class="text-center">Have you been prescribed drugs?<br/>
           Kindly search below and place your order.
         </h5>
        <pharmacy/>
         </div>
-        <div id="appointment" class="col s12 w3-card">
+        <div id="medlab" class="col s12 w3-card">
           <div class="appointment transparent show-content">
-            <h5>No appointments yet!</h5>
+            <h5 class="text-center">Have you need to take a medical test?<br/>
+        You can search below for available medical lab centres.
+            </h5>
+            <medical-lab/>
           </div>
         </div>
       </template>
@@ -64,11 +67,13 @@ import Interface from '@/components/layouts/interface'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/medicalLabScientistInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
+import MedicalLab from '@/components/features/medicalLabs'
 export default {
   name: 'index',
-  components: {Interface, Pharmacy, BasicDetails},
+  components: {Interface, Pharmacy, BasicDetails, MedicalLab},
   data () {
     return {
+      toAppointment: navs.links.appointment.url,
       appointment_icon: navs.links.appointment.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       goToProfile: navs.links.profile.url,

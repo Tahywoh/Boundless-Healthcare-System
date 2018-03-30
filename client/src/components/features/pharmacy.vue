@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="pharmacy">
     <div class="searchForm">
       <div class="row">
@@ -25,7 +25,7 @@
             <div class="blue-grey white-text eachDrug" v-for="(allDrug, index) in allDrugs" :key="allDrug._id" :id="index" v-else>
               <ul >
                 <li>
-                  <div class="collapsible-header blue-text">
+                  <div class="collapsible-header blue-text" v-if="allDrug.drugName && allDrug.price">
                     <h5 class="left" @click="toDrugDescrip(allDrug._id)" :id="index">
                       {{allDrug.drugName}}
                     </h5>
@@ -60,12 +60,16 @@ export default {
     }
   },
   async mounted () {
-    const allDrugs = (await GetServices.getAllDrugs()).data
-    this.allDrugs = allDrugs
-    if (this.allDrugs !== null) {
-      this.registeredDrug = true
-    } else {
-      this.registeredDrug = false
+    try {
+      const allDrugs = (await GetServices.getAllDrugs()).data
+      this.allDrugs = allDrugs
+      if (this.allDrugs !== null) {
+        this.registeredDrug = true
+      } else {
+        this.registeredDrug = false
+      }
+    } catch (error) {
+      console.log(error)
     }
   },
   methods: {
@@ -94,7 +98,8 @@ export default {
         }
       } catch (error) {
         if (error) {
-          this.searchErr = error.pharmacy
+          this.searchErr = error.response.data
+          console.log(error)
         }
       }
     },

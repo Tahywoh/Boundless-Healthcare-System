@@ -12,11 +12,11 @@
         <span class="circle blue notification-circle">5</span>
       </a>
       <div class="divider"></div>
-      <a href="#" class="w3-bar-item w3-button">
+      <!-- <a href="#" class="w3-bar-item w3-button">
         <i :class="message_icon"></i>  
         Messsages
         <span class="circle blue notification-circle">3</span>
-      </a>
+      </a> -->
       <div class="divider"></div>
         <a class="w3-bar-item w3-button" :href="updateProfile">
           <i :class="updateprofile_icon"></i>

@@ -99,7 +99,7 @@ div.view-doc div.row.s12.m8.offset-m2[data-v-3e0160c8] {
     /* border-bottom-right-radius: 73px; */
     /* border-top-right-radius: 73px; */
     /* border-bottom-left-radius: 73px; */
-    width: 80%;
+    width: 66%;
     border-radius: 40px;
 }
 .view-doc h5.flow-text.center.blue.white-text {

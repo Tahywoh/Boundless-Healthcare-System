@@ -17,28 +17,28 @@
       </template>
     </fixednav>
     <div class="carts">
-      <span v-if="this.$store.state.userData.patientCarts.cartNo > 0" class="center-align blue darken-1 text-center x2">Your carts</span>
+      <span v-if="this.$store.state.userData.patientCarts.cartNo > 0" class="center-align blue darken-1 text-center x2">Your carts <span class="circle amber notification-circle">{{patientCarts}}</span></span>
       <br><br>
       <div class="carts-view">
         <div class="row">
-        <div class="col s12 m6" v-for="(cart, index) in carts" :id="index" :key="cart._id">
-          <div class="card blue-grey darken-1">
-            <div class="card-content white-text">
-              <span class="card-title">{{cart.drugName}}</span>
-              <p>{{cart.briefDescription}}</p>
+          <div class="col s12 m6" v-for="(cart, index) in carts" :id="index" :key="cart._id">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <span class="card-title">{{cart.drugName}}</span>
+                <p>{{cart.briefDescription}}</p>
+              </div>
+              <div class="card-action col s12">
+                <a class="btn">Seller: &nbsp; {{cart.seller}}</a>
+              </div>
+              <div class="card-action col s12">
+                <a class="btn">Price: &nbsp; {{cart.price}}</a>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <a class="btn waves-effect waves-light right" @click="removeFromCart(cart._id)">Remove</a>
+              </div>
+              <div class="card-action col s12">
+                <a class="btn waves-effect waves-light" @click="placeOrder(cart._id)">Order</a>
+              </div>
             </div>
-            <div class="card-action">
-              <a class="btn">Seller: &nbsp; {{cart.seller}}</a>
-            </div>
-            <div class="card-action">
-              <a class="btn">Price: &nbsp; {{cart.price}}</a>
-              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a class="btn waves-effect waves-light" @click="removeFromCart(cart._id)">Remove</a>
-               <a class="btn waves-effect waves-light right" @click="placeOrder(cart._id)">Order</a>
-            </div>
-            <!-- <div class="card-action">
-              <a class="btn waves-effect waves-light right" @click="placeOrder(cart._id)">Order</a>
-            </div> -->
-          </div>
         </div>
       </div>
       </div>
@@ -57,7 +57,8 @@ export default {
   data () {
     return {
       carts: this.$store.state.userData.patientCarts.cartData,
-      goToProfile: navs.links.profile.url
+      goToProfile: navs.links.profile.url,
+      patientCarts: this.$store.state.userData.patientCarts.cartNo || 0
     }
   },
   methods: {
@@ -123,7 +124,7 @@ div.carts > div > div > div > div > div.card-action {
     padding-top: 2rem;
 }
 #app > div > div.carts > span {
-    padding: 0.5rem;
+    padding: 0.8rem;
     border-radius: 10px;
     margin-left: 40%;
 }

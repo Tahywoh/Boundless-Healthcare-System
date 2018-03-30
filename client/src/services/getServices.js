@@ -9,5 +9,11 @@ export default {
   },
   getAllDocs () {
     return Api().get('/search/getAllDocs')
+  },
+  getPharmacistOrders () {
+    return Api().post('/search/pharmacistOrders')
+  },
+  getAllLabs () {
+    return Api().get('/search/getAllLabs')
   }
 }
