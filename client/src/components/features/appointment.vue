@@ -410,7 +410,7 @@ div > div > div.header-view > nav > div > div > form{
 #app > div > div > div > div > div > div.platform-content > div > div > div > a {
     margin-top: 1.3rem;
     padding: 0.2rem 0.5rem;
-    webkit-box-shadow: 0 0px 0px 0 rgba(0,0,0,0), 0 0px 0px 0px rgba(0,0,0,0), 0 0px 0px 0 rgba(0,0,0,0);
+    -webkit-box-shadow: 0 0px 0px 0 rgba(0,0,0,0), 0 0px 0px 0px rgba(0,0,0,0), 0 0px 0px 0 rgba(0,0,0,0);
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0), 0 0px 0px 0 rgba(0,0,0,0);
 }
 #app > div > div > div > div > div > div > div.platform-content > div > div > div > div.card-action {

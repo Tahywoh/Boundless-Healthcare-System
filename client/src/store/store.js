@@ -13,12 +13,16 @@ export default new Vuex.Store({
     lastPageVisited: '',
     lastPage: '',
     currentDrug: null,
+    currentLab: null,
     currentUserDrug: null,
     viewDoc: null,
     userData: {
       docPatients: 0,
       patientDocs: 0,
-      pharmacistOrders: 0,
+      pharmacistOrders: {
+        aggregateOrders: 0,
+        data: null
+      },
       patientCarts: null
     },
     profile: {
@@ -81,6 +85,12 @@ export default new Vuex.Store({
         state.userData.patientCarts = user.patientCarts
       }
     },
+    SET_PHARMACISTORDERS (state, user) {
+      if (state.token) {
+        state.userData.pharmacistOrders.aggregateOrders = user.aggregateOrders
+        state.userData.pharmacistOrders.data = user.data
+      }
+    },
     CLEAR_CARTS (state) {
       state.userData.patientCarts = null
     },
@@ -121,6 +131,9 @@ export default new Vuex.Store({
     SET_CURRENTDRUG (state, user) {
       state.currentDrug = user.currentDrug
     },
+    SET_CURRENTLAB (state, user) {
+      state.currentLab = user.currentLab
+    },
     SET_CURRENTUSERDRUG (state, user) {
       state.currentUserDrug = user.currentUserDrug
     },
@@ -134,11 +147,11 @@ export default new Vuex.Store({
     CLEAR_USER (state) {
       state.token = ''
       state.userType = ''
-      state.profile = {}
-      state.consult = {}
-      state.userData = {}
+      state.profile = null
+      state.consult = null
+      state.userData = null
       state.isUserLoggedIn = false
-      state.consult.roomNames = []
+      state.consult.roomNames = null
       state.consult.roomName = ''
       // state.consult = null
       state.currentDrug = null

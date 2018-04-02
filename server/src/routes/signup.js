@@ -16,7 +16,7 @@ const Pharmacist = mongoose.model('pharmacist')
 const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/patient', (req, res) => {
-  // console.log(JSON.stringify(req.body))
+  // console.log(JSON.stringify(req.body, null, 3))
   let { fullName, email, telephone, profilePhoto, age, city, state, gender, address, password } = req.body
 
   let patientData = {}
@@ -33,11 +33,12 @@ router.post('/patient', (req, res) => {
     patientData.telephone = telephone
   } else {
     res.status(422).send('Invalid phone number')
+    return
   }
   if (age && age >= 16) {
     patientData.age = age
   } else {
-    res.status(403).send('Only users are 17 and above can use this platform')
+    res.status(403).send('Only users that are 17 years of age and above can use this platform')
   }
   if (city && city.length >= 3) {
     patientData.city = city
@@ -45,7 +46,7 @@ router.post('/patient', (req, res) => {
   if (state && state.length >= 3) {
     patientData.state = state
   }
-  if ((gender === 'Male' || gender === 'Female')) {
+  if (gender) {
     patientData.gender = gender
   }
   if (address && address.length > 11) {
@@ -55,8 +56,8 @@ router.post('/patient', (req, res) => {
     patientData.password = bcrypt.hashSync(password, 10)
   } else {
     res.status(422).send('invalid or no password supplied!')
+    return
   }
-
   let newPatient = new Patient(patientData)
   newPatient.save(err => {
     if (!err) {
@@ -283,8 +284,8 @@ router.post('/medlabscientist', (req, res) => {
 
 router.use((req, res, next) => {
   // res.header('Access-Control-Allow-Origin', '*')
-  // res.header('Access-Control-Allow-Credentials', true)
-  // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+  res.header('Access-Control-Allow-Credentials', true)
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
   // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   // next()
   res.header('Access-Control-Allow-Origin', '*')

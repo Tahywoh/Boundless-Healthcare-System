@@ -10,8 +10,8 @@ export default {
   getAllDocs () {
     return Api().get('/search/getAllDocs')
   },
-  getPharmacistOrders () {
-    return Api().post('/search/pharmacistOrders')
+  getPharmacistOrders (user) {
+    return Api().post('/search/pharmacistOrders', user)
   },
   getAllLabs () {
     return Api().get('/search/getAllLabs')

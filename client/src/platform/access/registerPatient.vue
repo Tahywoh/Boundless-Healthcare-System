@@ -81,8 +81,9 @@
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate" v-model="formData.password" required>
-                <label >Password</label>
+                <!-- <input  type="password" class="validate" v-model="formData.password" required> -->
+                <vue-password v-model="formData.password" classes="input" :user-inputs="[formData.email]"></vue-password>
+                <label for="password" class="active">Password</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
@@ -107,6 +108,7 @@
 <script>
 import * as axios from 'axios'
 import Index from '@/platform/index'
+import VuePassword from 'vue-password'
 import AuthServices from '@/services/authServices'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -120,7 +122,7 @@ export default {
       required: false
     }
   },
-  components: { Index },
+  components: { Index, VuePassword },
   data () {
     return {
       uploadedFiles: [],
@@ -145,7 +147,7 @@ export default {
       },
       options: [
         {text: 'Male', value: 'Male'},
-        {text: 'Female', value: 'Femaale'}
+        {text: 'Female', value: 'Female'}
       ],
       show: 'show'
     }
@@ -302,7 +304,7 @@ export default {
       }
       if (this.formData.gender === '') {
         this.errorMsg = 'You must choose your gender'
-      } else if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
+      } else if ((this.formData.gender === 'Male') || (this.formData.gender === 'Female')) {
         validateReg.gender = this.formData.gender
       }
       if (this.formData.address && this.formData.address.length > 11) {
@@ -317,19 +319,31 @@ export default {
         this.errorMsg = 'Invalid email address'
         return false
       }
-      if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
-        validateReg.password = this.formData.password
-        // validateReg.confirmPassword = this.formData.confirmPassword
-      } else if (validateReg.password === '' || validateReg.password === null) {
+      if (!this.formData.password || !this.formData.confirmPassword) {
         this.errorMsg = 'Password is required!'
-        return false
-      } else if (validateReg.password !== validateReg.confirmPassword) {
+      } else if (this.formData.password !== this.formData.confirmPassword) {
         this.errorMsg = 'Passwords do not match!'
-        return false
+        return
+      } else if (!(this.formData.password === this.formData.confirmPassword) && !(this.formData.password.length >= 5)) {
+        this.errorMsg = 'Please enter a valid password!'
+        return
       } else {
-        this.errorMsg = 'Your password must be atleast 4 characters!'
-        return false
+        validateReg.password = this.formData.password
+        this.errorMsg = ''
       }
+      // if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
+      //   validateReg.password = this.formData.password
+      //   // validateReg.confirmPassword = this.formData.confirmPassword
+      // } else if (validateReg.password === '' || validateReg.password === null) {
+      //   this.errorMsg = 'Password is required!'
+      //   return false
+      // } else if (validateReg.password !== validateReg.confirmPassword) {
+      //   this.errorMsg = 'Passwords do not match!'
+      //   return
+      // } else {
+      //   this.errorMsg = 'Your password must be atleast 4 characters!'
+      //   return false
+      // }
       // console.log({'This is vaidate reg': validateReg})
       try {
         const response = (await AuthServices.registerPatient(validateReg))
@@ -374,6 +388,12 @@ export default {
 </script>
 
 <style>
+ div div.VuePassword__Message, #field2 > div > div > div > div.VuePassword__Message{
+  font-size: 0.7rem;
+}
+ div > div.VuePassword__Input > a > svg {
+  width: 1em;
+}
 div.input-field.col.s7 > div > div.file-path-wrapper > i {
     margin-top: -3rem;
     margin-right: 3rem;

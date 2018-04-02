@@ -10,7 +10,7 @@
               <h5>{{eachDrug.briefDescription}}</h5>
             </div>
             <div class="card-action">
-              <h6><button class="blue btn seller">Seller: </button>&nbsp;<strong class="x15">{{eachDrug.seller}}</strong></h6>
+              <h6><button class="blue btn seller">Seller: </button>&nbsp;<strong class="x15">{{eachDrug.seller.name}}</strong></h6>
             </div>
             <div class="card-action">
               <h6><button class="blue btn manufacturer">Manufacturer: </button>&nbsp;<strong class="x15">{{eachDrug.manufac}}</strong></h6>

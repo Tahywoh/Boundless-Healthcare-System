@@ -16,8 +16,12 @@
       </li>
       </template>
     </fixednav>
+   
     <div class="carts">
-      <span v-if="this.$store.state.userData.patientCarts.cartNo > 0" class="center-align blue darken-1 text-center x2">Your carts <span class="circle amber notification-circle">{{patientCarts}}</span></span>
+      <span class="blue darken-1 x2" v-if="this.$store.state.userData.patientCarts.cartNo <= 0">
+        You have not added any drug to cart.
+      </span>
+      <span v-else class="center-align blue darken-1 text-center x2">Your carts <span class="circle amber notification-circle">{{patientCarts}}</span></span>
       <br><br>
       <div class="carts-view">
         <div class="row">
@@ -28,12 +32,12 @@
                 <p>{{cart.briefDescription}}</p>
               </div>
               <div class="card-action col s12">
-                <a class="btn">Seller: &nbsp; {{cart.seller}}</a>
+                <a class="btn">Seller: &nbsp; {{cart.seller.name}}</a>
               </div>
               <div class="card-action col s12">
                 <a class="btn">Price: &nbsp; {{cart.price}}</a>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                <a class="btn waves-effect waves-light right" @click="removeFromCart(cart._id)">Remove</a>
+                <a class="btn waves-effect waves-light right" @click="removeFromCart(cart._id, cart.drugName)">Remove</a>
               </div>
               <div class="card-action col s12">
                 <a class="btn waves-effect waves-light" @click="placeOrder(cart._id)">Order</a>
@@ -61,21 +65,26 @@ export default {
       patientCarts: this.$store.state.userData.patientCarts.cartNo || 0
     }
   },
+  mounted () {
+    console.log(this.carts)
+  },
   methods: {
-    async removeFromCart (dataId) {
-      try {
-        let removedData = (await PharmacyServices.removeFromCart({email: this.$store.state.profile.user, drug: dataId})).data
-        console.log(removedData)
-        this.carts = removedData
-        console.log({data: this.carts})
-        this.$store.commit('CLEAR_CARTS')
-        this.$store.commit('SET_PATIENTCARTS', {patientCarts: removedData})
-        location.href = '/Patient-interface/carts'
-        alert('Item removed from cart!')
-      } catch (error) {
-        console.log(error)
-        if (error.removedData) {
-          console.log(JSON.stringify(error.removedData))
+    async removeFromCart (dataId, data) {
+      if (confirm(`Are you sure you want to remove ${data} from your carts?`)) {
+        try {
+          let removedData = (await PharmacyServices.removeFromCart({email: this.$store.state.profile.user, drug: dataId})).data
+          console.log(removedData)
+          this.carts = removedData
+          console.log({data: this.carts})
+          this.$store.commit('CLEAR_CARTS')
+          this.$store.commit('SET_PATIENTCARTS', {patientCarts: removedData})
+          location.href = '/Patient-interface/carts'
+          alert('Item removed from cart!')
+        } catch (error) {
+          console.log(error)
+          if (error.removedData) {
+            console.log(JSON.stringify(error.removedData))
+          }
         }
       }
     },
@@ -101,6 +110,9 @@ export default {
 </script>
 
 <style>
+#app > div > div.carts > span {
+  font-size: 1rem;
+}
 .card.blue-grey.darken-1 {
     height: 300px;
     margin-top: -0.3rem;

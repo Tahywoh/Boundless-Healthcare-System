@@ -57,10 +57,10 @@
         </modal>
 
         <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <a :href="getOrder" class="w3-bar-item w3-button">
           <i :class="orders_icon"></i>
           &nbsp;Orders
-          <span class="circle blue notification-circle">{{pharmacistOrders}}</span>
+          <span class="circle blue notification-circle">{{pharmacistTotalOrders}}</span>
         </a>
         <div class="divider"></div>
         <a :href="updateProfile" class="w3-bar-item w3-button">
@@ -127,6 +127,7 @@ export default {
   name: 'index',
   data () {
     return {
+      getOrder: navs.links.orders.url,
       updateProfile: navs.links.updateProfile.url,
       add_icon: navs.links.addDrug.icon + ' x2 left',
       orders_icon: navs.links.orders.icon + ' x2 left',
@@ -134,7 +135,7 @@ export default {
       goToProfile: navs.links.profile.url,
       currency: '#',
       errorMsg: '',
-      pharmacistOrders: this.$store.state.userData.pharmacistOrders,
+      pharmacistTotalOrders: 0,
       pharmacistProducts: 0,
       pharmacistDrugStatus: `You have not added any drug!
       <br/>
@@ -171,9 +172,34 @@ export default {
         console.log(JSON.stringify(error.userDrugs))
       }
     }
-    console.log(this.userDrugs)
+    // console.log(this.userDrugs)
+
+    // Taking care of pharmacist orders
+    let validPharmacist = {}
+    if (this.$store.state.profile.user) {
+      validPharmacist.email = this.$store.state.profile.user
+    }
+    try {
+      let pharmacistOrders = (await GetServices.getPharmacistOrders(validPharmacist)).data
+      console.log(pharmacistOrders)
+      var aggregateOrders
+      // this.pharmacistTotalOrders = this.getOrders(aggregateOrders, pharmacistOrders)
+      this.$store.commit('SET_PHARMACISTORDERS', {aggregateOrders: this.getOrders(aggregateOrders, pharmacistOrders), data: pharmacistOrders})
+      this.pharmacistTotalOrders = this.$store.state.userData.pharmacistOrders.aggregateOrders
+      console.log({fromStore: this.pharmacistTotalOrders})
+    } catch (error) {
+      console.log(error)
+    }
   },
   methods: {
+    getOrders (total, data) {
+      total = 0
+      for (var i = 0; i < data.length; i++) {
+        total = total + data[i].orders.noOfOrders
+      }
+      console.log(total)
+      return total
+    },
     validateForm (e) {},
     viewDrugDetails (drugId) {
       this.userDrugs.forEach(item => {

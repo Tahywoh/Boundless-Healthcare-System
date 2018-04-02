@@ -47,7 +47,7 @@
               <div class="input-field col s5">
                 <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
-                  <option v-for="option in options" :value="option.value">{{option.text}}</option>
+                  <option v-for="(option, index) in options" :value="option.value" :key="index">{{option.text}}</option>
                 </select>
                 <label>Gender</label>         
               </div>
@@ -92,8 +92,10 @@
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate" v-model="formData.password"> 
-                <label >Password</label>
+                <!-- <input  type="password" class="validate" v-model="formData.password"> 
+                <label >Password</label> -->
+                <vue-password v-model="formData.password" classes="input" :user-inputs="[formData.email]"></vue-password>
+                <label for="password" class="active">Password</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
@@ -117,6 +119,7 @@
 <script>
 import * as axios from 'axios'
 import Index from '@/platform/index'
+import VuePassword from 'vue-password'
 import AuthServices from '@/services/authServices'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -130,7 +133,7 @@ export default {
       required: false
     }
   },
-  components: { Index },
+  components: { Index, VuePassword },
   data () {
     return {
       uploadedFiles: [],
@@ -158,7 +161,7 @@ export default {
       },
       options: [
         {text: 'Male', value: 'Male'},
-        {text: 'Female', value: 'Femaale'}
+        {text: 'Female', value: 'Female'}
       ],
       show: true
     }
@@ -320,7 +323,7 @@ export default {
       }
       if (this.formData.gender === '') {
         this.errorMsg = 'You must choose your gender'
-      } else if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
+      } else if ((this.formData.gender === 'Male') || (this.formData.gender === 'Female')) {
         validateReg.gender = this.formData.gender
       }
       if (this.formData.laboratoryName && this.formData.laboratoryName.length >= 7) {

@@ -22,7 +22,8 @@ const pharmacySchema = new Schema({
     required: false
   },
   seller: {
-    type: String
+    name: String,
+    _id: String
   },
   orders: {
     noOfOrders: {

@@ -14,9 +14,11 @@ router.post('/addDrug', (req, res) => {
   let pharmData = {}
   pharmData.manufac = manufac
   if (seller) {
+    pharmData.seller = {}
     Pharmacist.findOne({email: seller}, 'pharmacyName', (err, result) => {
       if (!err) {
-        pharmData.seller = result.pharmacyName
+        pharmData.seller.name = result.pharmacyName
+        pharmData.seller._id = result._id
         if (drugName) {
           pharmData.drugName = drugName
         } else {
@@ -35,7 +37,6 @@ router.post('/addDrug', (req, res) => {
           res.status(403).send('Please enter drug description')
           return false
         }
-        console.log({level2: pharmData.seller})
         let newDrug = new Pharmacy(pharmData)
         newDrug.save(err => {
           if (!err) {
@@ -112,33 +113,31 @@ router.post('/addToCart', (req, res) => {
       if (userType !== 'Patient') {
         res.status(403).send('Only patients can order drugs!')
       } else {
-        Patient.findOne({email: user}, 'email fullName', (err, patientResult) => {
-          if (!err) {
-            Patient.findOneAndUpdate({email: user}, {
-              $inc: {
-                'carts.cartNo': 1
+        Patient.findOneAndUpdate({email: user}, {
+          $inc: {
+            'carts.cartNo': 1
+          },
+          $push: {
+            'carts.cartData': {
+              drugName: pharmResult.drugName,
+              price: pharmResult.price,
+              seller: {
+                name: pharmResult.seller.name,
+                _id: pharmResult.seller._id
               },
-              $push: {
-                'carts.cartData': {
-                  drugName: pharmResult.drugName,
-                  price: pharmResult.price,
-                  seller: pharmResult.seller,
-                  briefDescription: pharmResult.briefDescription,
-                  Date: new Date().toISOString()
-                }
-              }
-            }, {
-              upsert: true,
-              new: true
-            })
-              .then(saveToPatient => {
-                console.log('carts and orders successfully pushed to their desired mongoose docs')
-                res.status(200).send({saveToPatient: saveToPatient.carts})
-              })
-          } else {
-            console.log(JSON.stringify(err, null, 2))
+              briefDescription: pharmResult.briefDescription,
+              _id: pharmResult._id,
+              Date: new Date().toISOString()
+            }
           }
+        }, {
+          upsert: true,
+          new: true
         })
+          .then(saveToPatient => {
+            console.log('carts and orders successfully pushed to their desired mongoose docs')
+            res.status(200).send({saveToPatient: saveToPatient.carts})
+          })
       }
     } else {
       console.log(JSON.stringify(err, null, 2))
@@ -176,6 +175,7 @@ router.post('/placeOrder', (req, res) => {
     $push: {
       'orders.requests': {
         email,
+        _id: drug,
         fullName,
         userType,
         deliveryLoc,

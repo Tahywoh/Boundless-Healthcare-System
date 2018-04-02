@@ -7,6 +7,7 @@ import Eachdrug from '@/components/features/eachDrug'
 import UpdateProfile from './updateProfile'
 import UserDrug from './userDrug'
 import EditDrug from './edit-medication'
+import Orders from './orders'
 
 export default [
   {
@@ -22,6 +23,15 @@ export default [
     path: navs.links.profile.url,
     name: 'BHS | ' + navs.links.profile.text,
     component: Profile,
+    meta: {
+      requiresAuth: true,
+      pharmacistAuth: true
+    }
+  },
+  {
+    path: navs.links.orders.url,
+    name: 'BHS | ' + navs.links.orders.text,
+    component: Orders,
     meta: {
       requiresAuth: true,
       pharmacistAuth: true

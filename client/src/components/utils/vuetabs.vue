@@ -1,6 +1,6 @@
 <template>
   <div class="vue-tabs-testing">
-    <div class="row">
+    <!-- <div class="row">
          <tabs>
             <tab name="Pharmacy">
               This is the content of the first tab
@@ -12,16 +12,41 @@
               The fragment that is appended to the url can be customized
             </tab>
         </tabs>      
-    </div>
+    </div> -->
+    <form>
+  <label for="email">Email</label>
+  <p class="control">
+      <input id="email" class="input" type="email" name="email" v-model="user.email">
+  </p>
+
+  <label for="password">Password</label>
+  <p class="control">
+      <vue-password v-model="user.password" classes="input" :user-inputs="[user.email]"
+      >
+      </vue-password>
+  </p>
+
+  <p class="control">
+      <button class="button is-primary">Register</button>
+  </p>
+</form>
   <router-view></router-view>
   </div>
 </template>
 
 
 <script>
-import {Tabs, Tab} from 'vue-tabs-component'
+import VuePassword from 'vue-password'
 export default {
-  components: {Tabs, Tab}
+  components: {VuePassword},
+  data () {
+    return {
+      user: {
+        email: '',
+        password: ''
+      }
+    }
+  }
 }
 </script>
 

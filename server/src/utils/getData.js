@@ -2,13 +2,15 @@ const mongoose = require('mongoose')
 require('../models/Pharmacy')
 require('../models/Doctor')
 require('../models/MedlabScientist')
+require('../models/Pharmacist')
+const Pharmacist = mongoose.model('pharmacist')
 const MedlabScientist = mongoose.model('medlabscientist')
 const Pharmacy = mongoose.model('pharmacy')
 const Doctor = mongoose.model('doctor')
 
 module.exports = {
   getCurrentUserDrugs (req, res) {
-    Pharmacy.find({seller: req.body.user}, 'drugName manufac price briefDescription', (err, seller) => {
+    Pharmacy.find({'seller.name': req.body.user}, 'drugName manufac price briefDescription', (err, seller) => {
       if (!err) {
         let {drugName, manufac, price, briefDescription} = seller
         if (seller !== []) {
@@ -23,19 +25,16 @@ module.exports = {
     })
   },
   getPharmacistOrders (req, res) {
-    console.log(req.body)
-    Pharmacy.find({seller: req.body.user}, {
-      orders: {
-        $elemMatch: {
-          _id: 
-        }
+    let {email} = req.body
+    Pharmacist.find({email}, '_id', (err, data) => {
+      if (!err) {
+        let id = data[0]._id
+        Pharmacy.find({'seller._id': id})
+          .then(result => {
+            res.status(200).send(result)
+          })
       }
     })
-      .then(data => {
-        let {noOfOrders} = data
-        console.log({noOfOrders})
-        res.status(200).send({data})
-      })
   },
   async getAllDocs (req, res) {
     try {
@@ -63,7 +62,7 @@ module.exports = {
   async getAllDrugs (req, res) {
     // console.log(res)
     try {
-      Pharmacy.find()
+      Pharmacy.find({}, 'drugName manufac price briefDescription')
         .then(pharmData => {
           console.log('drugs successfully fetched')
           res.status(200).send(pharmData)
