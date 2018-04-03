@@ -77,29 +77,29 @@
         <div class="col s12">
           <div class="card blue-grey white-text">
             <div class="card-content white-text appointmentReason">
-              <span class="card-title">Reason:</span>
+              <span class="card-title">Reason</span>
               <p>{{userAppointment.reason}}</p><br/>
               <div class="dateCreated">
-                <small class="blue btn-small">Date Created:</small>
+                <small class="blue btn-small">Date Created</small>
                 <small class="amber-text text-lighten-3">&nbsp;&nbsp;{{formatDate(userAppointment.createdAt)}}</small>
               </div>
             </div>
             <div class="card-action attendingDoc" v-if="userAppointment.doctor && isPatient">
               <a  class="btn waves-effect waves-light">
-      Attending Doctor:</a>
+      Attending Doctor</a>
               {{userAppointment.doctor.fullName}}
             </div>
             <div class="card-action attendingDoc" v-if="userAppointment.patient && !isPatient">
               <a  class="btn waves-effect waves-light">
-      Patient:</a>
+      Patient</a>
               {{userAppointment.patient.fullName}}
             </div>
             <div class="card-action attendingDoc" v-if="userAppointment.medlabscientist">
               <a  class="btn waves-effect waves-light">
-      Laboratory Name:</a>
+      Laboratory Name</a>
               {{userAppointment.medlabscientist.laboratoryName}}
               <a  class="btn waves-effect waves-light">
-      Laboratory Address:</a>
+      Laboratory Address</a>
               {{userAppointment.medlabscientist.laboratoryAddress}}
             </div>
           <div class="card-action attendingDoc" v-if="userAppointment.setTime.start && userAppointment.setTime.end">
@@ -115,12 +115,12 @@
           </div>
           <div class="card-action attendingDoc" v-if="userAppointment.setTime.Date">
             <a  class="btn waves-effect waves-light">
-      Appointment Date:</a>
+      Appointment Date</a>
             {{formatDateOnly(userAppointment.setTime.Date)}}
           </div>
           <div class="card-action attendingDoc" v-if="userAppointment.status">
             <a  class="btn waves-effect waves-light">
-      Status:</a>
+      Status</a>
             {{userAppointment.status.statusText}}
             <div class="statusDate right">
               <small class="btn-small blue">Date: </small><small class="amber-text text-lighten-3">&nbsp;&nbsp;{{formatDate(userAppointment.status.date)}}</small>
@@ -129,7 +129,7 @@
           </div>
           <div class="card-action attendingDoc" v-if="!isPatient">
             <a  class="btn waves-effect waves-light">
-      Change Status:</a>
+      Change Status</a>
             <select class="browser-default waves-effect waves-light btn blue accessStatusStyle" style="class: browser" :id="userAppointment._id" @change="toggleAppointmentStatus">
               <option selected disabled>{{userAppointment.status.statusText}}</option>
               <option v-for="(option, index) in options" :value="option.value" :key="index">

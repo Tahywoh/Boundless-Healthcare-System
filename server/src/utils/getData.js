@@ -62,7 +62,7 @@ module.exports = {
   async getAllDrugs (req, res) {
     // console.log(res)
     try {
-      Pharmacy.find({}, 'drugName manufac price briefDescription')
+      Pharmacy.find({}, 'drugName manufac price briefDescription seller')
         .then(pharmData => {
           console.log('drugs successfully fetched')
           res.status(200).send(pharmData)

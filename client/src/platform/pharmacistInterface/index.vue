@@ -183,8 +183,14 @@ export default {
       let pharmacistOrders = (await GetServices.getPharmacistOrders(validPharmacist)).data
       console.log(pharmacistOrders)
       var aggregateOrders
+      var totalOrders
+      aggregateOrders = 0
+      for (var i = 0; i < pharmacistOrders.length; i++) {
+        aggregateOrders = aggregateOrders + pharmacistOrders[i].orders.noOfOrders
+      }
+      totalOrders = aggregateOrders
       // this.pharmacistTotalOrders = this.getOrders(aggregateOrders, pharmacistOrders)
-      this.$store.commit('SET_PHARMACISTORDERS', {aggregateOrders: this.getOrders(aggregateOrders, pharmacistOrders), data: pharmacistOrders})
+      this.$store.commit('SET_PHARMACISTORDERS', {aggregateOrders: totalOrders, data: pharmacistOrders})
       this.pharmacistTotalOrders = this.$store.state.userData.pharmacistOrders.aggregateOrders
       console.log({fromStore: this.pharmacistTotalOrders})
     } catch (error) {

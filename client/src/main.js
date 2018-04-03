@@ -14,7 +14,7 @@ import VuexStore from '@/store/VuexStore'
 // import 'materialize-css/dist/js/materialize.min.js'
 // export const SocketInstance = socketio('https://server-dvvtkzhghy.now.sh')
 
-export const SocketInstance = socketio('http://localhost:1050')
+export const SocketInstance = socketio('http://localhost:3050')
 Vue.use(VueSocketIO, SocketInstance, VuexStore)
 Vue.use(Vuex)
 Vue.prototype.$eventBus = new Vue()

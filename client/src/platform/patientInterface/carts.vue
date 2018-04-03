@@ -25,7 +25,7 @@
       <br><br>
       <div class="carts-view">
         <div class="row">
-          <div class="col s12 m6" v-for="(cart, index) in carts" :id="index" :key="cart._id">
+          <div class="col s12 m8 offset-m2" v-for="(cart, index) in carts" :id="index" :key="cart._id">
             <div class="card blue-grey darken-1">
               <div class="card-content white-text">
                 <span class="card-title">{{cart.drugName}}</span>
@@ -40,7 +40,7 @@
                 <a class="btn waves-effect waves-light right" @click="removeFromCart(cart._id, cart.drugName)">Remove</a>
               </div>
               <div class="card-action col s12">
-                <a class="btn waves-effect waves-light" @click="placeOrder(cart._id)">Order</a>
+                <a class="btn waves-effect waves-light" @click="placeOrder(cart._id, cart.drugName)">Order</a>
               </div>
             </div>
         </div>
@@ -88,17 +88,18 @@ export default {
         }
       }
     },
-    async placeOrder (dataId) {
+    async placeOrder (dataId, data) {
       if (confirm(`Do you want your drug to be delivered to the following address? \n ${JSON.stringify(this.$store.state.profile.address)}`)) {
         try {
           let orderRequest = (await PharmacyServices.placeOrder({email: this.$store.state.profile.user, fullName: this.$store.state.profile.fullName, userType: this.$store.state.userType, drug: dataId, deliveryLoc: this.$store.state.profile.address})).data
           console.log({orderRequest})
           alert('Your order request has been sent successfully. You will receive your package in due time')
           if (confirm(`Do you want to remove item from cart?`)) {
-            this.removeFromCart(dataId)
+            this.removeFromCart(dataId, data)
           }
         } catch (error) {
           console.log(error)
+          alert(error.response.data)
           if (error.orderRequest) {
             console.log(JSON.stringify(error.orderRequest))
           }
@@ -111,11 +112,12 @@ export default {
 
 <style>
 #app > div > div.carts > span {
-  font-size: 1rem;
+  font-size: 1.3rem;
+  padding: 0.5rem;
 }
-.card.blue-grey.darken-1 {
-    height: 300px;
-    margin-top: -0.3rem;
+#app > div > div.carts > span > span {
+  font-size: 0.8rem;
+  padding: 0.5rem;
 }
 #app > div > div.carts > span.text-center.x25 > a {
     font-size: 1rem;
@@ -133,14 +135,14 @@ div.carts > div > div > div > div > div.card-action {
     height: 63px;
 }
 .carts {
-    padding-top: 2rem;
+  padding-top: 2rem;
 }
 #app > div > div.carts > span {
     padding: 0.8rem;
     border-radius: 10px;
     margin-left: 40%;
 }
-.carts-view {
-    padding-top: 1.5rem;
-}
+/* .carts-view {
+  padding-top: 1.5rem;
+} */
 </style>

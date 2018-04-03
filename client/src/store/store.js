@@ -20,13 +20,13 @@ export default new Vuex.Store({
       docPatients: 0,
       patientDocs: 0,
       pharmacistOrders: {
-        aggregateOrders: 0,
+        aggregateOrders: null,
         data: null
       },
       patientCarts: null
     },
     profile: {
-      user: null,
+      user: '',
       fullName: '',
       telephone: '',
       city: '',
@@ -101,7 +101,7 @@ export default new Vuex.Store({
       if (state.token) {
         state.userData.docPatients = user.docPatients
         state.userData.patientDocs = user.patientDocs
-        state.userData.pharmacistOrders = user.pharmacistOrders
+        // state.userData.pharmacistOrders = user.pharmacistOrders
         state.userData.patientCarts = user.patientCarts
       }
     },
@@ -147,15 +147,16 @@ export default new Vuex.Store({
     CLEAR_USER (state) {
       state.token = ''
       state.userType = ''
-      state.profile = null
-      state.consult = null
-      state.userData = null
+      state.profile = ''
+      state.consult = ''
+      state.userData = ''
       state.isUserLoggedIn = false
-      state.consult.roomNames = null
-      state.consult.roomName = ''
+      if ((state.userType === 'Patient')) {
+        state.consult.roomName = ''
+        state.userData.patientCarts = null
+      }
       // state.consult = null
       state.currentDrug = null
-      state.userData.patientCarts = null
     }
   },
   plugins: [createPersist({

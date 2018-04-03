@@ -9,7 +9,7 @@ const Patient = mongoose.model('patient')
 const Pharmacist = mongoose.model('pharmacist')
 
 router.post('/addDrug', (req, res) => {
-  console.log(JSON.stringify(req.body, null, 2))
+  // console.log(JSON.stringify(req.body, null, 2))
   let {drugName, manufac, price, briefDescription, seller} = req.body
   let pharmData = {}
   pharmData.manufac = manufac
@@ -40,7 +40,7 @@ router.post('/addDrug', (req, res) => {
         let newDrug = new Pharmacy(pharmData)
         newDrug.save(err => {
           if (!err) {
-            console.log({pharmData})
+            // console.log({pharmData})
             res.status(200).send(`Adding drug` + ' is a success')
           } else {
             console.log(JSON.stringify(err, null, 2))
@@ -99,7 +99,7 @@ router.post('/removeDrug', (req, res) => {
   let {id} = req.body
   Pharmacy.findOneAndRemove({_id: id})
     .then(result => {
-      console.log(JSON.stringify(result, undefined, 3))
+      // console.log(JSON.stringify(result, undefined, 3))
       res.status(200).send(result)
     })
 })

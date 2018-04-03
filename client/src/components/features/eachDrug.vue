@@ -79,7 +79,7 @@ export default {
         this.$store.commit('SET_PATIENTCARTS', {patientCarts: cartData.saveToPatient})
         console.log({cartData})
         if (cartData.saveToPatient) {
-          alert('Drug has successfully beed added to cart!')
+          alert('Drug has successfully been added to your cart!')
         }
       } catch (error) {
         console.log({error})
