@@ -9,7 +9,7 @@
       
       <div slot="navbar">
         <slot name="fixed-nav-bar">
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
           <li><a id="profile" class="btn transparent white-text waves-effect waves-light"  @click="$eventBus.$emit('go-to-profile')">
           Profile
           </a></li>
@@ -105,10 +105,10 @@ form.search-doctor #autocomplete-input {
     width: 100%;
 }
 form.search-doctor i.icon.ion-search.x15 {
-    left: 17.4rem;
+    left: 18.4rem;
     font-weight: 100 !important;
     font-size: 1.89rem;
-    top: -0.8rem;
+    top: -1.2rem;
 }
 form.search-doctor .input-field.col.s12 {
     margin-top: 0.9rem;

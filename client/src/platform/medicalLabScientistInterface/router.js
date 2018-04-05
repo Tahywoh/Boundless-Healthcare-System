@@ -5,6 +5,7 @@ import Index from './index'
 import Profile from './profile'
 import UpdateProfile from './updateprofile'
 import Appointment from './appointment'
+import Viewlab from '@/components/features/each-lab-scientist'
 
 export default [
   {
@@ -14,6 +15,14 @@ export default [
     meta: {
       requiresAuth: true,
       medicalLabScientistAuth: true
+    }
+  },
+  {
+    path: `/${encodeURI('medical laboratory')}/user/view-*`,
+    name: 'BHS | View laboratories',
+    component: Viewlab,
+    meta: {
+      requiresAuth: true
     }
   },
   {

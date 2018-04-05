@@ -2,10 +2,10 @@
   <div class="pharmacist-dashboard">
     <interface>
       <template slot="fixed-nav-bar">
-        <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
+        </router-link></li>
         <li>
           <a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
@@ -57,14 +57,14 @@
         </modal>
 
         <div class="divider"></div>
-        <a :href="getOrder" class="w3-bar-item w3-button">
+        <router-link :to="getOrder" class="w3-bar-item w3-button">
           <i :class="orders_icon"></i>
           &nbsp;Orders
           <span class="circle blue notification-circle">{{pharmacistTotalOrders}}</span>
-        </a>
+        </router-link>
         <div class="divider"></div>
-        <a :href="updateProfile" class="w3-bar-item w3-button">
-          <i :class="updateprofile_icon"></i>Update Profile</a>
+        <router-link :to="updateProfile" class="w3-bar-item w3-button">
+          <i :class="updateprofile_icon"></i>Update Profile</router-link>
       </template>
 
       <template slot="user-type-img">
@@ -122,6 +122,7 @@ import Modal from '@/components/snippets/modal'
 import BasicDetails from '@/components/widgets/basicDetails'
 import PharmacyServices from '@/services/pharmacyServices'
 import GetServices from '@/services/getServices'
+import M from 'materialize-css'
 export default {
   components: {Interface, Pharmacy, Modal, BasicDetails},
   name: 'index',
@@ -146,13 +147,16 @@ export default {
         manufac: '',
         price: '',
         briefDescription: '',
-        seller: this.$store.state.profile.user
+        seller: this.$store.state.profile.email
       },
       userDrugs: null,
       registeredUserDrug: false
     }
   },
   async mounted () {
+    var el = document.querySelector('ul.tabs')
+    // eslint-disable-next-line
+    var instance = M.Tabs.init(el, {})
     // this.getCurrentUserDrugs()
     let validSeller = {}
     if (this.$store.state.profile.pharmacyName) {
@@ -176,12 +180,12 @@ export default {
 
     // Taking care of pharmacist orders
     let validPharmacist = {}
-    if (this.$store.state.profile.user) {
-      validPharmacist.email = this.$store.state.profile.user
+    if (this.$store.state.profile.email) {
+      validPharmacist.email = this.$store.state.profile.email
     }
     try {
       let pharmacistOrders = (await GetServices.getPharmacistOrders(validPharmacist)).data
-      console.log(pharmacistOrders)
+      console.log({pharmacistOrders})
       var aggregateOrders
       var totalOrders
       aggregateOrders = 0
@@ -190,11 +194,12 @@ export default {
       }
       totalOrders = aggregateOrders
       // this.pharmacistTotalOrders = this.getOrders(aggregateOrders, pharmacistOrders)
-      this.$store.commit('SET_PHARMACISTORDERS', {aggregateOrders: totalOrders, data: pharmacistOrders})
-      this.pharmacistTotalOrders = this.$store.state.userData.pharmacistOrders.aggregateOrders
+      this.$store.commit('SET_PHARMACISTORDERS', {data: pharmacistOrders})
+      this.pharmacistTotalOrders = totalOrders
       console.log({fromStore: this.pharmacistTotalOrders})
     } catch (error) {
-      console.log(error)
+      console.log({error})
+      console.log({responseErr: error.response.data})
     }
   },
   methods: {
@@ -236,7 +241,8 @@ export default {
         console.log(responseData)
         alert('Your drug has been successfully added!')
         document.getElementById('id01').style.display = 'none'
-        location.href = `/Pharmacist-interface`
+        // location.href = `/Pharmacist-interface`
+        this.$router.push(`/Pharmacist-interface`)
         this.formData.drugName = ''
         this.formData.manufac = ''
         this.formData.briefDescription = ''

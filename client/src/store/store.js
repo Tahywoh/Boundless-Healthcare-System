@@ -16,33 +16,35 @@ export default new Vuex.Store({
     currentLab: null,
     currentUserDrug: null,
     viewDoc: null,
+    allDocs: null,
     userData: {
       docPatients: 0,
       patientDocs: 0,
       pharmacistOrders: {
-        aggregateOrders: null,
-        data: null
+        // aggregateOrders: 0,
+        // data: null
       },
-      patientCarts: null
+      patientCarts: {}
     },
-    profile: {
-      user: '',
-      fullName: '',
-      telephone: '',
-      city: '',
-      state: '',
-      address: '',
-      specialty: '',
-      profilePhoto: '',
-      hospitalName: '',
-      hospitalAddress: '',
-      pharmacyName: '',
-      pharmacyAddress: '',
-      laboratoryName: '',
-      laboratoryAddress: '',
-      eduRequirement: '',
-      licenseRequirement: ''
-    },
+    profile: {},
+    // profile: {
+    //   email: null,
+    //   fullName: '',
+    //   telephone: '',
+    //   city: '',
+    //   state: '',
+    //   address: '',
+    //   specialty: '',
+    //   profilePhoto: '',
+    //   hospitalName: '',
+    //   hospitalAddress: '',
+    //   pharmacyName: '',
+    //   pharmacyAddress: '',
+    //   laboratoryName: '',
+    //   laboratoryAddress: '',
+    //   eduRequirement: '',
+    //   licenseRequirement: ''
+    // },
     consult: {
       doctorName: '',
       doctorEmail: '',
@@ -55,11 +57,11 @@ export default new Vuex.Store({
   mutations: {
     SET_USER (state, user) {
       state.token = user.token
-      if (user.token) {
+      if (state.token) {
         state.isUserLoggedIn = true
          // user profile
         state.userType = user.userType
-        state.profile.user = user.user
+        state.profile.email = user.email
         state.profile.fullName = user.fullName
         state.profile.telephone = user.telephone
         state.profile.city = user.city
@@ -87,7 +89,7 @@ export default new Vuex.Store({
     },
     SET_PHARMACISTORDERS (state, user) {
       if (state.token) {
-        state.userData.pharmacistOrders.aggregateOrders = user.aggregateOrders
+        // state.userData.pharmacistOrders.aggregateOrders = user.aggregateOrders
         state.userData.pharmacistOrders.data = user.data
       }
     },
@@ -140,6 +142,9 @@ export default new Vuex.Store({
     SET_VIEWDOC (state, user) {
       state.viewDoc = user.viewDoc
     },
+    SET_ALLDOCS (state, data) {
+      state.allDocs = data.allDocs
+    },
     SET_DOCPATIENT (state, data) {
       state.consult.doctorName = data.doctorName
       state.consult.doctorEmail = data.doctorEmail
@@ -147,10 +152,11 @@ export default new Vuex.Store({
     CLEAR_USER (state) {
       state.token = ''
       state.userType = ''
-      state.profile = ''
-      state.consult = ''
-      state.userData = ''
+      state.profile = {}
+      state.consult = {}
+      state.userData = {}
       state.isUserLoggedIn = false
+      state.consult = {}
       if ((state.userType === 'Patient')) {
         state.consult.roomName = ''
         state.userData.patientCarts = null

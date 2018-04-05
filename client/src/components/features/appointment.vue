@@ -35,11 +35,13 @@
           <div class="input-field col s6">
             Start Time
             <!-- <datetime v-model="formData.setTime.start"></datetime> -->
-              <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start"><br/>
+              <!-- <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start"><br/> -->
+              <input type="text" class="timepicker startTime" v-model="formData.setTime.start" @change="viewStart">
           </div>
           <div class="input-field col s6">
             End Time
-             <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"><br/>
+             <!-- <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"><br/> -->
+             <input type="text" class="timepicker" v-model="formData.setTime.end" @change="viewEnd" id="endTime">
           </div>
         </div>
 
@@ -110,7 +112,7 @@
           <div class="card-action attendingDoc" v-if="!isPatient">
               <a  class="btn waves-effect waves-light">
       Date:</a>&nbsp;&nbsp;
-              <input type="date" class="blue assignAppointmentDate" style="color: #fff !important;
+            <input type="date" class="blue assignAppointmentDate" style="color: #fff !important;
     font-weight: 600; border-radius: 3px; width:50%" @change="selectedDate" :id="userAppointment._id">
           </div>
           <div class="card-action attendingDoc" v-if="userAppointment.setTime.Date">
@@ -158,10 +160,8 @@ import Interface from '@/components/layouts/interface'
 import navs from '@/platform/patientInterface/navs'
 import Modal from '@/components/snippets/modal'
 import BasicDetails from '@/components/widgets/basicDetails'
-// import $ from 'jquery'
 import RequestServices from '@/services/requestServices'
-// import datetime from 'vuejs-datetimepicker'
-// import VueTimepicker from 'vue-time-picker'
+import M from 'materialize-css'
 export default {
   components: {Interface, Modal, BasicDetails},
   data () {
@@ -180,7 +180,7 @@ export default {
         },
         doctor: this.$store.state.consult.doctorEmail,
         doctorName: this.$store.state.consult.doctorName,
-        patient: this.$store.state.profile.user
+        patient: this.$store.state.profile.email
       },
       userAppointments: [],
       options: [
@@ -193,12 +193,23 @@ export default {
   },
   watch: this.userAppointments,
   async mounted () {
+    var elem = document.querySelector('.timepicker')
+    // eslint-disable-next-line
+    var instance = new M.Timepicker(elem, {
+      defaultTime: 'now'
+    })
+    // eslint-disable-next-line
+    var elem = document.querySelector('#endTime')
+    // eslint-disable-next-line
+    var instance = new M.Timepicker(elem, {
+      defaultTime: 'now'
+    })
     if (this.$store.state.userType === 'Patient') {
       this.isPatient = true
     }
     let bookedAppointment = {}
-    if (this.$store.state.profile.user) {
-      bookedAppointment.userId = this.$store.state.profile.user
+    if (this.$store.state.profile.email) {
+      bookedAppointment.userId = this.$store.state.profile.email
     }
     if (this.$store.state.userType === 'Patient') {
       bookedAppointment.user = 'Patient'
@@ -225,6 +236,14 @@ export default {
     }
   },
   methods: {
+    viewStart (e) {
+      this.formData.setTime.start = e.currentTarget.value
+      console.log({start: this.formData.setTime.start})
+    },
+    viewEnd (e) {
+      this.formData.setTime.end = e.currentTarget.value
+      console.log({end: this.formData.setTime.end})
+    },
     selectedDate (e) {
       this.choosedDate = e.currentTarget.value
       this.userAppointments.forEach(appointment => {
@@ -232,7 +251,8 @@ export default {
           this.setAppointmentDate(e.currentTarget.id, this.choosedDate)
         }
       })
-      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
+      this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`)
+      // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
     },
     async setAppointmentDate (id, dateVal) {
       try {
@@ -251,23 +271,14 @@ export default {
     formatDateOnly (d) {
       return new Date(d).toDateString()
     },
-    verifyMeridian (inputTime) {
-      let newTimeInput = inputTime.split(':')
-      if (newTimeInput[0] > 12) {
-        newTimeInput[0] = newTimeInput[0] - 12
-        newTimeInput = newTimeInput.join(':') + ' PM'
-      } else {
-        newTimeInput = newTimeInput.join(':') + ' AM'
-      }
-      return newTimeInput
-    },
     toggleAppointmentStatus (e) {
       this.userAppointments.forEach((eachAppointment) => {
         if (eachAppointment._id === e.target.id) {
           this.updateAppointment(eachAppointment._id, e.currentTarget.value)
         }
       })
-      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
+      this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`)
+      // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
     },
     validateForm (e) {},
     async updateAppointment (identifier, data) {
@@ -282,9 +293,15 @@ export default {
       }
     },
     async seekAppointment () {
-      this.formData.setTime.start = this.verifyMeridian(this.formData.setTime.start)
-      this.formData.setTime.end = this.verifyMeridian(this.formData.setTime.end)
       let appointmentData = {}
+      if (this.formData.reason && this.formData.reason.length >= 8) {
+        appointmentData.reason = this.formData.reason
+      } else {
+        alert('Invalid input. Please enter a valid reason')
+        return
+      }
+      // this.formData.setTime.start = this.verifyMeridian(this.formData.setTime.start)
+      // this.formData.setTime.end = this.verifyMeridian(this.formData.setTime.end)
       appointmentData.creator = this.formData.creator
       appointmentData.patient = this.formData.patient
       if ((this.formData.setTime.start) || (this.formData.setTime.end <= 12)) {
@@ -294,19 +311,14 @@ export default {
         }
       } else {
         alert('Enter valid start and end time!')
-        return false
+        return
       }
       if (this.formData.doctor) {
         appointmentData.doctor = this.formData.doctor
       } else {
         alert('You are yet to consult a doctor!')
-        return false
-      }
-      if (this.formData.reason) {
-        appointmentData.reason = this.formData.reason
-      } else {
-        alert('Invalid input. Please enter a valid input')
-        return false
+        document.getElementById('id01').style.display = 'none'
+        return
       }
       try {
         console.log(appointmentData)
@@ -317,7 +329,8 @@ export default {
         this.formData.setTime.start = ''
         this.formData.setTime.end = ''
         alert(`You have successfully book appointment with ${this.formData.doctorName}`)
-        location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
+        this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`)
+        // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
       } catch (error) {
         if (error) {
           alert(error.response.data)
@@ -330,6 +343,9 @@ export default {
 </script>
 
 <style scoped>
+#modal-c3f1d8d3-341c-25dc-df52-ee366e699d50 > div > div.timepicker-digital-display, #modal-f53efcaa-727f-1a3a-d72b-bd2d84f54343 > div > div.datepicker-date-display {
+  background-color: #2196f3 !important;
+}
 #app > div > div > div > div:nth-child(3) > div:nth-child(2) > div > div.platform-content > div > div > div:nth-child(1) > div:nth-child(5) > form > div > div > input {
   margin-left: -0.8rem;
   text-align: left;

@@ -1,3 +1,4 @@
+import activeModules from '@/platform/activeModules'
 import Index from '@/platform/index'
 import ErrPage from '@/components/layouts/errPage'
 import RegisterPatient from '@/platform/access/registerPatient'
@@ -8,19 +9,12 @@ import Signin from '@/platform/access/signin'
 import Photo from '@/components/utils/photo'
 import Newphoto from '@/components/utils/newphoto'
 import Testphoto from '@/components/utils/testphoto'
-import activeModules from '@/platform/activeModules'
-import Tabs from '@/components/utils/vuetabs'
 
 let routes = [
   {
     path: '/',
     name: 'BHS || Home',
     component: Index
-  },
-  {
-    path: '/vue-tab',
-    name: 'BHS || testing tabs',
-    component: Tabs
   },
   {
     path: '/register/patient',

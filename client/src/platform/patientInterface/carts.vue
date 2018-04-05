@@ -3,10 +3,10 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
+        </router-link></li>
           <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
         </a>
         </li>
@@ -72,13 +72,14 @@ export default {
     async removeFromCart (dataId, data) {
       if (confirm(`Are you sure you want to remove ${data} from your carts?`)) {
         try {
-          let removedData = (await PharmacyServices.removeFromCart({email: this.$store.state.profile.user, drug: dataId})).data
+          let removedData = (await PharmacyServices.removeFromCart({email: this.$store.state.profile.email, drug: dataId})).data
           console.log(removedData)
           this.carts = removedData
           console.log({data: this.carts})
           this.$store.commit('CLEAR_CARTS')
           this.$store.commit('SET_PATIENTCARTS', {patientCarts: removedData})
-          location.href = '/Patient-interface/carts'
+          // location.href = '/Patient-interface/carts'
+          this.$router.push('/Patient-interface/carts')
           alert('Item removed from cart!')
         } catch (error) {
           console.log(error)
@@ -91,7 +92,7 @@ export default {
     async placeOrder (dataId, data) {
       if (confirm(`Do you want your drug to be delivered to the following address? \n ${JSON.stringify(this.$store.state.profile.address)}`)) {
         try {
-          let orderRequest = (await PharmacyServices.placeOrder({email: this.$store.state.profile.user, fullName: this.$store.state.profile.fullName, userType: this.$store.state.userType, drug: dataId, deliveryLoc: this.$store.state.profile.address})).data
+          let orderRequest = (await PharmacyServices.placeOrder({email: this.$store.state.profile.email, fullName: this.$store.state.profile.fullName, userType: this.$store.state.userType, drug: dataId, deliveryLoc: this.$store.state.profile.address})).data
           console.log({orderRequest})
           alert('Your order request has been sent successfully. You will receive your package in due time')
           if (confirm(`Do you want to remove item from cart?`)) {
@@ -110,7 +111,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #app > div > div.carts > span {
   font-size: 1.3rem;
   padding: 0.5rem;
@@ -128,7 +129,7 @@ div.card-content.white-text > span {
     text-transform: capitalize;
 }
 .btn, .btn-large, .btn-floating, .btn-large, .btn-flat {
-    font-size: 0.7rem;
+    font-size: 1rem;
     outline: 0;
 }
 div.carts > div > div > div > div > div.card-action {

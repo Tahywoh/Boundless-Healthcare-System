@@ -75,7 +75,7 @@ export default {
   methods: {
     async addToCart () {
       try {
-        let cartData = (await PharmacyServices.addToCart({drug: this.eachDrug._id, user: this.$store.state.profile.user, userType: this.$store.state.userType})).data
+        let cartData = (await PharmacyServices.addToCart({drug: this.eachDrug._id, user: this.$store.state.profile.email, userType: this.$store.state.userType})).data
         this.$store.commit('SET_PATIENTCARTS', {patientCarts: cartData.saveToPatient})
         console.log({cartData})
         if (cartData.saveToPatient) {

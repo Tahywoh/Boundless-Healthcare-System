@@ -2,10 +2,10 @@
   <div class="medical-lab-scientist-dashboard">
     <interface>
       <template slot="fixed-nav-bar">
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+          <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-          </a></li>
+          </router-link></li>
           <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
@@ -18,16 +18,16 @@
 
       <template slot="side-nav-content">
         <div class="divider"></div>
-        <a :href="toAppointment" class="w3-bar-item w3-button">
+        <router-link :to="toAppointment" class="w3-bar-item w3-button">
           <i :class="appointment_icon"></i>
           &nbsp;Appointments
           <span class="circle blue notification-circle">6</span>
-        </a>
+        </router-link>
         <div class="divider"></div>
-        <a :href="updateProfile" class="w3-bar-item w3-button">
+        <router-link :to="updateProfile" class="w3-bar-item w3-button">
           <i :class="updateprofile_icon"></i>
           Update Profile
-        </a>
+        </router-link>
       </template>
 
       <template slot="user-type-img">
@@ -68,6 +68,7 @@ import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/medicalLabScientistInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
 import MedicalLab from '@/components/features/medicalLabs'
+import M from 'materialize-css'
 export default {
   name: 'index',
   components: {Interface, Pharmacy, BasicDetails, MedicalLab},
@@ -79,6 +80,11 @@ export default {
       goToProfile: navs.links.profile.url,
       updateProfile: navs.links.updateProfile.url
     }
+  },
+  mounted () {
+    var el = document.querySelector('ul.tabs')
+    // eslint-disable-next-line
+    var instance = M.Tabs.init(el, {})
   }
 }
 </script>

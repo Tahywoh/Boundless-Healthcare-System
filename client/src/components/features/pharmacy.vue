@@ -6,8 +6,8 @@
           <div class="row ">
             <form action="" class="search-drug" @submit.prevent="validateForm" @submit="findDrugs()">
               <div class="input-field col s12">
-                <i class="icon ion-search x15"></i>
-                <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Search through available drugs" v-model="searchPharmacy"/>
+                <i class="icon ion-search x15" @click="findDrugs"></i>
+                <input type="search" id="autocomplete-input" class="autocompleteSearch" placeholder="Search through available drugs" v-model="searchPharmacy"/>
               </div>
               <small class="searchErr red-text text-center" v-html="searchErr"></small>
             </form>
@@ -49,6 +49,7 @@
 <script>
 import GetServices from '@/services/getServices'
 import SearchServices from '@/services/searchServices'
+import M from 'materialize-css'
 export default {
   name: 'Pharmacy-section',
   data () {
@@ -70,7 +71,19 @@ export default {
       }
     } catch (error) {
       console.log(error)
+      this.searchErr = error.response.data
     }
+    let searchOptions = {}
+    this.allDrugs.forEach(drug => {
+      searchOptions[`${drug.drugName}`] = null
+    })
+    var elem = document.querySelector('.autocompleteSearch#autocomplete-input')
+    // eslint-disable-next-line
+    var instance = new M.Autocomplete(elem, {
+      data: searchOptions,
+      limit: 20,
+      minLength: 1
+    })
   },
   methods: {
     validateForm (e) {},
@@ -78,6 +91,9 @@ export default {
       let validateSearchInput = {}
       if (this.searchPharmacy !== '' && this.searchPharmacy !== null && isNaN(this.searchPharmacy)) {
         validateSearchInput.searchPharmacy = this.searchPharmacy.toLowerCase()
+      } else {
+        this.searchErr = 'Please enter a valid input.'
+        return
       }
       try {
         const pharmacy = (await SearchServices.findDrugs({query: validateSearchInput.searchPharmacy})).data
@@ -89,16 +105,13 @@ export default {
           this.allDrugs = null
           if (this.$store.state.userType === 'Pharmacist') {
             this.searchErr = 'Drug not found, you can add the drug to pharmacy by clicking on add drug button at your left hand side.'
-            console.log('Drug not found')
           } else {
             this.searchErr = 'Drug not found! Please try searching with minimal words or strings'
-            console.log('Drug not found')
-            return false
+            return
           }
         }
       } catch (error) {
         if (error) {
-          this.searchErr = error.response.data
           console.log(error)
         }
       }

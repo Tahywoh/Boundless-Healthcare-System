@@ -3,10 +3,10 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
+        </router-link></li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
@@ -64,7 +64,8 @@ export default {
         try {
           const removedData = (PharmacyServices.removeFromPharmacy({id: this.userDrug._id})).data
           alert('Drug successfully removed')
-          location.href = `/Pharmacist-interface`
+          // location.href = `/Pharmacist-interface`
+          this.$router.push(`/Pharmacist-interface`)
           console.log(removedData)
         } catch (error) {
           console.log(error)

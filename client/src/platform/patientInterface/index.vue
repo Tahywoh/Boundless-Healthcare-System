@@ -8,8 +8,6 @@
       <!-- <i class="icon ion-search x15"></i> -->
           <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!" v-model="search" />
           <i class="icon ion-search x15" @click="findDoctors"></i>
-          <!-- <autocomplete  anchor="title" label="writer" :on-select="getData(testData)"> -->
-          <!-- </autocomplete> -->
         </div>
         <!-- <small class="searchErr red-text">{{searchErr}}</small> -->
       </form>
@@ -18,7 +16,7 @@
     
   </template>
   <template slot="fixed-nav-bar">
-     <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+     <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
     <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="topLinks.goToProfile">
     Profile
     </router-link></li>
@@ -103,6 +101,7 @@ import $ from 'jquery'
 import Autocomplete from 'vue2-autocomplete-js'
 import GetServices from '@/services/getServices'
 import MedicalLab from '@/components/features/medicalLabs'
+import M from 'materialize-css'
 export default {
   components: {Interface, messages, Pharmacy, BasicDetails, Sidenav, Autocomplete, MedicalLab},
   name: 'index',
@@ -114,7 +113,6 @@ export default {
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       search: '',
       allDocs: null,
-      // searchErr: '',
       topLinks: {
         doLogOut: 'do-logout',
         goToProfile: navs.links.profile.url,
@@ -127,18 +125,34 @@ export default {
     }
   },
   sockets: {},
-  mounted () {
+  async mounted () {
     $('#docSearch').hide()
+    const allDocs = (await GetServices.getAllDocs()).data
+    this.$store.commit('SET_ALLDOCS', {allDocs})
+    this.allDocs = allDocs
+    let searchOptions = {}
+    this.allDocs.forEach(doc => {
+      searchOptions[`${doc.fullName}`] = null
+    })
+    var el = document.querySelector('ul.tabs')
+    // eslint-disable-next-line
+    var instance = M.Tabs.init(el, {})
+    var elem = document.querySelector('.autocomplete')
+    // eslint-disable-next-line
+    var instance = new M.Autocomplete(elem, {
+      data: searchOptions,
+      limit: 20,
+      minLength: 1
+    })
   },
   methods: {
-    async getAllDocs () {
-      const allDocs = (await GetServices.getAllDocs()).data
-      this.allDocs = allDocs
-    },
-    getData (d) {
-      console.log(d)
-      return d
-    },
+    // async getAllDocs () {
+    //   const allDocs = (await GetServices.getAllDocs()).data
+    //   this.$store.commit('SET_ALLDOCS', {allDocs})
+    //   this.allDocs = allDocs
+    //   console.log(allDocs)
+    //   return allDocs
+    // },
     validateForm (e) {},
     async findDoctors () {
       let validSearchInput = {}
@@ -148,9 +162,8 @@ export default {
         // this.searchErr = 'Please enter a valid input!'
         alert('Please enter a valid input!')
         console.log('Please enter a valid input!')
-        return false
+        return
       }
-      // console.log(validSearchInput)
       try {
         const doctors = (await SearchServices.findDoctors({query: validSearchInput.search})).data
         // let responseData = response.data

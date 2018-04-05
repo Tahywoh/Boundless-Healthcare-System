@@ -20,19 +20,23 @@ module.exports = {
           res.status(203).send('You have not added drug yet')
         }
       } else {
-        console.log(JSON.stringify(err))
+        console.log(JSON.stringify(err, null, 3))
       }
     })
   },
   getPharmacistOrders (req, res) {
     let {email} = req.body
-    Pharmacist.find({email}, '_id', (err, data) => {
-      if (!err) {
-        let id = data[0]._id
+    Pharmacist.findOne({email}, '_id', (err, data) => {
+      if (!err && data !== null) {
+        let {_id} = data
+        let id = _id
         Pharmacy.find({'seller._id': id})
           .then(result => {
             res.status(200).send(result)
           })
+      } else {
+        console.log(JSON.stringify(err, null, 3))
+        res.status(403).send('Error finding user')
       }
     })
   },

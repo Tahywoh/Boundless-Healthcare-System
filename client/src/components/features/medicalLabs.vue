@@ -4,10 +4,10 @@
       <div class="row">
         <div class="col s12">
           <div class="row ">
-            <form action="" class="search-drug" @submit.prevent="validateForm">
+            <form action="" class="search-drug" @submit.prevent="validateForm" @submit="findLabs">
               <div class="input-field col s12">
-                <i class="icon ion-search x15"></i>
-                <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Search through registered laboratory centres" v-model="searchLab"/>
+                <i class="icon ion-search x15" @click="findLabs"></i>
+                <input type="search" id="autocomplete-input" class="autocomplete-labSearch" placeholder="Search through registered laboratory centres" v-model="searchLab"/>
               </div>
               <small class="searchErr red-text text-center" v-html="searchErr"></small>
             </form>
@@ -63,13 +63,23 @@ export default {
       if (allLabs.length > 0) {
         this.registeredLab = true
         this.allLabs = allLabs
-        console.log({allLabs: this.allLabs})
       } else {
         this.registeredLab = false
       }
     } catch (error) {
       console.log(error)
     }
+    let searchOptions = {}
+    this.allLabs.forEach(lab => {
+      searchOptions[`${lab.laboratoryName}`] = null
+    })
+    var elem = document.querySelector('.autocomplete-labSearch')
+    // eslint-disable-next-line
+    var instance = new M.Autocomplete(elem, {
+      data: searchOptions,
+      limit: 20,
+      minLength: 1
+    })
   },
   methods: {
     validateForm (e) {},
@@ -77,6 +87,9 @@ export default {
       let validateSearchInput = {}
       if (this.searchLab !== '' && this.searchLab !== null && isNaN(this.searchLab)) {
         validateSearchInput.query = this.searchLab.toLowerCase()
+      } else {
+        this.searchErr = 'Please enter a valid input.'
+        return
       }
       try {
         const lab = (await SearchServices.findLabs(validateSearchInput)).data

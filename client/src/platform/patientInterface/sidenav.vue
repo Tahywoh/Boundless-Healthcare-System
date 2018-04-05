@@ -1,7 +1,7 @@
 <template>
   <div id="side-nav">
      <div class="divider"></div>
-    <a href="#" class="w3-bar-item w3-button">
+    <a class="w3-bar-item w3-button">
       <i :class="medicalrecord_icon"></i>
       Medical record
     </a>
@@ -12,16 +12,16 @@
       <span class="circle blue notification-circle">2</span>
     </router-link> -->
     <div class="divider"></div>
-    <a :href="carts" class="w3-bar-item w3-button">
+    <router-link :to="carts" class="w3-bar-item w3-button">
       <i :class="cart_icon"></i>
       Cart 
-      <span class="circle blue notification-circle">{{patientCarts}}</span>
-    </a>
+      <span class="circle blue notification-circle" v-if="patientCarts > 0">{{patientCarts}}</span>
+    </router-link>
     <div class="divider"></div>
-    <a class="w3-bar-item w3-button" :href="updateProfile">
+    <router-link class="w3-bar-item w3-button" :to="updateProfile">
        <i :class="updateprofile_icon"></i>
       Update Profile
-    </a>
+    </router-link>
     <router-view></router-view>
   </div>
 </template>

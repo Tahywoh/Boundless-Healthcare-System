@@ -3,12 +3,12 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" :href="goToAppointment">Appointment
-        </a>
+        </router-link></li>
+          <li><router-link  class="btn transparent white-text waves-effect waves-light" :to="goToAppointment">Appointment
+        </router-link>
         </li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
         Logout
@@ -134,7 +134,7 @@ export default {
       imgUrl: '',
       profileData: {
         fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
+        email: `${this.$store.state.profile.email}`,
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,

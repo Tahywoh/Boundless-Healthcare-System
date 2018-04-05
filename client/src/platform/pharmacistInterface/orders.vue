@@ -3,10 +3,10 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
+        </router-link></li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
@@ -69,6 +69,7 @@
 
 <script>
 import Fixednav from '@/components/layouts/fixednav'
+import M from 'materialize-css'
 export default {
   components: {Fixednav},
   data () {
@@ -77,6 +78,13 @@ export default {
       goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`,
       requests: ''
     }
+  },
+  mounted () {
+    var elem = document.querySelector('.collapsible')
+    // eslint-disable-next-line
+    var instance = M.Collapsible.init(elem, {
+      accordion: true
+    })
   },
   methods: {
     formatDate (d) {

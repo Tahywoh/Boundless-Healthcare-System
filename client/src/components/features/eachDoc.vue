@@ -3,10 +3,10 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
+        </router-link></li>
           <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
         </a>
         </li>
@@ -21,7 +21,7 @@
         <div class="col row s12 m8 offset-m2">
           <div id="basicDetailsProfile" class="col s7">
             <div class="profilePic col s3 right" v-if="profile.profilePhoto">
-            <img :src="profile.profilePhoto" :alt="profile.fullName" class="responsive-img"> <!-- notice the "circle" class -->
+            <img :src="profile.profilePhoto" alt="user photo" class="responsive-img"> <!-- notice the "circle" class -->
         </div>
         <div class="profilePic center col s5" v-else>
           <i class="icon ion-android-contact x35 grey-text text-center center-align center" style="font-size: 10rem"></i>

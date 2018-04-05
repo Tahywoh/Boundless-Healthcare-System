@@ -3,7 +3,7 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align m6 s12">
         <h3 class="blue white-text">Login</h3>
-        <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete>
+        <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm">
           <div class="row">
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
@@ -113,13 +113,13 @@ export default {
         const response = await AuthServices.signInUsers(validateLogin)
         let responseData = response.data
         if (this.loginData.userType === 'Patient') {
-          // console.log(responseData)
+          console.log({responseData})
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, address, patientDocs, carts} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
           console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto, user})
-          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, address})
+          this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, address})
           // this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
           this.$store.commit('SET_PATIENTCARTS', {patientCarts: carts})
           this.$store.commit('SOCKET_CONNECT')
@@ -129,7 +129,7 @@ export default {
           this.authToken = token
           this.loginData.userType = userType
           console.log({fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, user})
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, email: user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
           this.$store.commit('SOCKET_CONNECT')
           // this.$store.commit('SET_USERDATA', {docPatients: 0})
         } else if (this.loginData.userType === 'Pharmacist') {
@@ -138,15 +138,15 @@ export default {
           this.authToken = token
           this.loginData.userType = userType
           console.log({fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, user})
-          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
           // this.$store.commit('SET_USERDATA', {pharmacistOrders: 0})
         } else {
-          let {fullName, telephone, city, token, user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
+          let {fullName, telephone, city, token, email: user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
           console.log({fullName, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, user})
-          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
+          this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
         }
         if (this.$store.state.lastPageVisited > 0) {
           console.log('lastPageVisited', this.$store.state.lastPageVisited)
@@ -156,8 +156,8 @@ export default {
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
           // alert('success login')
-          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
+          // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface`)
         }
       } catch (error) {
         console.log({error})
@@ -241,6 +241,7 @@ div.mainContent h3{
 #index > div.main.flow-text.wrapper > div.homeContent > img {
   width: 100%;
   filter: opacity(.6) !important;
+  -webkit-filter: opacity(.6);
   /* z-index: -1; */
 }
 

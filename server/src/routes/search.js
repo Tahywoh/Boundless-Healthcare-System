@@ -3,9 +3,11 @@ const mongoose = require('mongoose')
 const router = require('express').Router()
 
 require('../models/Doctor')
+require('../models/MedlabScientist')
 const getData = require('../utils/getData')
 const Doctor = mongoose.model('doctor')
 const Pharmacy = mongoose.model('pharmacy')
+const MedlabScientist = mongoose.model('medlabscientist')
 let escapeRegex = (text) => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
@@ -63,8 +65,31 @@ router.post('/pharmacy', (req, res) => {
           console.log(seller, drugName, manufac, briefDescription, price)
         } else {
           res.status(203).send('Drug not found! \n Please try searching with minimal words or strings')
-          console.log(JSON.stringify(err, null, 2))
         }
+      } else {
+        console.log(JSON.stringify(err, null, 2))
+      }
+    })
+  }
+})
+
+router.post('/medicalLabs', (req, res) => {
+  if (req.body.query) {
+    let regex = new RegExp(escapeRegex(req.body.query), 'gi')
+
+    console.log(regex)
+
+    MedlabScientist.find({laboratoryName: regex}, 'fullName telephone city state laboratoryName laboratoryAddress', (err, labs) => {
+      if (!err) {
+        let {laboratoryName, fullName, laboratoryAddress, city, state, telephone} = labs
+        if (labs !== null) {
+          res.status(200).send(labs)
+          console.log(laboratoryAddress, fullName, laboratoryName, city, state, telephone)
+        } else {
+          res.status(203).send('Drug not found!\nPlease try searching with minimal words or strings')
+        }
+      } else {
+        console.log(JSON.stringify(err, null, 2))
       }
     })
   }
