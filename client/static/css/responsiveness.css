@@ -15,23 +15,20 @@
     font-size: 2rem;
   }
   #nav-mobile{
-    font-size: 13px ;
+    font-size: 10px ;
     padding: 0rem 0rem;
   }
+  nav div.nav-wrapper {
+    margin: 0 0rem !important;
+}
 
   /* signin page */
   #index > div.main.flow-text.wrapper > div.content.center-align.white-text > div > div {
     width: 68%;
   }
 
-  /* reg patient */ 
-  div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
-    /* right: 22% !important; */
-    /* top: 63%; */
-}
-/* #slide-out{
-  display: none !important;
-} */
+  /* patient index */
+
 }
 
 
@@ -48,6 +45,56 @@
   #index > div.main.flow-text.wrapper > div.content.center-align.white-text > div > div {
     width: 90%;
   }
+
+  /* index nav */
+  nav div.nav-wrapper {
+    margin: 0 0rem !important;
+  }
+  #mobileNav > li {
+    width: 155px !important;
+  }
+  #mobileNav {
+    width: 40% !important;
+  }
+
+  /* patient dashboard */
+  #app > div > div > div:nth-child(3) {
+    margin-left: 0% !important;
+  }
+  i.icon.ion-search.x15 {
+    font-size: 1.9rem;
+  }
+  div.view-doc div.col.s12.m8.offset-m2 {
+    padding: 1.5rem 1.7rem;
+    border: 0px solid transparent !important;
+    background-color: inherit !important;
+    border-radius: 0px !important;
+}
+  form.search-doctor i.icon.ion-search.x15 {
+    left: 12.4rem !important;
+    font-weight: 100 !important;
+    font-size: 1.89rem;
+    top: -0.9rem !important;
+  }
+  #app > div > div > div.header-view > nav > div > div.row.consult-doctor.left > form > div {
+    margin-left: 1rem;
+  }
+  #sideMenu > i {
+    margin-left: -2.5rem;
+  }
+  #slide-out-mobile > div > div {
+    padding: 1.5rem;
+  }
+  #slide-out-mobile > div > li {
+    padding: 0.5rem;
+    /* background-color: grey; */
+  }
+  #slide-out-mobile > div > li :hover, #slide-out-mobile > div > li :active, #slide-out-mobile > div > li :focus {
+    background-color: grey;
+  }
+  #id01 > div {
+    width: 100% !important
+  }
 }
 
 @media only screen and (max-width: 470px) {
@@ -58,24 +105,3 @@
 
 
 /* desktop device */
-
-@media only screen and (min-width: 992px) {
-  div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
-    /* right: 32% !important; */
-    /* top: 68% !important; */
-}
-#slide-out{
-  display: none !important;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow {
-  /* right: 32% !important; */
-  /* top: 70% !important; */
-}
-/* div.mainContent {
-  height: inherit;
-} */
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow[data-v-44ccda2f] {
-  /* left: 29%; */
-  /* top: 82%; */
-}
-}

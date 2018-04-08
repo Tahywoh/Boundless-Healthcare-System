@@ -15,6 +15,24 @@
         Logout
         </a>
       </li>
+      </slot>
+      </template>
+      <template slot="mobileNav">
+      <slot name="fixed-mobile-nav">
+          <li><router-link to="/" >Home</router-link></li>
+          <div class="divider"></div>
+          <li><a id="profile"   @click="$eventBus.$emit('go-to-profile')">
+          Profile
+          </a></li>
+          <div class="divider"></div>
+          <li><a @click="$eventBus.$emit('go-to-appointment')">Appointment
+          </a>
+          </li>
+          <div class="divider"></div>
+          <li><a  @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+          </li>
         </slot>
       </template>
     </navbar>

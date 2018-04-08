@@ -9,6 +9,7 @@ import Signin from '@/platform/access/signin'
 import Photo from '@/components/utils/photo'
 import Newphoto from '@/components/utils/newphoto'
 import Testphoto from '@/components/utils/testphoto'
+import Modal from '@/components/snippets/modal'
 
 let routes = [
   {
@@ -55,6 +56,11 @@ let routes = [
     path: '/newphoto',
     name: 'test photo upload',
     component: Newphoto
+  },
+  {
+    path: '/modal',
+    name: 'Testing modal',
+    component: Modal
   },
   {
     path: '*',

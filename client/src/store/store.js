@@ -20,11 +20,8 @@ export default new Vuex.Store({
     userData: {
       docPatients: 0,
       patientDocs: 0,
-      pharmacistOrders: {
-        // aggregateOrders: 0,
-        // data: null
-      },
-      patientCarts: {}
+      pharmacistOrders: [],
+      patientCarts: []
     },
     profile: {},
     // profile: {
@@ -90,7 +87,7 @@ export default new Vuex.Store({
     SET_PHARMACISTORDERS (state, user) {
       if (state.token) {
         // state.userData.pharmacistOrders.aggregateOrders = user.aggregateOrders
-        state.userData.pharmacistOrders.data = user.data
+        state.userData.pharmacistOrders = user.pharmacistOrders
       }
     },
     CLEAR_CARTS (state) {

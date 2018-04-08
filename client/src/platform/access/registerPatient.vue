@@ -43,8 +43,8 @@
               </div>
             </div>            
           </div>
-          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
-          <div id="field2" style="display: none">
+         <button @click="triggerField2" id="nextBtn" class="nextBtn btn blue white-text waves-effect waves-grey center-align">NEXT</button>
+          <div id="field2">
             <div class="row">
               <small class="successMsg blue-text center-align" v-html="successMsg"></small>
               <div class="input-field col s5">
@@ -93,9 +93,7 @@
             </div>
             <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
-        
-           <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide"  id="submitBtn" @click="registerPatient">Submit</button>
+           <button  class="btn text-center blue submit-btn"  id="submitBtn" @click="registerPatient">Submit</button>
           
       </form>
       </div>
@@ -109,6 +107,7 @@
 import * as axios from 'axios'
 import Index from '@/platform/index'
 import VuePassword from 'vue-password'
+import $ from 'jquery'
 import AuthServices from '@/services/authServices'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -222,18 +221,16 @@ export default {
       //   this.$eventBus.$emit('delete-image-url')
       // }
     },
-    triggerField2 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field1.style.display = 'none'
-      field2.style.display = 'block'
-      proceedBtn.classList.remove('show')
-      proceedBtn.style.display = 'none'
-      backwordBtn.classList.add('show')
-      submitButton.classList.remove('hide')
+    triggerField2 (e) {
+      if (e.target.innerText === 'PREVIOUS') {
+        e.target.innerText = 'NEXT'
+      } else {
+        e.target.innerText = 'PREVIOUS'
+      }
+      console.log(e)
+      $('#field1').toggle()
+      $('#field2').toggle()
+      $('#submitBtn').toggle()
     },
     toCapitalize (capitalizeMe) {
       let obtained = []
@@ -246,22 +243,6 @@ export default {
       })
       capitalizeMe = obtained.join(' ')
       return capitalizeMe
-    },
-    triggerField1 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field2.style.display = 'none'
-      field1.style.display = 'block'
-      backwordBtn.classList.remove('show')
-      backwordBtn.style.display = 'none'
-      proceedBtn.classList.remove('hide')
-      proceedBtn.classList.add('show')
-      proceedBtn.style.display = 'block'
-      submitButton.classList.add('hide')
-      // console.log('am working....')
     },
     isValidEmail (email) {
       if (!email || email === '') {
@@ -382,6 +363,8 @@ export default {
     }
   },
   mounted () {
+    $('#submitBtn').hide()
+    $('#field2').hide()
     this.reset()
   }
 }
@@ -425,9 +408,9 @@ option, option:disabled{
     position: relative;
     margin-top: -0.6rem;
 }
-#field1 > div > div {
+/* #field1 > div > div {
     margin: 0.95rem 0 !important;
-}
+} */
 label {
     font-weight: 100;
 }
@@ -437,26 +420,8 @@ i.icon.ion-android-arrow-forward, i.icon.ion-android-arrow-back {
     right: 0.5rem;
     bottom: -0.29rem;
 }
-.a-b-arrow{
-  /* left: 23rem; */
-}
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
-    /* font-size: 3rem; */
-    /* position: absolute; */
-    /* right: 22rem; */
-    /* bottom: 19.5rem; */
     border-radius: 50%;
-    padding: 0rem 1.5rem;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  /* right: 26rem; */
-  /* top: 31.5rem */
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    /* left: 29%; */
-    /* top: 31.5rem; */
-    float: left !important;
-    margin-top: 11%;
 }
 .show{
   display: block !important;
@@ -464,7 +429,6 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
 
 .mainContent {
     width: 45%;
-    height: 81vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;
@@ -482,9 +446,9 @@ input{
 #field1 > div > div > i, #field2 > div > div > i {
     color: #2196f3;
 }
-#field2 > div > div {
+/* #field2 > div > div {
     margin: 0.8rem 0 !important;
-}
+} */
 .mainContent h3 {
     top: 0;
     font-weight: 500;

@@ -7,7 +7,7 @@
         <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
         </router-link></li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
+          <li ><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
         </a>
         </li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
@@ -15,6 +15,22 @@
         </a>
       </li>
       </template>
+      <slot name="fixed-mobile-nav">
+          <li><router-link to="/" >Home</router-link></li>
+          <div class="divider"></div>
+          <li><a id="profile"   @click="$eventBus.$emit('go-to-profile')">
+          Profile
+          </a></li>
+          <div class="divider"></div>
+          <li><a @click="$eventBus.$emit('go-to-appointment')">Appointment
+          </a>
+          </li>
+          <div class="divider"></div>
+          <li><a  @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+          </li>
+        </slot>
     </fixednav>
    
     <div class="carts">

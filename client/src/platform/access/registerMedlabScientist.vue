@@ -4,7 +4,7 @@
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
         <form class="col m6 s12" @submit.prevent="validateForm" @input="errorMsg">
-          <div id="field1" :class="show">
+          <div id="field1">
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-contact"></i>
@@ -68,8 +68,8 @@
               </div>
             </div>
           </div>
-          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
-          <div id="field2" style="display: none">
+          <button @click="triggerField2" id="nextBtn" class="nextBtn btn blue white-text waves-effect waves-grey center-align">NEXT</button>
+          <div id="field2">
             <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
                <div class="input-field col s6">
@@ -99,13 +99,12 @@
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input type="password" class="validate" v-model="formData.confirmPassword">
-                <label for="password">Confirm Password</label>
+                <input type="password" class="validate" v-model="formData.confirmPassword" id="cpassword" required>
+                <label for="cpassword">Confirm Password</label>
               </div>
             </div>
           </div>
-           <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide" type="submit" id="submitBtn" @click="registerMedlabScientist"
+           <button  class="btn text-center blue submit-btn" type="submit" id="submitBtn" @click="registerMedlabScientist"
            >Submit</button>
           
       </form>
@@ -119,6 +118,7 @@
 <script>
 import * as axios from 'axios'
 import Index from '@/platform/index'
+import $ from 'jquery'
 import VuePassword from 'vue-password'
 import AuthServices from '@/services/authServices'
 const STATUS_INITIAL = 0
@@ -236,19 +236,16 @@ export default {
       //   this.$eventBus.$emit('delete-image-url')
       // }
     },
-    triggerField2 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field1.style.display = 'none'
-      field2.style.display = 'block'
-      // proceedBtn.classList.toggle('ion-android-arrow-back ')
-      proceedBtn.classList.remove('show')
-      proceedBtn.style.display = 'none'
-      backwordBtn.classList.add('show')
-      submitButton.classList.remove('hide')
+    triggerField2 (e) {
+      if (e.target.innerText === 'PREVIOUS') {
+        e.target.innerText = 'NEXT'
+      } else {
+        e.target.innerText = 'PREVIOUS'
+      }
+      console.log(e)
+      $('#field1').toggle()
+      $('#field2').toggle()
+      $('#submitBtn').toggle()
     },
     validateForm (e) {},
     toCapitalize (capitalizeMe) {
@@ -273,22 +270,6 @@ export default {
       }
       let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
       return regex.test(email)
-    },
-    triggerField1 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field2.style.display = 'none'
-      field1.style.display = 'block'
-      backwordBtn.classList.remove('show')
-      backwordBtn.style.display = 'none'
-      proceedBtn.classList.remove('hide')
-      proceedBtn.classList.add('show')
-      proceedBtn.style.display = 'block'
-      submitButton.classList.add('hide')
-      // console.log('am working....')
     },
     async registerMedlabScientist () {
       let validateReg = {}
@@ -400,6 +381,8 @@ export default {
     }
   },
   mounted () {
+    $('#submitBtn').hide()
+    $('#field2').hide()
     this.reset()
   }
 }
@@ -422,12 +405,12 @@ div.input-field.col.s7 > div > div.file-path-wrapper > i {
 input {
   color: #000 !important;
 }
-#field1 > div > div {
+/* #field1 > div > div {
     margin: 0.897rem 0 !important;
-}
-#field2 > div > div {
+} */
+/* #field2 > div > div {
     margin: 2.5rem 0 !important;
-}
+} */
 i.icon.ion-eye-disabled {
     position: absolute;
     right: 6rem;
@@ -457,30 +440,12 @@ i.icon.ion-android-arrow-forward, i.icon.ion-android-arrow-back {
     right: 0.5rem;
     bottom: -0.29rem;
 }
-.a-b-arrow{
-  /* left: 23rem; */
-}
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
-    /* font-size: 3rem; */
-    /* position: absolute; */
-    /* right: 22rem; */
-    /* bottom: 9.5rem; */
     border-radius: 50%;
-    padding: 0rem 1.5rem;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  /* right: 26rem; */
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    /* left: 29%; */
-}
-.show{
-  display: block !important;
 }
 
 .mainContent {
     width: 45%;
-    height: 102vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;
@@ -488,9 +453,6 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
     border-color: grey;
     border-image: initial;
     background-color: #fff;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form{
-  padding: 0 1rem;
 }
 #field1 > div > div > i, #field2 > div > div > i {
     color: #2196f3;

@@ -22,7 +22,7 @@
                 Kindly click on add drug at your left hand side to add one.
               </h5> 
               </div>
-            <div class="blue-grey white-text eachDrug" v-for="(allDrug, index) in allDrugs" :key="allDrug._id" :id="index" v-else>
+            <div class=" white blue-text eachDrug" v-for="(allDrug, index) in allDrugs" :key="allDrug._id" :id="index" v-else>
               <ul >
                 <li>
                   <div class="collapsible-header blue-text" v-if="allDrug.drugName && allDrug.price">

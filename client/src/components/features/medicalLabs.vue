@@ -20,15 +20,15 @@
                 No registered laboratories yet!<br/>
               </h5> 
               </div>
-            <div class="blue-grey white-text eachLab" v-for="(allLab, index) in allLabs" :key="allLab._id" :id="index" v-else>
+            <div class="white blue-text eachLab" v-for="(allLab, index) in allLabs" :key="allLab._id" :id="index" v-else>
               <ul >
                 <li>
                   <div class="collapsible-header blue-text" v-if="allLab.laboratoryName">
-                    <h5 class="left" @click="toViewLab(allLab._id)" :id="index">
+                    <h5 class="" @click="toViewLab(allLab._id)" :id="index">
                       {{allLab.laboratoryName}}
                     </h5>
                   
-                      <a class="btn waves-effect waves-light x1 right blue" style="font-size: 0.6rem;padding: 0 0.5rem;margin-left: 18%;margin-top: 1rem;margin-bottom: 1rem;">
+                      <a class="btn waves-effect waves-light x1 right blue">
                        Book Appointment
                       </a>
                   
@@ -118,6 +118,16 @@ export default {
 </script>
 
 <style>
+#registeredLabs ul li div > h5 {
+  text-align: left !important;
+}
+div#registeredLabs ul li div > a {
+  font-size: 0.6rem !important;
+  padding: 0 0.5rem !important;
+  margin-left: 18%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
   #medicalLab > div > div > div > div > div.lab-search-result > div > div > ul > li > div.collapsible-header.blue-text > h5.right.grey.darken-3 > a{
   height: 36px;
   width: 9rem;

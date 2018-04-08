@@ -46,7 +46,8 @@
             </div>
           </div>
              <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
-           <button class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers">Login</button>
+           <button class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers">Login</button><br/><br/>
+           <button class="btn text-center blue fpwd-btn waves-effect waves-grey" id="forgetPassword">Forget Password</button>
           
       </form>
       </div>
@@ -113,12 +114,13 @@ export default {
         const response = await AuthServices.signInUsers(validateLogin)
         let responseData = response.data
         if (this.loginData.userType === 'Patient') {
-          console.log({responseData})
+          // console.log({responseData})
+          // eslint-disable-next-line
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, address, patientDocs, carts} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto, user})
+          // console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto, user})
           this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, address})
           // this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
           this.$store.commit('SET_PATIENTCARTS', {patientCarts: carts})
@@ -128,7 +130,7 @@ export default {
 
           this.authToken = token
           this.loginData.userType = userType
-          console.log({fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, user})
+          // console.log({fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, user})
           this.$store.commit('SET_USER', {token, email: user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
           this.$store.commit('SOCKET_CONNECT')
           // this.$store.commit('SET_USERDATA', {docPatients: 0})
@@ -137,15 +139,15 @@ export default {
 
           this.authToken = token
           this.loginData.userType = userType
-          console.log({fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, user})
+          // console.log({fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, user})
           this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
           // this.$store.commit('SET_USERDATA', {pharmacistOrders: 0})
         } else {
-          let {fullName, telephone, city, token, email: user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
+          let {fullName, telephone, city, token, user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
           this.loginData.userType = userType
-          console.log({fullName, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, user})
+          // console.log({fullName, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, user})
           this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
         }
         if (this.$store.state.lastPageVisited > 0) {
@@ -155,14 +157,15 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          // alert('success login')
           // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
           this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface`)
         }
       } catch (error) {
-        console.log({error})
         this.errorMsg = error.response.data
-        console.log(this.errorMsg)
+        if (error) {
+          // console.log({error})
+        }
+        // console.log(this.errorMsg)
       }
     }
   }
@@ -263,7 +266,6 @@ div.main.flow-text
 
 .mainContent {
   width: 40%;
-  height: auto;
   padding-bottom: 2rem;
   margin: 2rem auto;
   border-radius: 13px;

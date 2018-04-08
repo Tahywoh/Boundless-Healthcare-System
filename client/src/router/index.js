@@ -25,13 +25,20 @@ let fetchStoreData = key => {
 
 router.beforeEach((to, from, next) => {
   // console.log(to, from, next)
+  let newPath
+  let rejectText = `YOU ARE NOT AUTHORIZED!`
+  if (fetchStoreData(`userType`) === undefined) {
+    newPath = to.path
+  } else {
+    newPath = `/${fetchStoreData(`userType`).replace(/\s/g, '')}-interface`
+  }
   window.document.title = to.name
   let userType = fetchStoreData('userType')
   let token = fetchStoreData('token')
   // console.log(token)
   if (to.meta.requiresAuth) {
     if (!token) {
-      updateStore('lastPageVisited', to.path)
+      updateStore('lastPageVisited', `/login`)
       next('/login')
       console.log('No token')
     } else {
@@ -39,30 +46,32 @@ router.beforeEach((to, from, next) => {
         if (userType === 'Patient') {
           next()
         } else {
-          console.log('patient auth required')
-          // alert('You are not authorized!')
-          updateStore('lastPageVisited', to.path)
+          alert(rejectText)
+          updateStore('lastPageVisited', newPath)
           next('/login')
         }
       } else if (to.meta.doctorAuth) {
         if (userType === 'Doctor') {
           next()
         } else {
-          updateStore('lastPageVisited', to.path)
+          alert(rejectText)
+          updateStore('lastPageVisited', newPath)
           next('/login')
         }
       } else if (to.meta.pharmacistAuth) {
         if (userType === 'Pharmacist') {
           next()
         } else {
-          updateStore('lastPageVisited', to.path)
+          alert(rejectText)
+          updateStore('lastPageVisited', newPath)
           next('/login')
         }
       } else if (to.meta.medicalLabScientistAuth) {
         if (userType === 'MedicalLab Scientist') {
           next()
         } else {
-          updateStore('lastPageVisited', to.path)
+          alert(rejectText)
+          updateStore('lastPageVisited', newPath)
           next('/login')
         }
       } else {

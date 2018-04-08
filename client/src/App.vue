@@ -14,8 +14,20 @@
     }
 }
 </script>
-
 <style>
+  #sideMenu > i {
+    margin-left: -2.5rem;
+  }
+.tabs .indicator {
+  background-color: transparent !important;
+}
+div.main.flow-text > div.content.center-align.white-text > div > div > form {
+  padding: 1.3rem !important;
+}
+div[class$="profile"] label.active, #app > div > div.profileWra  label.active {
+    font-weight: 500 !important;
+    color: #fff !important;
+}
 nav ul a.btn.transparent.white-text.waves-effect.waves-light {
     font-size: 0.7rem;
 }
@@ -32,6 +44,9 @@ nav ul a.btn.transparent.white-text.waves-effect.waves-light {
     text-transform: uppercase;
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
+}
+#app > div > div > div.content.row > div > div.side-nav-content.col.m7.s12 > a {
+  width: max-content;
 }
 nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
     margin-top: 0px;

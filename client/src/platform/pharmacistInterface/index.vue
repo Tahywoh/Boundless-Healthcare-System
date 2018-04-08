@@ -1,6 +1,64 @@
 <template>
   <div class="pharmacist-dashboard">
+    <div id="mobileAddDrug" class="modal">
+    <div class="modal-content show-on-small-only hide-on-med-and-up">
+      <h4 class="blue-text text-center center-align">Add Drug <span class="right modal-close">x</span></h4> 
+        <div class="row">
+                <form class="col s12" @input="errorMsg" @submit.prevent="validateForm">
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input id="drug_name" type="text" class="validate" v-model="formData.drugName" required>
+                      <label for="drug_name">Drug Name</label>
+                    </div>
+                    <div class="input-field col s6">
+                      <input id="manufacturer" type="text" class="validate" v-model="formData.manufac">
+                      <label for="manufacturer">Manufacturer</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s6">
+                      <input id="price" type="number" class="validate" value="# " v-model="formData.price" min="50" max="50000" placeholder="Default currency is Naira  required(#)">
+                      <label for="price" class="active">Price</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <textarea id="briefDescrip" class="materialize-textarea" v-model="formData.briefDescription" required></textarea>
+                      <label for="briefDescrip">Brief Description</label>
+                    </div>
+                  </div>
+                <small class="red-text errorMsg center-align" v-html="errorMsg"></small>
+                <div class="modal-footer">
+                <button class="submit btn-flat waves-light white-text blue center-align text-center modal-action modal-close" @click="addToPharmacy">Submit</button>
+        </div>
+            </form>
+        </div>
+    </div>
+    </div>
     <interface>
+      <template slot="mobile-side-nav-content">
+      <div class="msideNav grey-text">
+        <div class="mobile basic-det">
+          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+        </div>
+         <li><div class="divider"></div></li>
+        <a class="modal-trigger" href="mobileAddDrug" data-target="mobileAddDrug"><i :class="add_icon"></i>Add Drug</a>
+        <li>
+          <div class="divider"></div>
+        </li>
+        <router-link :to="getOrder">
+          <i :class="orders_icon"></i>
+          &nbsp;Orders
+          <span class="circle blue notification-circle">{{pharmacistTotalOrders}}</span>
+        </router-link>
+        <li>
+          <div class="divider"></div>
+        </li>
+        <router-link :to="updateProfile">
+          <i :class="updateprofile_icon"></i>Update Profile</router-link>
+      </div>
+    </template>
       <template slot="fixed-nav-bar">
         <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
         <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
@@ -12,7 +70,19 @@
           </a>
         </li>
       </template>
-
+      <template slot="fixed-mobile-nav">
+        <li><router-link to="/" >Home</router-link></li>
+        <div class="divider"></div>
+        <li><router-link id="profile" :to="goToProfile">
+          Profile
+        </router-link></li>
+        <div class="divider"></div>
+        <li>
+          <a @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+        </li>
+      </template>
       <template slot="basic-details">
         <basicDetails/>
       </template>
@@ -20,10 +90,10 @@
       <template slot="side-nav-content">
         <div class="divider"></div>
         <modal>
-          <div slot="triggerModal">
-            <a href="#" class="transparent black-text"><i :class="add_icon"></i>Add drug</a>  
-          </div>
-          <template slot="modal-title">Add Drug</template>
+          <template slot="triggerModal">
+           <i :class="add_icon"></i>Add drug
+          </template>
+            <template slot="modal-title">Add Drug</template>
           <template slot="modal-content">
               <div class="row">
                 <form class="col s12" @input="errorMsg" @submit.prevent="validateForm">
@@ -50,7 +120,7 @@
                     </div>
                   </div>
                    <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
-                    <button type="submit" class="submit btn waves-effect waves-light white-text blue center-align text-center" @click="addToPharmacy">Submit</button>
+                    <button type="submit" class="submit btn waves-light white-text blue center-align text-center" @click="addToPharmacy">Submit</button>
                 </form>
               </div>
             </template>
@@ -73,8 +143,8 @@
 
       <template slot="ul-tabs">
         <ul class="tabs"> 
-          <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-          <li class="tab col s6"><a  href="#drugs" class="btn waves-effect waves-light">Drugs <span class="circle amber notification-circle">{{pharmacistProducts}}</span></a></li>
+          <li class="tab col s6"><a href="#pharmacy" class="btn waves-light blue">Pharmacy</a></li>
+          <li class="tab col s6"><a  href="#drugs" class="btn waves-light">Drugs <span class="circle amber notification-circle">{{pharmacistProducts}}</span></a></li>
         </ul>
       </template>
 
@@ -92,7 +162,7 @@
             <div class="text-center center-align" v-if="!registeredUserDrug">
               <h5 v-html="pharmacistDrugStatus"></h5> 
             </div>
-            <div class="blue-grey white-text eachUserDrug" v-for="(userDrug, index) in userDrugs" :key="userDrug._id" :id="index" v-else>
+            <div class="white blue-text eachUserDrug" v-for="(userDrug, index) in userDrugs" :key="userDrug._id" :id="index" v-else>
               <ul class="user_drugs" >
                 <li>
                   <div class="collapsible-header blue-text">
@@ -157,6 +227,12 @@ export default {
     var el = document.querySelector('ul.tabs')
     // eslint-disable-next-line
     var instance = M.Tabs.init(el, {})
+
+    // mobile add drug
+
+    var addTrigger = document.querySelector('#mobileAddDrug')
+    // eslint-disable-next-line
+    var instance = new M.Modal(addTrigger, {})
     // this.getCurrentUserDrugs()
     let validSeller = {}
     if (this.$store.state.profile.pharmacyName) {
@@ -194,7 +270,7 @@ export default {
       }
       totalOrders = aggregateOrders
       // this.pharmacistTotalOrders = this.getOrders(aggregateOrders, pharmacistOrders)
-      this.$store.commit('SET_PHARMACISTORDERS', {data: pharmacistOrders})
+      this.$store.commit('SET_PHARMACISTORDERS', {pharmacistOrders})
       this.pharmacistTotalOrders = totalOrders
       console.log({fromStore: this.pharmacistTotalOrders})
     } catch (error) {
@@ -224,18 +300,28 @@ export default {
       let validateDrug = {}
       if (this.formData.drugName !== '') {
         validateDrug.drugName = this.formData.drugName
-      } else if (this.formData.drugName === null) {
-        this.errorMsg = 'Please enter a valid drug name!'
-        return false
+      } else if (this.formData.drugName === '') {
+        alert('Please enter a valid drug name!')
+        return
       }
       if (this.formData.price !== null && !(this.formData.price < 50)) {
         validateDrug.price = this.currency + this.formData.price
+      } else {
+        alert('Enter valid drug price')
+        return
       }
       if (this.briefDescription !== null) {
         validateDrug.briefDescription = this.formData.briefDescription
+      } else {
+        alert('Description of the drug is required!')
+        return
       }
-      validateDrug.manufac = this.formData.manufac
-      validateDrug.seller = this.formData.seller
+      if (this.formData.manufac) {
+        validateDrug.manufac = this.formData.manufac
+      }
+      if (this.formData.seller) {
+        validateDrug.seller = this.formData.seller
+      }
       try {
         const responseData = (await PharmacyServices.addToPharmacy(validateDrug)).data
         console.log(responseData)
@@ -259,6 +345,9 @@ export default {
 </script>
 
 <style>
+div.pharmacist-dashboard #slide-out-mobile > div > a {
+  color: #000 !important;
+}
 #drugs h5.right{
   text-transform: uppercase !important;
 }

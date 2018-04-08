@@ -54,7 +54,7 @@ module.exports = {
   },
   async getAllLabs (req, res) {
     try {
-      MedlabScientist.find({}, 'laboratoryName laboratoryAddress fullName city state telephone')
+      MedlabScientist.find({}, 'laboratoryName laboratoryAddress fullName city state telephone email')
         .then(result => {
           console.log('All registered labs successfully fetched')
           res.status(200).send(result)

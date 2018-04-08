@@ -4,7 +4,7 @@
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
         <form class="col m6 s12" @submit.prevent="validateForm" autocomplete @input="errorMsg">
-          <div id="field1" :class="show">
+          <div id="field1">
             <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-android-contact"></i>
@@ -49,7 +49,7 @@
                   <option value="" disabled selected>Select gender</option>
                   <option v-for="(option, index) in options" :value="option.value" :key="index">{{option.text}}</option>
                 </select>
-                <label>Gender</label>         
+                <label class="active">Gender</label>         
               </div>
               <div class="input-field col s7">
                 <i class="icon ion-ios-contact"></i>
@@ -68,8 +68,9 @@
               </div>
             </div>
           </div>
-          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
-          <div id="field2" style="display: none">
+          
+          <button @click="triggerField2" id="nextBtn" class="nextBtn btn blue white-text waves-effect waves-grey center-align">NEXT</button>
+          <div id="field2">
            <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
               <div class="input-field col s6">
@@ -98,8 +99,6 @@
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <!-- <input  type="password" class="validate" v-model="formData.password" required>
-                <label >Password</label> -->
                 <vue-password v-model="formData.password" classes="input" :user-inputs="[formData.email]"></vue-password>
                 <label for="password" class="active">Password</label>
               </div>
@@ -111,8 +110,7 @@
             </div>
             <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
-           <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide" type="submit" id="submitBtn" @click="registerDoctor">Submit</button>
+           <button  class="btn text-center blue submit-btn" type="submit" id="submitBtn" @click="registerDoctor">Submit</button>
           
       </form>
       </div>
@@ -127,6 +125,7 @@ import * as axios from 'axios'
 import Index from '@/platform/index'
 import VuePassword from 'vue-password'
 import AuthServices from '@/services/authServices'
+import $ from 'jquery'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
 const STATUS_SUCCESS = 2
@@ -169,8 +168,7 @@ export default {
       options: [
         {text: 'Male', value: 'Male'},
         {text: 'Female', value: 'Female'}
-      ],
-      show: true
+      ]
     }
   },
   methods: {
@@ -243,35 +241,16 @@ export default {
       //   this.$eventBus.$emit('delete-image-url')
       // }
     },
-    triggerField2 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field1.style.display = 'none'
-      field2.style.display = 'block'
-      // proceedBtn.classList.toggle('ion-android-arrow-back ')
-      proceedBtn.classList.remove('show')
-      proceedBtn.style.display = 'none'
-      backwordBtn.classList.add('show')
-      submitButton.classList.remove('hide')
-    },
-    triggerField1 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field2.style.display = 'none'
-      field1.style.display = 'block'
-      backwordBtn.classList.remove('show')
-      backwordBtn.style.display = 'none'
-      proceedBtn.classList.remove('hide')
-      proceedBtn.classList.add('show')
-      proceedBtn.style.display = 'block'
-      submitButton.classList.add('hide')
-      // console.log('am working....')
+    triggerField2 (e) {
+      if (e.target.innerText === 'PREVIOUS') {
+        e.target.innerText = 'NEXT'
+      } else {
+        e.target.innerText = 'PREVIOUS'
+      }
+      console.log(e)
+      $('#field1').toggle()
+      $('#field2').toggle()
+      $('#submitBtn').toggle()
     },
     isValidEmail (email) {
       if (!email || email === '') {
@@ -415,6 +394,8 @@ export default {
     }
   },
   mounted () {
+    $('#submitBtn').hide()
+    $('#field2').hide()
     this.reset()
   }
 }
@@ -443,12 +424,12 @@ form input {
   margin: 0 !important; 
   font-weight: 100 !important;
 }
-#field2 > div > div {
+/* #field2 > div > div {
     margin: 1rem 0 !important;
-}
-#field1 > div > div{
+} */
+/* #field1 > div > div{
     margin: 0.997rem 0 !important;
-}
+} */
 i.icon.ion-eye-disabled {
     position: absolute;
     right: 6rem;
@@ -484,18 +465,7 @@ i.icon.ion-android-arrow-back{
   left: 0.5rem;
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
-    /* position: absolute; */
-    /* bottom: 12.5rem; */
-    border-radius: 50%;
-    padding: 0rem 1.5rem;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  /* right: 26rem; */
-  /* top: 38.5rem; */
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    /* left: 29%; */
-    /* top: 38.5rem; */
+  border-radius: 50%;
 }
 .show{
   display: block !important;
@@ -503,7 +473,6 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
 
 .mainContent {
     width: 45%;
-    height: 96vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;
@@ -511,9 +480,6 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
     border-color: grey;
     border-image: initial;
     background-color: #fff;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form{
-  padding: 0 1rem;
 }
 
 #field1 > div > div > i, #field2 > div > div > i {

@@ -12,11 +12,25 @@
         </a>
       </li>
       </template>
+      <template slot="fixed-mobile-nav">
+        <li><router-link to="/" >Home</router-link></li>
+        <div class="divider"></div>
+        <li><router-link id="profile" :to="goToProfile">
+          Profile
+        </router-link></li>
+        <div class="divider"></div>
+        <li>
+          <a @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+        </li>
+      </template>
     </fixednav>
-    <div class="card  white" style="width:65% !important; padding:1rem; margin-top: 1rem;">
+    <div class="row">
+    <div class="card  white col m7 s12">
     <h4 class="blue white-text">Edit Medication details</h4>
     <div class="divider"></div>
-    <form class="col s6" @submit.prevent="validateForm">
+    <form class="col s12" @submit.prevent="validateForm">
       <div class="row">
         <div class="input-field col s6">
         <input id="drug_name" type="text" class="validate" v-model="pharmData.drugName" required>
@@ -45,6 +59,8 @@
     <button type="submit" class="waves-effect waves-light btn amber center-align" @click="updateDrug">Submit</button>
     </form>
 </div>
+    </div>
+
     <router-view></router-view>
   </div>
 </template>
@@ -104,8 +120,16 @@ export default {
   }
 }
 </script>
-
 <style>
+div.drug-edit div.row > div.card.col.m7.s12 {
+  padding: 1rem;
+}
+div.drug-edit div.row > div > form > div {
+  padding-top: 2.5rem;
+}
+div.drug-edit h4 {
+  padding: 1.2rem;
+}
 #app > div > div.card.grey.lighten-3 > h4 {
   padding: 0.5rem;
   margin-top: -0.7rem;

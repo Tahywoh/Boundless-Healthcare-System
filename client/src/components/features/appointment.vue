@@ -1,6 +1,72 @@
 <template>
   <div class="appointments">
+    <div id="mobileBookAppointment" class="modal">
+    <div class="modal-content show-on-small-only hide-on-med-and-up">
+      <h4 class="blue-text text-center center-align">Book Appointment <span class="right modal-close">x</span></h4> 
+      <div class="row">
+          <form class="col s12" @submit.prevent="validateForm">
+          <div class="row">
+            <div class="input-field col s12">
+            <textarea id="reason" class="materialize-textarea" v-model="formData.reason" required></textarea>
+            <label for="reason">Reason</label>
+          </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              Doctor Name
+              <input id="doctor" type="text" data-length="10" required v-model="formData.doctorName" disabled>
+            </div>
+            <div class="input-field col s6">
+              Doctor Email
+              <input id="doctor" type="text" data-length="10" required disabled v-model="formData.doctor">
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              Start Time
+                <input type="text" class="timepicker startTime" v-model="formData.setTime.start" @change="viewStart">
+            </div>
+            <div class="input-field col s6">
+              End Time
+              <input type="text" class="timepicker" v-model="formData.setTime.end" @change="viewEnd" id="endTime">
+            </div>
+          </div>
+
+          <div class="row">
+            <small class="red-text left">
+              <b>Note:</b>&nbsp;The doctor is meant to specify date along with either the appointment is pending, accepted or canceled. And if the date is not feasible for him/her, he can always change it as well.
+            </small>
+          </div>
+          <div class="row text-center">
+            <small class="errMsg red-text text-center" >
+              {{errMsg}}
+            </small>
+          </div>
+          <div class="modal-footer">
+            <h5 class="white-text"><button type="submit"  class="submit btn-flatrs
+             waves-light white-text blue modal-action modal-close" @click="seekAppointment">Submit</button></h5>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>  
    <interface>
+     <template slot="mobile-side-nav-content">
+       <div class="msideNav grey-text">
+         <div class="mobile basic-det">
+          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+          <li>
+          <div class="divider"></div>
+        </li>
+        </div>
+        <li>
+          <a href="mobileBookAppointment" class="transparent black-text modal-trigger" v-if="isPatient" data-target="mobileBookAppointment"> <i :class="add_icon"></i>
+  Book Appontment</a>
+        </li>
+       </div>
+     </template>
     <template slot="basic-details">
      <basicDetails/>
     </template>
@@ -14,50 +80,50 @@
   <template slot="modal-title">Book Appointment</template>
   <template slot="modal-content">
       <div class="row">
-      <form class="col s12" @submit.prevent="validateForm">
-        <div class="row">
-          <div class="input-field col s12">
-          <textarea id="reason" class="materialize-textarea" v-model="formData.reason" required></textarea>
-          <label for="reason">Reason</label>
-        </div>
-        </div>
-         <div class="row">
-          <div class="input-field col s6">
-            Doctor Name
-            <input id="doctor" type="text" data-length="10" required v-model="formData.doctorName" disabled>
+        <form class="col s12" @submit.prevent="validateForm">
+          <div class="row">
+            <div class="input-field col s12">
+            <textarea id="reason" class="materialize-textarea" v-model="formData.reason" required></textarea>
+            <label for="reason">Reason</label>
           </div>
-          <div class="input-field col s6">
-            Doctor Email
-            <input id="doctor" type="text" data-length="10" required disabled v-model="formData.doctor">
           </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s6">
-            Start Time
-            <!-- <datetime v-model="formData.setTime.start"></datetime> -->
-              <!-- <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start"><br/> -->
-              <input type="text" class="timepicker startTime" v-model="formData.setTime.start" @change="viewStart">
+          <div class="row">
+            <div class="input-field col s6">
+              Doctor Name
+              <input id="doctor" type="text" data-length="10" required v-model="formData.doctorName" disabled>
+            </div>
+            <div class="input-field col s6">
+              Doctor Email
+              <input id="doctor" type="text" data-length="10" required disabled v-model="formData.doctor">
+            </div>
           </div>
-          <div class="input-field col s6">
-            End Time
-             <!-- <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"><br/> -->
-             <input type="text" class="timepicker" v-model="formData.setTime.end" @change="viewEnd" id="endTime">
+          <div class="row">
+            <div class="input-field col s6">
+              Start Time
+              <!-- <datetime v-model="formData.setTime.start"></datetime> -->
+                <!-- <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start"><br/> -->
+                <input type="text" class="timepicker startTime" v-model="formData.setTime.start" @change="viewStart">
+            </div>
+            <div class="input-field col s6">
+              End Time
+              <!-- <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"><br/> -->
+              <input type="text" class="timepicker" v-model="formData.setTime.end" @change="viewEnd" id="endTime">
+            </div>
           </div>
-        </div>
 
-        <div class="row">
-          <small class="red-text left">
-            <b>Note:</b>&nbsp;The doctor is meant to specify date along with either the appointment is pending, accepted or canceled. And if the date is not feasible for him/her, he can always change it as well.
-          </small>
-        </div>
-        <div class="row text-center">
-          <small class="errMsg red-text text-center" >
-            {{errMsg}}
-          </small>
-        </div>
+          <div class="row">
+            <small class="red-text left">
+              <b>Note:</b>&nbsp;The doctor is meant to specify date along with either the appointment is pending, accepted or canceled. And if the date is not feasible for him/her, he can always change it as well.
+            </small>
+          </div>
+          <div class="row text-center">
+            <small class="errMsg red-text text-center" >
+              {{errMsg}}
+            </small>
+          </div>
 
-         <h5 class="white-text"><button type="submit"  class="submit btn waves-effect waves-light white-text blue" @click="seekAppointment">Submit</button></h5>
-      </form>
+          <h5 class="white-text"><button type="submit"  class="submit btn waves-effect waves-light white-text blue" @click="seekAppointment">Submit</button></h5>
+        </form>
     </div>
     </template>
 </modal>
@@ -124,7 +190,8 @@
             <a  class="btn waves-effect waves-light">
       Status</a>
             {{userAppointment.status.statusText}}
-            <div class="statusDate right">
+            <small class="amber-text text-lighten-3 show-on-small-only">&nbsp;&nbsp;{{formatDate(userAppointment.status.date)}}</small>
+            <div class="statusDate right hide-on-small-only">
               <small class="btn-small blue">Date: </small><small class="amber-text text-lighten-3">&nbsp;&nbsp;{{formatDate(userAppointment.status.date)}}</small>
             </div>
             
@@ -198,12 +265,17 @@ export default {
     var instance = new M.Timepicker(elem, {
       defaultTime: 'now'
     })
+    var elem2 = document.querySelector('#endTime')
     // eslint-disable-next-line
-    var elem = document.querySelector('#endTime')
-    // eslint-disable-next-line
-    var instance = new M.Timepicker(elem, {
+    var instance = new M.Timepicker(elem2, {
       defaultTime: 'now'
     })
+
+    // taking care of  mobile book apponitment modal
+    var appointmentTrigger = document.querySelector(`#mobileBookAppointment`)
+    // eslint-disable-next-line
+    var instance = new M.Modal(appointmentTrigger, {})
+
     if (this.$store.state.userType === 'Patient') {
       this.isPatient = true
     }

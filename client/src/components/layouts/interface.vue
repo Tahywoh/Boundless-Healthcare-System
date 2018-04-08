@@ -1,6 +1,12 @@
 <template>
   <div class="main-interface">
     <navbar>
+      <template slot="mobileSideNavTrigger">
+        <i class="icon ion-android-arrow-dropleft left x35" v-if="this.$store.state.isUserLoggedIn"></i>
+      </template>
+      <template slot="mobileSideNav">
+          <slot name="mobile-side-nav-content"></slot>
+      </template>
         <template slot="search-doctor">
           <slot name="consult-doctor">  
           </slot>
@@ -13,7 +19,7 @@
           <li><a id="profile" class="btn transparent white-text waves-effect waves-light"  @click="$eventBus.$emit('go-to-profile')">
           Profile
           </a></li>
-          <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
+          <li ><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
           </a>
           </li>
           <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
@@ -23,15 +29,33 @@
         </slot>
        
       </div>
+      <div slot="mobileNav">
+        <slot name="fixed-mobile-nav">
+          <li><router-link to="/" >Home</router-link></li>
+          <div class="divider"></div>
+          <li><a id="profile"   @click="$eventBus.$emit('go-to-profile')">
+          Profile
+          </a></li>
+          <div class="divider"></div>
+          <li v-if="this.$store.state.userType !== 'Pharmacist'"><a @click="$eventBus.$emit('go-to-appointment')">Appointment
+          </a>
+          </li>
+          <div class="divider"></div>
+          <li><a  @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+          </li>
+        </slot>
+      </div>
     </navbar>
-    <div class="content">
-      <div class="w3-sidebar w3-light-grey w3-bar-block fixed-side-nav" style="width:25%">
+    <div class="content row">
+      <div class="w3-sidebar w3-light-grey w3-bar-block fixed-side-nav col m5 hide-on-small-only" style="width:25%; margin-top: 1rem;">
         <div class="basic-details">
           <slot name="basic-details">
             
           </slot>
         </div>
-        <div class="side-nav-content">
+        <div class="side-nav-content col m7 s12">
           <slot name="side-nav-content">
 
           </slot>
@@ -42,7 +66,7 @@
     
 
         <!-- Page Content -->
-      <div style="margin-left:25%">
+      <div>
 
         <div class="w3-container w3-teal">
           <div class="user-type-img">
@@ -86,6 +110,12 @@ html,
 body {
   background-color: #f1f1f1 !important;
 }
+#app > div > div > div:nth-child(3) {
+  margin-left: 25%;
+}
+#side-nav {
+  width: max-content;
+}
  div > div.header-view > nav {
   /* position: fixed !important; */
   z-index: 300;
@@ -104,8 +134,12 @@ form.search-doctor #autocomplete-input {
     border: 2px groove #fff !important;
     width: 100%;
 }
+#app > div > div > div.header-view > nav > div > div.row.consult-doctor.left > form > div {
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
 form.search-doctor i.icon.ion-search.x15 {
-    left: 18.4rem;
+    left: 16.4rem;
     font-weight: 100 !important;
     font-size: 1.89rem;
     top: -1.2rem;
@@ -126,7 +160,6 @@ div > div.content {
   /* padding-top: 4rem; */
 }
 div ul {
-    padding: 0 0rem !important;
     z-index: 0;
 }
 div.main.flow-text
@@ -146,6 +179,7 @@ nav ul a:hover {
 #app > div > div > div:nth-child(3) > div:nth-child(2) > div > div.col.s12 > ul{
   margin: auto -0.8rem;
   width: initial;
+  padding: 0 !important;
 }
 nav ul a:focus,
 nav ul a:active {

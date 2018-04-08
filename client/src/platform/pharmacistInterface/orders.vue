@@ -74,7 +74,7 @@ export default {
   components: {Fixednav},
   data () {
     return {
-      orderedDrugs: this.$store.state.userData.pharmacistOrders.data,
+      orderedDrugs: this.$store.state.userData.pharmacistOrders,
       goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`,
       requests: ''
     }

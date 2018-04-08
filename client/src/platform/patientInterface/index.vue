@@ -1,10 +1,39 @@
 <template>
 <div class="patient-dashboard">
-<interface>  
+<interface>
+  <template slot="mobile-side-nav-content">
+    <div class="msideNav">
+        <div class="mobile basic-det">
+          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+        </div>
+         <li><div class="divider"></div></li>
+        <li><a ><i :class="medicalrecord_icon"></i>
+      Medical record</a></li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+        <router-link :to="carts">
+          <i :class="cart_icon"></i>
+      Cart 
+          <span class="circle blue notification-circle" v-if="patientCarts > 0">{{patientCarts}}</span>
+        </router-link>
+      </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+        <router-link :to="updateProfile">
+          <i :class="updateprofile_icon"></i>Update Profile
+        </router-link>
+      </li>
+    </div>
+  </template>
   <template slot="consult-doctor">
-    <div class="row consult-doctor left hide-on-med-and-down">
+    <div class="row consult-doctor left">
       <form  class="search-doctor" @submit="findDoctors" @submit.prevent="validateForm">
-        <div class="input-field col s12">
+        <div class="input-field col m10 s7">
       <!-- <i class="icon ion-search x15"></i> -->
           <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!" v-model="search" />
           <i class="icon ion-search x15" @click="findDoctors"></i>
@@ -40,9 +69,9 @@
   </template>
    <template slot="ul-tabs" id="ul-tabs">
     <ul class="tabs"> 
-        <li class="tab col s4"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-        <li class="tab col s4"><a  href="#messages_conv" class="btn waves-effect waves-light">Messages</a></li>
-        <li class="tab col s4"><a  href="#medicalLab" class="btn waves-effect waves-light">Medical lab</a></li>
+        <li class="tab col s4"><a href="#pharmacy" class="btn  waves-light">Pharmacy</a></li>
+        <li class="tab col s4"><a  href="#messages_conv" class="btn  waves-light">Messages</a></li>
+        <li class="tab col s4"><a  href="#medicalLab" class="btn  waves-light">Medical lab</a></li>
       </ul>
   </template>
   <div slot="platform-content" id="docSearch">
@@ -108,10 +137,13 @@ export default {
   data () {
     return {
       medicalrecord_icon: navs.links.medicalRecord.icon + ' x2 left',
+      patientCarts: this.$store.state.userData.patientCarts.cartNo || 0,
       message_icon: navs.links.messages.icon + ' x2 left',
       cart_icon: navs.links.cart.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       search: '',
+      carts: navs.links.cart.url,
+      updateProfile: navs.links.updateProfile.url,
       allDocs: null,
       topLinks: {
         doLogOut: 'do-logout',

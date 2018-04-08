@@ -24,7 +24,7 @@
           </slot> 
           </div>
         </div> -->
-        <img src="../assets/platform/natanael-melchor-465383 (1).jpg" alt="error displaying image" class="img responsive-img">
+        <img src="../assets/platform/natanael-melchor-465383 (1).jpg" alt="error displaying image" class="img responsive-img hide-on-large-only">
         <img src="../assets/platform/medlab2.jpg" alt="error displaying image" class="img responsive-img hide-on-med-and-up">
     </div>
 
@@ -98,9 +98,9 @@ form input{
 .row{
   margin-bottom: 4px;
 }
-#field1 > div > div{
+/* #field1 > div > div{
   margin: 0.2rem 0;
-}
+} */
 #field2 i.icon.ion-ios-paper{
   top: -1.5rem; 
 }

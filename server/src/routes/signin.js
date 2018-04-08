@@ -150,7 +150,7 @@ router.post('/', (req, res) => {
         })
       }
     } else {
-      res.status(401).send('No internet access')
+      res.status(401).send('Your inputs did not match any email and password in the database')
       // return res.status(404).send('No internet access')
     }
   }

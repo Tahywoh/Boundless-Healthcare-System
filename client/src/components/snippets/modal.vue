@@ -41,6 +41,9 @@ export default {
 .hide {
   display: none !important;
 }
+#newmodal > button {
+  width: max-content;
+}
 .transparent {
   background-color: transparent !important;
     background-color: rgba(0,0,0,0) !important;

@@ -47,11 +47,11 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s6 hide-on-small-only">
              <a class="btn blue">Your doctors:</a>
              <span><a href="" class="white-text">5</a></span>
             </div>
-            <div class=" input-field col s6">
+            <div class=" input-field col s6 hide-on-small-only">
               <a class="blue btn">Medical History</a>:
               <span><a href="" class="white-text">View medical history</a></span>
             </div>

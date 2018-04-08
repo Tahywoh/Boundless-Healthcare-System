@@ -1,6 +1,31 @@
 <template>
 <div class="doctor-dashboard">
   <interface>
+    <template slot="mobile-side-nav-content">
+      <div class="msideNav">
+        <div class="mobile basic-det">
+          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+        </div>
+         <li><div class="divider"></div></li>
+        <li>
+          <a href="#" class="w3-bar-item w3-button">
+            <i :class="patient_icon"></i>  
+            Patients 
+            <span class="circle blue notification-circle">5</span>
+          </a>
+        </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+        <router-link class="w3-bar-item w3-button" :to="updateProfile">
+          <i :class="updateprofile_icon"></i>
+          Update Profile
+        </router-link>
+      </li>
+      </div>
+    </template>
     <template slot="basic-details">
       <basicDetails/>
     </template>

@@ -45,6 +45,6 @@ export default {
 </script>
 <style scoped>
 div.side-nav-content {
-    padding-top: 0rem !important;
+  padding-top: 0rem !important;
 }
 </style>

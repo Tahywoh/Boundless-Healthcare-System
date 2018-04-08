@@ -25,46 +25,46 @@
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
                  <input id="telephone" type="number" class="validate autofocus"  v-model="profile.telephone" readonly>
-                <label for="telephone">Telephone:</label>
+                <label for="telephone" class="active">Telephone:</label>
               </div>
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
               <input id="city" type="text" class="validate"  v-model="profile.city" readonly>
-              <label for="city">City:</label>
+              <label for="city" class="active">City:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
               <input id="state" type="text" class="validate"  v-model="profile.state" readonly>
-              <label for="state">State:</label>
+              <label for="state" class="active">State:</label>
             </div>
             <div class=" input-field col s6"><br/>
               <input id="specialty" type="text" class="validate"  v-model="profile.specialty" readonly>
-              <label for="specialty">Specialty:</label>
+              <label for="specialty" class="active">Specialty:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6"><br/>
               <input id="hospitalName" type="text" class="validate"  v-model="profile.hospitalName" readonly>
-              <label for="hospitalName">Hospital Name:</label>
+              <label for="hospitalName" class="active">Hospital Name:</label>
             </div>
             <div class=" input-field col s6">
               <i class="icon ion-location"></i>
               <textarea type="text" class="validate materialize-textarea" readonly v-model="profile.hospitalAddress"></textarea>
-              <label for="address_profile">Hospital Address:</label>
+              <label for="address_profile" class="active">Hospital Address:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6"><br/>
               <i class="icon ion-ios-paper"></i>
               <input type="text" class="validate"  v-model="profile.eduRequirement" readonly>
-              <label for="hospitalName">Education Requirements:</label>
+              <label for="hospitalName" class="active">Education Requirements:</label>
             </div>
             <div class="input-field col s6"><br/>
               <i class="icon ion-ios-paper"></i>
               <input type="text" class="validate"  v-model="profile.licenseRequirement" readonly>
-              <label for="hospitalName">License Requirements:</label>
+              <label for="hospitalName" class="active">License Requirements:</label>
             </div>
           </div>
     </div>

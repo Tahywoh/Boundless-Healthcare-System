@@ -1,30 +1,61 @@
 <template>
   <div id="eDrug">
-    <fixednav/>
+<fixednav>
+      <template slot="fixed-nav-bar">
+        <li>
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
+          Profile
+        </router-link></li>
+        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        Logout
+        </a>
+      </li>
+      </template>
+      <template slot="fixed-mobile-nav">
+        <li><router-link to="/" >Home</router-link></li>
+        <div class="divider"></div>
+        <li><router-link id="profile" :to="goToProfile">
+          Profile
+        </router-link></li>
+        <div class="divider"></div>
+        <li>
+          <a @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+        </li>
+      </template>
+    </fixednav>
     <div class="row">
       <div class="row">
-        <div class="col s8 m7">
+        <div class="col s12 m7">
            <button class="btn blue white-text x15">{{eachDrug.drugName}}</button>
           <div class="card">
             <div class="card-content">
               <h5>{{eachDrug.briefDescription}}</h5>
             </div>
             <div class="card-action">
-              <h6><button class="blue btn seller">Seller: </button>&nbsp;<strong class="x15">{{eachDrug.seller.name}}</strong></h6>
+              <h6><button class="blue btn seller">Seller </button>&nbsp;
+              <br class="show-on-small-only"/>
+              <br class="show-on-small-only"/>
+              <strong class="x15">{{eachDrug.seller.name}}</strong></h6>
             </div>
-            <div class="card-action">
-              <h6><button class="blue btn manufacturer">Manufacturer: </button>&nbsp;<strong class="x15">{{eachDrug.manufac}}</strong></h6>
+            <div class="card-action" v-if="eachDrug.manufac">
+              <h6><button class="blue btn manufacturer">Manufacturer </button>&nbsp;
+              <br class="show-on-small-only"/>
+              <br class="show-on-small-only"/>
+              <strong class="x15">{{eachDrug.manufac}}</strong></h6>
             </div>
             <div class="additionalDetail card-action">
-              <h6><button class="price btn blue">Price:</button>&nbsp;
+              <h6><button class="price btn blue">Price </button>&nbsp;
               <strong class="x15">{{eachDrug.price}}</strong>
               </h6>
-              <h6><button class="currency btn blue">Currency: </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
+              <h6><button class="currency btn blue">Currency </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
               <h6><button class="btn amber waves-effect waves-light" @click="addToCart">Add to cart</button></h6>
             </div>
           </div>
         </div>
-        <div class="recent-drugs col s4 grey lighten-2 push-s1">
+        <div class="recent-drugs col s4 grey lighten-2 push-s1 hide-on-small-only">
           <a><h5>Recently ordered drugs</h5></a>
           
           <div class="card-panel blue">
