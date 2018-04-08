@@ -95,6 +95,12 @@
   #id01 > div {
     width: 100% !important
   }
+  div.patient-carts div.carts > span {
+    margin-left: 32% !important;
+  }
+  #app  div.update-profile-data > div {
+    background-color: transparent !important;
+  }
 }
 
 @media only screen and (max-width: 470px) {

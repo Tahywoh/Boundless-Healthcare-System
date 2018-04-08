@@ -47,7 +47,7 @@
                       </p>
                       <br>
                       <p>
-                        <a class="btn waves-effect waves-light">Delivery location </a>&nbsp;&nbsp;{{request.deliveryLoc}}
+                        <a class="btn waves-effect waves-light">Delivery location </a>&nbsp;&nbsp;<br class="show-on-small-only"><br class="show-on-small-only">{{request.deliveryLoc}}
                       </p>
                   </div>
                   <div class="card-action">
