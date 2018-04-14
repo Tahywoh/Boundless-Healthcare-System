@@ -2,36 +2,49 @@
 <div class="patient-dashboard">
 <interface>
   <template slot="mobile-side-nav-content">
+    <h4 class="header grey darken-3 white-text center-align text-center" style="padding: 0.5rem; margin-left: 15%;">{{this.$store.state.userType}} Dashboard</h4>
     <div class="msideNav">
         <div class="mobile basic-det">
           <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
           <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
         </div>
          <li><div class="divider"></div></li>
-        <li><a ><i :class="medicalrecord_icon"></i>
+        <li><a ><i :class="medicalrecord_iconMobile"></i>
       Medical record</a></li>
       <li>
         <div class="divider"></div>
       </li>
       <li>
+          <form  class="search-doctors col s12" @submit="findDoctors" @submit.prevent="validateForm">
+            <div class="input-field col s12">
+          <i class="icon ion-search x15"></i>
+              <input type="search" id="autocomplete-input" class="autocomplete white black-text" placeholder="Consult a doctor now!" v-model="search"/>
+            </div>
+            <!-- <small class="searchErr red-text">{{searchErr}}</small> -->
+          </form>
+        </li>
+        <li>
+          <div class="divider"></div>
+        </li>
+      <li>
         <router-link :to="carts">
           <i :class="cart_icon"></i>
       Cart 
-          <span class="circle blue notification-circle" v-if="patientCarts > 0">{{patientCarts}}</span>
+          <span class="circle blue notification-circle" v-if="cartNo > 0">{{cartNo}}</span>
         </router-link>
       </li>
       <li>
         <div class="divider"></div>
       </li>
       <li>
-        <router-link :to="updateProfile">
-          <i :class="updateprofile_icon"></i>Update Profile
+        <router-link :to="updateProfileMobile">
+          <i :class="updateprofile_iconMobile"></i>Update Profile
         </router-link>
       </li>
     </div>
   </template>
   <template slot="consult-doctor">
-    <div class="row consult-doctor left">
+    <div class="row consult-doctor left show-on-medium-and-up hide-on-small-only">
       <form  class="search-doctor" @submit="findDoctors" @submit.prevent="validateForm">
         <div class="input-field col m10 s7">
       <!-- <i class="icon ion-search x15"></i> -->
@@ -45,14 +58,14 @@
     
   </template>
   <template slot="fixed-nav-bar">
-     <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-    <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="topLinks.goToProfile">
+     <li><router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+    <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="topLinks.goToProfile">
     Profile
     </router-link></li>
-    <li><router-link :to="topLinks.toAppointment" class="btn transparent white-text waves-effect waves-light">Appointment
+    <li><router-link :to="topLinks.toAppointment" class="btn transparent white-text waves-effect">Appointment
     </router-link>
     </li>
-    <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit(topLinks.doLogOut)">
+    <li><a class="btn transparent white-text waves-effect" @click="$eventBus.$emit(topLinks.doLogOut)">
     Logout
     </a></li>
     </template>
@@ -83,7 +96,7 @@
         </div>
         <div v-else v-for="(doctor, index) in doctors" :id="index" :key="doctor._id" class="blue-grey white-text eachDoctor">
           <a class="btn waves-effect-waves-light" @click="viewDoc(doctor._id)">{{doctor.fullName}}</a><br/>
-          <a class="right btn waves-effect waves-light consultBtn" @click="createChannel(doctor._id)" :id="index" :key="doctor._id">consult</a>
+          <a class="right btn waves-effect consultBtn" @click="createChannel(doctor._id)" :id="index" :key="doctor._id">consult</a>
           <a href="" class="btn waves-effect-waves-light" >City: <span>{{doctor.city}}</span></a>
           <a href="" class="btn waves-effect-waves-light">
           State: <span>{{doctor.state}}</span>
@@ -136,14 +149,18 @@ export default {
   name: 'index',
   data () {
     return {
+      medicalrecord_iconMobile: navs.links.medicalRecord.icon + ' x2 left',
+      patientCarts: this.$store.state.userData.patientCarts.cartNo,
+      cartNo: this.$store.state.userData.patientCarts.cartNo,
+      updateProfile: navs.links.updateProfile.url,
+      carts: navs.links.cart.url,
+      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       medicalrecord_icon: navs.links.medicalRecord.icon + ' x2 left',
-      patientCarts: this.$store.state.userData.patientCarts.cartNo || 0,
       message_icon: navs.links.messages.icon + ' x2 left',
       cart_icon: navs.links.cart.icon + ' x2 left',
-      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
+      updateprofile_iconMobile: navs.links.updateProfile.icon + ' x2 left',
       search: '',
-      carts: navs.links.cart.url,
-      updateProfile: navs.links.updateProfile.url,
+      updateProfileMobile: navs.links.updateProfile.url,
       allDocs: null,
       topLinks: {
         doLogOut: 'do-logout',
@@ -212,6 +229,8 @@ export default {
           this.docStatus = this.search
           this.doctors = doctors
           this.search = ''
+          var instance = M.Sidenav.getInstance(document.querySelector('#slide-out-mobile'))
+          instance.close()
         } else if (doctors.length === 0) {
           this.registeredDoctors = false
           this.docStatus = `Doctor not found!`
@@ -261,6 +280,9 @@ export default {
 }
 </script>
 <style>
+#autocomplete-options-5f52e0d6-44a9-d0c8-103a-22071d37a0d5 {
+  overflow-x: hidden !important;
+}
 #docSearch > div > div > h4 {
     padding: 0.5rem 0.3rem;
     border-radius: 15px;

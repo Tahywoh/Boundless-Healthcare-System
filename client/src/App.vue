@@ -15,6 +15,12 @@
 }
 </script>
 <style>
+#id01 > div {
+  top: 5%;
+}
+.w3-container, .w3-panel {
+  padding: 0rem 0.3rem;
+}
   #sideMenu > i {
     margin-left: -2.5rem;
   }
@@ -25,8 +31,8 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form {
   padding: 1.3rem !important;
 }
 div[class$="profile"] label.active, #app > div > div.profileWra  label.active {
-    font-weight: 500 !important;
-    color: #fff !important;
+  font-weight: 500 !important;
+  color: #fff !important;
 }
 nav ul a.btn.transparent.white-text.waves-effect.waves-light {
     font-size: 0.7rem;

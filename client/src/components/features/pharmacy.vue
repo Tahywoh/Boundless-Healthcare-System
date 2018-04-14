@@ -30,7 +30,7 @@
                       {{allDrug.drugName}}
                     </h5>
                     <h5 class="right grey darken-3">
-                      <a class="right btn waves-effect waves-light">
+                      <a class="right btn waves-effect">
                         Price: {{allDrug.price}}
                       </a>
                     </h5>

@@ -5,11 +5,11 @@
       <template slot="navbar">
         <slot name="fixed-nav-bar">
           <li>
-        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @cllck="$eventBus.$emit('go-to-profile')">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><a id="profile" class="btn transparent white-text waves-effect" @cllck="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>

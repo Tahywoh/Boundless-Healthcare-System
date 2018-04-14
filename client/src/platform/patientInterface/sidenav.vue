@@ -40,7 +40,8 @@ export default {
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       patientCarts: this.$store.state.userData.patientCarts.cartNo || 0
     }
-  }
+  },
+  mounted () {}
 }
 </script>
 <style scoped>

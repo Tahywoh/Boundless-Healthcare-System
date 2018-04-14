@@ -3,15 +3,15 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
-        <form class="col m6 s12" @submit.prevent="validateForm" @input="errorMsg">
+        <form class="col m8 s12" @submit.prevent="validateForm" @input="errorMsg">
           <div id="field1">
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-contact"></i>
                 <input  type="text" class="validate" required v-model="formData.fullName">
                 <label >Full Name</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-mail"></i>
                 <input type="email" class="validate" v-model="formData.email">
                 <label for="email">Email</label>
@@ -19,12 +19,12 @@
             </div>
 
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-call"></i>
                 <input id="telephone" type="number" class="validate" v-model="formData.telephone" required>
                 <label for="telephone">Telephone</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <!-- <i class="icon fa-birthday-cake"></i> -->
                 <input id="age" type="number" class="validate" v-model="formData.age" required>
                 <label for="age">Age</label>
@@ -32,26 +32,29 @@
             </div>
 
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-location"></i>
                 <input id="city" type="text" class="validate" v-model="formData.city" required>
                 <label for="city">City</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-location"></i>
                 <input type="text" class="validate" v-model="formData.state" required>
                 <label for="state">State</label>
               </div>
             </div>            
              <div class="row">
-              <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
+              <div class="input-field col m5 s12">
+                <select class="browser-default waves-effect btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
                   <option v-for="(option, index) in options" :value="option.value" :key="index">{{option.text}}</option>
                 </select>
                 <label>Gender</label>         
               </div>
-              <div class="input-field col s7">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <div class="input-field col m7 s12">
                 <i class="icon ion-ios-contact"></i>
                 <div class="file-field input-field">
                   <div class="btn bg-for-tab blue">
@@ -72,11 +75,11 @@
           <div id="field2">
             <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
-               <div class="input-field col s6">
+               <div class="input-field col m6 s12">
                 <input id="pharmacy-name" required type="text" class="validate" v-model="formData.laboratoryName">
                 <label for="pharmacy-address">Laboratory name</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <input id="pharmacy-addressAddress" required type="text" class="validate" v-model="formData.laboratoryAddress">
                 <label for="pharmacy-address">Laboratory location</label>
               </div>
@@ -90,21 +93,21 @@
               </div>
             </div>
              <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-eye-disabled"></i>
                 <!-- <input  type="password" class="validate" v-model="formData.password"> 
                 <label >Password</label> -->
                 <vue-password v-model="formData.password" classes="input" :user-inputs="[formData.email]"></vue-password>
                 <label for="password" class="active">Password</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-eye-disabled"></i>
                 <input type="password" class="validate" v-model="formData.confirmPassword" id="cpassword" required>
                 <label for="cpassword">Confirm Password</label>
               </div>
             </div>
           </div>
-           <button  class="btn text-center blue submit-btn" type="submit" id="submitBtn" @click="registerMedlabScientist"
+           <button  class="btn text-center blue submit-btn waves-effect" type="submit" id="submitBtn" @click="registerMedlabScientist"
            >Submit</button>
           
       </form>
@@ -168,7 +171,7 @@ export default {
   },
   methods: {
     upload (formData) {
-      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
+      // const url = `https://server-sadeaeehkv.now.sh/handlePhoto/imgUpload`
       const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data

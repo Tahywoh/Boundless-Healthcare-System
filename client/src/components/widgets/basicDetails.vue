@@ -1,5 +1,6 @@
 <template>
   <div class="basic-details">
+    <div class="divider"></div>
     <a href="#" class="w3-bar-item w3-button"><h6>Full Name:</h6>  <br/><h6 class="userFullName" >{{userFullName}}</h6></a>
     <a href="#" class="w3-bar-item w3-button"><h6>Email Address:</h6> <br>
     <h6 class="userEmail">{{userEmailAddress}}</h6> </a>
@@ -14,8 +15,8 @@ export default {
   },
   data () {
     return {
-      userFullName: `${this.$store.state.profile.fullName}`,
-      userEmailAddress: `${this.$store.state.profile.email}`
+      userFullName: this.$store.state.profile.fullName,
+      userEmailAddress: this.$store.state.profile.email
     }
   },
   methods: {

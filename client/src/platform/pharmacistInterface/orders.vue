@@ -3,11 +3,11 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
           Profile
         </router-link></li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
@@ -39,15 +39,15 @@
                     <div class="divider"></div>
                     <br>
                       <p>
-                        <a class="btn waves-effect waves-light">Email </a>&nbsp;&nbsp;{{request.email}}
+                        <a class="btn waves-effect">Email </a>&nbsp;&nbsp;{{request.email}}
                       </p>
                       <br>
                       <p>
-                        <a class="btn waves-effect waves-light">User Type </a>&nbsp;&nbsp;{{request.userType}}
+                        <a class="btn waves-effect">User Type </a>&nbsp;&nbsp;{{request.userType}}
                       </p>
                       <br>
                       <p>
-                        <a class="btn waves-effect waves-light">Delivery location </a>&nbsp;&nbsp;<br class="show-on-small-only"><br class="show-on-small-only">{{request.deliveryLoc}}
+                        <a class="btn waves-effect">Delivery location </a>&nbsp;&nbsp;<br class="show-on-small-only"><br class="show-on-small-only">{{request.deliveryLoc}}
                       </p>
                   </div>
                   <div class="card-action">

@@ -1,6 +1,34 @@
 <template>
   <div class="medical-lab-scientist-dashboard">
     <interface>
+        <template slot="mobile-side-nav-content">
+    <h4 class="header grey darken-3 white-text center-align text-center" style="padding: 0.5rem; margin-left: 15%;">{{this.$store.state.userType}} Dashboard</h4>
+    <div class="msideNav">
+        <div class="mobile basic-det">
+          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+        </div>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+        <router-link :to="toAppointment" class="w3-bar-item w3button">
+          <i :class="appointment_icon"></i>
+          &nbsp;Appointments
+          <span class="circle blue notification-circle">6</span>
+        </router-link>
+      </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+        <router-link :to="updateProfile" class="w3-bar-item w3-button">
+          <i :class="updateprofile_icon"></i>
+          Update Profile
+        </router-link>
+      </li>
+    </div>
+  </template>
       <template slot="fixed-nav-bar">
           <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
           <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
@@ -37,7 +65,7 @@
       <template slot="ul-tabs">
         <ul class="tabs"> 
           <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-          <li class="tab col s6"><a  href="#medlab" class="btn waves-effect waves-light">Medical lab</a></li>
+          <li class="tab col s6"><a  href="#medlab" class="btn waves-effect">Medical lab</a></li>
         </ul>
       </template>
 

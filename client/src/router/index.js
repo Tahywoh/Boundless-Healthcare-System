@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   // console.log(to, from, next)
   let newPath
   let rejectText = `YOU ARE NOT AUTHORIZED!`
-  if (fetchStoreData(`userType`) === undefined) {
+  if (!(fetchStoreData(`userType`))) {
     newPath = to.path
   } else {
     newPath = `/${fetchStoreData(`userType`).replace(/\s/g, '')}-interface`

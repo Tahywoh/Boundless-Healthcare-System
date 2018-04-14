@@ -12,3 +12,9 @@
     components: {PatientAppointment}
   }
 </script>
+
+<style>
+div#majorContent {
+  margin-left: 25% !important;
+}
+</style>

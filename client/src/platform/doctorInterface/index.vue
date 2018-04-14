@@ -55,8 +55,8 @@
 
     <template slot="ul-tabs">
       <ul class="tabs"> 
-        <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-        <li class="tab col s6"><a  href="#messages" class="btn waves-effect waves-light">Messages</a></li>
+        <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect">Pharmacy</a></li>
+        <li class="tab col s6"><a  href="#messages" class="btn waves-effect">Messages</a></li>
       </ul>
     </template>
       

@@ -60,12 +60,12 @@
       </div>
     </template>
       <template slot="fixed-nav-bar">
-        <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
+        <li><router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
           Profile
         </router-link></li>
         <li>
-          <a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+          <a class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
         </li>
@@ -345,6 +345,9 @@ export default {
 </script>
 
 <style>
+#id01 > div > div > div > div > form {
+  padding: 0 2.55rem;
+}
 div.pharmacist-dashboard #slide-out-mobile > div > a {
   color: #000 !important;
 }

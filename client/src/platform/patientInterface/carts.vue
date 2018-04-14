@@ -3,14 +3,14 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
           Profile
         </router-link></li>
-          <li ><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
+          <li ><a class="btn transparent white-text waves-effect" @click="$eventBus.$emit('go-to-appointment')">Appointment
         </a>
         </li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
@@ -53,10 +53,10 @@
               <div class="card-action col s12">
                 <a class="btn">Price: &nbsp; {{cart.price}}</a>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                <a class="btn waves-effect waves-light right" @click="removeFromCart(cart._id, cart.drugName)">Remove</a>
+                <a class="btn waves-effect right" @click="removeFromCart(cart._id, cart.drugName)">Remove</a>
               </div>
               <div class="card-action col s12">
-                <a class="btn waves-effect waves-light" @click="placeOrder(cart._id, cart.drugName)">Order</a>
+                <a class="btn waves-effect" @click="placeOrder(cart._id, cart.drugName)">Order</a>
               </div>
             </div>
         </div>
@@ -94,8 +94,8 @@ export default {
           console.log({data: this.carts})
           this.$store.commit('CLEAR_CARTS')
           this.$store.commit('SET_PATIENTCARTS', {patientCarts: removedData})
-          // location.href = '/Patient-interface/carts'
-          this.$router.push('/Patient-interface/carts')
+          location.href = '/Patient-interface/carts'
+          // this.$router.push('/Patient-interface/carts')
           alert('Item removed from cart!')
         } catch (error) {
           console.log(error)

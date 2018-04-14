@@ -4,14 +4,14 @@
       <template slot="navbar">
         <slot name="fixed-nav-bar">
           <li>
-        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-profile')">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><a id="profile" class="btn transparent white-text waves-effect" @click="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>
-          <li><a @click="$eventBus.$emit(topLinks.toAppointment)" class="btn transparent white-text waves-effect waves-light">Appointment
+          <li><a @click="$eventBus.$emit(topLinks.toAppointment)" class="btn transparent white-text waves-effect">Appointment
         </a>
         </li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit(topLinks.doLogOut)">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit(topLinks.doLogOut)">
         Logout
         </a>
       </li>

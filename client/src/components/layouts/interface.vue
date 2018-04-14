@@ -9,20 +9,20 @@
       </template>
         <template slot="search-doctor">
           <slot name="consult-doctor">  
+
           </slot>
-        
       </template>
       
       <div slot="navbar">
         <slot name="fixed-nav-bar">
-          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-          <li><a id="profile" class="btn transparent white-text waves-effect waves-light"  @click="$eventBus.$emit('go-to-profile')">
+          <li><router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+          <li><a id="profile" class="btn transparent white-text waves-effect"  @click="$eventBus.$emit('go-to-profile')">
           Profile
           </a></li>
-          <li ><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-appointment')">Appointment
+          <li ><a class="btn transparent white-text waves-effect" @click="$eventBus.$emit('go-to-appointment')">Appointment
           </a>
           </li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+          <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
           </li>
@@ -48,14 +48,17 @@
         </slot>
       </div>
     </navbar>
-    <div class="content row">
+    <div class="content row m4">
       <div class="w3-sidebar w3-light-grey w3-bar-block fixed-side-nav col m5 hide-on-small-only" style="width:25%; margin-top: 1rem;">
+      <div class="divider"></div>
+        <h4 class="header grey darken-3 white-text center-align text-center" style="padding: 0.8rem;">{{uType}} Dashboard</h4>
         <div class="basic-details">
           <slot name="basic-details">
             
           </slot>
         </div>
         <div class="side-nav-content col m7 s12">
+
           <slot name="side-nav-content">
 
           </slot>
@@ -66,7 +69,7 @@
     
 
         <!-- Page Content -->
-      <div>
+      <div class="majorContent col m8 s12" id="majorContent">
 
         <div class="w3-container w3-teal">
           <div class="user-type-img">
@@ -101,6 +104,11 @@ export default{
   name: 'main-interface',
   components: {
     navbar, Fixednav
+  },
+  data () {
+    return {
+      uType: this.$store.state.userType
+    }
   }
 }
 </script>
@@ -117,7 +125,7 @@ body {
   width: max-content;
 }
  div > div.header-view > nav {
-  /* position: fixed !important; */
+  position: fixed !important;
   z-index: 300;
 }
 form.search-doctor ::placeholder {

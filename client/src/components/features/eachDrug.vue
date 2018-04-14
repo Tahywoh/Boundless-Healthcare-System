@@ -3,11 +3,11 @@
 <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
           Profile
         </router-link></li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
@@ -51,7 +51,7 @@
               <strong class="x15">{{eachDrug.price}}</strong>
               </h6>
               <h6><button class="currency btn blue">Currency </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
-              <h6><button class="btn amber waves-effect waves-light" @click="addToCart">Add to cart</button></h6>
+              <h6><button class="btn amber waves-effect" @click="addToCart">Add to cart</button></h6>
             </div>
           </div>
         </div>
@@ -84,7 +84,7 @@
             </span>
             </p>
           </div>
-          <a class="btn right waves-effect waves-light amber darken-3">More ...</a>
+          <a class="btn right waves-effect amber darken-3">More ...</a>
         </div>
       </div>
     </div>

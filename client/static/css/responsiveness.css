@@ -43,7 +43,7 @@
   }
   /* signin page */
   #index > div.main.flow-text.wrapper > div.content.center-align.white-text > div > div {
-    width: 90%;
+    width: 98%;
   }
 
   /* index nav */
@@ -89,7 +89,7 @@
     padding: 0.5rem;
     /* background-color: grey; */
   }
-  #slide-out-mobile > div > li :hover, #slide-out-mobile > div > li :active, #slide-out-mobile > div > li :focus {
+  #slide-out-mobile > div > li a:hover, #slide-out-mobile > div > li a:active, #slide-out-mobile > div > li a:focus {
     background-color: grey;
   }
   #id01 > div {
@@ -100,6 +100,9 @@
   }
   #app  div.update-profile-data > div {
     background-color: transparent !important;
+  }
+  #app > div > div > div.main-interface > div:nth-child(3), #app > div > div > div.main-interface > div:nth-child(3), div.main-interface #majorContent {
+    margin-left: 0% !important;
   }
 }
 

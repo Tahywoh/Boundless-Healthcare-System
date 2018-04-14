@@ -5,7 +5,7 @@
 <div class="header-view">
   <navbar/>
 </div>
-  <div class="main flow-text wrapper">
+  <div class="main flow-text wrapper" style="padding-top:0rem">
     <heading/>
     <div class="homeContent">
         <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
@@ -44,15 +44,17 @@
       </div>
     </div>
   </div>
+  <footer-page/>
   <router-view></router-view>
  </div>
 </template>
 <script>
 import navbar from '@/components/layouts/navbar'
 import Heading from '@/components/layouts/Heading'
+import FooterPage from '@/components/layouts/footer-page'
 export default {
   components: {
-    navbar, Heading
+    navbar, Heading, FooterPage
   },
   name: 'index'
 }
@@ -64,6 +66,7 @@ export default {
 }
 div.main{
   width: 100%;
+  padding-top: 0.3rem;
   /* height: 80vh; */
 }
 div.main img{

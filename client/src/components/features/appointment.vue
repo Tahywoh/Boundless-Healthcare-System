@@ -1,7 +1,7 @@
 <template>
   <div class="appointments">
     <div id="mobileBookAppointment" class="modal">
-    <div class="modal-content show-on-small-only hide-on-med-and-up">
+      <div class="modal-content show-on-small-only hide-on-med-and-up">
       <h4 class="blue-text text-center center-align">Book Appointment <span class="right modal-close">x</span></h4> 
       <div class="row">
           <form class="col s12" @submit.prevent="validateForm">
@@ -24,11 +24,11 @@
           <div class="row">
             <div class="input-field col s6">
               Start Time
-                <input type="text" class="timepicker startTime" v-model="formData.setTime.start" @change="viewStart">
+                <input type="text" class="timepicker startTimeMobile" v-model="formData.setTime.start" @change="viewStart" id="startTimeMobile">
             </div>
             <div class="input-field col s6">
               End Time
-              <input type="text" class="timepicker" v-model="formData.setTime.end" @change="viewEnd" id="endTime">
+              <input type="text" class="timepicker endTimeMobile" v-model="formData.setTime.end" @change="viewEnd" id="endTimeMobile">
             </div>
           </div>
 
@@ -50,176 +50,176 @@
         </form>
       </div>
     </div>
-  </div>  
-   <interface>
-     <template slot="mobile-side-nav-content">
-       <div class="msideNav grey-text">
-         <div class="mobile basic-det">
-          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
-          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+    </div>  
+    <interface>
+      <template slot="mobile-side-nav-content">
+        <div class="msideNav grey-text">
+          <div class="mobile basic-det">
+            <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+            <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+            <li>
+            <div class="divider"></div>
+          </li>
+          </div>
           <li>
-          <div class="divider"></div>
-        </li>
+            <a href="mobileBookAppointment" class="transparent black-text modal-trigger" v-if="isPatient" data-target="mobileBookAppointment"> <i :class="add_icon"></i>
+    Book Appontment</a>
+          </li>
         </div>
-        <li>
-          <a href="mobileBookAppointment" class="transparent black-text modal-trigger" v-if="isPatient" data-target="mobileBookAppointment"> <i :class="add_icon"></i>
-  Book Appontment</a>
-        </li>
-       </div>
-     </template>
-    <template slot="basic-details">
-     <basicDetails/>
-    </template>
-  <template slot="side-nav-content">
-    <div class="divider"></div>
-<modal>
-  <div slot="triggerModal">
-   <a href="#" class="transparent black-text" v-if="isPatient"> <i :class="add_icon"></i>
-  Book Appontment</a>
-  </div>    
-  <template slot="modal-title">Book Appointment</template>
-  <template slot="modal-content">
-      <div class="row">
-        <form class="col s12" @submit.prevent="validateForm">
-          <div class="row">
-            <div class="input-field col s12">
-            <textarea id="reason" class="materialize-textarea" v-model="formData.reason" required></textarea>
-            <label for="reason">Reason</label>
-          </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              Doctor Name
-              <input id="doctor" type="text" data-length="10" required v-model="formData.doctorName" disabled>
+      </template>
+      <template slot="basic-details">
+      <basicDetails/>
+      </template>
+    <template slot="side-nav-content">
+      <div class="divider"></div>
+  <modal>
+    <div slot="triggerModal">
+    <a href="#" class="transparent black-text" v-if="isPatient"> <i :class="add_icon"></i>
+    Book Appontment</a>
+    </div>    
+    <template slot="modal-title">Book Appointment</template>
+    <template slot="modal-content">
+        <div class="row">
+          <form class="col s12" @submit.prevent="validateForm">
+            <div class="row">
+              <div class="input-field col s12">
+              <textarea id="reason" class="materialize-textarea" v-model="formData.reason" required></textarea>
+              <label for="reason">Reason</label>
             </div>
-            <div class="input-field col s6">
-              Doctor Email
-              <input id="doctor" type="text" data-length="10" required disabled v-model="formData.doctor">
             </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s6">
-              Start Time
-              <!-- <datetime v-model="formData.setTime.start"></datetime> -->
-                <!-- <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start"><br/> -->
-                <input type="text" class="timepicker startTime" v-model="formData.setTime.start" @change="viewStart">
-            </div>
-            <div class="input-field col s6">
-              End Time
-              <!-- <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"><br/> -->
-              <input type="text" class="timepicker" v-model="formData.setTime.end" @change="viewEnd" id="endTime">
-            </div>
-          </div>
-
-          <div class="row">
-            <small class="red-text left">
-              <b>Note:</b>&nbsp;The doctor is meant to specify date along with either the appointment is pending, accepted or canceled. And if the date is not feasible for him/her, he can always change it as well.
-            </small>
-          </div>
-          <div class="row text-center">
-            <small class="errMsg red-text text-center" >
-              {{errMsg}}
-            </small>
-          </div>
-
-          <h5 class="white-text"><button type="submit"  class="submit btn waves-effect waves-light white-text blue" @click="seekAppointment">Submit</button></h5>
-        </form>
-    </div>
-    </template>
-</modal>
-    <div class="divider"></div>
-  </template>
-  <template slot="user-type-img">
-     <img src="../../assets/platform/aditya-romansa-117344new.jpg" alt="patient-img" width="105%" height="295px" class="responsive-img">
-  </template>
-
-  <template slot="platform-content">
-     <div class="w3-card-8">
-
-<header class="w3-container w3-blue center-align">
-  <h4>Appointments</h4>
-</header>
-
-<div class="container" style="width: 100%;">
-  <div class="row eachAppointment" v-for="(userAppointment, index) in userAppointments" :id="index" :key="userAppointment._id">
-        <div class="col s12">
-          <div class="card blue-grey white-text">
-            <div class="card-content white-text appointmentReason">
-              <span class="card-title">Reason</span>
-              <p>{{userAppointment.reason}}</p><br/>
-              <div class="dateCreated">
-                <small class="blue btn-small">Date Created</small>
-                <small class="amber-text text-lighten-3">&nbsp;&nbsp;{{formatDate(userAppointment.createdAt)}}</small>
+            <div class="row">
+              <div class="input-field col s6">
+                Doctor Name
+                <input id="doctor" type="text" data-length="10" required v-model="formData.doctorName" disabled>
+              </div>
+              <div class="input-field col s6">
+                Doctor Email
+                <input id="doctor" type="text" data-length="10" required disabled v-model="formData.doctor">
               </div>
             </div>
-            <div class="card-action attendingDoc" v-if="userAppointment.doctor && isPatient">
-              <a  class="btn waves-effect waves-light">
-      Attending Doctor</a>
-              {{userAppointment.doctor.fullName}}
+            <div class="row">
+              <div class="input-field col s6">
+                Start Time
+                <!-- <datetime v-model="formData.setTime.start"></datetime> -->
+                  <!-- <input type="time" class="timepicker" id="startTime" required v-model="formData.setTime.start"><br/> -->
+                  <input type="text" class="timepicker startTime" v-model="formData.setTime.start" @change="viewStart" id="startTime">
+              </div>
+              <div class="input-field col s6">
+                End Time
+                <!-- <input type="time" class="timepicker" id="endTime" required v-model="formData.setTime.end"><br/> -->
+                <input type="text" class="timepicker" v-model="formData.setTime.end" @change="viewEnd" id="endTime">
+              </div>
             </div>
-            <div class="card-action attendingDoc" v-if="userAppointment.patient && !isPatient">
-              <a  class="btn waves-effect waves-light">
-      Patient</a>
-              {{userAppointment.patient.fullName}}
+
+            <div class="row">
+              <small class="red-text left">
+                <b>Note:</b>&nbsp;The doctor is meant to specify date along with either the appointment is pending, accepted or canceled. And if the date is not feasible for him/her, he can always change it as well.
+              </small>
             </div>
-            <div class="card-action attendingDoc" v-if="userAppointment.medlabscientist">
-              <a  class="btn waves-effect waves-light">
-      Laboratory Name</a>
-              {{userAppointment.medlabscientist.laboratoryName}}
-              <a  class="btn waves-effect waves-light">
-      Laboratory Address</a>
-              {{userAppointment.medlabscientist.laboratoryAddress}}
+            <div class="row text-center">
+              <small class="errMsg red-text text-center" >
+                {{errMsg}}
+              </small>
             </div>
-          <div class="card-action attendingDoc" v-if="userAppointment.setTime.start && userAppointment.setTime.end">
-            <a  class="btn waves-effect waves-light">
-      Time:</a>
-            {{userAppointment.setTime.start}} - {{userAppointment.setTime.end}}
-          </div>
-          <div class="card-action attendingDoc" v-if="!isPatient">
-              <a  class="btn waves-effect waves-light">
-      Date:</a>&nbsp;&nbsp;
-            <input type="date" class="blue assignAppointmentDate" style="color: #fff !important;
-    font-weight: 600; border-radius: 3px; width:50%" @change="selectedDate" :id="userAppointment._id">
-          </div>
-          <div class="card-action attendingDoc" v-if="userAppointment.setTime.Date">
-            <a  class="btn waves-effect waves-light">
-      Appointment Date</a>
-            {{formatDateOnly(userAppointment.setTime.Date)}}
-          </div>
-          <div class="card-action attendingDoc" v-if="userAppointment.status">
-            <a  class="btn waves-effect waves-light">
-      Status</a>
-            {{userAppointment.status.statusText}}
-            <small class="amber-text text-lighten-3 show-on-small-only">&nbsp;&nbsp;{{formatDate(userAppointment.status.date)}}</small>
-            <div class="statusDate right hide-on-small-only">
-              <small class="btn-small blue">Date: </small><small class="amber-text text-lighten-3">&nbsp;&nbsp;{{formatDate(userAppointment.status.date)}}</small>
+
+            <h5 class="white-text"><button type="submit"  class="submit btn waves-effect white-text blue" @click="seekAppointment">Submit</button></h5>
+          </form>
+      </div>
+      </template>
+  </modal>
+      <div class="divider"></div>
+    </template>
+    <template slot="user-type-img">
+      <img src="../../assets/platform/aditya-romansa-117344new.jpg" alt="patient-img" width="105%" height="295px" class="responsive-img">
+    </template>
+
+    <template slot="platform-content">
+      <div class="w3-card-8">
+
+  <header class="w3-container w3-blue center-align">
+    <h4>Appointments</h4>
+  </header>
+
+  <div class="container" style="width: 100%;">
+    <div class="row eachAppointment" v-for="(userAppointment, index) in userAppointments" :id="index" :key="userAppointment._id">
+          <div class="col s12">
+            <div class="card blue-grey white-text">
+              <div class="card-content white-text appointmentReason">
+                <span class="card-title" v-if="userAppointment.reason">Reason</span>
+                <p>{{userAppointment.reason}}</p><br/>
+                <div class="dateCreated" v-if="userAppointment.createdAt">
+                  <small class="blue btn-small">Date Created</small>
+                  <small class="amber-text text-lighten-3">&nbsp;&nbsp;{{formatDate(userAppointment.createdAt)}}</small>
+                </div>
+              </div>
+              <div class="card-action attendingDoc" v-if="userAppointment.doctor && isPatient">
+                <a  class="btn waves-effect">
+        Attending Doctor</a>
+                {{userAppointment.doctor.fullName}}
+              </div>
+              <div class="card-action attendingDoc" v-if="userAppointment.patient && !isPatient">
+                <a  class="btn waves-effect">
+        Patient</a>
+                {{userAppointment.patient.fullName}}
+              </div>
+              <div class="card-action attendingDoc" v-if="userAppointment.medlabscientist">
+                <a  class="btn waves-effect">
+        Laboratory Name</a>
+                {{userAppointment.medlabscientist.laboratoryName}}
+                <a  class="btn waves-effect">
+        Laboratory Address</a>
+                {{userAppointment.medlabscientist.laboratoryAddress}}
+              </div>
+            <div class="card-action attendingDoc" v-if="userAppointment.setTime.start !== undefined && userAppointment.setTime.end !== undefined">
+              <a  class="btn waves-effect">
+        Time:</a>
+              {{userAppointment.setTime.start}} - {{userAppointment.setTime.end}}
             </div>
-            
-          </div>
-          <div class="card-action attendingDoc" v-if="!isPatient">
-            <a  class="btn waves-effect waves-light">
-      Change Status</a>
-            <select class="browser-default waves-effect waves-light btn blue accessStatusStyle" style="class: browser" :id="userAppointment._id" @change="toggleAppointmentStatus">
-              <option selected disabled>{{userAppointment.status.statusText}}</option>
-              <option v-for="(option, index) in options" :value="option.value" :key="index">
-            {{ option.text }}
-              </option>
-            </select>
+            <div class="card-action attendingDoc" v-if="!isPatient">
+                <a  class="btn waves-effect">
+        Date:</a>&nbsp;&nbsp;
+              <input type="date" class="blue assignAppointmentDate" style="color: #fff !important;
+      font-weight: 600; border-radius: 3px; width:50%" @change="selectedDate" :id="userAppointment._id">
+            </div>
+            <div class="card-action attendingDoc" v-if="userAppointment.setTime.Date !== undefined">
+              <a  class="btn waves-effect">
+        Appointment Date</a>
+              {{formatDateOnly(userAppointment.setTime.Date)}}
+            </div>
+            <div class="card-action attendingDoc" v-if="userAppointment.status">
+              <a  class="btn waves-effect">
+        Status</a>
+              {{userAppointment.status.statusText}}
+              <small class="amber-text text-lighten-3 show-on-small-only">&nbsp;&nbsp;{{formatDate(userAppointment.status.date)}}</small>
+              <div class="statusDate right hide-on-small-only">
+                <small class="btn-small blue">Date: </small><small class="amber-text text-lighten-3">&nbsp;&nbsp;{{formatDate(userAppointment.status.date)}}</small>
+              </div>
+              
+            </div>
+            <div class="card-action attendingDoc" v-if="!isPatient">
+              <a  class="btn waves-effect">
+        Change Status</a>
+              <select class="browser-default waves-effect btn blue accessStatusStyle" style="class: browser" :id="userAppointment._id" @change="toggleAppointmentStatus">
+                <option selected disabled>{{userAppointment.status.statusText}}</option>
+                <option v-for="(option, index) in options" :value="option.value" :key="index">
+              {{ option.text }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
+    <div class="noAppointment" v-if="!checkAppointments">
+      <h4 class="center">No Appointments yet!</h4>
     </div>
-  <div class="noAppointment" v-if="!checkAppointments">
-    <h4 class="center">No Appointments yet!</h4>
   </div>
-</div>
 
 
-</div>
-  </template>
+  </div>
+    </template>
   </interface>
    
-<router-view></router-view>
+  <router-view></router-view>
   </div>
 </template>
 <script>
@@ -241,6 +241,8 @@ export default {
       formData: {
         reason: '',
         creator: this.$store.state.userType,
+        laboratoryName: '',
+        laboratoryScientist: '',
         setTime: {
           start: '',
           end: ''
@@ -249,7 +251,7 @@ export default {
         doctorName: this.$store.state.consult.doctorName,
         patient: this.$store.state.profile.email
       },
-      userAppointments: [],
+      userAppointments: null,
       options: [
         {text: 'Pending', value: 'Pending'},
         {text: 'Approved', value: 'Approved'},
@@ -260,14 +262,25 @@ export default {
   },
   watch: this.userAppointments,
   async mounted () {
-    var elem = document.querySelector('.timepicker')
+    var elem = document.querySelector('#startTime')
     // eslint-disable-next-line
     var instance = new M.Timepicker(elem, {
       defaultTime: 'now'
     })
     var elem2 = document.querySelector('#endTime')
     // eslint-disable-next-line
-    var instance = new M.Timepicker(elem2, {
+    var instance2 = new M.Timepicker(elem2, {
+      defaultTime: 'now'
+    })
+
+    var elem3 = document.querySelector('#startTimeMobile')
+    // eslint-disable-next-line
+    var instance3 = new M.Timepicker(elem3, {
+      defaultTime: 'now'
+    })
+    var elem4 = document.querySelector('#endTimeMobile')
+    // eslint-disable-next-line
+    var instance4 = new M.Timepicker(elem4, {
       defaultTime: 'now'
     })
 
@@ -295,7 +308,7 @@ export default {
       let userAppointments = (await RequestServices.fetchAppointments(bookedAppointment)).data
       if (userAppointments.length > 0) {
         this.userAppointments = userAppointments
-        // console.log(this.userAppointments)
+        console.log({appData: this.userAppointments})
       } else {
         this.checkAppointments = false
       }
@@ -415,6 +428,9 @@ export default {
 </script>
 
 <style scoped>
+#id01 > div > div > div > div > form {
+  padding: 0 2.5rem;
+}
 #modal-c3f1d8d3-341c-25dc-df52-ee366e699d50 > div > div.timepicker-digital-display, #modal-f53efcaa-727f-1a3a-d72b-bd2d84f54343 > div > div.datepicker-date-display {
   background-color: #2196f3 !important;
 }
@@ -445,6 +461,9 @@ div .accessStatusStyle {
 div .restrictStatusStyle {
   margin-top: -3.0rem;
   margin-left: 9rem;
+}
+#app > div > div > div.main-interface > div:nth-child(3), div.main-interface #majorContent {
+  margin-left: 25% !important;
 }
 #app > div > div > div > div > div > div > div.platform-content > div > div > div > p.combine > a {
   margin-top: -2.1rem;

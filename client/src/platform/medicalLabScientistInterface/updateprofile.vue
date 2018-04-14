@@ -3,14 +3,14 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
-        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
           Profile
         </router-link></li>
-          <li><router-link  class="btn transparent white-text waves-effect waves-light" :to="goToAppointment">Appointment
+          <li><router-link  class="btn transparent white-text waves-effect" :to="goToAppointment">Appointment
         </router-link>
         </li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
@@ -173,8 +173,8 @@ export default {
       return capitalizeMe
     },
     upload (formData) {
-      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
-      const url = `http://localhost:3050/handlePhoto/imgUpload`
+      const url = `https://server-sadeaeehkv.now.sh/handlePhoto/imgUpload`
+      // const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {

@@ -18,36 +18,9 @@
               <label >Password</label>
             </div>
           </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <label>User type: </label>
-              <i class="icon ion-android-person blue-text"></i><br/>
-              <span class="userPicked blue-text x1 left">{{loginData.userType}}</span>
-              <br/>
-              <div class="userTypes">
-                 <p><label for="Patient">Patient</label>
-                <input name="userType" type="radio" id="patient" value="Patient" v-model="loginData.userType"/>
-                
-                </p>
-                <p><label for="doctor">Doctor</label>
-                  <input name="userType" type="radio" id="doctor" value="Doctor" v-model="loginData.userType" />
-                  
-                </p>
-                <p><label for="pharmacist">Pharmacist</label>
-                <input  name="userType" type="radio" id="pharmacist" value="Pharmacist" v-model="loginData.userType" />
-                <br/>
-                </p>
-                <p><label for="labscientist">MedicalLab Scientist</label>
-                <input  name="userType" type="radio" id="labscientist" value="MedicalLab Scientist" v-model="loginData.userType" />
-                
-                </p>
-              </div>
-             
-            </div>
-          </div>
-             <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
-           <button class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers">Login</button><br/><br/>
-           <button class="btn text-center blue fpwd-btn waves-effect waves-grey" id="forgetPassword">Forget Password</button>
+          <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
+          <button class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers">Login</button><br/><br/>
+          <button class="btn text-center blue fpwd-btn waves-effect waves-grey" id="forgetPassword">Forget Password</button>
           
       </form>
       </div>
@@ -103,33 +76,27 @@ export default {
         this.errorMsg = 'Please provide a valid password of your account!'
         return false
       }
-      if (this.loginData.userType !== '') {
-        validateLogin.userType = this.loginData.userType
-      } else {
-        this.errorMsg = 'Please choose a user type!'
-        return false
-      }
       // console.log(this.loginData)
       try {
         const response = await AuthServices.signInUsers(validateLogin)
         let responseData = response.data
+        this.loginData.userType = responseData.userType
         if (this.loginData.userType === 'Patient') {
           // console.log({responseData})
           // eslint-disable-next-line
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, address, patientDocs, carts} = responseData
-
+          console.log(responseData + carts)
           this.authToken = token
           this.loginData.userType = userType
-          // console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto, user})
           this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, address})
           // this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
           this.$store.commit('SET_PATIENTCARTS', {patientCarts: carts})
+          console.log(this.$store.state.userData.patientCarts)
           this.$store.commit('SOCKET_CONNECT')
         } else if (this.loginData.userType === 'Doctor') {
           let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, profilePhoto, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
-          this.loginData.userType = userType
           // console.log({fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, user})
           this.$store.commit('SET_USER', {token, email: user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
           this.$store.commit('SOCKET_CONNECT')
@@ -138,7 +105,6 @@ export default {
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
-          this.loginData.userType = userType
           // console.log({fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, user})
           this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
           // this.$store.commit('SET_USERDATA', {pharmacistOrders: 0})
@@ -146,8 +112,6 @@ export default {
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
-          this.loginData.userType = userType
-          // console.log({fullName, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, user})
           this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
         }
         if (this.$store.state.lastPageVisited > 0) {
@@ -233,8 +197,8 @@ div.login form > div > div.input-field.col.s12 {
     margin: 0.7rem 0rem 0px 0px !important;
 }
 
-div.main.flow-text > div.content.center-align.white-text > div > div > form > div:nth-child(1){
-  height: 6rem;
+div.main.flow-text > div.content.center-align.white-text > div > div > form > div{
+  /* height: 6rem; */
   line-height: 40px;
 }
 

@@ -91,7 +91,7 @@ export default new Vuex.Store({
       }
     },
     CLEAR_CARTS (state) {
-      state.userData.patientCarts = null
+      state.userData.patientCarts = []
     },
     CLEAR_CURRENTUSERDRUGS (state) {
       state.currentUserDrug = null
@@ -148,6 +148,11 @@ export default new Vuex.Store({
     },
     CLEAR_USER (state) {
       state.token = ''
+      state.allDocs = []
+      state.viewDoc = null
+      state.currentDrug = null
+      state.currentLab = null
+      state.currentUserDrug = null
       state.userType = ''
       state.profile = {}
       state.consult = {}

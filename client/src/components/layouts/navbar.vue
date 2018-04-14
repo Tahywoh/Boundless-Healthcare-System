@@ -1,5 +1,5 @@
 <template>
-  <div class="header-view">
+  <div class="header-view navbar-fixed">
     <nav class="blue white-text">
       <div class="nav-wrapper">
         
@@ -173,7 +173,7 @@
 }
 
 nav div.nav-wrapper{
-  margin: 0 6rem;
+  margin: 0 1.4rem;
 }
 div ul{
   padding: 0 3rem;
