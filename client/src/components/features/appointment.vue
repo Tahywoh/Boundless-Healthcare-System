@@ -162,13 +162,13 @@
         Patient</a>
                 {{userAppointment.patient.fullName}}
               </div>
-              <div class="card-action attendingDoc" v-if="userAppointment.medlabscientist">
+              <div class="card-action attendingDoc" v-if="userAppointment.medlabscientist.laboratoryName && !isLabScientist && userAppointment.medlabscientist.laboratoryScientist">
                 <a  class="btn waves-effect">
         Laboratory Name</a>
-                {{userAppointment.medlabscientist.laboratoryName}}
+                {{userAppointment.medlabscientist.laboratoryName}}<br/><br/>
                 <a  class="btn waves-effect">
-        Laboratory Address</a>
-                {{userAppointment.medlabscientist.laboratoryAddress}}
+        Laboratory Scientist</a>
+                {{userAppointment.medlabscientist.fullName}}
               </div>
             <div class="card-action attendingDoc" v-if="userAppointment.setTime.start !== undefined && userAppointment.setTime.end !== undefined">
               <a  class="btn waves-effect">
@@ -233,16 +233,15 @@ export default {
   components: {Interface, Modal, BasicDetails},
   data () {
     return {
-      checkAppointments: true,
+      checkAppointments: '',
       isPatient: false,
+      isLabScientist: false,
       choosedDate: '',
       errMsg: '',
       add_icon: navs.links.bookAppointment.icon + ' x2 left',
       formData: {
         reason: '',
         creator: this.$store.state.userType,
-        laboratoryName: '',
-        laboratoryScientist: '',
         setTime: {
           start: '',
           end: ''
@@ -302,6 +301,7 @@ export default {
       bookedAppointment.user = 'Doctor'
     } else if (this.$store.state.userType === 'MedicalLabScientist') {
       bookedAppointment.user = 'MedicalLabScientist'
+      this.isLabScientist = true
     }
     // console.log(bookedAppointment)
     try {
@@ -309,6 +309,7 @@ export default {
       if (userAppointments.length > 0) {
         this.userAppointments = userAppointments
         console.log({appData: this.userAppointments})
+        this.checkAppointments = true
       } else {
         this.checkAppointments = false
       }
@@ -406,7 +407,7 @@ export default {
         return
       }
       try {
-        console.log(appointmentData)
+        // console.log(appointmentData)
         const bookAppointment = await (RequestServices.seekAppointment(appointmentData))
         console.log({'appointmentData': bookAppointment.data})
         document.getElementById('id01').style.display = 'none'

@@ -8,7 +8,7 @@
   <div class="main flow-text wrapper" style="padding-top:0rem">
     <heading/>
     <div class="homeContent">
-        <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
+        <img src="../assets/platform/newmed.png" alt="Error displaying image" class="img responsive-img"/>
         <!-- <div class="content center-align white-text"> 
           <div class="animated bounceInRight">
             <slot name="indexMainContent" class="animated bounceInRight m6 s12">
@@ -28,7 +28,7 @@
         <img src="../assets/platform/medlab2.jpg" alt="error displaying image" class="img responsive-img hide-on-med-and-up">
     </div>
 
-    <div class="content center-align white-text"> 
+    <div class="content center-align white-text" style="margin-left: 0%;"> 
       <div class="animated bounceInRight">
         <slot name="indexMainContent" class="animated bounceInRight m6 s12">
       <p>Diagnose your health condition and take necessary measure!</p>
@@ -71,9 +71,8 @@ div.main{
 }
 div.main img{
   width: 100%;
-  filter: opacity(.43299);
+  filter: brightness(.8);
   z-index: -1;
-  /* height: 776px; */
 }
 #index > div > div.content {
     position: absolute;
@@ -108,7 +107,7 @@ form input{
   top: -1.5rem; 
 }
 div.homeContent {
-  background-color: rgb(33, 150, 243);
+  background-color: inherit;
 }
 #index > div.main.flow-text > div.content.center-align.white-text {
     /* background-color: rgba(33, 150, 243, .25); */

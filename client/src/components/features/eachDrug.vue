@@ -1,7 +1,7 @@
 <template>
   <div id="eDrug">
 <fixednav>
-      <template slot="fixed-nav-bar">
+      <template slot="fixed-nav-bar" style="font-size: 0.7rem;">
         <li>
         <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
         <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
@@ -51,7 +51,7 @@
               <strong class="x15">{{eachDrug.price}}</strong>
               </h6>
               <h6><button class="currency btn blue">Currency </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
-              <h6><button class="btn amber waves-effect" @click="addToCart">Add to cart</button></h6>
+              <h6><button class="btn amber waves-effect WAVES-LIGHT" @click="addToCart">Add to cart</button></h6>
             </div>
           </div>
         </div>

@@ -49,7 +49,7 @@
       </div>
     </navbar>
     <div class="content row m4">
-      <div class="w3-sidebar w3-light-grey w3-bar-block fixed-side-nav col m5 hide-on-small-only" style="width:25%; margin-top: 1rem;">
+      <div class="w3-sidebar w3-light-grey w3-bar-block fixed-side-nav col m5 hide-on-small-only" style="width:25%; margin-top: 0rem;">
       <div class="divider"></div>
         <h4 class="header grey darken-3 white-text center-align text-center" style="padding: 0.8rem;">{{uType}} Dashboard</h4>
         <div class="basic-details">
@@ -118,8 +118,8 @@ html,
 body {
   background-color: #f1f1f1 !important;
 }
-#app > div > div > div:nth-child(3) {
-  margin-left: 25%;
+div.majorContent, div#majorContent {
+  margin-left: 25% !important;
 }
 #side-nav {
   width: max-content;

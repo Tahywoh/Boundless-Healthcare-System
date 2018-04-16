@@ -96,7 +96,7 @@
     width: 100% !important
   }
   div.patient-carts div.carts > span {
-    margin-left: 32% !important;
+    margin-left: 29% !important;
   }
   #app  div.update-profile-data > div {
     background-color: transparent !important;
@@ -109,6 +109,12 @@
 @media only screen and (max-width: 470px) {
   #slide-out {
     margin: auto 45%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #nav-mobile a.btn {
+    font-size: 0.7rem !important;
   }
 }
 

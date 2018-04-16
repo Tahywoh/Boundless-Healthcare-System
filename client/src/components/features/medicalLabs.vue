@@ -3,9 +3,7 @@
       <div id="bookAppointmentWithLabScientist" class="modal">
       <div class="modal-content">
         <span class="right modal-close">x</span>
-      <h4 class="blue white-text text-center center-align" style="padding: 0.4rem;
-    width: 50%;
-    margin-left: 26%;">Book Appointment</h4>
+      <h2 class="blue-text text-center center-align x25" >Book Appointment</h2>
       <div class="row">
           <form class="col s12" @submit.prevent="validateForm">
           <div class="row">
@@ -47,22 +45,13 @@
           </div>
           <div class="modal-footer">
             <h5 class="white-text"><button type="submit"  class="submit btn-flat
-             waves-light white-text blue modal-action">Submit</button></h5>
+             waves-light white-text blue modal-action" @click="seekAppointment" id="labAppointmentAction">Submit</button></h5>
           </div>
           
         </form>
       </div>
     </div>
     </div>
-    <!-- <div id="bookAppointmentWithLabScientist" class="modal">
-    <div class="modal-content">
-      <h4 class="center-align blue white-text" style="padding: 0.3rem;">Book Appointment</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
-  </div> -->
           
     <div class="searchForm">
       <div class="row">
@@ -110,6 +99,7 @@
 <script>
 import GetServices from '@/services/getServices'
 import SearchServices from '@/services/searchServices'
+import RequestServices from '@/services/requestServices'
 import M from 'materialize-css'
 export default {
   data () {
@@ -121,6 +111,7 @@ export default {
       errMsg: '',
       formData: {
         reason: '',
+        creator: this.$store.state.userType,
         laboratoryName: '',
         laboratoryScientist: '',
         setTime: {
@@ -128,7 +119,8 @@ export default {
           end: ''
         },
         patient: this.$store.state.profile.email
-      }
+      },
+      instance: ''
     }
   },
   async mounted () {
@@ -158,8 +150,21 @@ export default {
       })
     }
     var el = document.querySelector('.modal')
+    this.instance = M.Modal.getInstance(el)
     // eslint-disable-next-line
     var instance = new M.Modal(el, {})
+
+    var elemStart = document.querySelector('.timepicker.startTimeMobile')
+    // eslint-disable-next-line
+    var instance = new M.Timepicker(elemStart, {
+      defaultTime: 'now'
+    })
+
+    var elemEnd = document.querySelector('.timepicker.endTimeMobile')
+    // eslint-disable-next-line
+    var instance = new M.Timepicker(elemEnd, {
+      defaultTime: 'now'
+    })
   },
   methods: {
     viewStart (e) {
@@ -173,8 +178,47 @@ export default {
     setLabData (labName, labScientist) {
       this.formData.laboratoryName = labName
       this.formData.laboratoryScientist = labScientist
-      console.log(this.formData)
-      console.log(labName, labScientist)
+    },
+    async seekAppointment () {
+      let appointmentData = {}
+      if (this.formData.reason && this.formData.reason.length >= 8) {
+        appointmentData.reason = this.formData.reason
+      } else {
+        alert('Invalid input. Please enter a valid reason')
+        return false
+      }
+
+      appointmentData.creator = this.formData.creator
+      appointmentData.patient = this.formData.patient
+      if ((this.formData.setTime.start) || (this.formData.setTime.end <= 12)) {
+        appointmentData.setTime = {
+          start: this.formData.setTime.start,
+          end: this.formData.setTime.end
+        }
+      } else {
+        alert('Enter valid start and end time!')
+        return
+      }
+
+      if (this.formData.laboratoryScientist) {
+        appointmentData.labScientist = this.formData.laboratoryScientist
+      } else {
+        alert('You have not specify the laboratory to book appointment with!')
+        this.instance.close()
+        return
+      }
+
+      try {
+        console.log(appointmentData)
+        const bookAppointment = (await (RequestServices.seekAppointment(appointmentData))).data
+        console.log({bookAppointment})
+        this.instance.close()
+        alert(`You have successfully book appointment with ${this.formData.laboratoryName}`)
+      } catch (error) {
+        if (error) {
+          console.log(JSON.stringify(error, null, 3))
+        }
+      }
     },
     validateForm (e) {},
     async findLabs () {
@@ -230,7 +274,7 @@ input#labSearch {
 div#registeredLabs ul li div > a {
   font-size: 0.6rem !important;
   padding: 0 0.5rem !important;
-  margin-left: 18%;
+  margin-left: auto;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="login center-align">
     <index>
-      <div slot="indexMainContent" class="mainContent center-align m6 s12">
+      <div slot="indexMainContent" class="mainContent center-align m6 s12" >
         <h3 class="blue white-text">Login</h3>
         <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm">
           <div class="row">
@@ -207,9 +207,7 @@ div.mainContent h3{
 }
 #index > div.main.flow-text.wrapper > div.homeContent > img {
   width: 100%;
-  filter: opacity(.6) !important;
-  -webkit-filter: opacity(.6);
-  /* z-index: -1; */
+  z-index: -1;
 }
 
 .file-field.input-field {

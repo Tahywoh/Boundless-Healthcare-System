@@ -413,7 +413,6 @@ i.icon.ion-ios-paper{
 
 div.main img{
   width: 100%;
-  /* filter: brightness(.79) !important; */
   z-index: -1;
 }
 option, option:disabled{
@@ -455,7 +454,7 @@ i.icon.ion-android-arrow-forward, i.icon.ion-android-arrow-back {
     border-top-left-radius: 13px;
     padding: 0.8rem 0;
 }
-select.browser-default.waves-effect.waves-light.btn {
+select.browser-default.waves-effect.btn {
     opacity: 1;
     height: 35px;
     width: 80%;

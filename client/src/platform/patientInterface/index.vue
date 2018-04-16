@@ -18,7 +18,7 @@
           <form  class="search-doctors col s12" @submit="findDoctors" @submit.prevent="validateForm">
             <div class="input-field col s12">
           <i class="icon ion-search x15"></i>
-              <input type="search" id="autocomplete-input" class="autocomplete white black-text" placeholder="Consult a doctor now!" v-model="search"/>
+              <input type="search" id="autocomplete-input" class="autocompleteMobile white black-text" placeholder="Consult a doctor now!" v-model="search"/>
             </div>
             <!-- <small class="searchErr red-text">{{searchErr}}</small> -->
           </form>
@@ -181,7 +181,7 @@ export default {
     this.allDocs = allDocs
     let searchOptions = {}
     this.allDocs.forEach(doc => {
-      searchOptions[`${doc.fullName}`] = null
+      searchOptions[`${doc.fullName}`] = doc.fullName
     })
     var el = document.querySelector('ul.tabs')
     // eslint-disable-next-line
@@ -189,6 +189,14 @@ export default {
     var elem = document.querySelector('.autocomplete')
     // eslint-disable-next-line
     var instance = new M.Autocomplete(elem, {
+      data: searchOptions,
+      limit: 20,
+      minLength: 1
+    })
+
+    var elem2 = document.querySelector('.autoCompleteMobile')
+    // eslint-disable-next-line
+    var instance = new M.Autocomplete(elem2, {
       data: searchOptions,
       limit: 20,
       minLength: 1
@@ -229,8 +237,6 @@ export default {
           this.docStatus = this.search
           this.doctors = doctors
           this.search = ''
-          var instance = M.Sidenav.getInstance(document.querySelector('#slide-out-mobile'))
-          instance.close()
         } else if (doctors.length === 0) {
           this.registeredDoctors = false
           this.docStatus = `Doctor not found!`
@@ -264,9 +270,9 @@ export default {
           if (channel !== this.$store.state.consult.newRoom) {
             newChannel = channel
             this.$store.commit('SOCKET_CREATECHANNEL', {newRoom: newChannel})
-            this.$store.commit('SET_DOCPATIENT', {doctorName: docFullName, doctorEmail: docEmail})
+            this.$store.commit('SET_DOCPATIENT', {doctorName: docFullName, doctorEmail: docEmail, patientName: this.$store.state.profile.fullName})
             if (confirm(`Are you sure you want to consult Doctor ${doc.fullName} with room name ${newChannel}?`)) {
-              alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them. Kindly go back to your dashboard to proceed.`)
+              alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them or seek appointment. Kindly go back to your dashboard to proceed.`)
             }
             console.log(newChannel)
           } else {

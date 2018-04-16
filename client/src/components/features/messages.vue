@@ -5,9 +5,27 @@
       <p v-if="isConnected">You're connected to the server!</p>
       <p v-else>You're disconnected from the server!</p>
       </div>
-      <h3>Attending doctor</h3>
-      <div id="users" v-if="docName">
-        <li>{{docName}}</li>
+      <div class="chatDetails" v-if="this.$store.state.userType === 'Patient'">
+        <h3>Attending doctor</h3>
+        <div id="users" v-if="docName">
+          <li>{{docName}}</li>
+        </div>
+        <div v-else>
+          <div class="divider"></div>
+          <br/>
+          <h3 class="white-text center-align">You are yet to consult a doctor!</h3>
+        </div>
+      </div>
+      <div class="chatDetails" v-else>
+        <h3>Patient</h3>
+        <div id="users" v-if="patientName">
+          <li>{{patientName}}</li>
+        </div>
+        <div v-else>
+          <div class="divider"></div>
+          <br/>
+          <h3 class="white-text center-align">No patient is currently consulting you.</h3>
+        </div>
       </div>
   </div>
  
@@ -45,7 +63,8 @@ export default {
       isConnected: false,
       socketMessages: [],
       message: null,
-      docName: this.$store.state.consult.doctorName
+      docName: this.$store.state.consult.doctorName,
+      patientName: this.$store.state.consult.patientName
     }
   },
   sockets: {
@@ -102,10 +121,15 @@ export default {
     validateForm (e) {},
     sendMessage () {
       if (this.isConnected) {
-        this.$socket.emit('createMessage', {
-          from: this.$store.state.profile.fullName,
-          text: this.message
-        })
+        console.log(this.patientName, this.docName)
+        if ((this.patientName && this.docName) || (this.$store.state.userType === 'Doctor')) {
+          this.$socket.emit('createMessage', {
+            from: this.$store.state.profile.fullName,
+            text: this.message
+          })
+        } else {
+          alert(`No consultation yet, therefore message can not be sent!`)
+        }
       } else {
         alert('Unable to connect to server')
         // location.href = '/'

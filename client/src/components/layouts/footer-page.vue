@@ -1,9 +1,9 @@
 <template>
-  <div class="footer-pmgc">
+  <div class="footer-pmgc" style="margin-left: 0%;">
     <footer class="page-footer grey darken-4">
       <div class="center-align">
         <div class="row">
-          <div class="col l4 m6x">
+          <div class="col m4">
             <h5 class="white-text animated bounceInDown">Have any questions?</h5>
             <p class="grey-text text-lighten-4 left animated bonceInRight" style="text-align: left;">We reply all questions within
             </p>
@@ -12,7 +12,7 @@
             </h2>
             <p class="left animated bounce" style="text-align: left;"><i class="icon ion-ios-email x2" style="font-style: normal;">&nbsp;</i> Email:&nbsp;info@b-healthcaresystem.com<wbr/></p>
           </div>
-          <div class="mission col m6 l4">
+          <div class="mission col m4">
             <h4>
               Our Vision
             </h4>
@@ -21,7 +21,7 @@
               To provide access to good health care services via a virtual system.
             </p>
           </div>
-          <div class="col l4 m6">
+          <div class="col m4">
             <h4 class="white-text animated zoomIn">Links</h4>
               <ul class="animated slideInRight">
                 <li>

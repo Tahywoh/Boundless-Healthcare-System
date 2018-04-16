@@ -29,10 +29,6 @@ const AppointmentSchema = new Schema({
     end: String,
     Date: DateType
   },
-  note: {
-    type: String,
-    trim: true
-  },
   status: {
     statusText: {
       type: String,

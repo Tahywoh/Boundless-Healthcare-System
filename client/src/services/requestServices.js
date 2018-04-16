@@ -19,9 +19,6 @@ export default {
     // data.token = fetchStoreData('authToken')
     return Api().post('/appointment/seekAppointment', data, header)
   },
-  appointmentWithLabScientist (data) {
-    return Api().post('/appointment/labAppointment', data)
-  },
   fetchAppointments (data) {
     return Api().post('/appointment/fetchAppointments', data, header)
   },

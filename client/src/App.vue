@@ -14,7 +14,12 @@
     }
 }
 </script>
+
 <style>
+
+ul.autocomplete-content {
+  overflow: hidden;
+}
 #id01 > div {
   top: 5%;
 }
@@ -37,8 +42,9 @@ div[class$="profile"] label.active, #app > div > div.profileWra  label.active {
 nav ul a.btn.transparent.white-text.waves-effect.waves-light {
     font-size: 0.7rem;
 }
-#nav-mobile > div > li > a {
+#nav-mobile > div > li > a.btn {
   font-size: 0.7rem !important;
+  padding: 0 1rem !important;
 }
 .btn, .btn-large, .btn-flat {
     border: none;

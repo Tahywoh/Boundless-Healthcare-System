@@ -157,9 +157,6 @@ div.carts > div > div > div > div > div.card-action {
 #app > div > div.carts > span {
     padding: 0.8rem;
     border-radius: 10px;
-    margin-left: 40%;
+    margin-left: 44%;
 }
-/* .carts-view {
-  padding-top: 1.5rem;
-} */
 </style>

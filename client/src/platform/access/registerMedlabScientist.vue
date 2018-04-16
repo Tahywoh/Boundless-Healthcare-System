@@ -424,7 +424,6 @@ i.icon.ion-ios-paper{
 }
 div.main img{
   width: 100%;
-  /* filter: brightness(.79) !important; */
   z-index: -1;
 }
 option, option:disabled{
@@ -469,7 +468,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a 
     border-top-left-radius: 13px;
     padding: 0.8rem 0;
 }
-select.browser-default.waves-effect.waves-light.btn {
+select.browser-default.waves-effect.btn {
     opacity: 1;
     height: 35px;
     width: 80%;

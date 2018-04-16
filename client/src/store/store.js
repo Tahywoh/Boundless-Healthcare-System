@@ -145,6 +145,7 @@ export default new Vuex.Store({
     SET_DOCPATIENT (state, data) {
       state.consult.doctorName = data.doctorName
       state.consult.doctorEmail = data.doctorEmail
+      state.consult.patientName = data.patientName
     },
     CLEAR_USER (state) {
       state.token = ''
