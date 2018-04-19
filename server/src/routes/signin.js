@@ -33,7 +33,6 @@ router.post('/', (req, res) => {
             user: patientData.user,
             patient_id: patientData._id
           }
-          console.log(carts)
           let token = jwt.sign(payload, config.token_secret)
           // console.log(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}, null, 2))
           res.status(200).send({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs})

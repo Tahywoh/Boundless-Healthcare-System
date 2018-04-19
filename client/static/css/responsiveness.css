@@ -80,7 +80,7 @@
     margin-left: 1rem;
   }
   #sideMenu > i {
-    margin-left: -2.5rem;
+    margin-left: -4.5rem;
   }
   #slide-out-mobile > div > div {
     padding: 1.5rem;
@@ -104,11 +104,17 @@
   #app > div > div > div.main-interface > div:nth-child(3), #app > div > div > div.main-interface > div:nth-child(3), div.main-interface #majorContent {
     margin-left: 0% !important;
   }
+  div.majorContent, div#majorContent {
+    margin-left: 0% !important;
+}
 }
 
 @media only screen and (max-width: 470px) {
   #slide-out {
-    margin: auto 45%;
+    /* margin: auto 45%; */
+  }
+  div.majorContent, div#majorContent {
+    /* margin-left: 0% !important; */
   }
 }
 

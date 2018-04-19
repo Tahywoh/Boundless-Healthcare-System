@@ -16,7 +16,9 @@
 </script>
 
 <style>
-
+div.majorContent, div#majorContent {
+  margin-left: 25% !important;
+}
 ul.autocomplete-content {
   overflow: hidden;
 }
@@ -27,7 +29,7 @@ ul.autocomplete-content {
   padding: 0rem 0.3rem;
 }
   #sideMenu > i {
-    margin-left: -2.5rem;
+    margin-left: -4.5rem;
   }
 .tabs .indicator {
   background-color: transparent !important;

@@ -162,7 +162,7 @@
         Patient</a>
                 {{userAppointment.patient.fullName}}
               </div>
-              <div class="card-action attendingDoc" v-if="userAppointment.medlabscientist.laboratoryName && !isLabScientist && userAppointment.medlabscientist.laboratoryScientist">
+              <div class="card-action attendingDoc" v-if="userAppointment.medlabscientist">
                 <a  class="btn waves-effect">
         Laboratory Name</a>
                 {{userAppointment.medlabscientist.laboratoryName}}<br/><br/>

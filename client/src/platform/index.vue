@@ -59,8 +59,11 @@ export default {
   name: 'index'
 }
 </script>
-
 <style> 
+#nav-mobile > li > a {
+  font-size: 1rem !important;
+  padding: 0 1rem !important;
+}
 .showcontent{
   display: block !important;
 }
@@ -71,7 +74,7 @@ div.main{
 }
 div.main img{
   width: 100%;
-  filter: brightness(.8);
+  filter: brightness(.5);
   z-index: -1;
 }
 #index > div > div.content {

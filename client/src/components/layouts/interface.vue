@@ -5,7 +5,9 @@
         <i class="icon ion-android-arrow-dropleft left x35" v-if="this.$store.state.isUserLoggedIn"></i>
       </template>
       <template slot="mobileSideNav">
-          <slot name="mobile-side-nav-content"></slot>
+            <slot name="mobile-side-nav-content">
+              
+            </slot>
       </template>
         <template slot="search-doctor">
           <slot name="consult-doctor">  
@@ -70,7 +72,6 @@
 
         <!-- Page Content -->
       <div class="majorContent col m8 s12" id="majorContent">
-
         <div class="w3-container w3-teal">
           <div class="user-type-img">
             <slot name="user-type-img">
@@ -100,6 +101,7 @@
 <script scoped>
 import navbar from '@/components/layouts/navbar'
 import Fixednav from '@/components/layouts/fixednav'
+// import M from 'materialize-css'
 export default{
   name: 'main-interface',
   components: {
@@ -109,6 +111,13 @@ export default{
     return {
       uType: this.$store.state.userType
     }
+  },
+  mounted () {
+    // var el2 = document.querySelector('#slide-out-mobile')
+    // // eslint-disable-next-line
+    // var instance = new M.Sidenav(el2, {
+    //   draggable: true
+    // })
   }
 }
 </script>
@@ -118,9 +127,20 @@ html,
 body {
   background-color: #f1f1f1 !important;
 }
-div.majorContent, div#majorContent {
-  margin-left: 25% !important;
+
+.sidenav-overlay {
+  position: fixed;
+  top: 0;
+  left: auto !important;
+  right: 0;
+  opacity: 0;
+  height: 120vh;
+  width: calc(100% - 300px);
+  background-color: rgba(0,0,0,0.5);
+  z-index: 997;
+  display: none;
 }
+
 #side-nav {
   width: max-content;
 }
@@ -163,9 +183,6 @@ a.w3-bar-item.w3-button {
 .basic-details {
   /* padding: -0.5rem 0 !important; */
     margin-top: 1.5rem;
-}
-div > div.content {
-  /* padding-top: 4rem; */
 }
 div ul {
     z-index: 0;

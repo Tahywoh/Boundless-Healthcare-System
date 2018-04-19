@@ -15,7 +15,7 @@
         <router-link :to="toAppointment" class="w3-bar-item w3button">
           <i :class="appointment_icon"></i>
           &nbsp;Appointments
-          <span class="circle blue notification-circle">6</span>
+          <!-- <span class="circle blue notification-circle">6</span> -->
         </router-link>
       </li>
       <li>

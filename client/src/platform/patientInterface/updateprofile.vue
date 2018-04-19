@@ -30,43 +30,43 @@
       </div>
 
     </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input id="full_name" type="text" class="validate" v-model="profileData.fullName">
-            <label for="full_name" class="active">Full Name</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="email" type="email" class="validate" :value="profileData.email" disabled>
-            <label for="email" class="active">Email</label>
-          </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="full_name" type="text" class="validate" v-model="profileData.fullName">
+          <label for="full_name" class="active">Full Name</label>
         </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <i class="icon ion-android-call"></i>
-            <input id="telephone" type="number" class="validate autofocus" v-model="profileData.telephone">
-            <label for="telephone" class="active">Telephone</label>
-          </div>
-          <div class="input-field col s6">
-            <i class="icon ion-location"></i>
-            <input id="city" type="text" class="validate" v-model="profileData.city" >
-            <label for="city" class="active">City</label>
-          </div>
+        <div class="input-field col s6">
+          <input id="email" type="email" class="validate" :value="profileData.email" disabled>
+          <label for="email" class="active">Email</label>
         </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <i class="icon ion-location"></i>
-            <input id="state" type="text" class="validate" v-model="profileData.state">
-            <label for="state" class="active">State</label>
-          </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="icon ion-android-call"></i>
+          <input id="telephone" type="number" class="validate autofocus" v-model="profileData.telephone">
+          <label for="telephone" class="active">Telephone</label>
         </div>
-        <div class="row">
-          <div class=" input-field col s12">
-            <i class="icon ion-location"></i>
-            <textarea id="addressProfileUpdate" type="text" class="validate materialize-textarea" data-length="50" v-model="profileData.address"></textarea>
-            <label for="address_profile" class="active">Address</label>
-          </div>
+        <div class="input-field col s6">
+          <i class="icon ion-location"></i>
+          <input id="city" type="text" class="validate" v-model="profileData.city" >
+          <label for="city" class="active">City</label>
         </div>
-        <div class="row">
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="icon ion-location"></i>
+          <input id="state" type="text" class="validate" v-model="profileData.state">
+          <label for="state" class="active">State</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class=" input-field col s12">
+          <i class="icon ion-location"></i>
+          <textarea id="addressProfileUpdate" type="text" class="validate materialize-textarea" data-length="50" v-model="profileData.address"></textarea>
+          <label for="address_profile" class="active">Address</label>
+        </div>
+      </div>
+      <div class="row">
           <div class="input-field col s12">
             <i class="icon ion-ios-contact"></i>
             <div class="file-field input-field">
@@ -132,7 +132,7 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `https://server-sadeaeehkv.now.sh/handlePhoto/imgUpload`
+      const url = `https://server-bynubfvdqi.now.sh/handlePhoto/imgUpload`
       // const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data

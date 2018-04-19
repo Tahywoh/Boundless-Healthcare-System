@@ -8,7 +8,7 @@
 // }
 
 import * as axios from 'axios'
-const BASE_URL = 'https://server-sadeaeehkv.now.sh'
+const BASE_URL = 'https://server-bynubfvdqi.now.sh'
 // const BASE_URL = 'http:localhost:3050'
 
 let upload = (formData) => {

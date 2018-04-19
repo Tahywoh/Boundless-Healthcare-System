@@ -76,7 +76,7 @@
           <div id="field2">
            <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
-              <div class="input-field col m6 s12">
+              <div class="input-field col s12">
                 <input id="hospitalName" type="text" class="validate"  v-model="formData.hospitalName" required>
                 <label for="hospitalName">Hospital name</label>
               </div>
@@ -176,8 +176,8 @@ export default {
   },
   methods: {
     upload (formData) {
-      const url = `http://localhost:3050/handlePhoto/imgUpload`
-      // const url = `https://server-sadeaeehkv.now.sh/handlePhoto/imgUpload`
+      // const url = `http://localhost:3050/handlePhoto/imgUpload`
+      const url = `https://server-bynubfvdqi.now.sh/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {

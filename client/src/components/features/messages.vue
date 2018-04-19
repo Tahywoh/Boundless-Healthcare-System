@@ -21,11 +21,11 @@
         <div id="users" v-if="patientName">
           <li>{{patientName}}</li>
         </div>
-        <div v-else>
+        <!-- <div v-else>
           <div class="divider"></div>
           <br/>
           <h3 class="white-text center-align">No patient is currently consulting you.</h3>
-        </div>
+        </div> -->
       </div>
   </div>
  
@@ -93,6 +93,7 @@ export default {
         var formattedTime = moment(message.createdAt).format('MMM D, YYYY') + ` ` + moment(message.createdAt).format('h:mm a')
         message.createdAt = formattedTime
         this.message = message
+        console.log({message})
         this.socketMessages.push(message)
         console.log('newMessage', message)
         this.message = ''

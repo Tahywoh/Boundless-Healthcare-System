@@ -45,7 +45,7 @@
           </div>
           <div class="modal-footer">
             <h5 class="white-text"><button type="submit"  class="submit btn-flat
-             waves-light white-text blue modal-action" @click="seekAppointment" id="labAppointmentAction">Submit</button></h5>
+             waves-light white-text blue modal-action modal-close" @click="seekAppointment" id="labAppointmentAction">Submit</button></h5>
           </div>
           
         </form>
@@ -119,8 +119,7 @@ export default {
           end: ''
         },
         patient: this.$store.state.profile.email
-      },
-      instance: ''
+      }
     }
   },
   async mounted () {
@@ -212,7 +211,6 @@ export default {
         console.log(appointmentData)
         const bookAppointment = (await (RequestServices.seekAppointment(appointmentData))).data
         console.log({bookAppointment})
-        this.instance.close()
         alert(`You have successfully book appointment with ${this.formData.laboratoryName}`)
       } catch (error) {
         if (error) {

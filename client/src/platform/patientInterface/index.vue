@@ -9,8 +9,8 @@
           <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
         </div>
          <li><div class="divider"></div></li>
-        <li><a ><i :class="medicalrecord_iconMobile"></i>
-      Medical record</a></li>
+        <li><router-link :to="medicRecord"><i :class="medicalrecord_iconMobile"></i>
+      Medical record</router-link></li>
       <li>
         <div class="divider"></div>
       </li>
@@ -149,6 +149,7 @@ export default {
   name: 'index',
   data () {
     return {
+      medicRecord: navs.links.medicalRecord.url,
       medicalrecord_iconMobile: navs.links.medicalRecord.icon + ' x2 left',
       patientCarts: this.$store.state.userData.patientCarts.cartNo,
       cartNo: this.$store.state.userData.patientCarts.cartNo,
@@ -181,7 +182,7 @@ export default {
     this.allDocs = allDocs
     let searchOptions = {}
     this.allDocs.forEach(doc => {
-      searchOptions[`${doc.fullName}`] = doc.fullName
+      searchOptions[`${doc.fullName}`] = null
     })
     var el = document.querySelector('ul.tabs')
     // eslint-disable-next-line

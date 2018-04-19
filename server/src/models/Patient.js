@@ -4,10 +4,25 @@ const Schema = mongoose.Schema
 // create patients schema
 const DateType = Schema.Types.Date
 const PatientSchema = new Schema({
-  patientDocs: [
+  medicalRecord: [
     {
-      doctorName: String,
-      doctorEmail: String
+      doctor: {
+        doctorName: {
+          type: String,
+          trim: true
+        },
+        doctorEmail: String
+      },
+      disease: {
+        type: String
+      },
+      description: String,
+      labReports: String,
+      prescribedDrugs: {
+        drugName: String,
+        quantity: Number,
+        duration: Number
+      }
     }
   ],
   carts: {

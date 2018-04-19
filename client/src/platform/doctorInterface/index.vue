@@ -12,7 +12,7 @@
           <a href="#" class="w3-bar-item w3-button">
             <i :class="patient_icon"></i>  
             Patients 
-            <span class="circle blue notification-circle">5</span>
+            <!-- <span class="circle blue notification-circle">5</span> -->
           </a>
         </li>
       <li>

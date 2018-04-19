@@ -19,7 +19,7 @@
         <h5 class="text-center center-align blue collection-text">Orders</h5>
         <ul class="collapsible">
         <li v-for="(orderedDrug, index) in orderedDrugs" :key="orderedDrug._id" :id="index" @click="orderedRequests(orderedDrug.orders.requests)">
-          <div class="collapsible-header">{{orderedDrug.drugName}} <span class="new badge amber">{{orderedDrug.orders.noOfOrders}}</span></div>
+          <div class="collapsible-header">{{orderedDrug.drugName}} <span class="new badge amber" v-if="orderedDrug.orders.noOfOrders > 0">{{orderedDrug.orders.noOfOrders}}</span></div>
           <div class="collapsible-body">
             <div class="card-action row">
               <span class="description"><button class="description btn blue">Description</button><br><br>
@@ -29,7 +29,7 @@
             <div class="card-action row">
               <span class="price"><button class="price btn blue">Price</button>&nbsp;&nbsp;{{orderedDrug.price}}</span>
             </div>
-            <div class="row">
+            <div class="row"><br/>
               <button class="ordered-requests btn blue left">Requests</button><br><br>
               <div class="row">
                 <div class="col s12 m10" v-if="requests">

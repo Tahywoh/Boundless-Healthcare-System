@@ -170,7 +170,7 @@ export default {
       return capitalizeMe
     },
     upload (formData) {
-      const url = `https://server-sadeaeehkv.now.sh/handlePhoto/imgUpload`
+      const url = `https://server-bynubfvdqi.now.sh/handlePhoto/imgUpload`
       // const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data

@@ -2,21 +2,22 @@
   <div class="header-view navbar-fixed">
     <nav class="blue white-text">
       <div class="nav-wrapper">
-        
-          <a data-target="slide-out-mobile" class="sidenav-trigger">
+          <a data-target="slide-out-mobiles" class="sidenav-trigger">
             <slot name="mobileSideNavTrigger">
                <!-- <i class="icon ion-android-arrow-dropleft left x35" v-if="this.$store.state.isUserLoggedIn"></i> -->
             </slot>
           </a>
-          <ul id="slide-out-mobile" class="sidenav hide-on-med-and-up show-on-small-only grey-text blue">
+          <ul id="slide-out-mobiles" class="sidenav hide-on-med-and-up show-on-small-only grey-text blue">
             <slot name="mobileSideNav">
             </slot>
           </ul>
          <router-link to="/" class="brand-logo animated rollIn flow-text left">BHS</router-link>
+          <a class="hide-on-med-and-up mobile-dropdown-trigger right" data-target="mobileNav" id="sideMenu" style="float: right;">
+              <i class="ion-navicon-round x2"></i>
+        </a>
         <slot name="search-doctor">
           
         </slot>
-       
 
         <ul id="nav-mobile" class="right hide-on-small-only">
           <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
@@ -58,9 +59,6 @@
           </slot>
 
         </ul>
-        <a class="right hide-on-med-and-up mobile-dropdown-trigger" data-target="mobileNav" id="sideMenu">
-              <i class="ion-navicon-round x2"></i>
-        </a>
         <div class="blue-text">
           <ul id='regAs' class='dropdown-content hide-on-med-and-up blue-text'>
                 <router-link to="/register/patient" title="patient">User</router-link>
@@ -134,7 +132,7 @@
       }
     },
     ready () {
-      document.getElementById('slide-out').style.display = 'none'
+      // document.getElementById('slide-out').style.display = 'none'
     },
     mounted () {
       var elem = document.querySelector('.mobile-dropdown-trigger')
@@ -144,10 +142,14 @@
       })
 
       // taking care of mobile side nav
-      var el2 = document.querySelector('#slide-out-mobile')
+      var el2 = document.querySelector('#slide-out-mobiles')
       // eslint-disable-next-line
       var instance = new M.Sidenav(el2, {
-        draggable: true
+        draggable: true,
+        onCloseEnd () {
+          let m = document.querySelector('div.sidenav-overlay')
+          m.style.width = 'auto'
+        }
       })
     },
     data () {

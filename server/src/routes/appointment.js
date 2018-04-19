@@ -128,13 +128,13 @@ router.post('/fetchAppointments', (req, res) => {
   // console.log(req.body)
   if (user === 'Patient') {
     Patient.find({email: userId}, '_id', (err, result) => {
-      if (!err && result[0]._id) {
+      if (!err && result[0]._id !== undefined) {
         let uid = result[0]._id
         Appointment.find({
           patient: uid
         })
           .populate('doctor patient', 'fullName')
-          .populate('medlabscientist', ['fullName', 'laboratoryAddress', 'laboratoryName'])
+          .populate('medlabscientist', 'fullName laboratoryAddress laboratoryName')
           .exec((err, appointmentData) => {
             if (!err && appointmentData.length > 0) {
               res.status(200).send(JSON.stringify(appointmentData, null, 3))
@@ -145,7 +145,7 @@ router.post('/fetchAppointments', (req, res) => {
           })
       } else {
         console.log(JSON.stringify(err, null, 2))
-        // res.status(403).send('No appointment yet!')
+        res.status(403).send('No user found!')
       }
     })
   } else if (user === 'Doctor') {
@@ -166,7 +166,7 @@ router.post('/fetchAppointments', (req, res) => {
           })
       } else {
         console.log(JSON.stringify(err, null, 2))
-        // res.status(403).send('No appointment yet!')
+        res.status(403).send('No user found!')
       }
     })
   } else {
@@ -177,6 +177,7 @@ router.post('/fetchAppointments', (req, res) => {
           medlabscientist: uid
         })
           .populate('patient', ['fullName'])
+          .populate('medlabscientist', 'laboratoryName')
           .exec((err, appointmentData) => {
             if (!err && appointmentData.length > 0) {
             // let {patient} = appointmentData
@@ -184,7 +185,7 @@ router.post('/fetchAppointments', (req, res) => {
               res.status(200).send(JSON.stringify(appointmentData, null, 3))
             } else {
               console.log(JSON.stringify(err, null, 2))
-              res.status(403).send('No appointment found!')
+              res.status(403).send('No user found!')
             // handle err
             }
           })

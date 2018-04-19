@@ -33,8 +33,7 @@ export default [
     component: MedicalRecord,
     meta: {
       requiresAuth: true,
-      patientAuth: true,
-      doctorAuth: true
+      patientAuth: true
     }
   },
   {

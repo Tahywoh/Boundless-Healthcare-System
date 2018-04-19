@@ -1,10 +1,10 @@
 <template>
   <div id="side-nav">
      <div class="divider"></div>
-    <a class="w3-bar-item w3-button">
+    <router-link class="w3-bar-item w3-button" :to="medRecord">
       <i :class="medicalrecord_icon"></i>
       Medical record
-    </a>
+    </router-link>
     <div class="divider"></div>
     <!-- <router-link to="/Patient-interface#messages_conv" class="w3-bar-item w3-button">
       <i :class="message_icon"></i>  
@@ -32,6 +32,7 @@ export default {
   name: 'sidenav',
   data () {
     return {
+      medRecord: navs.links.medicalRecord.url,
       updateProfile: navs.links.updateProfile.url,
       medicalrecord_icon: navs.links.medicalRecord.icon + ' x2 left',
       message_icon: navs.links.messages.icon + ' x2 left',

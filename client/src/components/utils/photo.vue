@@ -37,7 +37,24 @@
       </div>
 
 
-
+    <div class="testSidenav">
+       <ul id="testSideNav" class="sidenav">
+    <li><div class="user-view">
+      <div class="background">
+        <img src="images/office.jpg">
+      </div>
+      <a href="#!user"><img class="circle" src="images/yuna.jpg"></a>
+      <a href="#!name"><span class="white-text name">John Doe</span></a>
+      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a href="#!">Second Link</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+  </ul>
+  <a href="#" data-target="testSideNav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
   </div>
 </template>
 
@@ -45,6 +62,7 @@
 // import {upload} from '@/services/upload'
 import * as axios from 'axios'
 import Autocomplete from 'vue2-autocomplete-js'
+import N from 'materialize-css'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
 const STATUS_SUCCESS = 2
@@ -181,6 +199,11 @@ export default {
   },
   mounted () {
     this.reset()
+    var sideId = document.querySelector('#testSideNav')
+    // eslint-disable-next-line
+    var inst = new N.Sidenav(sideId, {
+      draggable: true
+    })
   }
 }
 </script>
