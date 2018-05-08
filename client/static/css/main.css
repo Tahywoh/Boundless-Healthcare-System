@@ -6,10 +6,16 @@ html, body{
   margin-right: 0 !important;
   margin-left: 0 !important;
   padding: 0 !important;
+  /* font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif; */
 }
 div > div.input-field.col.s5 > select {
   padding: 0 1rem !important;
-  width: auto !important;
+}
+#field2 > div:nth-child(4) > div:nth-child(1) > div > div.VuePassword__Input > a > svg {
+  margin-top: -2rem;
+}
+#nextBtn, .nextBtn {
+  margin-top: 1rem;
 }
 .calender-div {
   background-color: #2196f3;
@@ -19,6 +25,12 @@ div > div.input-field.col.s5 > select {
   height: 185px;
 }
 
+.btn-small {
+  /* padding: 0.3rem !important; */
+  border-radius: 3px !important;
+  background-color: #2196f3;
+  color: #fff;
+}
 .x06{
   font-size: 0.6rem;
 }
@@ -45,9 +57,9 @@ font-size: 1.5rem;
   margin-left: 6rem !important;
   right: 4rem;
 }
-#field2 > div > div {
+/* #field2 > div > div {
   margin: 2rem 0 !important;
-}
+} */
 #side-nav > a{
   padding: 19px 16px;
   font-weight: 500 !important;
@@ -59,8 +71,3 @@ p.field {
 div.patient-profile label.active, div.doctor-profile label.active, div.pharmacist-profile label.active, div.medicallabscientist-profile label.active {
   color: #fff !important;
 }
-/* #app > div > div.row.container.blue-grey.white-text.center-align > div > div.input-field.col.s6 > label, input :read-only+label, input:not([type]):disabled, input:not([type])[readonly="readonly"], input[type=text]:not(.browser-default):disabled, input[type=text]:not(.browser-default)[readonly="readonly"], input[type=password]:not(.browser-default):disabled, input[type=password]:not(.browser-default)[readonly="readonly"], input[type=email]:not(.browser-default):disabled, input[type=email]:not(.browser-default)[readonly="readonly"], input[type=url]:not(.browser-default):disabled, input[type=url]:not(.browser-default)[readonly="readonly"], input[type=time]:not(.browser-default):disabled, input[type=time]:not(.browser-default)[readonly="readonly"], input[type=date]:not(.browser-default):disabled, input[type=date]:not(.browser-default)[readonly="readonly"], input[type=datetime]:not(.browser-default):disabled, input[type=datetime]:not(.browser-default)[readonly="readonly"], input[type=datetime-local]:not(.browser-default):disabled, input[type=datetime-local]:not(.browser-default)[readonly="readonly"], input[type=tel]:not(.browser-default):disabled, input[type=tel]:not(.browser-default)[readonly="readonly"], input[type=number]:not(.browser-default):disabled, input[type=number]:not(.browser-default)[readonly="readonly"], input[type=search]:not(.browser-default):disabled, input[type=search]:not(.browser-default)[readonly="readonly"], textarea.materialize-textarea:disabled, textarea.materialize-textarea[readonly="readonly"]{
-  color: #fff !important;
-  font-weight: 500 !important;
-  font-size: 15px !important;
-} */

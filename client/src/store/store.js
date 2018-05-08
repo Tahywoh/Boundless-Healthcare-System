@@ -13,32 +13,35 @@ export default new Vuex.Store({
     lastPageVisited: '',
     lastPage: '',
     currentDrug: null,
+    currentLab: null,
     currentUserDrug: null,
     viewDoc: null,
+    allDocs: null,
     userData: {
       docPatients: 0,
       patientDocs: 0,
-      pharmacistOrders: 0,
-      patientCarts: null
+      pharmacistOrders: [],
+      patientCarts: []
     },
-    profile: {
-      user: null,
-      fullName: '',
-      telephone: '',
-      city: '',
-      state: '',
-      address: '',
-      specialty: '',
-      profilePhoto: '',
-      hospitalName: '',
-      hospitalAddress: '',
-      pharmacyName: '',
-      pharmacyAddress: '',
-      laboratoryName: '',
-      laboratoryAddress: '',
-      eduRequirement: '',
-      licenseRequirement: ''
-    },
+    profile: {},
+    // profile: {
+    //   email: null,
+    //   fullName: '',
+    //   telephone: '',
+    //   city: '',
+    //   state: '',
+    //   address: '',
+    //   specialty: '',
+    //   profilePhoto: '',
+    //   hospitalName: '',
+    //   hospitalAddress: '',
+    //   pharmacyName: '',
+    //   pharmacyAddress: '',
+    //   laboratoryName: '',
+    //   laboratoryAddress: '',
+    //   eduRequirement: '',
+    //   licenseRequirement: ''
+    // },
     consult: {
       doctorName: '',
       doctorEmail: '',
@@ -51,11 +54,11 @@ export default new Vuex.Store({
   mutations: {
     SET_USER (state, user) {
       state.token = user.token
-      if (user.token) {
+      if (state.token) {
         state.isUserLoggedIn = true
          // user profile
         state.userType = user.userType
-        state.profile.user = user.user
+        state.profile.email = user.email
         state.profile.fullName = user.fullName
         state.profile.telephone = user.telephone
         state.profile.city = user.city
@@ -81,8 +84,14 @@ export default new Vuex.Store({
         state.userData.patientCarts = user.patientCarts
       }
     },
+    SET_PHARMACISTORDERS (state, user) {
+      if (state.token) {
+        // state.userData.pharmacistOrders.aggregateOrders = user.aggregateOrders
+        state.userData.pharmacistOrders = user.pharmacistOrders
+      }
+    },
     CLEAR_CARTS (state) {
-      state.userData.patientCarts = null
+      state.userData.patientCarts = []
     },
     CLEAR_CURRENTUSERDRUGS (state) {
       state.currentUserDrug = null
@@ -91,7 +100,7 @@ export default new Vuex.Store({
       if (state.token) {
         state.userData.docPatients = user.docPatients
         state.userData.patientDocs = user.patientDocs
-        state.userData.pharmacistOrders = user.pharmacistOrders
+        // state.userData.pharmacistOrders = user.pharmacistOrders
         state.userData.patientCarts = user.patientCarts
       }
     },
@@ -121,28 +130,42 @@ export default new Vuex.Store({
     SET_CURRENTDRUG (state, user) {
       state.currentDrug = user.currentDrug
     },
+    SET_CURRENTLAB (state, user) {
+      state.currentLab = user.currentLab
+    },
     SET_CURRENTUSERDRUG (state, user) {
       state.currentUserDrug = user.currentUserDrug
     },
     SET_VIEWDOC (state, user) {
       state.viewDoc = user.viewDoc
     },
+    SET_ALLDOCS (state, data) {
+      state.allDocs = data.allDocs
+    },
     SET_DOCPATIENT (state, data) {
       state.consult.doctorName = data.doctorName
       state.consult.doctorEmail = data.doctorEmail
+      state.consult.patientName = data.patientName
     },
     CLEAR_USER (state) {
       state.token = ''
+      state.allDocs = []
+      state.viewDoc = null
+      state.currentDrug = null
+      state.currentLab = null
+      state.currentUserDrug = null
       state.userType = ''
       state.profile = {}
       state.consult = {}
       state.userData = {}
       state.isUserLoggedIn = false
-      state.consult.roomNames = []
-      state.consult.roomName = ''
+      state.consult = {}
+      if ((state.userType === 'Patient')) {
+        state.consult.roomName = ''
+        state.userData.patientCarts = null
+      }
       // state.consult = null
       state.currentDrug = null
-      state.userData.patientCarts = null
     }
   },
   plugins: [createPersist({

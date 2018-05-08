@@ -1,15 +1,23 @@
 <template>
-  <div class="header-view">
+  <div class="header-view navbar-fixed">
     <nav class="blue white-text">
       <div class="nav-wrapper">
-        <slot name="brand-logo">
-          <router-link to="/" class="brand-logo animated rollIn flow-text left">BHS</router-link>
-        </slot>
-      
+          <a data-target="slide-out-mobiles" class="sidenav-trigger">
+            <slot name="mobileSideNavTrigger">
+               <!-- <i class="icon ion-android-arrow-dropleft left x35" v-if="this.$store.state.isUserLoggedIn"></i> -->
+            </slot>
+          </a>
+          <ul id="slide-out-mobiles" class="sidenav hide-on-med-and-up show-on-small-only grey-text blue">
+            <slot name="mobileSideNav">
+            </slot>
+          </ul>
+         <router-link to="/" class="brand-logo animated rollIn flow-text left">BHS</router-link>
+          <a class="hide-on-med-and-up mobile-dropdown-trigger right" data-target="mobileNav" id="sideMenu" style="float: right;">
+              <i class="ion-navicon-round x2"></i>
+        </a>
         <slot name="search-doctor">
           
         </slot>
-       
 
         <ul id="nav-mobile" class="right hide-on-small-only">
           <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
@@ -51,51 +59,63 @@
           </slot>
 
         </ul>
-        <slot name="mobileNav">
-            <ul id="slide-out" class="side-nav hide blue white-text darken-2">
-              
-              <span class="right">
-                <a class="right" @click="closeSideNav"><i class="icon ion-close-circled"></i></a>
-              </span>
-              <li> <router-link to="/">Home</router-link></li>
-              <div class="divider"></div>
-              <span class="ifLoggedIn" v-if="this.$store.state.isUserLoggedIn">
-              <li ><a id="dashboard" @click="$eventBus.$emit('go-to-dashboard')">
-                Dashboard
-              </a></li>
-              <div class="divider"></div>
-              <li ><a @click="$eventBus.$emit('do-logout')">
-              Logout
-              </a></li>
-            </span>
-            <span class="ifLoggedOut"  v-else>
-              <li ><a  id="regAs" @click="" class="w3-dropdown-hover">
-              Register
-              <i class="icon ion-arrow-right-b w3-xlarge right"></i>
-              </a>
-              <div  class="w3-dropdown-content w3-card blue white-text left" id="usersRegistration">
+        <div class="blue-text">
+          <ul id='regAs' class='dropdown-content hide-on-med-and-up blue-text'>
                 <router-link to="/register/patient" title="patient">User</router-link>
                 <div class="divider"></div>
                 <router-link to="/register/doctor" title="medical doctor">Doctor</router-link>
                 <div class="divider"></div>
                 <router-link to="/register/pharmacist" title="pharmacist">Pharmacist</router-link>
                 <div class="divider"></div>
+                <div class="divider"></div>
                 <router-link to="/register/medlabscientist" title="medical laboratory scientist">Medlab Scientist</router-link>
-              </div>
+          </ul>
+          <ul id='mobileNav' class='dropdown-content hide-on-med-and-up'>
+          <slot name="mobileNav"> 
+              <li>
+                <router-link to="/">Home</router-link>
               </li>
               <div class="divider"></div>
-              <li><router-link to="/login">
-              Login
-              </router-link></li>
-            </span>
+              <span class="ifLoggedIn" v-if="this.$store.state.isUserLoggedIn">
+                <li>
+                <a @click="$eventBus.$emit('go-to-dashboard')">Dashboard</a>
+              </li>
+              <div class="divider"></div> 
+              <li>
+                <a @click="$eventBus.$emit('do-logout')">
+              Logout
+                </a>
+              </li>
+              </span>
+              <span class="ifLoggedOut" v-else>
+                <div class="divider"></div>
+                <li>
+                  <router-link to="/register/patient" title="patient">Sign up as User</router-link>
+                </li>
               <div class="divider"></div>
-              <li><a href="">About</a></li>
-            </ul>
-
-            <a href="#" data-activates="slide-out" class="right hide-on-med-and-up" id="sideMenu" @click="openSideNav">
-              <i class="ion-navicon-round x2"></i>
-            </a>
-        </slot>
+              <li>
+               <router-link to="/register/doctor" title="medical doctor">Sign up as Doctor</router-link>
+              </li>
+              <div class="divider"></div>
+              <li>
+                <router-link to="/register/pharmacist" title="pharmacist">Sign up as Pharmacist</router-link>
+              </li>
+              <li>
+                <div class="divider"></div>
+                <router-link to="/register/medlabscientist" title="medical laboratory scientist">Sign up as Medlab Scientist</router-link>
+              </li>
+              <div class="divider"></div>
+              <li>
+                <router-link to="/login">Login</router-link>
+              </li>
+              </span>
+              <div class="divider"></div>
+               <li>
+                <router-link to="/about-BHS">About</router-link>
+              </li>
+            </slot>
+        </ul>
+        </div>
       </div>
     </nav>
     <router-view></router-view>
@@ -103,36 +123,34 @@
 </template>
 
 <script>
-  import $ from 'jquery'
+  import M from 'materialize-css'
   export default{
-    name: 'navbar',
     methods: {
       toggleDropdown () {
         let showRegDropdown = document.getElementById('usersRegistration')
         showRegDropdown.classList.toggle('w3-show')
-      },
-      openSideNav () {
-        // let getTriggerButton = document.getElementById('sideMenu')
-        // let getNavUl = document.getElementById('slide-out')
-        // getNavUl.style.display = 'block !important'
-        // getTriggerButton.style.display = `none`
-        $('#sideMenu').hide()
-        $('#slide-out').removeClass('hide')
-        $('#slide-out').show()
-      },
-      closeSideNav () {
-        // let getTriggerButton = document.getElementById('sideMenu')
-        // let getNavUl = document.getElementById('slide-out')
-
-        // getNavUl.style.display = 'none'
-        // getTriggerButton.style.display = 'block'
-        $('#slide-out').addClass('hide')
-        $('#slide-out').hide()
-        $('#sideMenu').show()
       }
     },
     ready () {
-      document.getElementById('slide-out').style.display = 'none'
+      // document.getElementById('slide-out').style.display = 'none'
+    },
+    mounted () {
+      var elem = document.querySelector('.mobile-dropdown-trigger')
+      // eslint-disable-next-line
+      var instance = new M.Dropdown(elem, {
+        alignment: 'right'
+      })
+
+      // taking care of mobile side nav
+      var el2 = document.querySelector('#slide-out-mobiles')
+      // eslint-disable-next-line
+      var instance = new M.Sidenav(el2, {
+        draggable: true,
+        onCloseEnd () {
+          let m = document.querySelector('div.sidenav-overlay')
+          m.style.width = 'auto'
+        }
+      })
     },
     data () {
       return {
@@ -143,9 +161,21 @@
 </script>
 
 <style>
+#mobileNav  a {
+  color: #2691f3 !important;
+  font-size: 16px !important;
+}
+
+.dropdown-content li {
+  width: 134%;
+}
+.dropdown-content li a:hover, .dropdown-content li a:active, .dropdown-content li a:focus {
+  background-color: grey;
+  color: #fff;
+}
 
 nav div.nav-wrapper{
-  margin: 0 6rem;
+  margin: 0 1.4rem;
 }
 div ul{
   padding: 0 3rem;

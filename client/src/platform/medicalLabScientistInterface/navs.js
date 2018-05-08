@@ -6,7 +6,7 @@ export default {
       url: '/MedicalLabScientist-interface', text: 'Medical lab scientist Interface'
     },
     appointment: {
-      url: '/MedicalLabScientist-interface/appointment', text: 'Appointment', icon: 'icon ion-android-contacts'
+      url: '/MedicalLabScientist-interface/appointment', text: 'MedicalLab-Appointments', icon: 'icon ion-android-contacts'
     },
     updateProfile: {
       url: `/MedicalLabScientist-interface/${encodeURI('update profile')}`, text: 'Update Profile', icon: 'icon ion-edit'

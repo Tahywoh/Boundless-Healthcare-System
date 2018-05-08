@@ -27,5 +27,8 @@ export default {
   },
   cancelAppointment (userId) {
     return Api().post('/cancelAppointment', userId, header)
+  },
+  setAppointmentDate (data) {
+    return Api().post('/appointment/setAppointmentDate', data)
   }
 }

@@ -5,19 +5,33 @@
       <template slot="navbar">
         <slot name="fixed-nav-bar">
           <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @cllck="$eventBus.$emit('go-to-profile')">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><a id="profile" class="btn transparent white-text waves-effect" @cllck="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
         </slot>
       </template>
+      <template slot="mobileNav">
+      <slot name="fixed-mobile-nav">
+          <li><router-link to="/" >Home</router-link></li>
+          <div class="divider"></div>
+          <li><a id="profile"   @click="$eventBus.$emit('go-to-profile')">
+          Profile
+          </a></li>
+          <div class="divider"></div>
+          <li><a  @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+          </li>
+        </slot>
+      </template>
     </navbar>
     <div class="profileWra">
-    <h5 class="flow-text center">Pharmacist Profile</h5>
+      <h5 class="flow-text center">Personal Information</h5>
        <div class="row container blue-grey white-text center-align">
           <div class="row">
             <div id="basicDetailsProfile" class="col s7">
@@ -30,7 +44,7 @@
               </p>
             </div>
             <div class="profilePic col s3 right" v-if="profile.photoUrl">
-              <img :src="profile.photoUrl" :alt="profile.fullName" class="circle responsive-img"> <!-- notice the "circle" class -->
+              <img :src="profile.photoUrl" alt="user photo" class="circle responsive-img"> <!-- notice the "circle" class -->
             </div>
             <div class="profilePic right col s5" v-else>
               <i class="icon ion-android-contact x35 white-text text-center center-align" style="font-size: 10rem"></i>
@@ -81,7 +95,7 @@
     </div>
     </div>
    
-    <router-link ></router-link>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -93,7 +107,7 @@ export default {
     return {
       profile: {
         fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
+        email: `${this.$store.state.profile.email}`,
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,

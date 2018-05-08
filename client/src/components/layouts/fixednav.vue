@@ -4,17 +4,35 @@
       <template slot="navbar">
         <slot name="fixed-nav-bar">
           <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-profile')">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><a id="profile" class="btn transparent white-text waves-effect" @click="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>
-          <li><a @click="$eventBus.$emit(topLinks.toAppointment)" class="btn transparent white-text waves-effect waves-light">Appointment
+          <li><a @click="$eventBus.$emit(topLinks.toAppointment)" class="btn transparent white-text waves-effect">Appointment
         </a>
         </li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit(topLinks.doLogOut)">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit(topLinks.doLogOut)">
         Logout
         </a>
       </li>
+      </slot>
+      </template>
+      <template slot="mobileNav">
+      <slot name="fixed-mobile-nav">
+          <li><router-link to="/" >Home</router-link></li>
+          <div class="divider"></div>
+          <li><a id="profile"   @click="$eventBus.$emit('go-to-profile')">
+          Profile
+          </a></li>
+          <div class="divider"></div>
+          <li><a @click="$eventBus.$emit('go-to-appointment')">Appointment
+          </a>
+          </li>
+          <div class="divider"></div>
+          <li><a  @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+          </li>
         </slot>
       </template>
     </navbar>

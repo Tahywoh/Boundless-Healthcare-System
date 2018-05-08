@@ -3,14 +3,14 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-profile')">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><a id="profile" class="btn transparent white-text waves-effect" @click="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" :href="goToAppointment">Appointment
-        </a>
+          <li><router-link  class="btn transparent white-text waves-effect" :to="goToAppointment">Appointment
+        </router-link>
         </li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
@@ -30,43 +30,43 @@
       </div>
 
     </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <input id="full_name" type="text" class="validate" v-model="profileData.fullName">
-            <label for="full_name" class="active">Full Name</label>
-          </div>
-          <div class="input-field col s6">
-            <input id="email" type="email" class="validate" :value="profileData.email" disabled>
-            <label for="email" class="active">Email</label>
-          </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <input id="full_name" type="text" class="validate" v-model="profileData.fullName">
+          <label for="full_name" class="active">Full Name</label>
         </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <i class="icon ion-android-call"></i>
-            <input id="telephone" type="number" class="validate autofocus" v-model="profileData.telephone">
-            <label for="telephone" class="active">Telephone</label>
-          </div>
-          <div class="input-field col s6">
-            <i class="icon ion-location"></i>
-            <input id="city" type="text" class="validate" v-model="profileData.city" >
-            <label for="city" class="active">City</label>
-          </div>
+        <div class="input-field col s6">
+          <input id="email" type="email" class="validate" :value="profileData.email" disabled>
+          <label for="email" class="active">Email</label>
         </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <i class="icon ion-location"></i>
-            <input id="state" type="text" class="validate" v-model="profileData.state">
-            <label for="state" class="active">State</label>
-          </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="icon ion-android-call"></i>
+          <input id="telephone" type="number" class="validate autofocus" v-model="profileData.telephone">
+          <label for="telephone" class="active">Telephone</label>
         </div>
-        <div class="row">
-          <div class=" input-field col s12">
-            <i class="icon ion-location"></i>
-            <textarea id="addressProfileUpdate" type="text" class="validate materialize-textarea" data-length="50" v-model="profileData.address"></textarea>
-            <label for="address_profile" class="active">Address</label>
-          </div>
+        <div class="input-field col s6">
+          <i class="icon ion-location"></i>
+          <input id="city" type="text" class="validate" v-model="profileData.city" >
+          <label for="city" class="active">City</label>
         </div>
-        <div class="row">
+      </div>
+      <div class="row">
+        <div class="input-field col s6">
+          <i class="icon ion-location"></i>
+          <input id="state" type="text" class="validate" v-model="profileData.state">
+          <label for="state" class="active">State</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class=" input-field col s12">
+          <i class="icon ion-location"></i>
+          <textarea id="addressProfileUpdate" type="text" class="validate materialize-textarea" data-length="50" v-model="profileData.address"></textarea>
+          <label for="address_profile" class="active">Address</label>
+        </div>
+      </div>
+      <div class="row">
           <div class="input-field col s12">
             <i class="icon ion-ios-contact"></i>
             <div class="file-field input-field">
@@ -121,7 +121,7 @@ export default {
       goToAppointment: navs.links.appointment.url,
       profileData: {
         fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
+        email: `${this.$store.state.profile.email}`,
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,
@@ -132,8 +132,8 @@ export default {
   },
   methods: {
     upload (formData) {
-      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
-      const url = `http://localhost:8050/handlePhoto/imgUpload`
+      const url = `https://server-bynubfvdqi.now.sh/handlePhoto/imgUpload`
+      // const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
@@ -145,7 +145,7 @@ export default {
         })
       // // add url field
       //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
+      //       img, { url: `http:localhost:3050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state

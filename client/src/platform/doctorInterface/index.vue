@@ -1,6 +1,31 @@
 <template>
 <div class="doctor-dashboard">
   <interface>
+    <template slot="mobile-side-nav-content">
+      <div class="msideNav">
+        <div class="mobile basic-det">
+          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+        </div>
+         <li><div class="divider"></div></li>
+        <li>
+          <a href="#" class="w3-bar-item w3-button">
+            <i :class="patient_icon"></i>  
+            Patients 
+            <!-- <span class="circle blue notification-circle">5</span> -->
+          </a>
+        </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+        <router-link class="w3-bar-item w3-button" :to="updateProfile">
+          <i :class="updateprofile_icon"></i>
+          Update Profile
+        </router-link>
+      </li>
+      </div>
+    </template>
     <template slot="basic-details">
       <basicDetails/>
     </template>
@@ -12,16 +37,16 @@
         <span class="circle blue notification-circle">5</span>
       </a>
       <div class="divider"></div>
-      <a href="#" class="w3-bar-item w3-button">
+      <!-- <a href="#" class="w3-bar-item w3-button">
         <i :class="message_icon"></i>  
         Messsages
         <span class="circle blue notification-circle">3</span>
-      </a>
+      </a> -->
       <div class="divider"></div>
-        <a class="w3-bar-item w3-button" :href="updateProfile">
+        <router-link class="w3-bar-item w3-button" :to="updateProfile">
           <i :class="updateprofile_icon"></i>
           Update Profile
-        </a>
+        </router-link>
     </template>
      
     <template slot="user-type-img">
@@ -30,8 +55,8 @@
 
     <template slot="ul-tabs">
       <ul class="tabs"> 
-        <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-        <li class="tab col s6"><a  href="#messages" class="btn waves-effect waves-light">Messages</a></li>
+        <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect">Pharmacy</a></li>
+        <li class="tab col s6"><a  href="#messages" class="btn waves-effect">Messages</a></li>
       </ul>
     </template>
       
@@ -60,6 +85,7 @@ import messages from '@/components/features/messages'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/doctorInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
+import M from 'materialize-css'
 export default{
   components: {Interface, messages, Pharmacy, BasicDetails},
   name: 'index',
@@ -70,6 +96,11 @@ export default{
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       updateProfile: navs.links.updateProfile.url
     }
+  },
+  mounted () {
+    var el = document.querySelector('ul.tabs')
+    // eslint-disable-next-line
+    var instance = M.Tabs.init(el, {})
   }
 }
 </script>

@@ -3,15 +3,15 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
-        <form class="col m6 s12" @submit.prevent="validateForm" autocomplete @input="errorMsg" autofocus>
+        <form class="col m8 s12" @submit.prevent="validateForm" autocomplete @input="errorMsg" autofocus>
           <div id="field1">
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-contact"></i>
                 <input  type="text" v-model="formData.fullName" required>
                 <label >Full Name</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-mail"></i>
                 <input type="email"  v-model="formData.email" required>
                 <label for="email">Email</label>
@@ -19,36 +19,36 @@
             </div>
 
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-call"></i>
                 <input id="telephone" type="number" class="validate"  v-model="formData.telephone" required>
                 <label for="telephone">Telephone</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <input id="age" type="number" class="validate" v-model="formData.age" required>
                 <label for="age">Age</label>
               </div>
             </div>
 
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-location"></i>
                 <input id="city" type="text" class="validate"  v-model="formData.city" required>
                 <label for="city">City</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-location"></i>
                 <input type="text" class="validate" v-model="formData.state" required>
                 <label for="state">State</label>
               </div>
             </div>            
           </div>
-          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
-          <div id="field2" style="display: none">
+         <button @click="triggerField2" id="nextBtn" class="nextBtn btn blue white-text waves-effect waves-grey center-align">NEXT</button>
+          <div id="field2">
             <div class="row">
               <small class="successMsg blue-text center-align" v-html="successMsg"></small>
-              <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
+              <div class="input-field col m5 s12">
+                <select class="browser-default waves-effect btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
                   <option v-for="(option, index) in options" :value="option.value" :key="index">
                     {{ option.text }}
@@ -56,7 +56,10 @@
                 </select>
                 <label>Gender</label>         
               </div>
-              <div class="input-field col s7">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <div class="input-field col m7 s12">
                 <i class="icon ion-ios-contact"></i>
                 <div class="file-field input-field">
                   <div class="btn bg-for-tab blue">
@@ -79,12 +82,13 @@
                </div>
             </div>
              <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate" v-model="formData.password" required>
-                <label >Password</label>
+                <!-- <input  type="password" class="validate" v-model="formData.password" required> -->
+                <vue-password v-model="formData.password" classes="input" :user-inputs="[formData.email]"></vue-password>
+                <label for="password" class="active">Password</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-eye-disabled"></i>
                 <input type="password" class="validate" id="confirmPassword"  v-model="formData.confirmPassword" required>
                 <label for="confirmPassword">Confirm Password</label>
@@ -92,9 +96,7 @@
             </div>
             <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
-        
-           <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide"  id="submitBtn" @click="registerPatient">Submit</button>
+           <button  class="btn text-center blue submit-btn waves-effect"  id="submitBtn" @click="registerPatient">Submit</button>
           
       </form>
       </div>
@@ -107,6 +109,8 @@
 <script>
 import * as axios from 'axios'
 import Index from '@/platform/index'
+import VuePassword from 'vue-password'
+import $ from 'jquery'
 import AuthServices from '@/services/authServices'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -120,7 +124,7 @@ export default {
       required: false
     }
   },
-  components: { Index },
+  components: { Index, VuePassword },
   data () {
     return {
       uploadedFiles: [],
@@ -145,15 +149,15 @@ export default {
       },
       options: [
         {text: 'Male', value: 'Male'},
-        {text: 'Female', value: 'Femaale'}
+        {text: 'Female', value: 'Female'}
       ],
       show: 'show'
     }
   },
   methods: {
     upload (formData) {
-      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
-      const url = `http://localhost:8050/handlePhoto/imgUpload`
+      const url = `https://server-bynubfvdqi.now.sh/handlePhoto/imgUpload`
+      // const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
@@ -165,7 +169,7 @@ export default {
         })
       // // add url field
       //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
+      //       img, { url: `http:localhost:3050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state
@@ -220,18 +224,16 @@ export default {
       //   this.$eventBus.$emit('delete-image-url')
       // }
     },
-    triggerField2 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field1.style.display = 'none'
-      field2.style.display = 'block'
-      proceedBtn.classList.remove('show')
-      proceedBtn.style.display = 'none'
-      backwordBtn.classList.add('show')
-      submitButton.classList.remove('hide')
+    triggerField2 (e) {
+      if (e.target.innerText === 'PREVIOUS') {
+        e.target.innerText = 'NEXT'
+      } else {
+        e.target.innerText = 'PREVIOUS'
+      }
+      console.log(e)
+      $('#field1').toggle()
+      $('#field2').toggle()
+      $('#submitBtn').toggle()
     },
     toCapitalize (capitalizeMe) {
       let obtained = []
@@ -244,22 +246,6 @@ export default {
       })
       capitalizeMe = obtained.join(' ')
       return capitalizeMe
-    },
-    triggerField1 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field2.style.display = 'none'
-      field1.style.display = 'block'
-      backwordBtn.classList.remove('show')
-      backwordBtn.style.display = 'none'
-      proceedBtn.classList.remove('hide')
-      proceedBtn.classList.add('show')
-      proceedBtn.style.display = 'block'
-      submitButton.classList.add('hide')
-      // console.log('am working....')
     },
     isValidEmail (email) {
       if (!email || email === '') {
@@ -302,7 +288,7 @@ export default {
       }
       if (this.formData.gender === '') {
         this.errorMsg = 'You must choose your gender'
-      } else if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
+      } else if ((this.formData.gender === 'Male') || (this.formData.gender === 'Female')) {
         validateReg.gender = this.formData.gender
       }
       if (this.formData.address && this.formData.address.length > 11) {
@@ -317,19 +303,31 @@ export default {
         this.errorMsg = 'Invalid email address'
         return false
       }
-      if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
-        validateReg.password = this.formData.password
-        // validateReg.confirmPassword = this.formData.confirmPassword
-      } else if (validateReg.password === '' || validateReg.password === null) {
+      if (!this.formData.password || !this.formData.confirmPassword) {
         this.errorMsg = 'Password is required!'
-        return false
-      } else if (validateReg.password !== validateReg.confirmPassword) {
+      } else if (this.formData.password !== this.formData.confirmPassword) {
         this.errorMsg = 'Passwords do not match!'
-        return false
+        return
+      } else if (!(this.formData.password === this.formData.confirmPassword) && !(this.formData.password.length >= 5)) {
+        this.errorMsg = 'Please enter a valid password!'
+        return
       } else {
-        this.errorMsg = 'Your password must be atleast 4 characters!'
-        return false
+        validateReg.password = this.formData.password
+        this.errorMsg = ''
       }
+      // if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
+      //   validateReg.password = this.formData.password
+      //   // validateReg.confirmPassword = this.formData.confirmPassword
+      // } else if (validateReg.password === '' || validateReg.password === null) {
+      //   this.errorMsg = 'Password is required!'
+      //   return false
+      // } else if (validateReg.password !== validateReg.confirmPassword) {
+      //   this.errorMsg = 'Passwords do not match!'
+      //   return
+      // } else {
+      //   this.errorMsg = 'Your password must be atleast 4 characters!'
+      //   return false
+      // }
       // console.log({'This is vaidate reg': validateReg})
       try {
         const response = (await AuthServices.registerPatient(validateReg))
@@ -368,12 +366,20 @@ export default {
     }
   },
   mounted () {
+    $('#submitBtn').hide()
+    $('#field2').hide()
     this.reset()
   }
 }
 </script>
 
 <style>
+ div div.VuePassword__Message, #field2 > div > div > div > div.VuePassword__Message{
+  font-size: 0.7rem;
+}
+ div > div.VuePassword__Input > a > svg {
+  width: 1em;
+}
 div.input-field.col.s7 > div > div.file-path-wrapper > i {
     margin-top: -3rem;
     margin-right: 3rem;
@@ -395,7 +401,6 @@ input {
 }
 div.main img{
   width: 100%;
-  /* filter: brightness(.79) !important; */
   z-index: -1;
 }
 option, option:disabled{
@@ -405,9 +410,9 @@ option, option:disabled{
     position: relative;
     margin-top: -0.6rem;
 }
-#field1 > div > div {
+/* #field1 > div > div {
     margin: 0.95rem 0 !important;
-}
+} */
 label {
     font-weight: 100;
 }
@@ -417,26 +422,8 @@ i.icon.ion-android-arrow-forward, i.icon.ion-android-arrow-back {
     right: 0.5rem;
     bottom: -0.29rem;
 }
-.a-b-arrow{
-  /* left: 23rem; */
-}
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
-    /* font-size: 3rem; */
-    /* position: absolute; */
-    /* right: 22rem; */
-    /* bottom: 19.5rem; */
     border-radius: 50%;
-    padding: 0rem 1.5rem;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  /* right: 26rem; */
-  /* top: 31.5rem */
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    /* left: 29%; */
-    /* top: 31.5rem; */
-    float: left !important;
-    margin-top: 11%;
 }
 .show{
   display: block !important;
@@ -444,7 +431,6 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
 
 .mainContent {
     width: 45%;
-    height: 81vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;
@@ -462,9 +448,9 @@ input{
 #field1 > div > div > i, #field2 > div > div > i {
     color: #2196f3;
 }
-#field2 > div > div {
+/* #field2 > div > div {
     margin: 0.8rem 0 !important;
-}
+} */
 .mainContent h3 {
     top: 0;
     font-weight: 500;
@@ -474,7 +460,7 @@ input{
     border-top-left-radius: 13px;
     padding: 0.8rem 0;
 }
-select.browser-default.waves-effect.waves-light.btn {
+select.browser-default.waves-effect.btn {
     opacity: 1;
     height: 35px;
     width: 80%;

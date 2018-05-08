@@ -3,14 +3,14 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
           Profile
-        </a></li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" :href="goToAppointment">Appointment
-        </a>
+        </router-link></li>
+          <li><router-link  class="btn transparent white-text waves-effect" :to="goToAppointment">Appointment
+        </router-link>
         </li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
@@ -89,7 +89,7 @@
                 <span>
                   Photo
                 </span>
-                <input type="file"  accept="image/*" class="input-file">
+                <input type="file" :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file">
               </div>
               <div class="file-path-wrapper">
                 <input  class="file-path validate" type="text">
@@ -100,7 +100,7 @@
         </div>
         <div class="divider"></div>
         <div class="row"><div class="col s4 offset-s4">
-          <a class="center-align blue btn waves-light waves-effect">Update Profile</a></div></div>
+          <a class="center-align blue btn waves-light waves-effect" @click="updateMedlabscientistProfile">Update Profile</a></div></div>
       </form>
     </div>
   </div>
@@ -111,13 +111,30 @@
 <script>
 import Fixednav from '@/components/layouts/fixednav'
 import navs from './navs'
+import AuthServices from '@/services/authServices'
+import * as axios from 'axios'
+const STATUS_INITIAL = 0
+const STATUS_SAVING = 1
+const STATUS_SUCCESS = 2
+const STATUS_FAILED = 3
 export default {
   components: {Fixednav},
+  props: {
+    id: {
+      type: Number,
+      required: false
+    }
+  },
   data () {
     return {
+      uploadedFiles: [],
+      uploadError: null,
+      currentStatus: null,
+      uploadFieldName: 'photos',
+      imgUrl: '',
       profileData: {
         fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
+        email: `${this.$store.state.profile.email}`,
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,
@@ -132,8 +149,185 @@ export default {
     }
   },
   methods: {
-    test () {
-      console.log(this.profileData)
+    isValidEmail (email) {
+      if (!email || email === '') {
+        return false
+      }
+      email = email.trim()
+      if (email === '' || !email) {
+        return false
+      }
+      let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+      return regex.test(email)
+    },
+    toCapitalize (capitalizeMe) {
+      let obtained = []
+      let capitalizeVal = capitalizeMe.toLowerCase().split(' ')
+      capitalizeVal.forEach(word => {
+        let newWord = word.split('')
+        newWord[0] = newWord[0].toUpperCase()
+        newWord = newWord.join('')
+        obtained.push(newWord)
+      })
+      capitalizeMe = obtained.join(' ')
+      return capitalizeMe
+    },
+    upload (formData) {
+      const url = `https://server-bynubfvdqi.now.sh/handlePhoto/imgUpload`
+      // const url = `http://localhost:3050/handlePhoto/imgUpload`
+      return axios.post(url, formData)
+      // get data
+        .then((x) => {
+          if (x) {
+            // console.log({x: x.dgata})
+            this.profileData.photoUrl = x.data
+            console.log({photoUrl: this.profileData.photoUrl})
+          }
+        })
+      // // add url field
+      //     .then(x => x.map(img => Object.assign({},
+      //       img, { url: `http:localhost:3050/public/uploads/${img.id}` })))
+    },
+    reset () {
+      // reset form to initial state
+      this.currentStatus = STATUS_INITIAL
+      this.uploadedFiles = []
+      this.uploadError = null
+    },
+    save (formData) {
+      // upload data to the server
+      this.currentStatus = STATUS_SAVING
+
+      this.upload(formData)
+        .then(x => {
+          this.imgUrl = x.data
+          this.uploadedFiles = [].concat(x)
+          this.currentStatus = STATUS_SUCCESS
+          this.$eventBus.$emit('img-uploaded', {
+            index: this.id,
+            url: x.data
+          })
+        })
+        .catch(err => {
+          if (err) {
+            // alert('Error uploading your image. Please try again or ignore and proceed')
+            console.log(JSON.stringify(err))
+            // this.uploadError = err.response
+            // console.log(JSON.stringify(this.uploadError))
+            // alert(JSON.stringify(this.uploadError.data))
+            this.currentStatus = STATUS_FAILED
+            // return
+          }
+        })
+    },
+    filesChange (fieldName, fileList) {
+      // handle file changes
+      const formData = new FormData()
+
+      if (!fileList.length) return
+
+      // append the files to FormData
+      Array
+        .from(Array(fileList.length).keys())
+        .map(x => {
+          formData.append(fieldName, fileList[x], fileList[x].name)
+        })
+
+      // save it
+      this.save(formData)
+    },
+    closeUploader () {
+      // if (this.imgUrl.length > 0) {
+      //   this.$eventBus.$emit('delete-image-url')
+      // }
+    },
+    async updateMedlabscientistProfile () {
+      let validateProfileData = {}
+      console.log(this.formData)
+      validateProfileData.telephone = this.profileData.telephone
+      if (this.profileData.photoUrl) {
+        validateProfileData.profilePhoto = this.profileData.photoUrl
+      }
+      // validating form data
+      if (this.profileData.fullName && this.profileData.fullName.length >= 7) {
+        validateProfileData.fullName = this.toCapitalize(this.profileData.fullName)
+      } else {
+        this.errorMsg = 'Enter a valid full name!'
+        return false
+      }
+      if (this.isValidEmail(this.profileData.email) && this.profileData.email !== '') {
+        validateProfileData.email = this.profileData.email
+      } else {
+        this.errorMsg = 'Invalid email address'
+        return false
+      }
+      if (this.profileData.city && this.profileData.city.length >= 3) {
+        validateProfileData.city = this.profileData.city
+      } else {
+        this.errorMsg = 'Enter a valid city name!'
+        return false
+      }
+      if (this.profileData.state && this.profileData.state.length >= 3) {
+        validateProfileData.state = this.profileData.state
+      } else {
+        this.errorMsg = 'You must provide your state'
+        return false
+      }
+      if (this.profileData.laboratoryName && this.profileData.laboratoryName.length >= 7) {
+        validateProfileData.laboratoryName = this.profileData.laboratoryName
+      } else {
+        this.errorMsg = 'invalid pharmacy name<br/>Please enter a valid name of hospital'
+        return false
+      }
+      if (this.profileData.laboratoryAddress && this.profileData.laboratoryAddress.length >= 10) {
+        validateProfileData.laboratoryAddress = this.profileData.laboratoryAddress
+      } else {
+        this.errorMsg = 'A valid address of Pharmacy is required to serve you better'
+        return false
+      }
+      if (this.profileData.eduRequirement && this.profileData.eduRequirement.length >= 10) {
+        validateProfileData.eduRequirement = this.profileData.eduRequirement
+      } else {
+        this.errorMsg = 'Please enter a valid education certificate details!'
+        return false
+      }
+      if (this.profileData.licenseRequirement && this.profileData.licenseRequirement.length >= 7) {
+        validateProfileData.licenseRequirement = this.profileData.licenseRequirement
+      } else {
+        this.errorMsg = 'Please enter a valid license details<br/>This is required to serve you better.'
+      }
+
+      try {
+        const newUserData = (await AuthServices.updateMedlabscientistProfile(validateProfileData)).data
+        alert('Your profile has been successfully updated.\nYou need to log out and login to apply changes')
+        return newUserData
+      } catch (error) {
+        console.log(error)
+        if (error.response.data) {
+          console.log(JSON.stringify(error.response.data))
+        }
+      }
+    }
+  },
+  computed: {
+    isInitial () {
+      return this.currentStatus === STATUS_INITIAL
+    },
+    isSaving () {
+      return this.currentStatus === STATUS_SAVING
+    },
+    isSuccess () {
+      return this.currentStatus === STATUS_SUCCESS
+    },
+    isFailed () {
+      return this.currentStatus === STATUS_FAILED
+    },
+    dropformstyle () {
+      if (!this.isSuccess) {
+        return {outline: '2px dashed grey'}
+      } else {
+        return {}
+      }
     }
   }
 }

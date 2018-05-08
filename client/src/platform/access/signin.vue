@@ -1,12 +1,9 @@
 <template>
   <div class="login center-align">
     <index>
-      <!-- <template slot="bimg">
-        <img src="../../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
-      </template> -->
-      <div slot="indexMainContent" class="mainContent center-align m6 s12">
+      <div slot="indexMainContent" class="mainContent center-align m6 s12" >
         <h3 class="blue white-text">Login</h3>
-        <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm" autocomplete>
+        <form class="col l6 s12 center-align center" @input="errorMsg" @submit.prevent="validateForm">
           <div class="row">
              <div class="input-field col s12">
               <i class="icon ion-android-mail blue-text"></i>
@@ -21,35 +18,9 @@
               <label >Password</label>
             </div>
           </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <label>User type: </label>
-              <i class="icon ion-android-person blue-text"></i><br/>
-              <span class="userPicked blue-text x1 left">{{loginData.userType}}</span>
-              <br/>
-              <div class="userTypes">
-                 <p><label for="Patient">Patient</label>
-                <input name="userType" type="radio" id="patient" value="Patient" v-model="loginData.userType"/>
-                
-                </p>
-                <p><label for="doctor">Doctor</label>
-                  <input name="userType" type="radio" id="doctor" value="Doctor" v-model="loginData.userType" />
-                  
-                </p>
-                <p><label for="pharmacist">Pharmacist</label>
-                <input  name="userType" type="radio" id="pharmacist" value="Pharmacist" v-model="loginData.userType" />
-                <br/>
-                </p>
-                <p><label for="labscientist">MedicalLab Scientist</label>
-                <input  name="userType" type="radio" id="labscientist" value="MedicalLab Scientist" v-model="loginData.userType" />
-                
-                </p>
-              </div>
-             
-            </div>
-          </div>
-             <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
-           <button class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers">Login</button>
+          <small class="red-text errorMsg center-align" v-html="errorMsg"></small><br/>
+          <button class="btn text-center blue submit-btn waves-effect waves-grey" id="loginBtn" @click="signInUsers">Login</button><br/><br/>
+          <button class="btn text-center blue fpwd-btn waves-effect waves-grey" id="forgetPassword">Forget Password</button>
           
       </form>
       </div>
@@ -60,7 +31,7 @@
 
 <script>
 import Index from '@/platform/index'
-import AuthServices from '@/services/authService'
+import AuthServices from '@/services/authServices'
 export default {
   name: 'signin',
   components: { Index },
@@ -105,59 +76,43 @@ export default {
         this.errorMsg = 'Please provide a valid password of your account!'
         return false
       }
-      if (this.loginData.userType !== '') {
-        validateLogin.userType = this.loginData.userType
-      } else {
-        this.errorMsg = 'Please choose a user type!'
-        return false
-      }
+      // console.log(this.loginData)
       try {
         const response = await AuthServices.signInUsers(validateLogin)
         let responseData = response.data
+        this.loginData.userType = responseData.userType
         if (this.loginData.userType === 'Patient') {
-          // console.log(responseData)
+          // console.log({responseData})
+          // eslint-disable-next-line
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, address, patientDocs, carts} = responseData
-
+          console.log(responseData + carts)
           this.authToken = token
           this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, address})
+          this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, address})
           // this.$store.commit('SET_USERDATA', {patientCarts: 0, patientDocs: 0})
           this.$store.commit('SET_PATIENTCARTS', {patientCarts: carts})
+          console.log(this.$store.state.userData.patientCarts)
           this.$store.commit('SOCKET_CONNECT')
-          console.log({fullName, telephone, city, state, address, patientDocs, carts, profilePhoto})
-          // return
         } else if (this.loginData.userType === 'Doctor') {
           let {fullName, telephone, city, token, user, userType, state, specialty, hospitalName, hospitalAddress, profilePhoto, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
+          // console.log({fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, user})
+          this.$store.commit('SET_USER', {token, email: user, userType, fullName, telephone, city, state, specialty, hospitalName, profilePhoto, hospitalAddress, eduRequirement, licenseRequirement})
           this.$store.commit('SOCKET_CONNECT')
-<<<<<<< HEAD
-          console.log(fullName, telephone, city, state, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
-          // window.location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-=======
-          this.$store.commit('SET_USERDATA', {docPatients: 0})
-          console.log(fullName, telephone, city, state, profilePhoto, specialty, hospitalName, hospitalAddress, eduRequirement, licenseRequirement)
-          // return
->>>>>>> loginissues
+          // this.$store.commit('SET_USERDATA', {docPatients: 0})
         } else if (this.loginData.userType === 'Pharmacist') {
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
-          this.$store.commit('SET_USERDATA', {pharmacistOrders: 0})
-          // console.log(fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement)
-          // return false
+          // console.log({fullName, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, user})
+          this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement})
+          // this.$store.commit('SET_USERDATA', {pharmacistOrders: 0})
         } else {
           let {fullName, telephone, city, token, user, profilePhoto, userType, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = responseData
 
           this.authToken = token
-          this.loginData.userType = userType
-          this.$store.commit('SET_USER', {token, user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
-
-          console.log(fullName, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement)
+          this.$store.commit('SET_USER', {token, email: user, profilePhoto, userType, fullName, telephone, city, state, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement})
         }
         if (this.$store.state.lastPageVisited > 0) {
           console.log('lastPageVisited', this.$store.state.lastPageVisited)
@@ -166,17 +121,15 @@ export default {
           console.log('lastpage')
           this.$router.push(`${this.$store.state.lastPage}`)
         } else {
-          // alert('succss login')
-          location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
-          // this.$router.push(`/${this.$store.state.userType.replace(/\\s/g, '')}-interface`)
+          // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+          this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface`)
         }
       } catch (error) {
+        this.errorMsg = error.response.data
         if (error) {
-          this.errorMsg = error.response.data
-          console.log(JSON.stringify(this.errorMsg, null, 3))
-        } else {
-          this.errorMsg = 'Kindly check your internet connection!'
+          // console.log({error})
         }
+        // console.log(this.errorMsg)
       }
     }
   }
@@ -244,8 +197,8 @@ div.login form > div > div.input-field.col.s12 {
     margin: 0.7rem 0rem 0px 0px !important;
 }
 
-div.main.flow-text > div.content.center-align.white-text > div > div > form > div:nth-child(1){
-  height: 6rem;
+div.main.flow-text > div.content.center-align.white-text > div > div > form > div{
+  /* height: 6rem; */
   line-height: 40px;
 }
 
@@ -254,8 +207,7 @@ div.mainContent h3{
 }
 #index > div.main.flow-text.wrapper > div.homeContent > img {
   width: 100%;
-  filter: opacity(.6) !important;
-  /* z-index: -1; */
+  z-index: -1;
 }
 
 .file-field.input-field {
@@ -276,7 +228,6 @@ div.main.flow-text
 
 .mainContent {
   width: 40%;
-  height: auto;
   padding-bottom: 2rem;
   margin: 2rem auto;
   border-radius: 13px;

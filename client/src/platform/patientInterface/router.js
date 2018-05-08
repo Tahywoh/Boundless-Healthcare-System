@@ -33,8 +33,7 @@ export default [
     component: MedicalRecord,
     meta: {
       requiresAuth: true,
-      patientAuth: true,
-      doctorAuth: true
+      patientAuth: true
     }
   },
   {
@@ -65,7 +64,7 @@ export default [
     }
   },
   {
-    path: '/patient/view-doc/*',
+    path: '/patient/view-doctor/*',
     name: 'BHS | view doctor',
     component: Doc,
     meta: {

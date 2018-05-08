@@ -11,14 +11,11 @@ import socketio from 'socket.io-client'
 import VueSocketIO from 'vue-socket.io'
 import VuexStore from '@/store/VuexStore'
 // import 'materialize-css/dist/css/materialize.min.css'
-// import 'materialize-css/dist/js/materialize.min.js'
-// export const SocketInstance = socketio('https://server-dvvtkzhghy.now.sh')
+import 'materialize-css/dist/css/materialize.min.css'
+import 'materialize-css/dist/js/materialize.min.js'
+export const SocketInstance = socketio('https://server-bynubfvdqi.now.sh')
 
-<<<<<<< HEAD
-export const SocketInstance = socketio('https://server-kzzqzcsbsm.now.sh')
-=======
-export const SocketInstance = socketio('http://localhost:8050')
->>>>>>> loginissues
+// export const SocketInstance = socketio('http://localhost:3050')
 Vue.use(VueSocketIO, SocketInstance, VuexStore)
 Vue.use(Vuex)
 Vue.prototype.$eventBus = new Vue()

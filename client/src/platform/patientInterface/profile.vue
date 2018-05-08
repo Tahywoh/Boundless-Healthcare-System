@@ -2,7 +2,7 @@
   <div class="patient-profile">
      <fixednav/>
      <div class="profileWra">
-     <h5 class="flow-text center">Patient Profile</h5>
+        <h5 class="flow-text center">Personal Information</h5>
        <div class="row container blue-grey white-text center-align">
        
           <div class="row">
@@ -16,7 +16,7 @@
               </p>
             </div>
             <div class="profilePic col s3 right" v-if="profile.photoUrl">
-              <img :src="profile.photoUrl" :alt="profile.fullName" class="circle responsive-img"> <!-- notice the "circle" class -->
+              <img :src="profile.photoUrl" alt="user photo" class="circle responsive-img"> <!-- notice the "circle" class -->
             </div>
             <div class="profilePic right col s5" v-else>
               <i class="icon ion-android-contact x35 white-text text-center center-align" style="font-size: 10rem"></i>
@@ -47,11 +47,11 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s6 hide-on-small-only">
              <a class="btn blue">Your doctors:</a>
              <span><a href="" class="white-text">5</a></span>
             </div>
-            <div class=" input-field col s6">
+            <div class=" input-field col s6 hide-on-small-only">
               <a class="blue btn">Medical History</a>:
               <span><a href="" class="white-text">View medical history</a></span>
             </div>
@@ -70,7 +70,7 @@ export default {
     return {
       profile: {
         fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
+        email: `${this.$store.state.profile.email}`,
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,

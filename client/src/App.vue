@@ -16,8 +16,37 @@
 </script>
 
 <style>
-#nav-mobile > div > li > a {
-  font-size: 0.5rem !important;
+div.majorContent, div#majorContent {
+  margin-left: 25% !important;
+}
+ul.autocomplete-content {
+  overflow: hidden;
+}
+#id01 > div {
+  top: 5%;
+}
+.w3-container, .w3-panel {
+  padding: 0rem 0.3rem;
+}
+  #sideMenu > i {
+    margin-left: -4.5rem;
+  }
+.tabs .indicator {
+  background-color: transparent !important;
+}
+div.main.flow-text > div.content.center-align.white-text > div > div > form {
+  padding: 1.3rem !important;
+}
+div[class$="profile"] label.active, #app > div > div.profileWra  label.active {
+  font-weight: 500 !important;
+  color: #fff !important;
+}
+nav ul a.btn.transparent.white-text.waves-effect.waves-light {
+    font-size: 0.7rem;
+}
+#nav-mobile > div > li > a.btn {
+  font-size: 0.7rem !important;
+  padding: 0 1rem !important;
 }
 .btn, .btn-large, .btn-flat {
     border: none;
@@ -29,6 +58,9 @@
     text-transform: uppercase;
     vertical-align: middle;
     -webkit-tap-highlight-color: transparent;
+}
+#app > div > div > div.content.row > div > div.side-nav-content.col.m7.s12 > a {
+  width: max-content;
 }
 nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
     margin-top: 0px;

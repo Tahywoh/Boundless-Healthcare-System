@@ -18,43 +18,33 @@ const Pharmacist = mongoose.model('pharmacist')
 const MedlabScientist = mongoose.model('medlabscientist')
 
 router.post('/', (req, res) => {
-  let {user, password, userType} = req.body
-  // console.log(req.body)
-
+  let {user, password} = req.body
+  let loginErrs = []
+  let userType
+  console.log(req.body, undefined, 3)
   if (validator.isEmail(user)) {
-    if (userType === 'Patient') {
-      Patient.findOne({email: user}, 'user password fullName telephone city state address profilePhoto carts patientDocs', (err, patientData) => {
-        if (!err && patientData !== null) {
-          let {fullName, telephone, city, state, address, profilePhoto, carts, patientDocs} = patientData
-          let isValidPassword = bcrypt.compareSync(password, patientData.password)
-          if (isValidPassword) {
-            const payload = {
-              user: patientData.user,
-              patient_id: patientData._id
-            }
-
-            let token = jwt.sign(payload, config.token_secret)
-            // console.log(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}, null, 2))
-            res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}))
-          } else {
-            res.status(401).send('Incorrect password!')
-            return false
+    Patient.findOne({email: user}, 'user password fullName telephone city state address profilePhoto carts patientDocs', (err, patientData) => {
+      if (!err && patientData !== null) {
+        userType = 'Patient'
+        let {fullName, telephone, city, state, address, profilePhoto, carts, patientDocs} = patientData
+        let isValidPassword = bcrypt.compareSync(password, patientData.password)
+        if (isValidPassword) {
+          const payload = {
+            user: patientData.user,
+            patient_id: patientData._id
           }
+          let token = jwt.sign(payload, config.token_secret)
+          // console.log(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}, null, 2))
+          res.status(200).send({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs})
         } else {
-          if (err) {
-            console.log(JSON.stringify(err, null, 2))
-          } else {
-            res.status(401).send('Patient does not exist!')
-            return false
-          }
-          res.status(401).send('Unable to connect to internet')
-          return false
+          // incorrect password
+          res.status(401).send('Invalid login parameters!')
         }
-      })
-    } else if (userType === 'Doctor') {
-      if (validator.isEmail(user)) {
+      } else {
+        if (err) loginErrs.push(err)
         Doctor.findOne({email: user}, 'user password profilePhoto fullName telephone state specialty city hospitalName hospitalAddress eduRequirement licenseRequirement', (err, doctorData) => {
           if (!err && doctorData !== null) {
+            userType = 'Doctor'
             let {fullName, state, telephone, specialty, city, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto} = doctorData
             let isValidPassword = bcrypt.compareSync(password, doctorData.password)
             if (isValidPassword) {
@@ -63,88 +53,59 @@ router.post('/', (req, res) => {
                 Doctor_id: doctorData._id
               }
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto}))
-              // console.log(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto}, null, 2))
+              res.status(200).send({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto})
             } else {
-              res.status(401).send('Incorrect password!')
-              return false
+              // incorrect password
+              res.status(401).send('Invalid login parameters!')
             }
           } else {
-            if (err) {
-              console.log(JSON.stringify(err, null, 2))
-            } else {
-              res.status(401).send('Doctor does not exist!')
-              return false
-            }
-            res.status(401).send('Unable to connect to internet')
-            return false
-          }
-        })
-      }
-    } else if (userType === 'Pharmacist') {
-      if (validator.isEmail(user)) {
-        Pharmacist.findOne({email: user}, 'user password profilePhoto fullName telephone state city pharmacyName pharmacyAddress eduRequirement licenseRequirement', (err, pharmacistData) => {
-          if (!err && pharmacistData !== null) {
-            let {fullName, state, telephone, city, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, profilePhoto} = pharmacistData
-            let isValidPassword = bcrypt.compareSync(password, pharmacistData.password)
-            if (isValidPassword) {
-              const payload = {
-                user: pharmacistData.user,
-                Pharmacist_id: pharmacistData._id
+            if (err) loginErrs.push(err)
+            Pharmacist.findOne({email: user}, 'user password profilePhoto fullName telephone state city pharmacyName pharmacyAddress eduRequirement licenseRequirement', (err, pharmacistData) => {
+              if (!err && pharmacistData !== null) {
+                userType = 'Pharmacist'
+                let {fullName, state, telephone, city, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement, profilePhoto} = pharmacistData
+                let isValidPassword = bcrypt.compareSync(password, pharmacistData.password)
+                if (isValidPassword) {
+                  const payload = {
+                    user: pharmacistData.user,
+                    Pharmacist_id: pharmacistData._id
+                  }
+                  let token = jwt.sign(payload, config.token_secret)
+                  res.status(200).send({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement})
+                } else {
+                  // incorrect password
+                  res.status(401).send('Invalid login parameters!')
+                }
+              } else {
+                if (err) loginErrs.push(err)
+                MedlabScientist.findOne({email: user}, 'user password fullName telephone state city laboratoryName laboratoryAddress profilePhoto eduRequirement licenseRequirement', (err, medlabscientistData) => {
+                  if (!err && medlabscientistData !== null) {
+                    userType = 'MedicalLab Scientist'
+                    let {fullName, state, telephone, city, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto} = medlabscientistData
+                    let isValidPassword = bcrypt.compareSync(password, medlabscientistData.password)
+                    if (isValidPassword) {
+                      const payload = {
+                        user: medlabscientistData.user,
+                        MedlabScientist_id: medlabscientistData._id
+                      }
+                      let token = jwt.sign(payload, config.token_secret)
+                      res.status(200).send({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto})
+                    } else {
+                      // incorrect password
+                      res.status(401).send('Invalid login parameters!')
+                    }
+                  } else {
+                    if (err) loginErrs.push(err)
+                    console.log(JSON.stringify(loginErrs, undefined, 3))
+                    res.status(403).send('You are not a registred user.<br/>Kindly register from the navbar to proceed')
+                  }
+                })
               }
-              let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement}))
-              // console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement}, null, 2))
-            } else {
-              res.status(401).send('Incorrect password')
-              return false
-            }
-          } else {
-            if (err) {
-              console.log(JSON.stringify(err, null, 2))
-            } else {
-              res.status(401).send('Pharmacist does not exist!')
-              return false
-            }
-            res.status(401).send('Unable to connect to internet')
-            return false
+            })
           }
         })
       }
-    } else if (userType === 'MedicalLab Scientist') {
-      if (validator.isEmail(user)) {
-        MedlabScientist.findOne({email: user}, 'user password fullName telephone state city laboratoryName laboratoryAddress profilePhoto eduRequirement licenseRequirement', (err, medlabscientistData) => {
-          if (!err && medlabscientistData !== null) {
-            let {fullName, state, telephone, city, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto} = medlabscientistData
-            let isValidPassword = bcrypt.compareSync(password, medlabscientistData.password)
-            if (isValidPassword) {
-              const payload = {
-                user: medlabscientistData.user,
-                MedlabScientist_id: medlabscientistData._id
-              }
-              let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto}))
-              console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, profilePhoto, eduRequirement, licenseRequirement}, null, 2))
-            } else {
-              res.status(401).send('Incorrect password')
-              return false
-            }
-          } else {
-            if (err) {
-              console.log(JSON.stringify(err, null, 2))
-            } else {
-              res.status(401).send('Medical lab scientist does not exist!')
-              return false
-            }
-            res.status(401).send('Unable to connect to internet')
-            return false
-          }
-        })
-      }
-    } else {
-      res.status(401).send('No internet access')
-      // return res.status(404).send('No internet access')
-    }
+    })
   }
 })
 

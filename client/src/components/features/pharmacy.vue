@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div class="pharmacy">
     <div class="searchForm">
       <div class="row">
@@ -6,8 +6,8 @@
           <div class="row ">
             <form action="" class="search-drug" @submit.prevent="validateForm" @submit="findDrugs()">
               <div class="input-field col s12">
-                <i class="icon ion-search x15"></i>
-                <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Search through available drugs" v-model="searchPharmacy"/>
+                <i class="icon ion-search x15" @click="findDrugs"></i>
+                <input type="search" id="autocomplete-input" class="autocompleteSearch" placeholder="Search through available drugs" v-model="searchPharmacy"/>
               </div>
               <small class="searchErr red-text text-center" v-html="searchErr"></small>
             </form>
@@ -22,15 +22,15 @@
                 Kindly click on add drug at your left hand side to add one.
               </h5> 
               </div>
-            <div class="blue-grey white-text eachDrug" v-for="(allDrug, index) in allDrugs" :key="allDrug._id" :id="index" v-else>
+            <div class=" white blue-text eachDrug" v-for="(allDrug, index) in allDrugs" :key="allDrug._id" :id="index" v-else>
               <ul >
                 <li>
-                  <div class="collapsible-header blue-text">
+                  <div class="collapsible-header blue-text" v-if="allDrug.drugName && allDrug.price">
                     <h5 class="left" @click="toDrugDescrip(allDrug._id)" :id="index">
                       {{allDrug.drugName}}
                     </h5>
                     <h5 class="right grey darken-3">
-                      <a class="right btn waves-effect waves-light">
+                      <a class="right btn waves-effect">
                         Price: {{allDrug.price}}
                       </a>
                     </h5>
@@ -49,6 +49,7 @@
 <script>
 import GetServices from '@/services/getServices'
 import SearchServices from '@/services/searchServices'
+import M from 'materialize-css'
 export default {
   name: 'Pharmacy-section',
   data () {
@@ -60,13 +61,29 @@ export default {
     }
   },
   async mounted () {
-    const allDrugs = (await GetServices.getAllDrugs()).data
-    this.allDrugs = allDrugs
-    if (this.allDrugs !== null) {
-      this.registeredDrug = true
-    } else {
-      this.registeredDrug = false
+    try {
+      const allDrugs = (await GetServices.getAllDrugs()).data
+      this.allDrugs = allDrugs
+      if (this.allDrugs !== null) {
+        this.registeredDrug = true
+      } else {
+        this.registeredDrug = false
+      }
+    } catch (error) {
+      console.log(error)
+      this.searchErr = error.response.data
     }
+    let searchOptions = {}
+    this.allDrugs.forEach(drug => {
+      searchOptions[`${drug.drugName}`] = null
+    })
+    var elem = document.querySelector('.autocompleteSearch#autocomplete-input')
+    // eslint-disable-next-line
+    var instance = new M.Autocomplete(elem, {
+      data: searchOptions,
+      limit: 20,
+      minLength: 1
+    })
   },
   methods: {
     validateForm (e) {},
@@ -74,6 +91,9 @@ export default {
       let validateSearchInput = {}
       if (this.searchPharmacy !== '' && this.searchPharmacy !== null && isNaN(this.searchPharmacy)) {
         validateSearchInput.searchPharmacy = this.searchPharmacy.toLowerCase()
+      } else {
+        this.searchErr = 'Please enter a valid input.'
+        return
       }
       try {
         const pharmacy = (await SearchServices.findDrugs({query: validateSearchInput.searchPharmacy})).data
@@ -85,16 +105,14 @@ export default {
           this.allDrugs = null
           if (this.$store.state.userType === 'Pharmacist') {
             this.searchErr = 'Drug not found, you can add the drug to pharmacy by clicking on add drug button at your left hand side.'
-            console.log('Drug not found')
           } else {
             this.searchErr = 'Drug not found! Please try searching with minimal words or strings'
-            console.log('Drug not found')
-            return false
+            return
           }
         }
       } catch (error) {
         if (error) {
-          this.searchErr = error.pharmacy
+          console.log(error)
         }
       }
     },

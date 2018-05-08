@@ -5,10 +5,10 @@
 <div class="header-view">
   <navbar/>
 </div>
-  <div class="main flow-text wrapper">
+  <div class="main flow-text wrapper" style="padding-top:0rem">
     <heading/>
     <div class="homeContent">
-        <img src="../assets/platform/39426628-medical-equipment-stethoscope-ampoules-and-syringe-on-white-background-Stock-Photo.png" alt="Error displaying image" class="img responsive-img"/>
+        <img src="../assets/platform/newmed.png" alt="Error displaying image" class="img responsive-img"/>
         <!-- <div class="content center-align white-text"> 
           <div class="animated bounceInRight">
             <slot name="indexMainContent" class="animated bounceInRight m6 s12">
@@ -28,7 +28,7 @@
         <img src="../assets/platform/medlab2.jpg" alt="error displaying image" class="img responsive-img hide-on-med-and-up">
     </div>
 
-    <div class="content center-align white-text"> 
+    <div class="content center-align white-text" style="margin-left: 0%;"> 
       <div class="animated bounceInRight">
         <slot name="indexMainContent" class="animated bounceInRight m6 s12">
       <p>Diagnose your health condition and take necessary measure!</p>
@@ -44,33 +44,38 @@
       </div>
     </div>
   </div>
+  <footer-page/>
   <router-view></router-view>
  </div>
 </template>
 <script>
 import navbar from '@/components/layouts/navbar'
 import Heading from '@/components/layouts/Heading'
+import FooterPage from '@/components/layouts/footer-page'
 export default {
   components: {
-    navbar, Heading
+    navbar, Heading, FooterPage
   },
   name: 'index'
 }
 </script>
-
 <style> 
+#nav-mobile > li > a {
+  font-size: 1rem !important;
+  padding: 0 1rem !important;
+}
 .showcontent{
   display: block !important;
 }
 div.main{
   width: 100%;
+  padding-top: 0.3rem;
   /* height: 80vh; */
 }
 div.main img{
   width: 100%;
-  filter: opacity(.43299);
+  filter: brightness(.5);
   z-index: -1;
-  /* height: 776px; */
 }
 #index > div > div.content {
     position: absolute;
@@ -98,14 +103,14 @@ form input{
 .row{
   margin-bottom: 4px;
 }
-#field1 > div > div{
+/* #field1 > div > div{
   margin: 0.2rem 0;
-}
+} */
 #field2 i.icon.ion-ios-paper{
   top: -1.5rem; 
 }
 div.homeContent {
-  background-color: rgb(33, 150, 243);
+  background-color: inherit;
 }
 #index > div.main.flow-text > div.content.center-align.white-text {
     /* background-color: rgba(33, 150, 243, .25); */

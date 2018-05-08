@@ -3,15 +3,15 @@
     <index>
       <div slot="indexMainContent" class="mainContent center-align">
         <h3 class="blue white-text">Registration</h3>
-        <form class="col m6 s12" @submit.prevent="validateForm" @input="errorMsg">
-          <div id="field1" :class="show">
+        <form class="col m8 s12" @submit.prevent="validateForm" @input="errorMsg">
+          <div id="field1">
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-contact"></i>
                 <input  type="text" class="validate" required v-model="formData.fullName">
                 <label >Full Name</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-mail"></i>
                 <input type="email" class="validate" v-model="formData.email">
                 <label for="email">Email</label>
@@ -19,12 +19,12 @@
             </div>
 
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-android-call"></i>
                 <input id="telephone" type="number" class="validate" v-model="formData.telephone" required>
                 <label for="telephone">Telephone</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <!-- <i class="icon fa-birthday-cake"></i> -->
                 <input id="age" type="number" class="validate" v-model="formData.age" required>
                 <label for="age">Age</label>
@@ -32,26 +32,29 @@
             </div>
 
             <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-location"></i>
                 <input id="city" type="text" class="validate" v-model="formData.city" required>
                 <label for="city">City</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-location"></i>
                 <input type="text" class="validate" v-model="formData.state" required>
                 <label for="state">State</label>
               </div>
             </div>            
              <div class="row">
-              <div class="input-field col s5">
-                <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
+              <div class="input-field col m5 s12">
+                <select class="browser-default waves-effect btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
-                  <option v-for="option in options" :value="option.value">{{option.text}}</option>
+                  <option v-for="(option, index) in options" :value="option.value" :key="index">{{option.text}}</option>
                 </select>
                 <label>Gender</label>         
               </div>
-              <div class="input-field col s7">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <br class="show-on-small-only hide-on-med-and-up">
+              <div class="input-field col m7 s12">
                 <i class="icon ion-ios-contact"></i>
                 <div class="file-field input-field">
                   <div class="btn bg-for-tab blue">
@@ -68,15 +71,15 @@
               </div>
             </div>
           </div>
-          <a @click="triggerField2" id="proceedBtn" class="btn blue white-text waves-effect waves-grey right a-f-arrow show" ><i class="icon ion-android-arrow-forward" ></i></a>
-          <div id="field2" style="display: none">
+          <button @click="triggerField2" id="nextBtn" class="nextBtn btn blue white-text waves-effect waves-grey center-align">NEXT</button>
+          <div id="field2">
             <small class="successMsg blue-text center-align" v-html="successMsg"></small>
             <div class="row">
-               <div class="input-field col s6">
+               <div class="input-field col m6 s12">
                 <input id="pharmacy-name" required type="text" class="validate" v-model="formData.laboratoryName">
                 <label for="pharmacy-address">Laboratory name</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <input id="pharmacy-addressAddress" required type="text" class="validate" v-model="formData.laboratoryAddress">
                 <label for="pharmacy-address">Laboratory location</label>
               </div>
@@ -90,20 +93,21 @@
               </div>
             </div>
              <div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate" v-model="formData.password"> 
-                <label >Password</label>
+                <!-- <input  type="password" class="validate" v-model="formData.password"> 
+                <label >Password</label> -->
+                <vue-password v-model="formData.password" classes="input" :user-inputs="[formData.email]"></vue-password>
+                <label for="password" class="active">Password</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col m6 s12">
                 <i class="icon ion-eye-disabled"></i>
-                <input type="password" class="validate" v-model="formData.confirmPassword">
-                <label for="password">Confirm Password</label>
+                <input type="password" class="validate" v-model="formData.confirmPassword" id="cpassword" required>
+                <label for="cpassword">Confirm Password</label>
               </div>
             </div>
           </div>
-           <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
-           <button  class="btn text-center blue submit-btn hide" type="submit" id="submitBtn" @click="registerMedlabScientist"
+           <button  class="btn text-center blue submit-btn waves-effect" type="submit" id="submitBtn" @click="registerMedlabScientist"
            >Submit</button>
           
       </form>
@@ -117,6 +121,8 @@
 <script>
 import * as axios from 'axios'
 import Index from '@/platform/index'
+import $ from 'jquery'
+import VuePassword from 'vue-password'
 import AuthServices from '@/services/authServices'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -130,7 +136,7 @@ export default {
       required: false
     }
   },
-  components: { Index },
+  components: { Index, VuePassword },
   data () {
     return {
       uploadedFiles: [],
@@ -158,15 +164,15 @@ export default {
       },
       options: [
         {text: 'Male', value: 'Male'},
-        {text: 'Female', value: 'Femaale'}
+        {text: 'Female', value: 'Female'}
       ],
       show: true
     }
   },
   methods: {
     upload (formData) {
-      // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
-      const url = `http://localhost:8050/handlePhoto/imgUpload`
+      const url = `https://server-bynubfvdqi.now.sh/handlePhoto/imgUpload`
+      // const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
@@ -178,7 +184,7 @@ export default {
         })
       // // add url field
       //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
+      //       img, { url: `http:localhost:3050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state
@@ -233,19 +239,16 @@ export default {
       //   this.$eventBus.$emit('delete-image-url')
       // }
     },
-    triggerField2 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field1.style.display = 'none'
-      field2.style.display = 'block'
-      // proceedBtn.classList.toggle('ion-android-arrow-back ')
-      proceedBtn.classList.remove('show')
-      proceedBtn.style.display = 'none'
-      backwordBtn.classList.add('show')
-      submitButton.classList.remove('hide')
+    triggerField2 (e) {
+      if (e.target.innerText === 'PREVIOUS') {
+        e.target.innerText = 'NEXT'
+      } else {
+        e.target.innerText = 'PREVIOUS'
+      }
+      console.log(e)
+      $('#field1').toggle()
+      $('#field2').toggle()
+      $('#submitBtn').toggle()
     },
     validateForm (e) {},
     toCapitalize (capitalizeMe) {
@@ -270,22 +273,6 @@ export default {
       }
       let regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
       return regex.test(email)
-    },
-    triggerField1 () {
-      let field1 = document.getElementById('field1')
-      let field2 = document.getElementById('field2')
-      let proceedBtn = document.getElementById('proceedBtn')
-      let backwordBtn = document.getElementById('backwordBtn')
-      let submitButton = document.getElementById('submitBtn')
-      field2.style.display = 'none'
-      field1.style.display = 'block'
-      backwordBtn.classList.remove('show')
-      backwordBtn.style.display = 'none'
-      proceedBtn.classList.remove('hide')
-      proceedBtn.classList.add('show')
-      proceedBtn.style.display = 'block'
-      submitButton.classList.add('hide')
-      // console.log('am working....')
     },
     async registerMedlabScientist () {
       let validateReg = {}
@@ -320,7 +307,7 @@ export default {
       }
       if (this.formData.gender === '') {
         this.errorMsg = 'You must choose your gender'
-      } else if (this.formData.gender === 'Male' || this.formData.gender === 'Female') {
+      } else if ((this.formData.gender === 'Male') || (this.formData.gender === 'Female')) {
         validateReg.gender = this.formData.gender
       }
       if (this.formData.laboratoryName && this.formData.laboratoryName.length >= 7) {
@@ -368,6 +355,7 @@ export default {
           this.$router.push('/login')
         }, 3300)
       } catch (error) {
+        console.log(error)
         this.errorMsg = error.response.data
         console.log(JSON.stringify(this.errorMsg, null, 2))
         console.log(error.response.status, error.response.statusText)
@@ -396,6 +384,8 @@ export default {
     }
   },
   mounted () {
+    $('#submitBtn').hide()
+    $('#field2').hide()
     this.reset()
   }
 }
@@ -418,12 +408,12 @@ div.input-field.col.s7 > div > div.file-path-wrapper > i {
 input {
   color: #000 !important;
 }
-#field1 > div > div {
+/* #field1 > div > div {
     margin: 0.897rem 0 !important;
-}
-#field2 > div > div {
+} */
+/* #field2 > div > div {
     margin: 2.5rem 0 !important;
-}
+} */
 i.icon.ion-eye-disabled {
     position: absolute;
     right: 6rem;
@@ -434,7 +424,6 @@ i.icon.ion-ios-paper{
 }
 div.main img{
   width: 100%;
-  /* filter: brightness(.79) !important; */
   z-index: -1;
 }
 option, option:disabled{
@@ -453,30 +442,12 @@ i.icon.ion-android-arrow-forward, i.icon.ion-android-arrow-back {
     right: 0.5rem;
     bottom: -0.29rem;
 }
-.a-b-arrow{
-  /* left: 23rem; */
-}
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a {
-    /* font-size: 3rem; */
-    /* position: absolute; */
-    /* right: 22rem; */
-    /* bottom: 9.5rem; */
     border-radius: 50%;
-    padding: 0rem 1.5rem;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-f-arrow{
-  /* right: 26rem; */
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    /* left: 29%; */
-}
-.show{
-  display: block !important;
 }
 
 .mainContent {
     width: 45%;
-    height: 102vh;
     margin: 2rem auto;
     border-radius: 13px;
     border-width: 1px;
@@ -484,9 +455,6 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
     border-color: grey;
     border-image: initial;
     background-color: #fff;
-}
-div.main.flow-text > div.content.center-align.white-text > div > div > form{
-  padding: 0 1rem;
 }
 #field1 > div > div > i, #field2 > div > div > i {
     color: #2196f3;
@@ -500,7 +468,7 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form{
     border-top-left-radius: 13px;
     padding: 0.8rem 0;
 }
-select.browser-default.waves-effect.waves-light.btn {
+select.browser-default.waves-effect.btn {
     opacity: 1;
     height: 35px;
     width: 80%;

@@ -3,20 +3,34 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
           Profile
-        </a></li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        </router-link></li>
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
       </template>
+      <template slot="fixed-mobile-nav">
+        <li><router-link to="/" >Home</router-link></li>
+        <div class="divider"></div>
+        <li><router-link id="profile" :to="goToProfile">
+          Profile
+        </router-link></li>
+        <div class="divider"></div>
+        <li>
+          <a @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+        </li>
+      </template>
     </fixednav>
-    <div class="card  white" style="width:65% !important; padding:1rem; margin-top: 1rem;">
+    <div class="row">
+    <div class="card  white col m7 s12">
     <h4 class="blue white-text">Edit Medication details</h4>
     <div class="divider"></div>
-    <form class="col s6" @submit.prevent="validateForm">
+    <form class="col s12" @submit.prevent="validateForm">
       <div class="row">
         <div class="input-field col s6">
         <input id="drug_name" type="text" class="validate" v-model="pharmData.drugName" required>
@@ -42,9 +56,11 @@
         <label for="briefDescrip" class="active">Brief Description</label>
       </div>
     </div>
-    <button type="submit" class="waves-effect waves-light btn amber center-align" @click="updateDrug">Submit</button>
+    <button type="submit" class="waves-effect btn amber center-align" @click="updateDrug">Submit</button>
     </form>
 </div>
+    </div>
+
     <router-view></router-view>
   </div>
 </template>
@@ -62,7 +78,7 @@ export default {
         manufac: this.$store.state.currentUserDrug.manufac,
         price: parseInt(this.$store.state.currentUserDrug.price.slice(1)),
         briefDescription: this.$store.state.currentUserDrug.briefDescription,
-        seller: this.$store.state.profile.user,
+        seller: this.$store.state.profile.email,
         id: this.$store.state.currentUserDrug._id
       },
       goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
@@ -91,7 +107,8 @@ export default {
         const updatedDrug = (await PharmacyServices.updateDrug(validateDrug)).data
         this.$store.commit('CLEAR_CURRENTUSERDRUGS')
         this.$store.commit('SET_CURRENTUSERDRUG', {currentUserDrug: updatedDrug})
-        location.href = `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`
+        this.$router.push(`/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`)
+        // location.href = `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`
         alert('Drug has been successfully updated')
       } catch (error) {
         console.log(error)
@@ -103,8 +120,16 @@ export default {
   }
 }
 </script>
-
 <style>
+div.drug-edit div.row > div.card.col.m7.s12 {
+  padding: 1rem;
+}
+div.drug-edit div.row > div > form > div {
+  padding-top: 2.5rem;
+}
+div.drug-edit h4 {
+  padding: 1.2rem;
+}
 #app > div > div.card.grey.lighten-3 > h4 {
   padding: 0.5rem;
   margin-top: -0.7rem;

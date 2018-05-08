@@ -1,30 +1,61 @@
 <template>
   <div id="eDrug">
-    <fixednav/>
+<fixednav>
+      <template slot="fixed-nav-bar" style="font-size: 0.7rem;">
+        <li>
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="goToProfile">
+          Profile
+        </router-link></li>
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
+        Logout
+        </a>
+      </li>
+      </template>
+      <template slot="fixed-mobile-nav">
+        <li><router-link to="/" >Home</router-link></li>
+        <div class="divider"></div>
+        <li><router-link id="profile" :to="goToProfile">
+          Profile
+        </router-link></li>
+        <div class="divider"></div>
+        <li>
+          <a @click="$eventBus.$emit('do-logout')">
+          Logout
+          </a>
+        </li>
+      </template>
+    </fixednav>
     <div class="row">
       <div class="row">
-        <div class="col s8 m7">
+        <div class="col s12 m7">
            <button class="btn blue white-text x15">{{eachDrug.drugName}}</button>
           <div class="card">
             <div class="card-content">
               <h5>{{eachDrug.briefDescription}}</h5>
             </div>
             <div class="card-action">
-              <h6><button class="blue btn seller">Seller: </button>&nbsp;<strong class="x15">{{eachDrug.seller}}</strong></h6>
+              <h6><button class="blue btn seller">Seller </button>&nbsp;
+              <br class="show-on-small-only"/>
+              <br class="show-on-small-only"/>
+              <strong class="x15">{{eachDrug.seller.name}}</strong></h6>
             </div>
-            <div class="card-action">
-              <h6><button class="blue btn manufacturer">Manufacturer: </button>&nbsp;<strong class="x15">{{eachDrug.manufac}}</strong></h6>
+            <div class="card-action" v-if="eachDrug.manufac">
+              <h6><button class="blue btn manufacturer">Manufacturer </button>&nbsp;
+              <br class="show-on-small-only"/>
+              <br class="show-on-small-only"/>
+              <strong class="x15">{{eachDrug.manufac}}</strong></h6>
             </div>
             <div class="additionalDetail card-action">
-              <h6><button class="price btn blue">Price:</button>&nbsp;
+              <h6><button class="price btn blue">Price </button>&nbsp;
               <strong class="x15">{{eachDrug.price}}</strong>
               </h6>
-              <h6><button class="currency btn blue">Currency: </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
-              <h6><button class="btn amber waves-effect waves-light" @click="addToCart">Add to cart</button></h6>
+              <h6><button class="currency btn blue">Currency </button>&nbsp;&nbsp;<i class="icon ion-pound x15"></i></h6>
+              <h6><button class="btn amber waves-effect WAVES-LIGHT" @click="addToCart">Add to cart</button></h6>
             </div>
           </div>
         </div>
-        <div class="recent-drugs col s4 grey lighten-2 push-s1">
+        <div class="recent-drugs col s4 grey lighten-2 push-s1 hide-on-small-only">
           <a><h5>Recently ordered drugs</h5></a>
           
           <div class="card-panel blue">
@@ -53,7 +84,7 @@
             </span>
             </p>
           </div>
-          <a class="btn right waves-effect waves-light amber darken-3">More ...</a>
+          <a class="btn right waves-effect amber darken-3">More ...</a>
         </div>
       </div>
     </div>
@@ -75,14 +106,17 @@ export default {
   methods: {
     async addToCart () {
       try {
-        let cartData = (await PharmacyServices.addToCart({drug: this.eachDrug._id, user: this.$store.state.profile.user, userType: this.$store.state.userType})).data
+        let cartData = (await PharmacyServices.addToCart({drug: this.eachDrug._id, user: this.$store.state.profile.email, userType: this.$store.state.userType})).data
         this.$store.commit('SET_PATIENTCARTS', {patientCarts: cartData.saveToPatient})
         console.log({cartData})
-        alert('Drug has successfully beed added to cart!')
+        if (cartData.saveToPatient) {
+          alert('Drug has successfully been added to your cart!')
+        }
       } catch (error) {
         console.log({error})
-        if (error.cartData) {
-          console.log(JSON.stringify(error.cartData))
+        if (error.response.data) {
+          console.log(JSON.stringify(error.response.data))
+          alert(error.response.data)
         }
       }
     }

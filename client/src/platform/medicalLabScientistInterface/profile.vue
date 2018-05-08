@@ -1,22 +1,21 @@
 <template>
   <div class="medlabScientist-profile">
     <!-- <fixednav/> -->
-    <navbar>
-      <template slot="navbar">
-        <slot name="fixed-nav-bar">
-          <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @cllck="$eventBus.$emit('go-to-profile')">
+    <fixednav>
+      <template slot = "fixed-nav-bar">
+        <li>
+        <router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+        <li><a id="profile" class="btn transparent white-text waves-effect" @cllck="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>
-        <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
+        <li><a  class="btn transparent white-text waves-effect" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
       </li>
-        </slot>
       </template>
-    </navbar>
+    </fixednav>
     <div class="profileWra">
+      <h5 class="flow-text center">Personal Information</h5>
       <div class="row container blue-grey white-text center-align">
           <div class="row">
             <div id="basicDetailsProfile" class="col s7">
@@ -29,7 +28,7 @@
               </p>
             </div>
             <div class="profilePic col s3 right" v-if="profile.photoUrl">
-              <img :src="profile.photoUrl" :alt="profile.fullName" class="circle responsive-img"> <!-- notice the "circle" class -->
+              <img :src="profile.photoUrl" alt="user photo" class="circle responsive-img"> <!-- notice the "circle" class -->
             </div>
             <div class="profilePic right col s5" v-else>
               <i class="icon ion-android-contact x35 white-text text-center center-align" style="font-size: 10rem"></i>
@@ -39,68 +38,68 @@
               <div class="input-field col s6">
                 <i class="icon ion-android-call"></i>
                  <input id="telephone" type="number" class="validate autofocus"  v-model="profile.telephone" readonly>
-                <label for="telephone">Telephone:</label>
+                <label for="telephone" class="active">Telephone:</label>
               </div>
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
               <input id="city" type="text" class="validate"  v-model="profile.city" readonly>
-              <label for="city">City:</label>
+              <label for="city" class="active">City:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6">
               <i class="icon ion-location"></i>
               <input id="state" type="text" class="validate"  v-model="profile.state" readonly>
-              <label for="state">State:</label>
+              <label for="state" class="active">State:</label>
             </div>
             <div class="input-field col s6"><br/>
               <input id="pharmacyName" type="text" class="validate"  v-model="profile.laboratoryName" readonly>
-              <label for="pharmacyName">Laboratory Name</label>
+              <label for="pharmacyName" class="active">Laboratory Name</label>
             </div>
           </div>
           <div class="row">
             <div class=" input-field col s12">
               <i class="icon ion-location"></i>
               <textarea type="text" class="validate materialize-textarea" readonly v-model="profile.laboratoryAddress"></textarea>
-              <label for="address_profile">Laboratory Address:</label>
+              <label for="address_profile" class="active">Laboratory Address:</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6"><br/>
               <i class="icon ion-ios-paper"></i>
               <input type="text" class="validate"  v-model="profile.eduRequirement" readonly>
-              <label for="pharmacyName">Education Requirements:</label>
+              <label for="pharmacyName" class="active">Education Requirements:</label>
             </div>
             <div class="input-field col s6"><br/>
               <i class="icon ion-ios-paper"></i>
               <input type="text" class="validate"  v-model="profile.licenseRequirement" readonly>
-              <label for="pharmacyName">License Requirements:</label>
+              <label for="pharmacyName" class="active">License Requirements:</label>
             </div>
           </div>
     </div>
     </div>
     
-    <router-link ></router-link>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/layouts/navbar'
+import Fixednav from '@/components/layouts/fixednav'
 export default {
-  components: {Navbar},
+  components: {Fixednav},
   data () {
     return {
       profile: {
-        fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
-        telephone: `${this.$store.state.profile.telephone}`,
-        city: `${this.$store.state.profile.city}`,
-        state: `${this.$store.state.profile.state}`,
-        photoUrl: `${this.$store.state.profile.profilePhoto}`,
-        laboratoryName: `${this.$store.state.profile.laboratoryName}`,
-        laboratoryAddress: `${this.$store.state.profile.laboratoryAddress}`,
-        eduRequirement: `${this.$store.state.profile.eduRequirement}`,
-        licenseRequirement: `${this.$store.state.profile.licenseRequirement}`
+        fullName: this.$store.state.profile.fullName,
+        email: this.$store.state.profile.email,
+        telephone: this.$store.state.profile.telephone,
+        city: this.$store.state.profile.city,
+        state: this.$store.state.profile.state,
+        photoUrl: this.$store.state.profile.profilePhoto,
+        laboratoryName: this.$store.state.profile.laboratoryName,
+        laboratoryAddress: this.$store.state.profile.laboratoryAddress,
+        eduRequirement: this.$store.state.profile.eduRequiremen,
+        licenseRequirement: this.$store.state.profile.licenseRequiremen
       }
     }
   }

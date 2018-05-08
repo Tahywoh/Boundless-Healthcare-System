@@ -4,6 +4,10 @@ const mongoose = require('mongoose')
 
 require('../models/Patient')
 require('../models/Doctor')
+require('../models/Pharmacist')
+require('../models/MedlabScientist')
+const MedlabScientist = mongoose.model('medlabscientist')
+const Pharmacist = mongoose.model('pharmacist')
 const Doctor = mongoose.model('doctor')
 const Patient = mongoose.model('patient')
 
@@ -112,8 +116,102 @@ router.post(`/${encodeURI('update doctor profile')}`, (req, res) => {
     new: true
   })
     .then(newDocData => {
-      console.log(JSON.stringify(newDocData))
+      // console.log(JSON.stringify(newDocData, undefined, 2))
       return res.status(200).send({newDocData})
+    })
+})
+
+router.post(`/${encodeURI('update pharmacist profile')}`, (req, res) => {
+  let {fullName, email, telephone, city, state, profilePhoto, pharmacyName, pharmacyAddress, eduRequirement, licenseRequirement} = req.body
+
+  let pharmacistData = {}
+
+  if (profilePhoto) {
+    pharmacistData.profilePhoto = profilePhoto
+  }
+  if (fullName && fullName.length > 6) {
+    pharmacistData.fullName = fullName
+  }
+  if (email !== '' && validator.isEmail(email)) {
+    pharmacistData.email = email
+  }
+  if (telephone && telephone.length >= 9) {
+    pharmacistData.telephone = telephone
+  }
+  if (city && city.length >= 3) {
+    pharmacistData.city = city
+  }
+  if (state && state.length >= 3) {
+    pharmacistData.state = state
+  }
+  if (pharmacyName && pharmacyName.length >= 7) {
+    pharmacistData.pharmacyName = pharmacyName
+  }
+  if (pharmacyAddress && pharmacyAddress.length >= 10) {
+    pharmacistData.pharmacyAddress = pharmacyAddress
+  }
+  if (eduRequirement && eduRequirement.length >= 10) {
+    pharmacistData.eduRequirement = eduRequirement
+  }
+  if (licenseRequirement && licenseRequirement.length >= 7) {
+    pharmacistData.licenseRequirement = licenseRequirement
+  }
+
+  Pharmacist.findOneAndUpdate({email: pharmacistData.email}, {
+    $set: pharmacistData
+  }, {
+    upsert: true,
+    new: true
+  })
+    .then(newPharmData => {
+      // console.log(JSON.stringify(newPharmData, null, 3))
+      return res.status(200).send({newPharmData})
+    })
+})
+
+router.post(`/${encodeURI('update medlabscientist profile')}`, (req, res) => {
+  let {fullName, email, telephone, city, state, profilePhoto, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement} = req.body
+
+  let medlabscientistData = {}
+  if (profilePhoto) {
+    medlabscientistData.profilePhoto = profilePhoto
+  }
+  if (fullName && fullName.length > 6) {
+    medlabscientistData.fullName = fullName
+  }
+  if (email !== '' && validator.isEmail(email)) {
+    medlabscientistData.email = email
+  }
+  if (telephone && telephone.length >= 9) {
+    medlabscientistData.telephone = telephone
+  }
+  if (city && city.length >= 3) {
+    medlabscientistData.city = city
+  }
+  if (state && state.length >= 3) {
+    medlabscientistData.state = state
+  }
+  if (laboratoryName && laboratoryName.length >= 7) {
+    medlabscientistData.laboratoryName = laboratoryName
+  }
+  if (laboratoryAddress && laboratoryAddress.length >= 10) {
+    medlabscientistData.laboratoryAddress = laboratoryAddress
+  }
+  if (eduRequirement && eduRequirement.length >= 10) {
+    medlabscientistData.eduRequirement = eduRequirement
+  }
+  if (licenseRequirement && licenseRequirement.length >= 7) {
+    medlabscientistData.licenseRequirement = licenseRequirement
+  }
+
+  MedlabScientist.findOneAndUpdate({email: medlabscientistData.email}, {
+    $set: medlabscientistData
+  }, {
+    upsert: true,
+    new: true
+  })
+    .then(result => {
+      return res.status(200).send({result})
     })
 })
 

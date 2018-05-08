@@ -1,15 +1,55 @@
 <template>
 <div class="patient-dashboard">
-<interface>  
+<interface>
+  <template slot="mobile-side-nav-content">
+    <h4 class="header grey darken-3 white-text center-align text-center" style="padding: 0.5rem; margin-left: 15%;">{{this.$store.state.userType}} Dashboard</h4>
+    <div class="msideNav">
+        <div class="mobile basic-det">
+          <a href="">Full Name: <span class="white-text name">{{this.$store.state.profile.fullName}}</span></a>
+          <a href="">Email: <span class="white-text name">{{this.$store.state.profile.email}}</span></a>
+        </div>
+         <li><div class="divider"></div></li>
+        <li><router-link :to="medicRecord"><i :class="medicalrecord_iconMobile"></i>
+      Medical record</router-link></li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+          <form  class="search-doctors col s12" @submit="findDoctors" @submit.prevent="validateForm">
+            <div class="input-field col s12">
+          <i class="icon ion-search x15"></i>
+              <input type="search" id="autocomplete-input" class="autocompleteMobile white black-text" placeholder="Consult a doctor now!" v-model="search"/>
+            </div>
+            <!-- <small class="searchErr red-text">{{searchErr}}</small> -->
+          </form>
+        </li>
+        <li>
+          <div class="divider"></div>
+        </li>
+      <li>
+        <router-link :to="carts">
+          <i :class="cart_icon"></i>
+      Cart 
+          <span class="circle blue notification-circle" v-if="cartNo > 0">{{cartNo}}</span>
+        </router-link>
+      </li>
+      <li>
+        <div class="divider"></div>
+      </li>
+      <li>
+        <router-link :to="updateProfileMobile">
+          <i :class="updateprofile_iconMobile"></i>Update Profile
+        </router-link>
+      </li>
+    </div>
+  </template>
   <template slot="consult-doctor">
-    <div class="row consult-doctor left hide-on-med-and-down">
+    <div class="row consult-doctor left show-on-medium-and-up hide-on-small-only">
       <form  class="search-doctor" @submit="findDoctors" @submit.prevent="validateForm">
-        <div class="input-field col s12">
+        <div class="input-field col m10 s7">
       <!-- <i class="icon ion-search x15"></i> -->
           <input type="search" id="autocomplete-input" class="autocomplete" placeholder="Consult a doctor now!" v-model="search" />
           <i class="icon ion-search x15" @click="findDoctors"></i>
-          <!-- <autocomplete  anchor="title" label="writer" :on-select="getData(testData)"> -->
-          <!-- </autocomplete> -->
         </div>
         <!-- <small class="searchErr red-text">{{searchErr}}</small> -->
       </form>
@@ -18,14 +58,14 @@
     
   </template>
   <template slot="fixed-nav-bar">
-     <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-    <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="topLinks.goToProfile">
+     <li><router-link to="/" class="btn transparent white-text waves-effect">Home</router-link></li>
+    <li><router-link id="profile" class="btn transparent white-text waves-effect" :to="topLinks.goToProfile">
     Profile
     </router-link></li>
-    <li><router-link :to="topLinks.toAppointment" class="btn transparent white-text waves-effect waves-light">Appointment
+    <li><router-link :to="topLinks.toAppointment" class="btn transparent white-text waves-effect">Appointment
     </router-link>
     </li>
-    <li><a class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit(topLinks.doLogOut)">
+    <li><a class="btn transparent white-text waves-effect" @click="$eventBus.$emit(topLinks.doLogOut)">
     Logout
     </a></li>
     </template>
@@ -42,9 +82,9 @@
   </template>
    <template slot="ul-tabs" id="ul-tabs">
     <ul class="tabs"> 
-        <li class="tab col s4"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-        <li class="tab col s4"><a  href="#messages_conv" class="btn waves-effect waves-light">Messages</a></li>
-        <li class="tab col s4"><a  href="#medicalLab" class="btn waves-effect waves-light">Medical lab</a></li>
+        <li class="tab col s4"><a href="#pharmacy" class="btn  waves-light">Pharmacy</a></li>
+        <li class="tab col s4"><a  href="#messages_conv" class="btn  waves-light">Messages</a></li>
+        <li class="tab col s4"><a  href="#medicalLab" class="btn  waves-light">Medical lab</a></li>
       </ul>
   </template>
   <div slot="platform-content" id="docSearch">
@@ -56,7 +96,7 @@
         </div>
         <div v-else v-for="(doctor, index) in doctors" :id="index" :key="doctor._id" class="blue-grey white-text eachDoctor">
           <a class="btn waves-effect-waves-light" @click="viewDoc(doctor._id)">{{doctor.fullName}}</a><br/>
-          <a class="right btn waves-effect waves-light consultBtn" @click="createChannel(doctor._id)" :id="index" :key="doctor._id">consult</a>
+          <a class="right btn waves-effect consultBtn" @click="createChannel(doctor._id)" :id="index" :key="doctor._id">consult</a>
           <a href="" class="btn waves-effect-waves-light" >City: <span>{{doctor.city}}</span></a>
           <a href="" class="btn waves-effect-waves-light">
           State: <span>{{doctor.state}}</span>
@@ -74,15 +114,15 @@
     </div>
     <div id="messages_conv" class="col s12 w3-card">
       <div class="messages transparent show-content">
-        <!-- <h5>No conversations yet</h5> -->
         <messages/>
       </div>
     </div>
     <div id="medicalLab" class="col s12 w3-card">
       <div class="medical-lab show-content transparent">
-        <h5 class="text-center">App in development, <br/>
-        Please check back later!
+        <h5 class="text-center">Have you need to take a medical test?<br/>
+        You can search below for available medical lab centres.
         </h5>
+        <medical-lab/>
       </div>
     </div>
   </template>
@@ -102,18 +142,27 @@ import Sidenav from '@/platform/patientInterface/sidenav'
 import $ from 'jquery'
 import Autocomplete from 'vue2-autocomplete-js'
 import GetServices from '@/services/getServices'
+import MedicalLab from '@/components/features/medicalLabs'
+import M from 'materialize-css'
 export default {
-  components: {Interface, messages, Pharmacy, BasicDetails, Sidenav, Autocomplete},
+  components: {Interface, messages, Pharmacy, BasicDetails, Sidenav, Autocomplete, MedicalLab},
   name: 'index',
   data () {
     return {
+      medicRecord: navs.links.medicalRecord.url,
+      medicalrecord_iconMobile: navs.links.medicalRecord.icon + ' x2 left',
+      patientCarts: this.$store.state.userData.patientCarts.cartNo,
+      cartNo: this.$store.state.userData.patientCarts.cartNo,
+      updateProfile: navs.links.updateProfile.url,
+      carts: navs.links.cart.url,
+      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       medicalrecord_icon: navs.links.medicalRecord.icon + ' x2 left',
       message_icon: navs.links.messages.icon + ' x2 left',
       cart_icon: navs.links.cart.icon + ' x2 left',
-      updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
+      updateprofile_iconMobile: navs.links.updateProfile.icon + ' x2 left',
       search: '',
+      updateProfileMobile: navs.links.updateProfile.url,
       allDocs: null,
-      // searchErr: '',
       topLinks: {
         doLogOut: 'do-logout',
         goToProfile: navs.links.profile.url,
@@ -126,18 +175,42 @@ export default {
     }
   },
   sockets: {},
-  mounted () {
+  async mounted () {
     $('#docSearch').hide()
+    const allDocs = (await GetServices.getAllDocs()).data
+    this.$store.commit('SET_ALLDOCS', {allDocs})
+    this.allDocs = allDocs
+    let searchOptions = {}
+    this.allDocs.forEach(doc => {
+      searchOptions[`${doc.fullName}`] = null
+    })
+    var el = document.querySelector('ul.tabs')
+    // eslint-disable-next-line
+    var instance = M.Tabs.init(el, {})
+    var elem = document.querySelector('.autocomplete')
+    // eslint-disable-next-line
+    var instance = new M.Autocomplete(elem, {
+      data: searchOptions,
+      limit: 20,
+      minLength: 1
+    })
+
+    var elem2 = document.querySelector('.autoCompleteMobile')
+    // eslint-disable-next-line
+    var instance = new M.Autocomplete(elem2, {
+      data: searchOptions,
+      limit: 20,
+      minLength: 1
+    })
   },
   methods: {
-    async getAllDocs () {
-      const allDocs = (await GetServices.getAllDocs()).data
-      this.allDocs = allDocs
-    },
-    getData (d) {
-      console.log(d)
-      return d
-    },
+    // async getAllDocs () {
+    //   const allDocs = (await GetServices.getAllDocs()).data
+    //   this.$store.commit('SET_ALLDOCS', {allDocs})
+    //   this.allDocs = allDocs
+    //   console.log(allDocs)
+    //   return allDocs
+    // },
     validateForm (e) {},
     async findDoctors () {
       let validSearchInput = {}
@@ -147,9 +220,8 @@ export default {
         // this.searchErr = 'Please enter a valid input!'
         alert('Please enter a valid input!')
         console.log('Please enter a valid input!')
-        return false
+        return
       }
-      // console.log(validSearchInput)
       try {
         const doctors = (await SearchServices.findDoctors({query: validSearchInput.search})).data
         // let responseData = response.data
@@ -183,7 +255,7 @@ export default {
       this.doctors.forEach(doc => {
         if (doc._id === docId) {
           this.$store.commit('SET_VIEWDOC', {viewDoc: doc})
-          this.$router.push(`/patient/view-doc/${doc.fullName.toLowerCase().split(' ')[0]}`)
+          this.$router.push(`/patient/view-doctor/${doc.fullName.toLowerCase().split(' ')[0]}`)
         }
       })
     },
@@ -199,9 +271,9 @@ export default {
           if (channel !== this.$store.state.consult.newRoom) {
             newChannel = channel
             this.$store.commit('SOCKET_CREATECHANNEL', {newRoom: newChannel})
-            this.$store.commit('SET_DOCPATIENT', {doctorName: docFullName, doctorEmail: docEmail})
+            this.$store.commit('SET_DOCPATIENT', {doctorName: docFullName, doctorEmail: docEmail, patientName: this.$store.state.profile.fullName})
             if (confirm(`Are you sure you want to consult Doctor ${doc.fullName} with room name ${newChannel}?`)) {
-              alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them. Kindly go back to your dashboard to proceed.`)
+              alert(`Successfully connected! You can now consult Doctor ${doc.fullName} by sending message to them or seek appointment. Kindly go back to your dashboard to proceed.`)
             }
             console.log(newChannel)
           } else {
@@ -215,6 +287,9 @@ export default {
 }
 </script>
 <style>
+#autocomplete-options-5f52e0d6-44a9-d0c8-103a-22071d37a0d5 {
+  overflow-x: hidden !important;
+}
 #docSearch > div > div > h4 {
     padding: 0.5rem 0.3rem;
     border-radius: 15px;
@@ -287,9 +362,9 @@ input#autocomplete-input {
   /* height: 100vh !important; */
 }
 
-#medicalLab .show-content {
+/* #medicalLab .show-content {
   height: 100vh;
-}
+} */
 #messages_conv .show-content{
   height: 90.7vh;
 }
