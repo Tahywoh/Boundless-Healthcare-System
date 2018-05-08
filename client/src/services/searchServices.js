@@ -9,5 +9,8 @@ export default {
   },
   findDrugs (query) {
     return Api().post('/search/pharmacy', query)
+  },
+  findLabs (query) {
+    return Api().post('/search/medicalLabs', query)
   }
 }

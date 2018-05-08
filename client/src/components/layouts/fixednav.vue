@@ -4,7 +4,7 @@
       <template slot="navbar">
         <slot name="fixed-nav-bar">
           <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
         <li><a id="profile" class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('go-to-profile')">
           Profile
         </a></li>

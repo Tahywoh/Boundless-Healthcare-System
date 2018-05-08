@@ -47,7 +47,7 @@
               <div class="input-field col s5">
                 <select class="browser-default waves-effect waves-light btn blue" style="class:  browser" v-model="formData.gender" required>
                   <option value="" disabled selected>Select gender</option>
-                  <option v-for="option in options" :value="option.value">{{option.text}}</option>
+                  <option v-for="(option, index) in options" :value="option.value" :key="index">{{option.text}}</option>
                 </select>
                 <label>Gender</label>         
               </div>
@@ -92,8 +92,10 @@
              <div class="row">
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
-                <input  type="password" class="validate" v-model="formData.password" required>
-                <label >Password</label>
+                <!-- <input  type="password" class="validate" v-model="formData.password" required>
+                <label >Password</label> -->
+                <vue-password v-model="formData.password" classes="input" :user-inputs="[formData.email]"></vue-password>
+                <label for="password" class="active">Password</label>
               </div>
               <div class="input-field col s6">
                 <i class="icon ion-eye-disabled"></i>
@@ -104,7 +106,7 @@
             <small class="red-text center-align errorMsg" v-html="errorMsg"></small>
           </div>
            <button  class="btn text-center blue submit-btn hide waves-effect waves-light" type="submit" id="submitBtn" @click="registerPharmacist"
-           >Submit</button><br/
+           >Submit</button><br/>
           <a @click="triggerField1" class="btn blue white-text waves-effect waves-grey right a-b-arrow blue white-text hide" id="backwordBtn"><i class="icon ion-android-arrow-back" ></i></a>
       </form>
       </div>
@@ -117,6 +119,7 @@
 <script scoped>
 import * as axios from 'axios'
 import Index from '@/platform/index'
+import VuePassword from 'vue-password'
 import AuthServices from '@/services/authServices'
 const STATUS_INITIAL = 0
 const STATUS_SAVING = 1
@@ -130,7 +133,7 @@ export default {
       required: false
     }
   },
-  components: { Index },
+  components: { Index, VuePassword },
   data () {
     return {
       uploadedFiles: [],
@@ -158,7 +161,7 @@ export default {
       },
       options: [
         {text: 'Male', value: 'Male'},
-        {text: 'Female', value: 'Femaale'}
+        {text: 'Female', value: 'Female'}
       ],
       show: true
     }
@@ -166,7 +169,7 @@ export default {
   methods: {
     upload (formData) {
       // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
-      const url = `http://localhost:8050/handlePhoto/imgUpload`
+      const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
         // get data
         .then((x) => {
@@ -337,6 +340,7 @@ export default {
         validateReg.licenseRequirement = this.formData.licenseRequirement
       } else {
         this.errorMsg = 'Please enter a valid license details<br/>This is required to serve you better.'
+        return
       }
       if (this.formData.password === this.formData.confirmPassword && this.formData.password !== '' && this.formData.password.length >= 5) {
         validateReg.password = this.formData.password
@@ -457,7 +461,6 @@ div.main.flow-text > div.content.center-align.white-text > div > div > form > a.
   /* bottom: 4rem; */
 }
 div.main.flow-text > div.content.center-align.white-text > div > div > form > a.a-b-arrow {
-    /* left: 29%; */`
     margin-top: 11%;
     float: left !important;
 }

@@ -71,20 +71,24 @@ export default {
     },
     logOut () {
       this.$store.commit('CLEAR_USER')
-      // this.$router.push(this.onLoggedOut)
-      location.href = this.onLoggedOut
+      this.$router.push(this.onLoggedOut)
+      // location.href = this.onLoggedOut
     },
     goToDashboard () {
-      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+      // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+      this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface`)
     },
     goToProfile () {
-      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
+      // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
+      this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`)
     },
     goToUpdateProfile () {
-      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/${encodeURI('update profile')}`
+      // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/${encodeURI('update profile')}`
+      this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface/${encodeURI('update profile')}`)
     },
     goToAppointment () {
-      location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
+      // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`
+      this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface/appointment`)
     }
   },
   beforeDestroy () {

@@ -1,19 +1,19 @@
-var moment = require('moment')
-var date = moment()
-var formatedTime = date.format('MMM D, YYYY') + ` &nbsp;&nbsp; ` + date.format('h:mm a')
+// var moment = require('moment')
+// var date = moment()
+// var formatedTime = date.format('MMM D, YYYY') + ` ` + date.format('h:mm a')
 var generateMessage = (from, text) => {
   return {
     from,
     text,
-    createdAt: formatedTime
+    createdAt: new Date()
   }
 }
 var generateLocationMessage = (from, latitude, longitude) => {
   return {
     from,
     url: `https://www.google.com/maps?q=${latitude},${longitude}`,
-    createdAt: formatedTime
+    createdAt: new Date()
   }
 }
-console.log(formatedTime)
+
 module.exports = {generateMessage, generateLocationMessage}

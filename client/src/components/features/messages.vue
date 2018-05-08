@@ -21,7 +21,7 @@
         </div>
         <div class="message__body">
           <p v-if="!socketMessage.url">{{socketMessage.text}}</p>
-          <a v-else :href="socketMessage.url" target="_blank">Current location</a>
+          <router-link v-else :to="socketMessage.url" target="_blank">Current location</router-link>
         </div>
       </li>
     </ol>
@@ -38,6 +38,7 @@
 </template>
 <script>
 import $ from 'jquery'
+import moment from 'moment/moment.js'
 export default {
   data () {
     return {
@@ -70,6 +71,8 @@ export default {
     newMessage (message) {
       if (this.isConnected) {
         this.scrollToBottom()
+        var formattedTime = moment(message.createdAt).format('MMM D, YYYY') + ` ` + moment(message.createdAt).format('h:mm a')
+        message.createdAt = formattedTime
         this.message = message
         this.socketMessages.push(message)
         console.log('newMessage', message)
@@ -82,13 +85,16 @@ export default {
     newLocationMessage (message) {
       if (this.isConnected) {
         this.scrollToBottom()
+        var formattedTime = moment(message.createdAt).format('MMM D, YYYY') + ` ` + moment(message.createdAt).format('h:mm a')
+        message.createdAt = formattedTime
         this.message = message
         this.socketMessages.push(message)
         console.log('locationMessage', message)
         this.message = ''
       } else {
         alert('Unable to connect to server')
-        location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+        this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface`)
+        // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
       }
     }
   },
@@ -102,7 +108,8 @@ export default {
         })
       } else {
         alert('Unable to connect to server')
-        location.href = '/'
+        // location.href = '/'
+        this.$router.push(`/`)
       }
     },
     sendLocation () {
@@ -128,7 +135,8 @@ export default {
         })
       } else {
         alert('Unable to connect to server')
-        location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
+        this.$router.push(`/${this.$store.state.userType.replace(/\s/g, '')}-interface`)
+        // location.href = `/${this.$store.state.userType.replace(/\s/g, '')}-interface`
       }
     },
     scrollToBottom () {

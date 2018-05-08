@@ -2,7 +2,7 @@
   <div class="doctor-profile">
      <fixednav/>
      <div class="profileWra">
-     <h5 class="flow-text center">Doctor Profile</h5>
+      <h5 class="flow-text center">Personal Information</h5>
       <div class="row container blue-grey white-text center-align">
           <div class="row">
             <div id="basicDetailsProfile" class="col s7">
@@ -15,7 +15,7 @@
               </p>
             </div>
             <div class="profilePic col s3 right" v-if="profile.photoUrl">
-              <img :src="profile.photoUrl" :alt="profile.fullName" class="circle responsive-img"> <!-- notice the "circle" class -->
+              <img :src="profile.photoUrl" alt="user photo" class="circle responsive-img"> <!-- notice the "circle" class -->
             </div>
             <div class="profilePic right col s5" v-else>
               <i class="icon ion-android-contact x35 white-text text-center center-align" style="font-size: 10rem"></i>
@@ -81,7 +81,7 @@ export default {
     return {
       profile: {
         fullName: `${this.$store.state.profile.fullName}`,
-        email: `${this.$store.state.profile.user}`,
+        email: `${this.$store.state.profile.email}`,
         telephone: `${this.$store.state.profile.telephone}`,
         city: `${this.$store.state.profile.city}`,
         state: `${this.$store.state.profile.state}`,

@@ -15,7 +15,7 @@ export default {
   data () {
     return {
       userFullName: `${this.$store.state.profile.fullName}`,
-      userEmailAddress: `${this.$store.state.profile.user}`
+      userEmailAddress: `${this.$store.state.profile.email}`
     }
   },
   methods: {

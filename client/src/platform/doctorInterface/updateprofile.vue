@@ -3,12 +3,12 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
-          <li><a  class="btn transparent white-text waves-effect waves-light" :href="goToAppointment">Appointment
-        </a>
+        </router-link></li>
+          <li><router-link  class="btn transparent white-text waves-effect waves-light" :to="goToAppointment">Appointment
+        </router-link>
         </li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
         Logout
@@ -139,7 +139,7 @@ export default {
       imgUrl: '',
       profileData: {
         fullName: this.$store.state.profile.fullName,
-        email: this.$store.state.profile.user,
+        email: this.$store.state.profile.email,
         telephone: this.$store.state.profile.telephone,
         city: this.$store.state.profile.city,
         state: this.$store.state.profile.state,
@@ -179,90 +179,90 @@ export default {
       return capitalizeMe
     },
     async updateDoctorProfile () {
-      let validateProfileData = {}
-      validateProfileData.telephone = this.profileData.telephone
-      if (this.profileData.photoUrl) {
-        validateProfileData.profilePhoto = this.profileData.photoUrl
+      let validateReg = {}
+      validateReg.telephone = this.formData.telephone
+      if (this.formData.photoUrl) {
+        validateReg.profilePhoto = this.formData.photoUrl
       }
       // validating form data
-      if (this.profileData.fullName && this.profileData.fullName.length >= 7) {
-        validateProfileData.fullName = this.toCapitalize(this.profileData.fullName)
+      if (this.formData.fullName && this.formData.fullName.length >= 7) {
+        validateReg.fullName = this.toCapitalize(this.formData.fullName)
       } else {
         this.errorMsg = 'Enter a valid full name!'
         return false
       }
-      if (this.isValidEmail(this.profileData.email) && this.profileData.email !== '') {
-        validateProfileData.email = this.profileData.email
+      if (this.isValidEmail(this.formData.email) && this.formData.email !== '') {
+        validateReg.email = this.formData.email
       } else {
         this.errorMsg = 'Invalid email address'
         return false
       }
-      if (this.profileData.city && this.profileData.city.length >= 3) {
-        validateProfileData.city = this.profileData.city
+      if (this.formData.city && this.formData.city.length >= 3) {
+        validateReg.city = this.formData.city
       } else {
         this.errorMsg = 'Enter a valid city name!'
         return false
       }
-      if (this.profileData.state && this.profileData.state.length >= 3) {
-        validateProfileData.state = this.profileData.state
+      if (this.formData.state && this.formData.state.length >= 3) {
+        validateReg.state = this.formData.state
       } else {
         this.errorMsg = 'You must provide your state'
         // return false
       }
-      if (this.profileData.hospitalName && this.profileData.hospitalName.length >= 7) {
-        validateProfileData.hospitalName = this.profileData.hospitalName
+      if (this.formData.hospitalName && this.formData.hospitalName.length >= 7) {
+        validateReg.hospitalName = this.formData.hospitalName
       } else {
         this.errorMsg = 'Please enter a valid name of hospital'
         return false
       }
-      if (this.profileData.hospitalAddress) {
-        validateProfileData.hospitalAddress = this.profileData.hospitalAddress
+      if (this.formData.hospitalAddress) {
+        validateReg.hospitalAddress = this.formData.hospitalAddress
       } else {
         this.errorMsg = 'A valid address of hospital is required to serve you better'
         // return false
       }
-      if (this.profileData.specialty && this.profileData.specialty.length >= 7) {
-        validateProfileData.specialty = this.profileData.specialty
+      if (this.formData.specialty && this.formData.specialty.length >= 7) {
+        validateReg.specialty = this.formData.specialty
       } else {
         this.errorMsg = 'Please enter a valid medical specialty'
         return false
       }
-      if (this.profileData.eduRequirement && this.profileData.eduRequirement.length >= 10) {
-        validateProfileData.eduRequirement = this.profileData.eduRequirement
+      if (this.formData.eduRequirement && this.formData.eduRequirement.length >= 10) {
+        validateReg.eduRequirement = this.formData.eduRequirement
       } else {
         this.errorMsg = 'Please enter a valid education certificate details!'
         return false
       }
-      if (this.profileData.licenseRequirement && this.profileData.licenseRequirement.length >= 7) {
-        validateProfileData.licenseRequirement = this.profileData.licenseRequirement
+      if (this.formData.licenseRequirement && this.formData.licenseRequirement.length >= 7) {
+        validateReg.licenseRequirement = this.formData.licenseRequirement
       } else {
         this.errorMsg = 'Please enter a valid license details<br/>This is required to serve you better.'
       }
 
       try {
-        const newUserData = (await AuthServices.updateDoctorProfile(validateProfileData)).data
-        console.log(JSON.stringify(newUserData, null, 2))
-        alert('Your profile has been successfully updated. You need to log out and login to apply changes')
+        const newUserData = (await AuthServices.updateDoctorProfile(validateReg)).data
+        alert('Your profile has been successfully updated.\nYou need to log out and login to apply changes')
+        return newUserData
       } catch (error) {
         console.log(error)
-        console.log({newData: error.newUserData})
+        console.log({newData: error.response.data})
       }
     },
     upload (formData) {
       // const url = `https://server-dvvtkzhghy.now.sh/handlePhoto/imgUpload`
-      const url = `http://localhost:8050/handlePhoto/imgUpload`
+      const url = `http://localhost:3050/handlePhoto/imgUpload`
       return axios.post(url, formData)
       // get data
         .then((x) => {
           if (x) {
             // console.log({x: x.dgata})
-            this.profileData.photoUrl = x.data
-            console.log({photoUrl: this.profileData.photoUrl})
+            this.formData.photoUrl = x.data
+            console.log({photoUrl: this.formData.photoUrl})
           }
         })
       // // add url field
       //     .then(x => x.map(img => Object.assign({},
-      //       img, { url: `http:localhost:8050/public/uploads/${img.id}` })))
+      //       img, { url: `http:localhost:3050/public/uploads/${img.id}` })))
     },
     reset () {
       // reset form to initial state

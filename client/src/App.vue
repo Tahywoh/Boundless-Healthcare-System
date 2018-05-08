@@ -16,8 +16,11 @@
 </script>
 
 <style>
+nav ul a.btn.transparent.white-text.waves-effect.waves-light {
+    font-size: 0.7rem;
+}
 #nav-mobile > div > li > a {
-  font-size: 0.5rem !important;
+  font-size: 0.7rem !important;
 }
 .btn, .btn-large, .btn-flat {
     border: none;

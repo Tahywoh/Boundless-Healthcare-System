@@ -12,16 +12,16 @@
         <span class="circle blue notification-circle">5</span>
       </a>
       <div class="divider"></div>
-      <a href="#" class="w3-bar-item w3-button">
+      <!-- <a href="#" class="w3-bar-item w3-button">
         <i :class="message_icon"></i>  
         Messsages
         <span class="circle blue notification-circle">3</span>
-      </a>
+      </a> -->
       <div class="divider"></div>
-        <a class="w3-bar-item w3-button" :href="updateProfile">
+        <router-link class="w3-bar-item w3-button" :to="updateProfile">
           <i :class="updateprofile_icon"></i>
           Update Profile
-        </a>
+        </router-link>
     </template>
      
     <template slot="user-type-img">
@@ -60,6 +60,7 @@ import messages from '@/components/features/messages'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/doctorInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
+import M from 'materialize-css'
 export default{
   components: {Interface, messages, Pharmacy, BasicDetails},
   name: 'index',
@@ -70,6 +71,11 @@ export default{
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       updateProfile: navs.links.updateProfile.url
     }
+  },
+  mounted () {
+    var el = document.querySelector('ul.tabs')
+    // eslint-disable-next-line
+    var instance = M.Tabs.init(el, {})
   }
 }
 </script>

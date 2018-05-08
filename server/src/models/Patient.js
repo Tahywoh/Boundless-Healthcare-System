@@ -19,7 +19,10 @@ const PatientSchema = new Schema({
       {
         drugName: String,
         price: String,
-        seller: String,
+        seller: {
+          name: String,
+          _id: String
+        },
         briefDescription: String,
         Date: DateType
       }

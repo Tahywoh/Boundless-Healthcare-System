@@ -65,7 +65,7 @@ export default [
     }
   },
   {
-    path: '/patient/view-doc/*',
+    path: '/patient/view-doctor/*',
     name: 'BHS | view doctor',
     component: Doc,
     meta: {

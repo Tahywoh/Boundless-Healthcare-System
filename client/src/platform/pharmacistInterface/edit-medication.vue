@@ -3,10 +3,10 @@
     <fixednav>
       <template slot="fixed-nav-bar">
         <li>
-        <a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-        <li><a id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+        <router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+        <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-        </a></li>
+        </router-link></li>
         <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
         Logout
         </a>
@@ -62,7 +62,7 @@ export default {
         manufac: this.$store.state.currentUserDrug.manufac,
         price: parseInt(this.$store.state.currentUserDrug.price.slice(1)),
         briefDescription: this.$store.state.currentUserDrug.briefDescription,
-        seller: this.$store.state.profile.user,
+        seller: this.$store.state.profile.email,
         id: this.$store.state.currentUserDrug._id
       },
       goToProfile: `/${this.$store.state.userType.replace(/\s/g, '')}-interface/profile`
@@ -91,7 +91,8 @@ export default {
         const updatedDrug = (await PharmacyServices.updateDrug(validateDrug)).data
         this.$store.commit('CLEAR_CURRENTUSERDRUGS')
         this.$store.commit('SET_CURRENTUSERDRUG', {currentUserDrug: updatedDrug})
-        location.href = `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`
+        this.$router.push(`/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`)
+        // location.href = `/Pharmacist-interface/${encodeURIComponent(`my[]{}products`)}/view/${encodeURIComponent('edit / \\ { {} } [ ] data')}`
         alert('Drug has been successfully updated')
       } catch (error) {
         console.log(error)

@@ -35,19 +35,21 @@ router.post('/', (req, res) => {
 
             let token = jwt.sign(payload, config.token_secret)
             // console.log(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}, null, 2))
-            res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs}))
+            res.status(200).send({token, user, fullName, telephone, city, userType, state, address, profilePhoto, carts, patientDocs})
           } else {
-            res.status(401).send('Incorrect password!')
+            // incorrect password
+            res.status(401).send('Invalid email or password!')
             return false
           }
         } else {
           if (err) {
             console.log(JSON.stringify(err, null, 2))
           } else {
-            res.status(401).send('Patient does not exist!')
+            // patient does not exist
+            res.status(401).send('Invalid email or password!')
             return false
           }
-          res.status(401).send('Unable to connect to internet')
+          res.status(403).send('Unable to connect to internet')
           return false
         }
       })
@@ -63,17 +65,19 @@ router.post('/', (req, res) => {
                 Doctor_id: doctorData._id
               }
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto}))
+              res.status(200).send({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto})
               // console.log(JSON.stringify({token, user, fullName, telephone, city, state, specialty, userType, hospitalName, hospitalAddress, eduRequirement, licenseRequirement, profilePhoto}, null, 2))
             } else {
-              res.status(401).send('Incorrect password!')
+              // incorrect password
+              res.status(401).send('Inavlid email or password!')
               return false
             }
           } else {
             if (err) {
               console.log(JSON.stringify(err, null, 2))
             } else {
-              res.status(401).send('Doctor does not exist!')
+              // doctor does not exist
+              res.status(403).send('Invalid email or password!')
               return false
             }
             res.status(401).send('Unable to connect to internet')
@@ -93,17 +97,19 @@ router.post('/', (req, res) => {
                 Pharmacist_id: pharmacistData._id
               }
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement}))
+              res.status(200).send({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement})
               // console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, pharmacyName, profilePhoto, pharmacyAddress, eduRequirement, licenseRequirement}, null, 2))
             } else {
-              res.status(401).send('Incorrect password')
+              // incorrect password
+              res.status(401).send('Invalid email or password!')
               return false
             }
           } else {
             if (err) {
               console.log(JSON.stringify(err, null, 2))
             } else {
-              res.status(401).send('Pharmacist does not exist!')
+              // pharmacist does not exist
+              res.status(403).send('Invalid email or password')
               return false
             }
             res.status(401).send('Unable to connect to internet')
@@ -123,17 +129,19 @@ router.post('/', (req, res) => {
                 MedlabScientist_id: medlabscientistData._id
               }
               let token = jwt.sign(payload, config.token_secret)
-              res.status(200).send(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto}))
-              console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, profilePhoto, eduRequirement, licenseRequirement}, null, 2))
+              res.status(200).send({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, eduRequirement, licenseRequirement, profilePhoto})
+              // console.log(JSON.stringify({token, user, fullName, telephone, city, state, userType, laboratoryName, laboratoryAddress, profilePhoto, eduRequirement, licenseRequirement}, null, 2))
             } else {
-              res.status(401).send('Incorrect password')
+              // incorrect password
+              res.status(401).send('Invalid email or password!')
               return false
             }
           } else {
             if (err) {
               console.log(JSON.stringify(err, null, 2))
             } else {
-              res.status(401).send('Medical lab scientist does not exist!')
+              // medlabscientist does not exist
+              res.status(403).send('Invalid email or password!')
               return false
             }
             res.status(401).send('Unable to connect to internet')

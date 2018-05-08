@@ -2,10 +2,10 @@
   <div class="medical-lab-scientist-dashboard">
     <interface>
       <template slot="fixed-nav-bar">
-          <li><a href="/" class="btn transparent white-text waves-effect waves-light">Home</a></li>
-          <li><a  id="profile" class="btn transparent white-text waves-effect waves-light" :href="goToProfile">
+          <li><router-link to="/" class="btn transparent white-text waves-effect waves-light">Home</router-link></li>
+          <li><router-link id="profile" class="btn transparent white-text waves-effect waves-light" :to="goToProfile">
           Profile
-          </a></li>
+          </router-link></li>
           <li><a  class="btn transparent white-text waves-effect waves-light" @click="$eventBus.$emit('do-logout')">
           Logout
           </a>
@@ -18,16 +18,16 @@
 
       <template slot="side-nav-content">
         <div class="divider"></div>
-        <a href="#" class="w3-bar-item w3-button">
+        <router-link :to="toAppointment" class="w3-bar-item w3-button">
           <i :class="appointment_icon"></i>
           &nbsp;Appointments
           <span class="circle blue notification-circle">6</span>
-        </a>
+        </router-link>
         <div class="divider"></div>
-        <a :href="updateProfile" class="w3-bar-item w3-button">
+        <router-link :to="updateProfile" class="w3-bar-item w3-button">
           <i :class="updateprofile_icon"></i>
           Update Profile
-        </a>
+        </router-link>
       </template>
 
       <template slot="user-type-img">
@@ -37,20 +37,23 @@
       <template slot="ul-tabs">
         <ul class="tabs"> 
           <li class="tab col s6"><a href="#pharmacy" class="btn waves-effect waves-light">Pharmacy</a></li>
-          <li class="tab col s6"><a  href="#appointment" class="btn waves-effect waves-light">Appointment</a></li>
+          <li class="tab col s6"><a  href="#medlab" class="btn waves-effect waves-light">Medical lab</a></li>
         </ul>
       </template>
 
       <template slot="platform-content">
         <div id="pharmacy" class="col s12 w3-card">
-        <h5 class="text-center">Have you been prescribed drugst?<br/>
+        <h5 class="text-center">Have you been prescribed drugs?<br/>
           Kindly search below and place your order.
         </h5>
        <pharmacy/>
         </div>
-        <div id="appointment" class="col s12 w3-card">
+        <div id="medlab" class="col s12 w3-card">
           <div class="appointment transparent show-content">
-            <h5>No appointments yet!</h5>
+            <h5 class="text-center">Have you need to take a medical test?<br/>
+        You can search below for available medical lab centres.
+            </h5>
+            <medical-lab/>
           </div>
         </div>
       </template>
@@ -64,16 +67,24 @@ import Interface from '@/components/layouts/interface'
 import Pharmacy from '@/components/features/pharmacy'
 import navs from '@/platform/medicalLabScientistInterface/navs'
 import BasicDetails from '@/components/widgets/basicDetails'
+import MedicalLab from '@/components/features/medicalLabs'
+import M from 'materialize-css'
 export default {
   name: 'index',
-  components: {Interface, Pharmacy, BasicDetails},
+  components: {Interface, Pharmacy, BasicDetails, MedicalLab},
   data () {
     return {
+      toAppointment: navs.links.appointment.url,
       appointment_icon: navs.links.appointment.icon + ' x2 left',
       updateprofile_icon: navs.links.updateProfile.icon + ' x2 left',
       goToProfile: navs.links.profile.url,
       updateProfile: navs.links.updateProfile.url
     }
+  },
+  mounted () {
+    var el = document.querySelector('ul.tabs')
+    // eslint-disable-next-line
+    var instance = M.Tabs.init(el, {})
   }
 }
 </script>
